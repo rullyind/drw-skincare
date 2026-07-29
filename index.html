@@ -1,64 +1,95 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>DRW SKINCARE</title>
 
-body{
+<style>
+
+*{
     margin:0;
-    font-family:Arial, sans-serif;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
     background:#fafafa;
 }
 
+/* HEADER */
+
 header{
+    background:#ff2d75;
+    color:white;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px 30px;
-    background:#ff2d75;
-    color:white;
+    padding:20px 40px;
+}
+
+header h1{
+    font-size:35px;
 }
 
 #cart-icon{
     background:white;
-    color:#ff2b7a;
-    padding:10px 18px;
+    color:#ff2d75;
+    padding:12px 20px;
     border-radius:30px;
-    cursor:pointer;
     font-weight:bold;
     box-shadow:0 3px 10px rgba(0,0,0,.2);
 }
 
-#cart-icon:hover{
-    background:#ffe4ef;
-}
-
-    background:#ff2d75;
-    color:white;
-}
+/* BANNER */
 
 .banner{
     background:linear-gradient(90deg,#ff5f9e,#ffbad4);
-    padding:70px;
-    text-align:center;
     color:white;
+    text-align:center;
+    padding:80px 20px;
 }
 
+.banner h1{
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+.banner p{
+    font-size:20px;
+    margin-bottom:30px;
+}
+
+.banner button{
+    background:#ff2d75;
+    color:white;
+    border:none;
+    padding:15px 35px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* PRODUK */
+
 .produk{
-    padding:50px;
+    padding:60px;
     text-align:center;
+}
+
+.produk h2{
+    margin-bottom:40px;
 }
 
 .card{
-    display:inline-block;
     width:260px;
+    display:inline-block;
     background:white;
     margin:15px;
-    border-radius:15px;
     padding:20px;
+    border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
@@ -67,94 +98,82 @@ header{
 }
 
 .nama{
-    font-size:22px;
+    font-size:24px;
     font-weight:bold;
+    margin-top:15px;
 }
 
 .harga{
     color:#ff2d75;
-    font-size:24px;
-    margin:15px;
+    font-size:28px;
+    margin:20px 0;
 }
 
-button{
+.card button{
+    width:100%;
     background:#ff2d75;
     color:white;
     border:none;
-    padding:15px 35px;
+    padding:15px;
     border-radius:30px;
     cursor:pointer;
 }
 
+/* KERANJANG */
+
+#keranjang{
+    max-width:700px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+#keranjang h2{
+    margin-bottom:20px;
+}
+
+.item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.total{
+    margin-top:20px;
+    border-top:1px solid #ddd;
+    padding-top:15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* FOOTER */
+
 footer{
+    margin-top:60px;
     background:#222;
     color:white;
     text-align:center;
     padding:25px;
-    margin-top:50px;
 }
-/* CSS lainnya */
 
 </style>
-
 </head>
-<script>
-let cart = [];
 
-function tambahKeranjang(nama, harga){
-
-    cart.push({
-        nama:nama,
-        harga:harga
-    });
-
-    document.getElementById("cart-count").innerHTML = cart.length;
-
-    tampilKeranjang();
-}
-
-function tampilKeranjang(){
-
-    if(cart.length==0){
-        document.getElementById("cartList").innerHTML="Belum ada produk.";
-        return;
-    }
-
-    let html="";
-    let total=0;
-
-    cart.forEach(function(item){
-
-        html += `
-            <p>${item.nama} - Rp${item.harga.toLocaleString("id-ID")}</p>
-        `;
-
-        total += item.harga;
-
-    });
-
-    html += `
-        <hr>
-        <h3>Total : Rp${total.toLocaleString("id-ID")}</h3>
-    `;
-
-    document.getElementById("cartList").innerHTML = html;
-
-}
-</script>
 <body>
 
 <header>
 
-    <h1>DRW SKINCARE</h1>
+<h1>DRW SKINCARE</h1>
 
-    <div id="cart-icon">
-        🛒 <span id="cart-count">0</span>
-    </div>
+<div id="cart-icon">
+🛒 <span id="cart-count">0</span>
+</div>
 
 </header>
 
-<div class="banner">
+<section class="banner">
 
 <h1>Kulit Cantik Dimulai dari Perawatan Terbaik</h1>
 
@@ -162,15 +181,15 @@ function tampilKeranjang(){
 
 <button>Lihat Produk</button>
 
-</div>
+</section>
 
-<div class="produk">
+<section class="produk">
 
 <h2>Produk Unggulan</h2>
 
 <div class="card">
 
-<img src="images/sb acne 2026.png" alt="Radiant Glow Booster">
+<img src="images/sb acne 2026.png">
 
 <div class="nama">
 Sunscreen Oily Acne
@@ -184,12 +203,11 @@ Rp125.000
 Tambah Keranjang
 </button>
 
-
 </div>
 
 <div class="card">
 
-<img src="images/24ae97d7-a6f4-4cf1-9648-b0792e285389.png" alt="BB Cushion">  
+<img src="images/24ae97d7-a6f4-4cf1-9648-b0792e285389.png">
 
 <div class="nama">
 Day Cream Acne 1
@@ -205,15 +223,9 @@ Tambah Keranjang
 
 </div>
 
-</div>
-<div style="
-max-width:700px;
-margin:40px auto;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.1);
-">
+</section>
+
+<section id="keranjang">
 
 <h2>🛒 Keranjang</h2>
 
@@ -221,13 +233,16 @@ box-shadow:0 0 10px rgba(0,0,0,.1);
 Belum ada produk.
 </div>
 
-</div>
-...
+</section>
+
 <footer>
+
 © 2026 DRW SKINCARE
+
 </footer>
 
 <script>
+
 let cart=[];
 
 function tambahKeranjang(nama,harga){
@@ -240,33 +255,46 @@ function tambahKeranjang(nama,harga){
     document.getElementById("cart-count").textContent=cart.length;
 
     tampilKeranjang();
+
 }
 
 function tampilKeranjang(){
 
+    const cartList=document.getElementById("cartList");
+
+    if(cart.length===0){
+
+        cartList.innerHTML="Belum ada produk.";
+        return;
+
+    }
+
     let html="";
     let total=0;
 
-    if(cart.length===0){
-        document.getElementById("cartList").innerHTML="Belum ada produk.";
-        return;
-    }
-
     cart.forEach(function(item){
 
-        html += "<p>"+item.nama+" - Rp"+
-        item.harga.toLocaleString("id-ID")+
-        "</p>";
+        html+=`
+        <div class="item">
+            <span>${item.nama}</span>
+            <span>Rp${item.harga.toLocaleString("id-ID")}</span>
+        </div>
+        `;
 
-        total += item.harga;
+        total+=item.harga;
+
     });
 
-    html += "<hr><h3>Total : Rp"+
-    total.toLocaleString("id-ID")+
-    "</h3>";
+    html+=`
+    <div class="total">
+        Total : Rp${total.toLocaleString("id-ID")}
+    </div>
+    `;
 
-    document.getElementById("cartList").innerHTML=html;
+    cartList.innerHTML=html;
+
 }
+
 </script>
 
 </body>
