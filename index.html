@@ -123,16 +123,10 @@ function tampilKeranjang(){
     let html="";
     let total=0;
 
-    ...
-}
-
-    cart.forEach((item,index)=>{
+    cart.forEach(function(item){
 
         html += `
-        <p>
-        ${item.nama}
-        - Rp${item.harga.toLocaleString("id-ID")}
-        </p>
+            <p>${item.nama} - Rp${item.harga.toLocaleString("id-ID")}</p>
         `;
 
         total += item.harga;
@@ -140,11 +134,12 @@ function tampilKeranjang(){
     });
 
     html += `
-    <hr>
-    <h3>Total : Rp${total.toLocaleString("id-ID")}</h3>
+        <hr>
+        <h3>Total : Rp${total.toLocaleString("id-ID")}</h3>
     `;
 
     document.getElementById("cartList").innerHTML = html;
+
 }
 </script>
 <body>
