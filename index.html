@@ -10,6 +10,37 @@
 <style>
 
 header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+}
+
+#cart-icon{
+    background:white;
+    color:#ff2b7a;
+    padding:10px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+    box-shadow:0 3px 10px rgba(0,0,0,.2);
+}
+
+#cart-icon:hover{
+    background:#ffe4ef;
+}
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#fafafa;
+}
+
+/* CSS lainnya */
+
+</style>
+
+header{
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -182,7 +213,7 @@ function tampilKeranjang(){
     <h1>DRW SKINCARE</h1>
 
     <div id="cart-icon">
-        🛒 document.getElementById("cart-count").innerHTML = cart.length;
+        🛒 
     </div>
 </header>
 
