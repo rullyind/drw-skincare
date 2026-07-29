@@ -165,7 +165,7 @@ checkout.addEventListener("click",function(){
     // Ganti nomor berikut dengan nomor WhatsApp Anda
     window.open(
 
-"https://wa.me/6281234567890?text="+pesan,
+"https://wa.me/6282381432222?text="+pesan,
 
 "_blank"
 
