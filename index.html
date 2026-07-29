@@ -1,206 +1,174 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DRW SKINCARE</title>
+    <title>RARA DRW SKINCARE | Official Store</title>
 
-<style>
+    <link rel="stylesheet" href="style.css">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-body{
-    background:#fafafa;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-/* HEADER */
-
-header{
-    background:#ff2d75;
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 40px;
-}
-
-header h1{
-    font-size:35px;
-}
-
-#cart-icon{
-    background:white;
-    color:#ff2d75;
-    padding:12px 20px;
-    border-radius:30px;
-    font-weight:bold;
-    box-shadow:0 3px 10px rgba(0,0,0,.2);
-}
-
-/* BANNER */
-
-.banner{
-    background:linear-gradient(90deg,#ff5f9e,#ffbad4);
-    color:white;
-    text-align:center;
-    padding:80px 20px;
-}
-
-.banner h1{
-    font-size:45px;
-    margin-bottom:15px;
-}
-
-.banner p{
-    font-size:20px;
-    margin-bottom:30px;
-}
-
-.banner button{
-    background:#ff2d75;
-    color:white;
-    border:none;
-    padding:15px 35px;
-    border-radius:30px;
-    cursor:pointer;
-    font-size:18px;
-}
-
-/* PRODUK */
-
-.produk{
-    padding:60px;
-    text-align:center;
-}
-
-.produk h2{
-    margin-bottom:40px;
-}
-
-.card{
-    width:260px;
-    display:inline-block;
-    background:white;
-    margin:15px;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
-
-.card img{
-    width:180px;
-}
-
-.nama{
-    font-size:24px;
-    font-weight:bold;
-    margin-top:15px;
-}
-
-.harga{
-    color:#ff2d75;
-    font-size:28px;
-    margin:20px 0;
-}
-
-.card button{
-    width:100%;
-    background:#ff2d75;
-    color:white;
-    border:none;
-    padding:15px;
-    border-radius:30px;
-    cursor:pointer;
-}
-
-/* KERANJANG */
-
-#keranjang{
-    max-width:700px;
-    margin:40px auto;
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
-
-#keranjang h2{
-    margin-bottom:20px;
-}
-
-.item{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:10px;
-}
-
-.total{
-    margin-top:20px;
-    border-top:1px solid #ddd;
-    padding-top:15px;
-    font-size:22px;
-    font-weight:bold;
-}
-
-/* FOOTER */
-
-footer{
-    margin-top:60px;
-    background:#222;
-    color:white;
-    text-align:center;
-    padding:25px;
-}
-
-</style>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-<h1>DRW SKINCARE</h1>
+<div class="logo">
+RARA <span>DRW</span> SKINCARE
+</div>
 
-<div id="cart-icon">
-🛒 <span id="cart-count">0</span>
+<nav>
+
+<a href="#">Home</a>
+
+<a href="#produk">Produk</a>
+
+<a href="#tentang">Tentang</a>
+
+<a href="#testimoni">Testimoni</a>
+
+<a href="#kontak">Kontak</a>
+
+</nav>
+
+<div class="header-icon">
+
+<div class="cart">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cart-count">0</span>
+
+</div>
+
 </div>
 
 </header>
 
-<section class="banner">
+<!-- ================= HERO ================= -->
 
-<h1>Kulit Cantik Dimulai dari Perawatan Terbaik</h1>
+<section class="hero">
 
-<p>Produk Skincare Asli Indonesia</p>
+<div class="hero-text">
 
-<button>Lihat Produk</button>
+<h1>
+
+Kulit Cantik Dimulai Dari
+
+<span>Perawatan Terbaik</span>
+
+</h1>
+
+<p>
+
+RARA DRW SKINCARE menghadirkan produk skincare asli Indonesia
+dengan kualitas premium untuk membantu kulit tampak lebih sehat,
+cerah, dan terawat setiap hari.
+
+</p>
+
+<a href="#produk" class="btn">
+
+Belanja Sekarang
+
+</a>
+
+</div>
+
+<div class="hero-image">
+
+<img src="images/hero.png">
+
+</div>
 
 </section>
 
-<section class="produk">
+<!-- ================= KEUNGGULAN ================= -->
 
-<h2>Produk Unggulan</h2>
+<section class="fitur">
+
+<div class="box">
+
+<i class="fa-solid fa-certificate"></i>
+
+<h3>100% Original</h3>
+
+<p>Produk resmi DRW Skincare.</p>
+
+</div>
+
+<div class="box">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3>Pengiriman Cepat</h3>
+
+<p>Dikirim ke seluruh Indonesia.</p>
+
+</div>
+
+<div class="box">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<h3>Pembayaran Aman</h3>
+
+<p>Belanja lebih nyaman.</p>
+
+</div>
+
+<div class="box">
+
+<i class="fa-solid fa-heart"></i>
+
+<h3>Ribuan Pelanggan</h3>
+
+<p>Dipercaya banyak pengguna.</p>
+
+</div>
+
+</section>
+
+<!-- ================= PRODUK ================= -->
+
+<section id="produk">
+
+<h2>
+
+Produk Unggulan
+
+</h2>
+
+<div class="produk-container">
 
 <div class="card">
 
 <img src="images/sb acne 2026.png">
 
-<div class="nama">
-Sunscreen Oily Acne
-</div>
+<h3>Sunscreen Oily Acne</h3>
 
 <div class="harga">
+
 Rp125.000
+
 </div>
 
 <button onclick="tambahKeranjang('Sunscreen Oily Acne',125000)">
+
+<i class="fa-solid fa-cart-plus"></i>
+
 Tambah Keranjang
+
 </button>
 
 </div>
@@ -209,93 +177,125 @@ Tambah Keranjang
 
 <img src="images/24ae97d7-a6f4-4cf1-9648-b0792e285389.png">
 
-<div class="nama">
-Day Cream Acne 1
-</div>
+<h3>Day Cream Acne 1</h3>
 
 <div class="harga">
+
 Rp95.000
+
 </div>
 
 <button onclick="tambahKeranjang('Day Cream Acne 1',95000)">
+
+<i class="fa-solid fa-cart-plus"></i>
+
 Tambah Keranjang
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= KERANJANG ================= -->
+
+<section class="cart-section">
+
+<h2>
+
+Keranjang Belanja
+
+</h2>
+
+<div id="cartList">
+
+Belum ada produk.
+
+</div>
+
+<div class="checkout">
+
+<button onclick="checkoutWA()">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+Checkout WhatsApp
+
 </button>
 
 </div>
 
 </section>
 
-<section id="keranjang">
+<!-- ================= TESTIMONI ================= -->
 
-<h2>🛒 Keranjang</h2>
+<section id="testimoni">
 
-<div id="cartList">
-Belum ada produk.
+<h2>
+
+Testimoni Pelanggan
+
+</h2>
+
+<div class="testimonial">
+
+★★★★★
+
+<p>
+
+"Produk DRW Skincare sangat membantu membuat kulit saya lebih cerah."
+
+</p>
+
+<h4>
+
+- Pelanggan -
+
+</h4>
+
 </div>
 
 </section>
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
 
-© 2026 DRW SKINCARE
+<h2>
+
+RARA DRW SKINCARE
+
+</h2>
+
+<p>
+
+Bangga Menggunakan Produk Asli Indonesia 🇮🇩
+
+</p>
+
+<div class="social">
+
+<i class="fab fa-facebook"></i>
+
+<i class="fab fa-instagram"></i>
+
+<i class="fab fa-tiktok"></i>
+
+<i class="fab fa-whatsapp"></i>
+
+</div>
+
+<p>
+
+© 2026 RARA DRW SKINCARE
+
+</p>
 
 </footer>
 
-<script>
-
-let cart=[];
-
-function tambahKeranjang(nama,harga){
-
-    cart.push({
-        nama:nama,
-        harga:harga
-    });
-
-    document.getElementById("cart-count").textContent=cart.length;
-
-    tampilKeranjang();
-
-}
-
-function tampilKeranjang(){
-
-    const cartList=document.getElementById("cartList");
-
-    if(cart.length===0){
-
-        cartList.innerHTML="Belum ada produk.";
-        return;
-
-    }
-
-    let html="";
-    let total=0;
-
-    cart.forEach(function(item){
-
-        html+=`
-        <div class="item">
-            <span>${item.nama}</span>
-            <span>Rp${item.harga.toLocaleString("id-ID")}</span>
-        </div>
-        `;
-
-        total+=item.harga;
-
-    });
-
-    html+=`
-    <div class="total">
-        Total : Rp${total.toLocaleString("id-ID")}
-    </div>
-    `;
-
-    cartList.innerHTML=html;
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
