@@ -115,8 +115,16 @@ function tambahKeranjang(nama, harga){
 
 function tampilKeranjang(){
 
+    if(cart.length==0){
+        document.getElementById("cartList").innerHTML="Belum ada produk.";
+        return;
+    }
+
     let html="";
     let total=0;
+
+    ...
+}
 
     cart.forEach((item,index)=>{
 
