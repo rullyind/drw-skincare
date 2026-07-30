@@ -1,38 +1,36 @@
-const produk=[
+const produk = [
 
 {
+    id:1,
 
-id:1,
+    nama:"Sunscreen Oily Acne",
 
-nama:"Sunscreen Oily Acne",
+    harga:125000,
 
-harga:125000,
+    gambar:"images/Sunscreen Oily & Acne.png",
 
-gambar:"images/produk/sunscreen.png",
+    kategori:"Cream Siang",
 
-kategori:"Cream Siang",
+    badge:"BEST SELLER",
 
-badge:"BEST SELLER",
-
-deskripsi:"Melindungi kulit dari sinar UV."
+    deskripsi:"Melindungi kulit dari sinar UV."
 
 },
 
 {
+    id:2,
 
-id:2,
+    nama:"Day Cream Acne",
 
-nama:"Day Cream Acne",
+    harga:95000,
 
-harga:95000,
+    gambar:"images/Day Cream Acne 1 TO.png",
 
-gambar:"images/produk/daycream.png",
+    kategori:"Cream Siang",
 
-kategori:"Cream Siang",
+    badge:"NEW",
 
-badge:"NEW",
-
-deskripsi:"Mencerahkan kulit."
+    deskripsi:"Mencerahkan kulit."
 
 }
 
