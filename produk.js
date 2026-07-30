@@ -3,7 +3,7 @@ const produk = [
 {
     id:1,
     nama:"Sunscreen Oily & Acne",
-    harga:10000,
+    harga:100000,
     gambar:"images/Sunscreen Oily & Acne.png",
     kategori:"Acne",
     badge:"NEW",
@@ -13,7 +13,7 @@ const produk = [
 {
     id:2,
     nama:"Day Cream Acne 1",
-    harga:10000,
+    harga:100000,
     gambar:"images/Day Cream Acne 1 TO.png",
     kategori:"Acne",
     badge:"NEW",
