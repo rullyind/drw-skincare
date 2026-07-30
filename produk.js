@@ -13,9 +13,7 @@ const produk = [
 
     badge:"BEST SELLER",
 
-    deskripsi:"Untuk Wajah Berminyak dan Berjerawat,Melindungi dari Sinar UV"
-
-},
+    deskripsi:"Untuk Wajah Berminyak dan Berjerawat",
 
 {
     id:2,
