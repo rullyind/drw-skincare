@@ -209,3 +209,264 @@ loader.style.display="none";
 }
 
 });
+/*==================================================
+    BAGIAN 2
+    KERANJANG BELANJA
+==================================================*/
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/*========================================
+ UPDATE CART
+========================================*/
+
+function updateCart(){
+
+    const cartCount = document.getElementById("cart-count");
+    const cartList = document.getElementById("cartList");
+
+    if(cartCount){
+        cartCount.innerText = cart.reduce((a,b)=>a+b.qty,0);
+    }
+
+    if(!cartList) return;
+
+    if(cart.length==0){
+
+        cartList.innerHTML=`
+
+        <div class="empty-cart">
+
+            <h3>🛒 Keranjang masih kosong</h3>
+
+            <p>Silakan pilih produk terlebih dahulu.</p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    let html="";
+
+    let total=0;
+
+    cart.forEach(item=>{
+
+        total += item.harga * item.qty;
+
+        html +=`
+
+<div class="cart-item">
+
+<div>
+
+<h4>${item.nama}</h4>
+
+<p>
+
+Rp ${item.harga.toLocaleString("id-ID")}
+
+</p>
+
+</div>
+
+<div class="qty-box">
+
+<button onclick="kurangQty(${item.id})">
+
+−
+
+</button>
+
+<span>
+
+${item.qty}
+
+</span>
+
+<button onclick="tambahQty(${item.id})">
+
++
+
+</button>
+
+</div>
+
+<div>
+
+<strong>
+
+Rp ${(item.harga*item.qty).toLocaleString("id-ID")}
+
+</strong>
+
+</div>
+
+<button class="hapus"
+
+onclick="hapusProduk(${item.id})">
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
+
+</div>
+
+`;
+
+    });
+
+    html +=`
+
+<hr>
+
+<div class="cart-total">
+
+<h2>
+
+Total :
+
+Rp ${total.toLocaleString("id-ID")}
+
+</h2>
+
+</div>
+
+`;
+
+    cartList.innerHTML=html;
+
+    localStorage.setItem("cart",JSON.stringify(cart));
+
+}
+
+/*========================================
+ TAMBAH KERANJANG
+========================================*/
+
+function tambahKeranjang(id){
+
+    const item = produk.find(p=>p.id===id);
+
+    if(!item) return;
+
+    const ada = cart.find(p=>p.id===id);
+
+    if(ada){
+
+        ada.qty++;
+
+    }else{
+
+        cart.push({
+
+            ...item,
+
+            qty:1
+
+        });
+
+    }
+
+    updateCart();
+
+    showToast(item.nama + " ditambahkan");
+
+}
+
+/*========================================
+ TAMBAH JUMLAH
+========================================*/
+
+function tambahQty(id){
+
+    const item = cart.find(p=>p.id===id);
+
+    if(item){
+
+        item.qty++;
+
+    }
+
+    updateCart();
+
+}
+
+/*========================================
+ KURANG JUMLAH
+========================================*/
+
+function kurangQty(id){
+
+    const item = cart.find(p=>p.id===id);
+
+    if(!item) return;
+
+    item.qty--;
+
+    if(item.qty<=0){
+
+        cart = cart.filter(p=>p.id!==id);
+
+    }
+
+    updateCart();
+
+}
+
+/*========================================
+ HAPUS PRODUK
+========================================*/
+
+function hapusProduk(id){
+
+    cart = cart.filter(item=>item.id!==id);
+
+    updateCart();
+
+}
+
+/*========================================
+ TOAST
+========================================*/
+
+function showToast(text){
+
+    let toast=document.getElementById("toast");
+
+    if(!toast){
+
+        toast=document.createElement("div");
+
+        toast.id="toast";
+
+        document.body.appendChild(toast);
+
+    }
+
+    toast.innerHTML=`
+
+<i class="fa-solid fa-circle-check"></i>
+
+${text}
+
+`;
+
+    toast.classList.add("show-toast");
+
+    setTimeout(()=>{
+
+        toast.classList.remove("show-toast");
+
+    },2500);
+
+}
+
+/*========================================
+ LOAD CART
+========================================*/
+
+updateCart();
