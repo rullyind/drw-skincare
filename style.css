@@ -1,77 +1,266 @@
 /* ======================================================
-   RARA DRW SKINCARE
-   Premium Luxury Theme
-   Version 1.0
+HEADER
 ====================================================== */
 
-:root{
+header{
 
---primary:#ff2d75;
---secondary:#ffb7cf;
---gold:#f8d36d;
---dark:#0d0d12;
---card:#16161f;
---white:#ffffff;
---text:#e9e9e9;
---shadow:0 15px 35px rgba(0,0,0,.35);
---radius:20px;
---transition:.35s;
+position:fixed;
+top:0;
+left:0;
+width:100%;
 
-}
+padding:18px 7%;
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-}
+display:flex;
+justify-content:space-between;
+align-items:center;
 
-body{
+background:rgba(15,15,20,.75);
 
-font-family:'Poppins',sans-serif;
-background:linear-gradient(180deg,#090909,#12121b,#090909);
-color:var(--text);
-overflow-x:hidden;
+backdrop-filter:blur(15px);
+
+z-index:999;
+
+box-shadow:0 8px 25px rgba(0,0,0,.4);
 
 }
 
-/* Scroll */
+.logo{
 
-::-webkit-scrollbar{
-width:10px;
-}
+display:flex;
+align-items:center;
+gap:15px;
 
-::-webkit-scrollbar-thumb{
+font-size:26px;
+font-weight:700;
 
-background:linear-gradient(var(--primary),var(--gold));
-border-radius:20px;
-
-}
-
-/* Link */
-
-a{
-
-text-decoration:none;
 color:white;
 
 }
 
-/* Image */
+.logo img{
 
-img{
+width:55px;
+height:55px;
+border-radius:50%;
 
-max-width:100%;
-display:block;
+box-shadow:0 0 20px var(--gold);
+
+transition:.4s;
 
 }
 
-/* Container */
+.logo img:hover{
 
-.container{
+transform:rotate(360deg);
 
-width:90%;
-max-width:1300px;
-margin:auto;
+}
+
+nav{
+
+display:flex;
+gap:35px;
+
+}
+
+nav a{
+
+font-size:16px;
+font-weight:500;
+
+position:relative;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:var(--gold);
+
+}
+
+nav a::after{
+
+content:"";
+
+position:absolute;
+
+left:0;
+bottom:-5px;
+
+width:0%;
+height:2px;
+
+background:var(--gold);
+
+transition:.3s;
+
+}
+
+nav a:hover::after{
+
+width:100%;
+
+}
+
+.header-right{
+
+display:flex;
+gap:18px;
+
+}
+
+.header-right button{
+
+width:52px;
+height:52px;
+
+border:none;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,var(--primary),#ff5ca0);
+
+color:white;
+
+font-size:20px;
+
+cursor:pointer;
+
+transition:.35s;
+
+box-shadow:0 10px 25px rgba(255,45,117,.35);
+
+}
+
+.header-right button:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 0 25px var(--primary);
+
+}
+/* ======================================================
+HERO
+====================================================== */
+
+.hero{
+
+min-height:100vh;
+
+padding:150px 8% 80px;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+align-items:center;
+
+gap:80px;
+
+}
+
+.hero h1{
+
+font-size:60px;
+
+font-weight:800;
+
+line-height:1.2;
+
+background:linear-gradient(90deg,#fff,#ffd67b);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+margin-bottom:20px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+line-height:1.9;
+
+color:#cfcfcf;
+
+margin-bottom:35px;
+
+}
+
+.hero-button{
+
+display:flex;
+
+gap:20px;
+
+}
+
+.btn{
+
+padding:16px 40px;
+
+border-radius:40px;
+
+background:linear-gradient(135deg,var(--primary),#ff6ba7);
+
+color:white;
+
+font-weight:600;
+
+transition:.35s;
+
+box-shadow:0 10px 30px rgba(255,45,117,.45);
+
+}
+
+.btn:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 0 30px var(--primary);
+
+}
+
+.btn-outline{
+
+padding:16px 40px;
+
+border:2px solid var(--gold);
+
+border-radius:40px;
+
+color:var(--gold);
+
+transition:.35s;
+
+}
+
+.btn-outline:hover{
+
+background:var(--gold);
+
+color:#111;
+
+}
+
+.hero-right img{
+
+width:100%;
+
+animation:float 5s ease-in-out infinite;
+
+filter:drop-shadow(0 0 35px rgba(255,255,255,.2));
+
+}
+
+@keyframes float{
+
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
 
 }
