@@ -20,30 +20,45 @@ window.onload = function () {
 //===============================
 const container = document.getElementById("produk-container");
 
-produk.forEach(item => {
+function tampilProduk(data){
 
-container.innerHTML += `
-<div class="card">
+    container.innerHTML="";
 
-<span class="badge">${item.badge}</span>
+    data.forEach(item=>{
 
-<img src="${item.gambar}" alt="${item.nama}">
+        container.innerHTML+=`
 
-<h3>${item.nama}</h3>
+        <div class="card">
 
-<p>${item.deskripsi}</p>
+            <span class="badge">${item.badge}</span>
 
-<div class="harga">
-Rp${item.harga.toLocaleString("id-ID")}
-</div>
+            <img src="${item.gambar}" alt="${item.nama}">
 
-<button onclick="tambahKeranjang('${item.nama}',${item.harga})">
-Tambah Keranjang
-</button>
+            <h3>${item.nama}</h3>
 
-</div>
-`;
-});
+            <p>${item.deskripsi}</p>
+
+            <div class="harga">
+
+                Rp${item.harga.toLocaleString("id-ID")}
+
+            </div>
+
+            <button onclick="tambahKeranjang('${item.nama}',${item.harga})">
+
+                Tambah Keranjang
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+tampilProduk(produk);
 function tambahKeranjang(nama, harga){
 
     cart.push({
