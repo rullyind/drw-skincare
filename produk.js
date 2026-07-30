@@ -22,12 +22,12 @@ const produk = [
 
 {
     id:3,
-    nama:"Night Cream Acne",
-    harga:135000,
-    gambar:"images/nightcream.png",
-    kategori:"Acne",
-    badge:"PROMO",
-    deskripsi:"Menutrisi kulit saat malam hari."
+    nama:"Day Cream Acne 2",
+    harga:100000,
+    gambar:"images/logo-footer.660510ea.png",
+    kategori:"Cream Siang",
+    badge:"Best Foundation",
+    deskripsi:"Membantu mencerahkan kulit dan mengurangi bekas jerawat."
 },
 
 {
