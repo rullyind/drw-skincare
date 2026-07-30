@@ -2,12 +2,12 @@ const produk = [
 
 {
     id:1,
-    nama:"Sunscreen Oily Acne",
-    harga:105000,
-    gambar:"images/Sunscreen Oily & Acne.png",
-    kategori:"Cream Siang",
-    badge:"BEST SELLER",
-    deskripsi:"Melindungi kulit dari sinar UV dan cocok untuk kulit berminyak."
+    nama:"Day Cream Acne 1",
+    harga:10000,
+    gambar:"images/Day Cream Acne 1 TO.png",
+    kategori:"Acne",
+    badge:"NEW",
+    deskripsi:"Membantu mencerahkan kulit dan mengurangi bekas jerawat."
 },
 
 {
