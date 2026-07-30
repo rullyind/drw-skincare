@@ -18,6 +18,31 @@ window.onload = function () {
 //===============================
 // Tambah Keranjang
 //===============================
+const container = document.getElementById("produk-container");
+
+produk.forEach(item => {
+
+container.innerHTML += `
+<div class="card">
+
+<span class="badge">${item.badge}</span>
+
+<img src="${item.gambar}" alt="${item.nama}">
+
+<h3>${item.nama}</h3>
+
+<p>${item.deskripsi}</p>
+
+<div class="harga">
+Rp${item.harga.toLocaleString("id-ID")}
+</div>
+
+<button onclick="tambahKeranjang('${item.nama}',${item.harga})">
+Tambah Keranjang
+</button>
+
+</div>
+`;
 
 function tambahKeranjang(nama, harga){
 
