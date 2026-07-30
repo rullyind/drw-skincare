@@ -57,6 +57,23 @@ function tampilProduk(data){
     });
 
 }
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+    const keyword = this.value.toLowerCase();
+
+    const hasil = produk.filter(item =>
+
+        item.nama.toLowerCase().includes(keyword) ||
+
+        item.kategori.toLowerCase().includes(keyword)
+
+    );
+
+    tampilProduk(hasil);
+
+});
 
 tampilProduk(produk);
 function tambahKeranjang(nama, harga){
