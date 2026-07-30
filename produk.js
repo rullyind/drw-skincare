@@ -53,41 +53,41 @@ const produk = [
 {
     id:4,
 
-    nama:"Sunscreen Normal Glowing",
+    nama:"Sunscreen Natural Glow",
 
     harga:100000,
 
-    gambar:"images/Day Cream Acne 1 TO.png",
+    gambar:"images/Sunscreen Natural Glow TO.png",
 
     kategori:"Cream Siang",
 
-    badge:"NEW",
+    badge:"Normal",
 
-    deskripsi:"Mencerahkan kulit."
+    deskripsi:"Cerah Putih danm Glowing."
 
 }
 {
-    id:2,
+    id:5,
 
-    nama:"Day Cream Acne",
+    nama:"Sunscreen Glowing",
 
-    harga:95000,
+    harga:100000,
 
-    gambar:"images/Day Cream Acne 1 TO.png",
+    gambar:"images/Sunscreen Glowing TO.png",
 
     kategori:"Cream Siang",
 
-    badge:"NEW",
+    badge:"Glowing",
 
-    deskripsi:"Mencerahkan kulit."
+    deskripsi:"Mencerahkan kulit, meelembabkan, dan putih."
 
 }
 {
-    id:2,
+    id:6,
 
-    nama:"Day Cream Acne",
+    nama:"Sunscreen Yellow Glow",
 
-    harga:95000,
+    harga:100000,
 
     gambar:"images/Day Cream Acne 1 TO.png",
 
