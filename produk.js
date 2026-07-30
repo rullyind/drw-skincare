@@ -32,8 +32,8 @@ const produk = [
 
 {
     id:4,
-    nama:"Facial Wash",
-    harga:85000,
+    nama:"Sunscreen Glowing",
+    harga:100000,
     gambar:"images/facialwash.png",
     kategori:"Cleanser",
     badge:"",
