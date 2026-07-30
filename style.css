@@ -9,70 +9,140 @@ HEADER
    HEADER - PINK GOLD LUXURY
 ========================================= */
 
+/* =========================================
+   HEADER - RARA DRW SKINCARE
+   PINK FANTA + GOLD ELEGAN
+   ========================================= */
+
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
 
-    padding: 18px 7%;
+    padding: 16px 7%;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
+    /* Pink lembut */
     background: linear-gradient(
         135deg,
-        #fff9fc 0%,
-        #ffe7f1 50%,
-        #fffdf8 100%
+        #fff7fb 0%,
+        #ffe6f0 45%,
+        #ffd1e3 100%
     );
 
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-
-    border-bottom: 1px solid rgba(218, 165, 90, 0.35);
+    border-bottom: 1px solid #f3c56b;
 
     box-shadow:
-        0 8px 25px rgba(255, 105, 180, 0.15),
-        0 2px 8px rgba(212, 175, 55, 0.12);
+        0 8px 25px rgba(255, 105, 170, 0.20),
+        0 2px 8px rgba(212, 175, 55, 0.15);
+
+    backdrop-filter: blur(15px);
 
     z-index: 999;
 
     transition:
-        background 0.45s ease,
-        box-shadow 0.45s ease,
-        transform 0.35s ease;
+        background 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 
 /* =========================================
-   SAAT BAR DISENTUH
-========================================= */
+   SAAT MOUSE MENYENTUH HEADER
+   ========================================= */
 
 header:hover {
     background: linear-gradient(
         135deg,
-        #fff5fa 0%,
-        #ffd6e7 50%,
-        #fff9ed 100%
+        #ffd6e7 0%,
+        #ff9ec3 50%,
+        #ffd6e7 100%
     );
 
     box-shadow:
-        0 12px 35px rgba(255, 105, 180, 0.25),
-        0 3px 15px rgba(212, 175, 55, 0.18);
+        0 12px 35px rgba(255, 20, 120, 0.30),
+        0 3px 12px rgba(212, 175, 55, 0.25);
 }
 
 
 /* =========================================
-   MENU NAVIGASI
-========================================= */
+   NAMA LOGO
+   ========================================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    color: #ff3f91;
+
+    text-shadow:
+        0 2px 4px rgba(255, 20, 120, 0.25),
+        0 0 12px rgba(255, 105, 170, 0.35);
+
+    transition: 0.35s ease;
+}
+
+
+/* Efek nama saat disentuh */
+
+.logo:hover {
+    color: #ff1493;
+
+    text-shadow:
+        0 2px 5px rgba(255, 20, 120, 0.35),
+        0 0 18px rgba(255, 20, 147, 0.65);
+}
+
+
+/* =========================================
+   LOGO GAMBAR
+   ========================================= */
+
+.logo img {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    border: 2px solid #e8b84b;
+
+    box-shadow:
+        0 0 12px rgba(232, 184, 75, 0.35),
+        0 0 20px rgba(255, 105, 170, 0.25);
+
+    transition: 0.4s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.06);
+
+    box-shadow:
+        0 0 15px rgba(255, 20, 147, 0.45),
+        0 0 25px rgba(232, 184, 75, 0.45);
+}
+
+
+/* =========================================
+   MENU
+   ========================================= */
 
 nav a {
+    color: #9b315f;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
     position: relative;
 
-    color: #8a405f;
-    text-decoration: none;
+    padding: 6px 10px;
 
     transition:
         color 0.3s ease,
@@ -83,61 +153,44 @@ nav a {
 /* Hover menu */
 
 nav a:hover {
-    color: #f04f91;
+    color: #ff1493;
 
     transform: translateY(-2px);
+
+    text-shadow:
+        0 0 8px rgba(255, 20, 147, 0.35);
 }
 
 
-/* Garis emas elegan di bawah menu */
+/* Garis gold di bawah menu */
 
 nav a::after {
     content: "";
 
     position: absolute;
+
     left: 50%;
-    bottom: -8px;
+    bottom: -6px;
 
     width: 0;
     height: 2px;
 
     background: linear-gradient(
         90deg,
-        #f04f91,
-        #d8af55,
-        #f04f91
+        #ff4f9a,
+        #e8b84b,
+        #ff4f9a
     );
+
+    border-radius: 10px;
 
     transform: translateX(-50%);
 
     transition: width 0.35s ease;
-
-    border-radius: 10px;
 }
-
 
 nav a:hover::after {
     width: 70%;
-}
-
-
-/* =========================================
-   LOGO
-========================================= */
-
-.logo img {
-    transition:
-        transform 0.4s ease,
-        filter 0.4s ease;
-}
-
-
-.logo img:hover {
-    transform: scale(1.05);
-
-    filter:
-        drop-shadow(0 4px 8px rgba(255, 105, 180, 0.25))
-        drop-shadow(0 2px 4px rgba(212, 175, 55, 0.25));
 }
 
 nav{
