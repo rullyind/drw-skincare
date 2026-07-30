@@ -97,11 +97,11 @@ const produk = [
 
 }
 {
-    id:2,
+    id:7,
 
-    nama:"Day Cream Acne",
+    nama:"Day Cream WHITE",
 
-    harga:95000,
+    harga:100000,
 
     gambar:"images/Day Cream Acne 1 TO.png",
 
