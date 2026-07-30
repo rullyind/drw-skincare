@@ -13,7 +13,7 @@ const produk = [
 {
     id:2,
     nama:"Day Cream Acne 1",
-    harga:95000,
+    harga:10000,
     gambar:"images/daycream1.png",
     kategori:"Acne",
     badge:"NEW",
