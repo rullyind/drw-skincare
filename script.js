@@ -43,7 +43,7 @@ Tambah Keranjang
 
 </div>
 `;
-
+});
 function tambahKeranjang(nama, harga){
 
     cart.push({
