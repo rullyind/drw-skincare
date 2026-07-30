@@ -281,32 +281,24 @@ gap:80px;
 }
 
 .hero h1{
+    font-size:60px;
+    font-weight:800;
+    line-height:1.2;
 
-font-size:60px;
+    background:linear-gradient(
+        90deg,
+        #ff4f9a,
+        #ff75ad,
+        #e8b84b
+    );
 
-font-weight:800;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 
-line-height:1.2;
+    filter:drop-shadow(0 3px 6px rgba(255,79,154,0.22));
 
-background:linear-gradient(90deg,#fff,#ffd67b);
-
--webkit-background-clip:text;
-
--webkit-text-fill-color:transparent;
-
-margin-bottom:20px;
-
+    margin-bottom:20px;
 }
-
-.hero p{
-
-font-size:18px;
-
-line-height:1.9;
-
-color:#cfcfcf;
-
-margin-bottom:35px;
 
 }
 
