@@ -552,7 +552,7 @@ total+=item.qty*item.harga;
 
 pesan+=`%0ATotal : Rp ${total.toLocaleString("id-ID")}`;
 
-const nomor="6281234567890"; // GANTI NOMOR ANDA
+const nomor="6282381432222"; // GANTI NOMOR ANDA
 
 window.open(
 
