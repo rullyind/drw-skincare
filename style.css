@@ -164,33 +164,15 @@ nav a:hover {
 
 /* Garis gold di bawah menu */
 
-nav a::after {
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    bottom: -6px;
-
-    width: 0;
-    height: 2px;
-
-    background: linear-gradient(
-        90deg,
-        #ff4f9a,
-        #e8b84b,
-        #ff4f9a
-    );
-
-    border-radius: 10px;
-
-    transform: translateX(-50%);
-
-    transition: width 0.35s ease;
+nav a {
+    color: #FF4FA0;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-nav a:hover::after {
-    width: 70%;
+nav a:hover {
+    color: #FFFFFF;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 nav{
