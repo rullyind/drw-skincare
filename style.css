@@ -5,6 +5,10 @@ HEADER
    HEADER - PINK GOLD LUXURY
 ========================================= */
 
+/* =========================================
+   HEADER - PINK GOLD LUXURY
+========================================= */
+
 header {
     position: fixed;
     top: 0;
@@ -21,7 +25,7 @@ header {
         135deg,
         #fff9fc 0%,
         #ffe7f1 50%,
-        #ff4f97 100% 
+        #fffdf8 100%
     );
 
     backdrop-filter: blur(15px);
@@ -134,39 +138,6 @@ nav a:hover::after {
     filter:
         drop-shadow(0 4px 8px rgba(255, 105, 180, 0.25))
         drop-shadow(0 2px 4px rgba(212, 175, 55, 0.25));
-
-
-}
-
-.logo{
-
-display:flex;
-align-items:center;
-gap:15px;
-
-font-size:26px;
-font-weight:700;
-
-color:white;
-
-}
-
-.logo img{
-
-width:55px;
-height:55px;
-border-radius:50%;
-
-box-shadow:0 0 20px var(--gold);
-
-transition:.4s;
-
-}
-
-.logo img:hover{
-
-transform:rotate(360deg);
-
 }
 
 nav{
