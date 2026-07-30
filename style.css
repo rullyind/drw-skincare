@@ -1,1736 +1,630 @@
-/* ======================================================
-HEADER
-====================================================== */
-/* =========================================
-   HEADER - PINK GOLD LUXURY
-========================================= */
+/* =========================================================
+   RARA DRW SKINCARE
+   KOREAN BOUTIQUE LUXURY THEME
+   Pink Fanta Soft + White + Champagne Gold
+   ========================================================= */
 
-/* =========================================
-   HEADER - PINK GOLD LUXURY
-========================================= */
+/* PALETTE */
+:root {
+    --k-pink: #f48fb1;
+    --k-pink-deep: #d9658f;
+    --k-pink-soft: #fff1f6;
+    --k-pink-pale: #fff8fb;
 
-/* =========================================
-   HEADER - RARA DRW SKINCARE
-   PINK FANTA + GOLD ELEGAN
-   ========================================= */
+    --k-gold: #c9a45c;
+    --k-gold-soft: #ead8a8;
 
-header{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    padding:18px 7%;
+    --k-white: #ffffff;
+    --k-cream: #fffdfb;
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    --k-text: #5b4650;
+    --k-muted: #967b86;
 
-    background:rgba(255,255,255,.82);
-    backdrop-filter:blur(18px);
+    --k-shadow: 0 18px 45px rgba(190, 104, 139, .12);
+    --k-border: rgba(201, 164, 92, .28);
+}
 
-    border-bottom:1px solid rgba(255,192,203,.35);
+/* =========================================================
+   GLOBAL BACKGROUND
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background:
+        radial-gradient(circle at 12% 8%,
+            rgba(255, 218, 232, .55),
+            transparent 28%),
+        radial-gradient(circle at 88% 18%,
+            rgba(255, 246, 250, .95),
+            transparent 30%),
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #fff7fa 48%,
+            #fffdfb 100%
+        );
+
+    color: var(--k-text);
+}
+
+/* =========================================================
+   HEADER — clean Korean boutique look
+   ========================================================= */
+
+header {
+    background:
+        rgba(255, 255, 255, .88);
+
+    border-bottom:
+        1px solid var(--k-border);
 
     box-shadow:
-        0 12px 35px rgba(255,105,180,.12),
-        0 2px 10px rgba(255,215,120,.18);
+        0 8px 30px rgba(190, 104, 139, .08);
 
-    z-index:999;
-    transition:.4s;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 }
-
-header:hover{
-    background:linear-gradient(
-        135deg,
-        #ffffff,
-        #fff5f8,
-        #ffe6f2
-    );
-
-    box-shadow:
-        0 15px 40px rgba(255,105,180,.20),
-        0 5px 18px rgba(255,215,120,.25);
-}
-}
-
-
-/* =========================================
-   NAMA LOGO
-   ========================================= */
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    font-size: 26px;
-    font-weight: 700;
-
-    color: #ffffff;
-
-    text-shadow:
-        0 2px 4px rgba(255, 20, 120, 0.25),
-        0 0 12px rgba(255, 105, 170, 0.35);
-
-    transition: 0.35s ease;
+    color: var(--k-pink-deep);
+    letter-spacing: .3px;
 }
-
-
-/* Efek nama saat disentuh */
-
-.logo:hover {
-    color: #ff1493;
-
-    text-shadow:
-        0 2px 5px rgba(255, 20, 120, 0.35),
-        0 0 18px rgba(255, 20, 147, 0.65);
-}
-
-
-/* =========================================
-   LOGO GAMBAR
-   ========================================= */
 
 .logo img {
-    width: 55px;
-    height: 55px;
+    border: 1px solid rgba(201,164,92,.35);
 
-    border-radius: 50%;
-
-    border: 2px solid #FFD700
+    background: white;
 
     box-shadow:
-        0 0 12px rgba(232, 184, 75, 0.35),
-        0 0 20px rgba(255, 105, 170, 0.25);
-
-    transition: 0.4s ease;
+        0 5px 18px rgba(201,164,92,.16);
 }
-
-.logo img:hover {
-    transform: scale(1.06);
-
-    box-shadow:
-        0 0 15px rgba(255, 20, 147, 0.45),
-        0 0 25px rgba(232, 184, 75, 0.45);
-}
-
-
-/* =========================================
-   MENU
-   ========================================= */
 
 nav a {
-    color: #ffffff;
-
-    text-decoration: none;
-
-    font-weight: 500;
-
-    position: relative;
-
-    padding: 6px 10px;
-
-    transition:
-        color 0.3s ease,
-        transform 0.3s ease;
-}
-
-
-/* Hover menu */
-
-nav a:hover {
-    color: #ff1493;
-
-    transform: translateY(-2px);
-
-    text-shadow:
-        0 0 8px rgba(255, 20, 147, 0.35);
-}
-
-
-/* Garis gold di bawah menu */
-
-nav a {
-    color: #FF4FA0;
-    text-decoration: none;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
+    color: var(--k-text);
 }
 
 nav a:hover {
-    color: #FFFFFF;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    color: var(--k-pink-deep);
 }
-
-nav{
-
-display:flex;
-gap:35px;
-
-}
-
-nav a{
-
-font-size:16px;
-font-weight:500;
-
-position:relative;
-
-transition:.3s;
-
-}
-
-nav a:hover{
-
-color:var(--gold);
-
-}
-
-nav a::after{
-
-content:"";
-
-position:absolute;
-
-left:0;
-bottom:-5px;
-
-width:0%;
-height:2px;
-
-background:var(--gold);
-
-transition:.3s;
-
-}
-
-nav a:hover::after{
-
-width:100%;
-
-}
-
-.header-right{
-
-display:flex;
-gap:18px;
-
-}
-
-.header-right button{
-
-width:52px;
-height:52px;
-
-border:none;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,var(--primary),#ff5ca0);
-
-color:white;
-
-font-size:20px;
-
-cursor:pointer;
-
-transition:.35s;
-
-box-shadow:0 10px 25px rgba(255,45,117,.35);
-
-}
-
-.header-right button:hover{
-
-transform:translateY(-6px);
-
-box-shadow:0 0 25px var(--primary);
-
-}
-/* ======================================================
-HERO
-====================================================== */
-
-.hero{
-
-min-height:15vh;
-
-padding:10px 8% 80px;
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-align-items:center;
-
-gap:80px;
-
-}
-
-.hero h1{
-    font-size:60px;
-    font-weight:800;
-    line-height:1.2;
-
-    background:linear-gradient(
-        90deg,
-        #ff4f9a,
-        #ff75ad,
-        #e8b84b
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    filter:drop-shadow(0 3px 6px rgba(255,79,154,0.22));
-
-    margin-bottom:20px;
-}
-
-}
-
-.hero-button{
-
-display:flex;
-
-gap:20px;
-
-}
-
-.btn{
-
-padding:16px 40px;
-
-border-radius:40px;
-
-background:linear-gradient(135deg,var(--primary),#ff6ba7);
-
-color:white;
-
-font-weight:600;
-
-transition:.35s;
-
-box-shadow:0 10px 30px rgba(255,45,117,.45);
-
-}
-
-.btn:hover{
-
-transform:translateY(-5px);
-
-box-shadow:0 0 30px var(--primary);
-
-}
-
-.btn-outline{
-
-padding:16px 40px;
-
-border:2px solid var(--gold);
-
-border-radius:40px;
-
-color:var(--gold);
-
-transition:.35s;
-
-}
-
-.btn-outline:hover{
-
-background:var(--gold);
-
-color:#111;
-
-}
-
-.hero-right img{
-
-width:100%;
-
-animation:float 5s ease-in-out infinite;
-
-filter:drop-shadow(0 0 35px rgba(255,255,255,.2));
-
-}
-
-@keyframes float{
-
-0%{transform:translateY(0);}
-50%{transform:translateY(-20px);}
-100%{transform:translateY(0);}
-
-}
-/* ======================================================
-   SEARCH & FILTER
-====================================================== */
-
-.search-area{
-
-width:15%;
-max-width:1300px;
-
-margin:40px auto;
-
-display:flex;
-gap:20px;
-justify-content:center;
-align-items:center;
-flex-wrap:wrap;
-
-}
-
-.search-area input{
-
-flex:1;
-min-width:280px;
-
-padding:18px 25px;
-
-background:#FF4F9A;
-
-border:2px solid transparent;
-
-border-radius:50px;
-
-color:#fff;
-
-font-size:16px;
-
-transition:.35s;
-
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-
-}
-
-.search-area input:focus{
-
-outline:none;
-
-border-color:var(--primary);
-
-box-shadow:0 0 25px rgba(255,45,117,.4);
-
-}
-
-.search-area select{
-
-padding:18px 25px;
-
-background:#181822;
-
-color:#fff;
-
-border:none;
-
-border-radius:50px;
-
-font-size:15px;
-
-cursor:pointer;
-
-box-shadow:0 10px 30px rgba(0,0,0,.25);
-
-}
-
-/* ======================================================
-   SECTION PRODUK
-====================================================== */
-
-.produk{
-
-width:90%;
-max-width:1400px;
-
-margin:auto;
-
-padding:70px 0;
-
-}
-
-.produk h2{
-
-text-align:center;
-
-font-size:42px;
-
-font-weight:700;
-
-margin-bottom:50px;
-
-color:white;
-
-}
-
-.produk-container{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-
-gap:35px;
-
-}
-
-/* ======================================================
-   CARD PRODUK
-====================================================== */
-
-.card{
-
-position:relative;
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:25px;
-
-overflow:hidden;
-
-padding:25px;
-
-transition:.4s;
-
-box-shadow:0 20px 40px rgba(0,0,0,.25);
-
-}
-
-.card:hover{
-
-transform:translateY(-12px);
-
-box-shadow:0 0 35px rgba(255,45,117,.35);
-
-}
-
-/* Glow Border */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-top:-2px;
-left:-2px;
-right:-2px;
-bottom:-2px;
-
-border-radius:25px;
-
-background:linear-gradient(
-45deg,
-transparent,
-rgba(255,45,117,.6),
-transparent
-);
-
-opacity:0;
-
-transition:.4s;
-
-z-index:-1;
-
-}
-
-.card:hover::before{
-
-opacity:1;
-
-}
-
-/* Badge */
-
-.badge{
-
-position:absolute;
-
-top:20px;
-left:20px;
-
-background:linear-gradient(135deg,#ff2d75,#ff7ea8);
-
-padding:8px 18px;
-
-border-radius:30px;
-
-font-size:12px;
-
-font-weight:700;
-
-color:white;
-
-box-shadow:0 0 20px rgba(255,45,117,.5);
-
-}
-
-/* Wishlist */
-
-.wishlist{
-
-position:absolute;
-
-top:18px;
-right:18px;
-
-width:42px;
-height:42px;
-
-border-radius:50%;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:#20202b;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-.wishlist:hover{
-
-background:#ff2d75;
-
-transform:scale(1.1);
-
-}
-
-.wishlist i{
-
-color:white;
-
-font-size:18px;
-
-}
-
-/* Image */
-
-.card img{
-
-width:100%;
-
-height:250px;
-
-object-fit:contain;
-
-margin-top:25px;
-
-transition:.4s;
-
-}
-
-.card:hover img{
-
-transform:scale(1.08);
-
-}
-
-/* Nama Produk */
-
-.card h3{
-
-margin-top:25px;
-
-font-size:22px;
-
-color:white;
-
-}
-
-/* Deskripsi */
-
-.card p{
-
-font-size:14px;
-
-line-height:1.8;
-
-margin-top:10px;
-
-color:#d6d6d6;
-
-}
-
-/* Harga */
-
-.harga{
-
-margin-top:20px;
-
-font-size:30px;
-
-font-weight:700;
-
-color:var(--gold);
-
-}
-
-/* Rating */
-
-.rating{
-
-margin-top:15px;
-
-color:#FFD700;
-
-font-size:18px;
-
-}
-
-/* Tombol */
-
-.card button{
-
-margin-top:25px;
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-border-radius:50px;
-
-background:linear-gradient(
-135deg,
-var(--primary),
-#ff76ac
-);
-
-color:white;
-
-font-size:16px;
-
-font-weight:600;
-
-cursor:pointer;
-
-transition:.35s;
-
-box-shadow:0 10px 25px rgba(255,45,117,.4);
-
-}
-
-.card button:hover{
-
-transform:translateY(-4px);
-
-box-shadow:0 0 25px rgba(255,45,117,.6);
-
-}
-
-/* ======================================================
-   HOVER ICON
-====================================================== */
-
-.card:hover .wishlist{
-
-animation:heartbeat .8s infinite;
-
-}
-
-@keyframes heartbeat{
-
-0%{
-
-transform:scale(1);
-
-}
-
-50%{
-
-transform:scale(1.15);
-
-}
-
-100%{
-
-transform:scale(1);
-
-}
-
-}
-/* ======================================================
-   PROMO
-====================================================== */
-
-.promo{
-
-width:90%;
-max-width:1300px;
-
-margin:80px auto;
-
-}
-
-.promo-box{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-align-items:center;
-
-gap:50px;
-
-background:linear-gradient(135deg,#16161f,#262638);
-
-border-radius:30px;
-
-padding:60px;
-
-box-shadow:0 20px 60px rgba(0,0,0,.4);
-
-overflow:hidden;
-
-}
-
-.promo-text h2{
-
-font-size:42px;
-
-margin-bottom:20px;
-
-color:var(--gold);
-
-}
-
-.promo-text p{
-
-font-size:18px;
-
-line-height:1.8;
-
-margin-bottom:30px;
-
-color:#ddd;
-
-}
-
-.promo-image img{
-
-width:100%;
-
-animation:float 4s ease-in-out infinite;
-
-}
-
-/* ======================================================
-   TESTIMONI
-====================================================== */
-
-.testimoni{
-
-padding:100px 8%;
-
-text-align:center;
-
-}
-
-.testimoni h2{
-
-font-size:42px;
-
-margin-bottom:60px;
-
-}
-
-.testimoni-container{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-
-gap:35px;
-
-}
-
-.testi-card{
-
-background:#171720;
-
-padding:35px;
-
-border-radius:25px;
-
-transition:.4s;
-
-box-shadow:0 15px 35px rgba(0,0,0,.25);
-
-}
-
-.testi-card:hover{
-
-transform:translateY(-10px);
-
-box-shadow:0 0 30px rgba(255,45,117,.4);
-
-}
-
-.testi-card p{
-
-margin:20px 0;
-
-line-height:1.8;
-
-color:#ddd;
-
-}
-
-.testi-card h4{
-
-color:var(--gold);
-
-}
-
-/* ======================================================
-   KERANJANG
-====================================================== */
-
-.checkout{
-
-width:90%;
-max-width:1200px;
-
-margin:80px auto;
-
-background:#171720;
-
-padding:40px;
-
-border-radius:30px;
-
-box-shadow:0 20px 40px rgba(0,0,0,.3);
-
-}
-
-.checkout h2{
-
-margin-bottom:30px;
-
-}
-
-#cartList{
-
-min-height:120px;
-
-padding:20px;
-
-border-radius:20px;
-
-background:#101018;
-
-}
-
-.cart-item{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-padding:15px 0;
-
-border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-.checkout-button{
-
-margin-top:30px;
-
-text-align:right;
-
-}
-
-#checkoutWA{
-
-padding:18px 35px;
-
-border:none;
-
-border-radius:50px;
-
-background:#25D366;
-
-color:white;
-
-font-size:18px;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-#checkoutWA:hover{
-
-transform:translateY(-5px);
-
-box-shadow:0 0 25px #25D366;
-
-}
-
-/* ======================================================
-   FLOATING WHATSAPP
-====================================================== */
-
-.wa-floating{
-
-position:fixed;
-
-bottom:25px;
-
-right:25px;
-
-width:65px;
-
-height:65px;
-
-border-radius:50%;
-
-background:#25D366;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:32px;
-
-color:white;
-
-box-shadow:0 10px 25px rgba(37,211,102,.45);
-
-z-index:999;
-
-animation:bounce 2s infinite;
-
-transition:.3s;
-
-}
-
-.wa-floating:hover{
-
-transform:scale(1.15);
-
-}
-
-@keyframes bounce{
-
-0%,100%{
-
-transform:translateY(0);
-
-}
-
-50%{
-
-transform:translateY(-10px);
-
-}
-
-}
-
-/* ======================================================
-   SCROLL TO TOP
-====================================================== */
-
-#scrollTop{
-
-position:fixed;
-
-right:25px;
-
-bottom:105px;
-
-width:55px;
-
-height:55px;
-
-border:none;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,var(--primary),#ff6ba7);
-
-color:white;
-
-font-size:20px;
-
-cursor:pointer;
-
-display:none;
-
-z-index:999;
-
-transition:.3s;
-
-}
-
-#scrollTop:hover{
-
-transform:translateY(-5px);
-
-}
-
-/* ======================================================
-   FOOTER
-====================================================== */
-
-footer{
-
-background:#090909;
-
-padding:70px 8% 30px;
-
-margin-top:80px;
-
-}
-
-.footer-container{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
-gap:40px;
-
-}
-
-.footer-logo img{
-
-width:80px;
-
-margin-bottom:20px;
-
-}
-
-.footer-container h3{
-
-margin-bottom:20px;
-
-color:var(--gold);
-
-}
-
-.footer-container a{
-
-display:block;
-
-margin:10px 0;
-
-color:#ccc;
-
-transition:.3s;
-
-}
-
-.footer-container a:hover{
-
-color:var(--gold);
-
-padding-left:10px;
-
-}
-
-.footer-social a{
-
-display:inline-flex;
-
-width:45px;
-
-height:45px;
-
-border-radius:50%;
-
-background:#171720;
-
-justify-content:center;
-
-align-items:center;
-
-margin-right:10px;
-
-font-size:20px;
-
-}
-
-.footer-social a:hover{
-
-background:var(--primary);
-
-}
-
-footer hr{
-
-margin:40px 0 20px;
-
-border:none;
-
-height:1px;
-
-background:#333;
-
-}
-
-footer .copyright{
-
-text-align:center;
-
-color:#888;
-
-}
-
-/* ======================================================
-   RESPONSIVE
-====================================================== */
-
-@media(max-width:992px){
-
-.hero{
-
-grid-template-columns:1fr;
-
-text-align:center;
-
-}
-
-.promo-box{
-
-grid-template-columns:1fr;
-
-text-align:center;
-
-}
-
-nav{
-
-display:none;
-
-}
-
-.header-right{
-
-gap:10px;
-
-}
-
-}
-
-@media(max-width:768px){
-
-.hero h1{
-
-font-size:42px;
-
-}
-
-.produk-container{
-
-grid-template-columns:1fr;
-
-}
-
-.search-area{
-
-flex-direction:column;
-
-}
-
-.search-area input,
-
-.search-area select{
-
-width:100%;
-
-}
-
-}
-.fadeUp{
-
-opacity:0;
-
-transform:translateY(40px);
-
-animation:fadeUp .6s forwards;
-
-}
-
-@keyframes fadeUp{
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-.show{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-.kosong{
-
-padding:80px;
-
-text-align:center;
-
-font-size:22px;
-
-color:white;
-
-grid-column:1/-1;
-
-}
-/*=============================
-    CART
-=============================*/
-
-.cart-item{
-
-display:grid;
-
-grid-template-columns:2fr 1fr 1fr auto;
-
-align-items:center;
-
-gap:20px;
-
-padding:18px 0;
-
-border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-.qty-box{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-}
-
-.qty-box button{
-
-width:35px;
-
-height:35px;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
-background:#ff2d75;
-
-color:white;
-
-font-size:18px;
-
-}
-
-.hapus{
-
-background:red;
-
-border:none;
-
-color:white;
-
-padding:10px;
-
-border-radius:10px;
-
-cursor:pointer;
-
-}
-
-.cart-total{
-
-margin-top:30px;
-
-text-align:right;
-
-font-size:22px;
-
-color:gold;
-
-}
-
-/*=============================
-    TOAST
-=============================*/
-
-#toast{
-
-position:fixed;
-
-top:30px;
-
-right:30px;
-
-background:#171720;
-
-color:white;
-
-padding:18px 30px;
-
-border-left:5px solid #25D366;
-
-border-radius:12px;
-
-box-shadow:0 15px 40px rgba(0,0,0,.35);
-
-opacity:0;
-
-transform:translateX(100px);
-
-transition:.35s;
-
-z-index:9999;
-
-}
-
-.show-toast{
-
-opacity:1 !important;
-
-transform:translateX(0) !important;
-
-}
-/*==========================
-PAGINATION
-==========================*/
-
-#pagination{
-
-display:flex;
-
-justify-content:center;
-
-gap:12px;
-
-margin-top:50px;
-
-flex-wrap:wrap;
-
-}
-
-#pagination button{
-
-width:45px;
-
-height:45px;
-
-border:none;
-
-border-radius:50%;
-
-background:#222;
-
-color:white;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-#pagination button:hover{
-
-background:#ff2d75;
-
-transform:scale(1.1);
-
-}
-
-/*==========================
-SECTION ANIMATION
-==========================*/
-
-section{
-
-opacity:0;
-
-transform:translateY(50px);
-
-transition:.8s;
-
-}
-
-section.show{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-/* =====================================================
-   HEADER PREMIUM - RARA DRW SKINCARE
-   Pink Fanta + Gold + White
-   ===================================================== */
-
-header {
-    background: linear-gradient(
-        135deg,
-        #fffafd 0%,
-        #ffeaf3 45%,
-        #fff8ef 100%
-    ) !important;
-
-    border-bottom: 1px solid rgba(232, 184, 75, 0.55);
-
-    box-shadow:
-        0 8px 25px rgba(255, 79, 154, 0.12),
-        0 2px 8px rgba(232, 184, 75, 0.10);
-
-    transition:
-        background 0.5s ease,
-        box-shadow 0.5s ease,
-        transform 0.35s ease;
-}
-
-
-/* Saat mouse menyentuh header */
-header:hover {
-    box-shadow:
-        0 12px 35px rgba(255, 79, 154, 0.20),
-        0 3px 12px rgba(232, 184, 75, 0.15);
-}
-
-
-/* =====================================================
-   LOGO / NAMA WEBSITE
-   ===================================================== */
-
-.logo {
-    color: #ff4f9a !important;
-
-    text-shadow:
-        0 2px 4px rgba(255, 79, 154, 0.18),
-        0 0 12px rgba(255, 255, 255, 0.8);
-
-    transition:
-        transform 0.4s ease,
-        color 0.4s ease,
-        text-shadow 0.4s ease;
-}
-
-.logo:hover {
-    color: #e83e8c !important;
-
-    transform: translateY(-2px);
-
-    text-shadow:
-        0 3px 8px rgba(255, 79, 154, 0.35),
-        0 0 18px rgba(255, 79, 154, 0.25);
-}
-
-
-/* =====================================================
-   MENU NAVIGASI
-   ===================================================== */
-
-nav a {
-    color: #c93678 !important;
-
-    text-decoration: none;
-
-    position: relative;
-
-    padding: 8px 12px;
-
-    font-weight: 600;
-
-    transition:
-        color 0.35s ease,
-        transform 0.35s ease,
-        text-shadow 0.35s ease;
-}
-
-
-/* Gerakan saat disentuh */
-nav a:hover {
-    color: #ffffff !important;
-
-    transform: translateY(-3px);
-
-    text-shadow:
-        0 2px 8px rgba(255, 79, 154, 0.45);
-}
-
-
-/* =====================================================
-   GARIS EMAS DI BAWAH MENU
-   ===================================================== */
 
 nav a::after {
-    content: "";
+    background:
+        linear-gradient(
+            90deg,
+            var(--k-pink),
+            var(--k-gold)
+        );
+}
 
-    position: absolute;
-
-    left: 50%;
-    bottom: 0;
-
-    width: 0;
-    height: 3px;
-
-    border-radius: 10px;
-
-    background: linear-gradient(
-        90deg,
-        #ff4f9a,
-        #e8b84b,
-        #ff4f9a
-    );
-
-    transform: translateX(-50%);
+/* Header buttons */
+.header-right button {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink),
+            var(--k-pink-deep)
+        );
 
     box-shadow:
-        0 2px 8px rgba(232, 184, 75, 0.45);
+        0 8px 22px rgba(217,101,143,.20);
 
-    transition:
-        width 0.4s ease,
-        box-shadow 0.4s ease;
+    border: 1px solid rgba(255,255,255,.8);
 }
 
-
-/* Garis melebar saat disentuh */
-nav a:hover::after {
-    width: 80%;
+.header-right button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-gold),
+            #dfc98f
+        );
 
     box-shadow:
-        0 3px 12px rgba(255, 79, 154, 0.45);
+        0 8px 25px rgba(201,164,92,.25);
 }
 
+/* =========================================================
+   HERO
+   ========================================================= */
 
-/* =====================================================
-   EFEK MENU AKTIF
-   ===================================================== */
-
-nav a.active {
-    color: #ff4f9a !important;
+.hero {
+    background:
+        radial-gradient(
+            circle at 78% 25%,
+            rgba(255, 221, 235, .60),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fff5f9
+        );
 }
 
-nav a.active::after {
-    width: 65%;
+.hero h1 {
+    background:
+        linear-gradient(
+            90deg,
+            #d65d8b,
+            #f08bae,
+            #c9a45c
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 8px 30px rgba(217,101,143,.10);
 }
 
+.hero p {
+    color: var(--k-muted);
+}
 
-/* =====================================================
-   EFEK KILAU HALUS
-   ===================================================== */
+/* Hero image — no harsh glow */
+.hero-right img {
+    filter:
+        drop-shadow(
+            0 18px 30px
+            rgba(201,164,92,.12)
+        );
+}
 
-nav a::before {
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink),
+            var(--k-pink-deep)
+        );
+
+    border: 1px solid rgba(255,255,255,.8);
+
+    box-shadow:
+        0 12px 30px rgba(217,101,143,.20);
+}
+
+.btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-gold),
+            #e3cd93
+        );
+
+    color: #493b32;
+
+    box-shadow:
+        0 12px 30px rgba(201,164,92,.22);
+}
+
+.btn-outline {
+    border-color: var(--k-gold);
+    color: var(--k-gold);
+}
+
+.btn-outline:hover {
+    background: var(--k-gold);
+    color: white;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-area input,
+.search-area select {
+    background: rgba(255,255,255,.92);
+
+    color: var(--k-text);
+
+    border: 1px solid var(--k-border);
+
+    box-shadow:
+        0 10px 28px rgba(190,104,139,.07);
+}
+
+.search-area input:focus {
+    border-color: var(--k-pink);
+
+    box-shadow:
+        0 0 0 4px rgba(244,143,177,.10),
+        0 10px 28px rgba(190,104,139,.08);
+}
+
+/* =========================================================
+   PRODUCT SECTION
+   ========================================================= */
+
+.produk {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,248,251,.65),
+            rgba(255,255,255,.90)
+        );
+}
+
+.produk h2 {
+    color: var(--k-pink-deep);
+}
+
+.produk-container {
+    gap: 30px;
+}
+
+/* =========================================================
+   PRODUCT CARD — boutique glass
+   ========================================================= */
+
+.card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.97),
+            rgba(255,246,249,.92)
+        );
+
+    border:
+        1px solid rgba(201,164,92,.22);
+
+    box-shadow:
+        0 18px 45px rgba(190,104,139,.09);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+
+    border-color:
+        rgba(201,164,92,.48);
+
+    box-shadow:
+        0 25px 55px rgba(190,104,139,.15),
+        0 5px 25px rgba(201,164,92,.08);
+}
+
+.card::before {
+    background:
+        linear-gradient(
+            45deg,
+            transparent,
+            rgba(244,143,177,.35),
+            rgba(201,164,92,.25),
+            transparent
+        );
+}
+
+.card h3 {
+    color: var(--k-text);
+}
+
+.card p {
+    color: var(--k-muted);
+}
+
+.harga {
+    color: var(--k-gold);
+}
+
+.rating {
+    color: #d8b35e;
+}
+
+.badge {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink-deep),
+            var(--k-pink)
+        );
+
+    box-shadow:
+        0 7px 18px rgba(217,101,143,.18);
+}
+
+.wishlist {
+    background:
+        rgba(255,255,255,.92);
+
+    border:
+        1px solid rgba(201,164,92,.22);
+
+    box-shadow:
+        0 7px 18px rgba(190,104,139,.08);
+}
+
+.wishlist i {
+    color: var(--k-pink-deep);
+}
+
+.wishlist:hover {
+    background: var(--k-pink);
+}
+
+/* Product button */
+.card button {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink),
+            var(--k-pink-deep)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(217,101,143,.18);
+}
+
+.card button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-gold),
+            #e3cd93
+        );
+
+    box-shadow:
+        0 10px 25px rgba(201,164,92,.20);
+}
+
+/* =========================================================
+   PROMO
+   ========================================================= */
+
+.promo-box {
+    background:
+        linear-gradient(
+            135deg,
+            #fff0f6,
+            #ffffff 55%,
+            #fff9ec
+        );
+
+    border:
+        1px solid rgba(201,164,92,.25);
+
+    box-shadow:
+        0 20px 60px rgba(190,104,139,.10);
+}
+
+.promo-text h2 {
+    color: var(--k-pink-deep);
+}
+
+.promo-text p {
+    color: var(--k-muted);
+}
+
+/* =========================================================
+   TESTIMONI
+   ========================================================= */
+
+.testimoni {
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fff7fa
+        );
+}
+
+.testimoni h2 {
+    color: var(--k-pink-deep);
+}
+
+.testi-card {
+    background:
+        rgba(255,255,255,.94);
+
+    border:
+        1px solid rgba(201,164,92,.20);
+
+    box-shadow:
+        0 15px 35px rgba(190,104,139,.08);
+}
+
+.testi-card:hover {
+    box-shadow:
+        0 20px 45px rgba(190,104,139,.13);
+}
+
+.testi-card p {
+    color: var(--k-muted);
+}
+
+.testi-card h4 {
+    color: var(--k-gold);
+}
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+.checkout {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fff3f7
+        );
+
+    border:
+        1px solid rgba(201,164,92,.22);
+
+    box-shadow:
+        0 20px 45px rgba(190,104,139,.09);
+}
+
+#cartList {
+    background:
+        rgba(255,248,251,.85);
+
+    border:
+        1px solid rgba(201,164,92,.15);
+}
+
+.cart-item {
+    border-bottom:
+        1px solid rgba(201,164,92,.15);
+}
+
+.qty-box button {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink),
+            var(--k-pink-deep)
+        );
+}
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+#pagination button {
+    background: white;
+    color: var(--k-text);
+
+    border:
+        1px solid rgba(201,164,92,.25);
+}
+
+#pagination button:hover {
+    background: var(--k-pink);
+    color: white;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toast {
+    background:
+        rgba(255,255,255,.97);
+
+    color: var(--k-text);
+
+    border-left:
+        4px solid var(--k-pink);
+
+    box-shadow:
+        0 15px 40px rgba(190,104,139,.15);
+}
+
+/* =========================================================
+   SCROLL TOP
+   ========================================================= */
+
+#scrollTop {
+    background:
+        linear-gradient(
+            135deg,
+            var(--k-pink),
+            var(--k-gold)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(190,104,139,.16);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    background:
+        linear-gradient(
+            135deg,
+            #fff0f6,
+            #ffffff,
+            #fff9ed
+        );
+
+    border-top:
+        1px solid rgba(201,164,92,.25);
+}
+
+.footer-container h3 {
+    color: var(--k-gold);
+}
+
+.footer-container a {
+    color: var(--k-muted);
+}
+
+.footer-container a:hover {
+    color: var(--k-pink-deep);
+}
+
+.footer-social a {
+    background:
+        rgba(255,255,255,.92);
+
+    border:
+        1px solid rgba(201,164,92,.20);
+}
+
+.footer-social a:hover {
+    background: var(--k-pink);
+}
+
+footer hr {
+    background:
+        rgba(201,164,92,.22);
+}
+
+footer .copyright {
+    color: #a78b97;
+}
+
+/* =========================================================
+   SUBTLE LUXURY LINE
+   Tidak memakai efek cahaya matahari
+   ========================================================= */
+
+.hero::before,
+.produk::before {
     content: "";
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 0;
-    height: 0;
-
-    background: rgba(255, 255, 255, 0.55);
-
-    border-radius: 50%;
-
-    transform: translate(-50%, -50%);
-
-    transition:
-        width 0.45s ease,
-        height 0.45s ease,
-        opacity 0.45s ease;
-
-    opacity: 0;
-
-    pointer-events: none;
-}
-
-nav a:hover::before {
+    display: block;
     width: 70px;
-    height: 35px;
+    height: 1px;
+    margin: 0 auto 20px;
 
-    opacity: 0.15;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--k-gold),
+            transparent
+        );
+
+    opacity: .55;
 }
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-/* =====================================================
-   ANIMASI MASUK HEADER
-   ===================================================== */
-
-@keyframes headerLuxuryIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+@media(max-width:768px) {
+    .logo {
+        font-size: 20px;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .logo img {
+        width: 45px;
+        height: 45px;
     }
 
-}
-
-header {
-    animation: headerLuxuryIn 0.8s ease-out;
-}
-
-
-/* =====================================================
-   ANIMASI LOGO
-   ===================================================== */
-
-@keyframes logoFloat {
-
-    0%, 100% {
-        transform: translateY(0);
+    .hero {
+        padding-top: 125px;
     }
-
-    50% {
-        transform: translateY(-2px);
-    }
-
-}
-
-.logo {
-    animation: logoFloat 4s ease-in-out infinite;
-}
-
-
-/* =====================================================
-   RESPONSIVE
-   ===================================================== */
-
-@media (max-width: 768px) {
-
-    nav a {
-        padding: 7px 8px;
-        font-size: 14px;
-    }
-
-    nav a:hover {
-        transform: translateY(-2px);
-    }
-
 }
