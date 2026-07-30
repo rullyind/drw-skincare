@@ -1387,3 +1387,226 @@ opacity:1;
 transform:translateY(0);
 
 }
+/* =========================================================
+   RARA DRW SKINCARE - FINAL PRODUCT & VISUAL FIX
+   ========================================================= */
+
+/* ===== PRODUK GRID ===== */
+
+.produk-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    width: min(1200px, 92%);
+    margin: 0 auto;
+}
+
+/* ===== PRODUCT CARD ===== */
+
+.card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.16);
+}
+
+/* ===== PRODUCT IMAGE ===== */
+
+.card img {
+    display: block;
+    width: 100%;
+    height: 330px;
+    object-fit: contain;
+    border-radius: 18px;
+    background: #ffffff;
+    margin-bottom: 18px;
+}
+
+/* ===== BADGE ===== */
+
+.card .badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    z-index: 5;
+    padding: 9px 15px;
+    border-radius: 50px;
+    background: #ff3f81;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    box-shadow: 0 8px 20px rgba(255, 63, 129, 0.30);
+}
+
+/* ===== PRODUCT NAME ===== */
+
+.card h3 {
+    display: block;
+    margin: 10px 0 8px;
+    color: #222222;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* ===== PRODUCT DESCRIPTION ===== */
+
+.card p {
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===== PRICE ===== */
+
+.card .harga,
+.card .price {
+    display: block;
+    margin: 12px 0;
+    color: #171717;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+/* ===== RATING ===== */
+
+.card .rating {
+    color: #f5b400;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+/* ===== WISHLIST ===== */
+
+.card .wishlist,
+.card .btn-wishlist {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 6;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #20212a;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: 0.3s ease;
+}
+
+.card .wishlist:hover,
+.card .btn-wishlist:hover {
+    transform: scale(1.1);
+    background: #ff3f81;
+}
+
+/* ===== BUTTON ===== */
+
+.card button {
+    min-height: 48px;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ff3f81, #ff79a8);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 63, 129, 0.30);
+}
+
+/* ===== HERO TEXT ===== */
+
+.hero h1,
+.hero h2 {
+    color: #222222;
+}
+
+.hero p {
+    color: #555555;
+}
+
+/* ===== GENERAL SECTION ===== */
+
+.produk {
+    background: #ffffff;
+    padding: 90px 0;
+}
+
+.produk h2 {
+    color: #222222;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 768px) {
+
+    .produk-container {
+        grid-template-columns: 1fr;
+        width: 92%;
+        gap: 20px;
+    }
+
+    .card img {
+        height: 280px;
+    }
+
+    .card h3 {
+        font-size: 19px;
+    }
+
+    .card .price,
+    .card .harga {
+        font-size: 21px;
+    }
+}
+
+/* ===== SMALL MOBILE ===== */
+
+@media (max-width: 480px) {
+
+    .produk {
+        padding: 60px 0;
+    }
+
+    .card {
+        border-radius: 18px;
+        padding: 14px;
+    }
+
+    .card img {
+        height: 230px;
+    }
+
+    .card .badge {
+        top: 14px;
+        left: 14px;
+        font-size: 10px;
+    }
+
+    .card .wishlist,
+    .card .btn-wishlist {
+        top: 14px;
+        right: 14px;
+    }
+}
