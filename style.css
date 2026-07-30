@@ -1483,3 +1483,254 @@ opacity:1;
 transform:translateY(0);
 
 }
+/* =====================================================
+   HEADER PREMIUM - RARA DRW SKINCARE
+   Pink Fanta + Gold + White
+   ===================================================== */
+
+header {
+    background: linear-gradient(
+        135deg,
+        #fffafd 0%,
+        #ffeaf3 45%,
+        #fff8ef 100%
+    ) !important;
+
+    border-bottom: 1px solid rgba(232, 184, 75, 0.55);
+
+    box-shadow:
+        0 8px 25px rgba(255, 79, 154, 0.12),
+        0 2px 8px rgba(232, 184, 75, 0.10);
+
+    transition:
+        background 0.5s ease,
+        box-shadow 0.5s ease,
+        transform 0.35s ease;
+}
+
+
+/* Saat mouse menyentuh header */
+header:hover {
+    box-shadow:
+        0 12px 35px rgba(255, 79, 154, 0.20),
+        0 3px 12px rgba(232, 184, 75, 0.15);
+}
+
+
+/* =====================================================
+   LOGO / NAMA WEBSITE
+   ===================================================== */
+
+.logo {
+    color: #ff4f9a !important;
+
+    text-shadow:
+        0 2px 4px rgba(255, 79, 154, 0.18),
+        0 0 12px rgba(255, 255, 255, 0.8);
+
+    transition:
+        transform 0.4s ease,
+        color 0.4s ease,
+        text-shadow 0.4s ease;
+}
+
+.logo:hover {
+    color: #e83e8c !important;
+
+    transform: translateY(-2px);
+
+    text-shadow:
+        0 3px 8px rgba(255, 79, 154, 0.35),
+        0 0 18px rgba(255, 79, 154, 0.25);
+}
+
+
+/* =====================================================
+   MENU NAVIGASI
+   ===================================================== */
+
+nav a {
+    color: #c93678 !important;
+
+    text-decoration: none;
+
+    position: relative;
+
+    padding: 8px 12px;
+
+    font-weight: 600;
+
+    transition:
+        color 0.35s ease,
+        transform 0.35s ease,
+        text-shadow 0.35s ease;
+}
+
+
+/* Gerakan saat disentuh */
+nav a:hover {
+    color: #ffffff !important;
+
+    transform: translateY(-3px);
+
+    text-shadow:
+        0 2px 8px rgba(255, 79, 154, 0.45);
+}
+
+
+/* =====================================================
+   GARIS EMAS DI BAWAH MENU
+   ===================================================== */
+
+nav a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    width: 0;
+    height: 3px;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        90deg,
+        #ff4f9a,
+        #e8b84b,
+        #ff4f9a
+    );
+
+    transform: translateX(-50%);
+
+    box-shadow:
+        0 2px 8px rgba(232, 184, 75, 0.45);
+
+    transition:
+        width 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+/* Garis melebar saat disentuh */
+nav a:hover::after {
+    width: 80%;
+
+    box-shadow:
+        0 3px 12px rgba(255, 79, 154, 0.45);
+}
+
+
+/* =====================================================
+   EFEK MENU AKTIF
+   ===================================================== */
+
+nav a.active {
+    color: #ff4f9a !important;
+}
+
+nav a.active::after {
+    width: 65%;
+}
+
+
+/* =====================================================
+   EFEK KILAU HALUS
+   ===================================================== */
+
+nav a::before {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 0;
+    height: 0;
+
+    background: rgba(255, 255, 255, 0.55);
+
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    transition:
+        width 0.45s ease,
+        height 0.45s ease,
+        opacity 0.45s ease;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+nav a:hover::before {
+    width: 70px;
+    height: 35px;
+
+    opacity: 0.15;
+}
+
+
+/* =====================================================
+   ANIMASI MASUK HEADER
+   ===================================================== */
+
+@keyframes headerLuxuryIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+header {
+    animation: headerLuxuryIn 0.8s ease-out;
+}
+
+
+/* =====================================================
+   ANIMASI LOGO
+   ===================================================== */
+
+@keyframes logoFloat {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+
+}
+
+.logo {
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    nav a {
+        padding: 7px 8px;
+        font-size: 14px;
+    }
+
+    nav a:hover {
+        transform: translateY(-2px);
+    }
+
+}
