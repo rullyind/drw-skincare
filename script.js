@@ -470,3 +470,236 @@ ${text}
 ========================================*/
 
 updateCart();
+/*==================================================
+    BAGIAN 3
+    WISHLIST
+==================================================*/
+
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function updateWishlist(){
+
+    const count = document.getElementById("wishlist-count");
+
+    if(count){
+
+        count.innerText = wishlist.length;
+
+    }
+
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+}
+
+function toggleWishlist(id){
+
+    const item = produk.find(p => p.id === id);
+
+    if(!item) return;
+
+    const index = wishlist.findIndex(p => p.id === id);
+
+    if(index > -1){
+
+        wishlist.splice(index,1);
+
+        showToast("Produk dihapus dari Wishlist");
+
+    }else{
+
+        wishlist.push(item);
+
+        showToast("Produk ditambahkan ke Wishlist ❤️");
+
+    }
+
+    updateWishlist();
+
+}
+
+updateWishlist();
+
+/*==================================================
+    CHECKOUT WHATSAPP
+==================================================*/
+
+const checkoutBtn = document.getElementById("checkoutWA");
+
+if(checkoutBtn){
+
+checkoutBtn.addEventListener("click",()=>{
+
+if(cart.length===0){
+
+alert("Keranjang masih kosong.");
+
+return;
+
+}
+
+let pesan="Halo Admin RARA DRW SKINCARE%0A";
+pesan+="Saya ingin memesan:%0A%0A";
+
+let total=0;
+
+cart.forEach(item=>{
+
+pesan+=`${item.qty} x ${item.nama} - Rp ${item.harga.toLocaleString("id-ID")}%0A`;
+
+total+=item.qty*item.harga;
+
+});
+
+pesan+=`%0ATotal : Rp ${total.toLocaleString("id-ID")}`;
+
+const nomor="6281234567890"; // GANTI NOMOR ANDA
+
+window.open(
+
+`https://wa.me/${nomor}?text=${pesan}`,
+
+"_blank"
+
+);
+
+});
+
+}
+
+/*==================================================
+    SCROLL TO TOP
+==================================================*/
+
+const scrollBtn=document.getElementById("scrollTop");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>400){
+
+scrollBtn.style.display="block";
+
+}else{
+
+scrollBtn.style.display="none";
+
+}
+
+});
+
+if(scrollBtn){
+
+scrollBtn.addEventListener("click",()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
+
+}
+
+/*==================================================
+    ANIMASI SAAT SCROLL
+==================================================*/
+
+const reveal=document.querySelectorAll("section");
+
+const revealObserver=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+});
+
+reveal.forEach(item=>{
+
+revealObserver.observe(item);
+
+});
+
+/*==================================================
+    PAGINATION
+==================================================*/
+
+const produkPerHalaman=12;
+
+let halamanAktif=1;
+
+function tampilHalaman(){
+
+const mulai=(halamanAktif-1)*produkPerHalaman;
+
+const akhir=mulai+produkPerHalaman;
+
+const data=produk.slice(mulai,akhir);
+
+tampilProduk(data);
+
+buatPagination();
+
+}
+
+function buatPagination(){
+
+let page=document.getElementById("pagination");
+
+if(!page) return;
+
+page.innerHTML="";
+
+const jumlahHalaman=Math.ceil(produk.length/produkPerHalaman);
+
+for(let i=1;i<=jumlahHalaman;i++){
+
+page.innerHTML+=`
+
+<button onclick="gantiHalaman(${i})">
+
+${i}
+
+</button>
+
+`;
+
+}
+
+}
+
+function gantiHalaman(no){
+
+halamanAktif=no;
+
+tampilHalaman();
+
+window.scrollTo({
+
+top:650,
+
+behavior:"smooth"
+
+});
+
+}
+
+if(document.getElementById("pagination")){
+
+tampilHalaman();
+
+}
+
+/*==================================================
+    SELESAI
+==================================================*/
+
+console.log("RARA DRW SKINCARE Premium Loaded");
