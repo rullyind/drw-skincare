@@ -103,28 +103,28 @@ const produk = [
 
     harga:100000,
 
-    gambar:"images/Day Cream Acne 1 TO.png",
+    gambar:"images/Day Cream White TO.png",
 
     kategori:"Cream Siang",
 
-    badge:"NEW",
+    badge:"Foundation,
 
-    deskripsi:"Mencerahkan kulit."
+    deskripsi:"Mencerahkan & Melindungi kulit."
 
 }
 {
-    id:2,
+    id:8,
 
-    nama:"Day Cream Acne",
+    nama:"Day Cream Pink",
 
-    harga:95000,
+    harga:100000,
 
-    gambar:"images/Day Cream Acne 1 TO.png",
+    gambar:"images/Day Cream TO.png",
 
     kategori:"Cream Siang",
 
-    badge:"NEW",
+    badge:"Found",
 
-    deskripsi:"Mencerahkan kulit."
+    deskripsi:"Menjaga kulit dari Sinar UV."
 
 }
