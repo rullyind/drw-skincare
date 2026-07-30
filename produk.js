@@ -89,13 +89,13 @@ const produk = [
 
     harga:100000,
 
-    gambar:"images/Day Cream Acne 1 TO.png",
+    gambar:"images/Sunscreen Yellow Glow TO.png",
 
     kategori:"Cream Siang",
 
-    badge:"NEW",
+    badge:"Foundation",
 
-    deskripsi:"Mencerahkan kulit."
+    deskripsi:"Mencerahkan Melindungi kulit."
 
 }
 {
