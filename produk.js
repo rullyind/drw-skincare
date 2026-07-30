@@ -24,7 +24,7 @@ const produk = [
     id:3,
     nama:"Day Cream Acne 2",
     harga:100000,
-    gambar:"images/logo-footer.660510ea.png",
+    gambar:"images/Day Cream Acne 2 TO.png",
     kategori:"Cream Siang",
     badge:"Best Foundation",
     deskripsi:"Membantu mencerahkan kulit dan mengurangi bekas jerawat."
