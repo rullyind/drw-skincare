@@ -1610,3 +1610,100 @@ transform:translateY(0);
         right: 14px;
     }
 }
+/* =========================================
+   SEARCH & FILTER PRODUK
+========================================= */
+
+.product-tools {
+    width: min(1100px, 92%);
+    margin: 20px auto 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.search-box {
+    min-width: 280px;
+    flex: 1;
+    max-width: 600px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 50px;
+
+    padding: 5px 18px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.search-box span {
+    font-size: 20px;
+}
+
+.search-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    padding: 13px 5px;
+
+    font-size: 15px;
+}
+
+.filter-box select {
+    min-width: 200px;
+
+    border: 1px solid #eeeeee;
+    outline: none;
+
+    background: #ffffff;
+
+    border-radius: 50px;
+
+    padding: 14px 20px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.search-box:focus-within,
+.filter-box select:focus {
+    border-color: #ff4081;
+    box-shadow: 0 8px 25px rgba(255,64,129,0.18);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .product-tools {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .filter-box {
+        width: 100%;
+    }
+
+    .filter-box select {
+        width: 100%;
+    }
+}
