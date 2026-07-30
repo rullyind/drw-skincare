@@ -1,71 +1,134 @@
-// ======================================
-// DRW SKINCARE
-// Premium JavaScript
-// ======================================
+/*==================================================
+ RARA DRW SKINCARE
+ script.js
+ Bagian 1
+==================================================*/
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const produkContainer = document.getElementById("produk-container");
+const searchInput = document.getElementById("searchInput");
+const kategoriFilter = document.getElementById("kategoriFilter");
 
-//===============================
-// Saat Website Dibuka
-//===============================
+/*========================================
+ DATA
+========================================*/
 
-window.onload = function () {
+let dataProduk = [...produk];
 
-    updateCart();
-
-}
-
-//===============================
-// Tambah Keranjang
-//===============================
-const container = document.getElementById("produk-container");
+/*========================================
+ RENDER PRODUK
+========================================*/
 
 function tampilProduk(data){
 
-    container.innerHTML="";
+    produkContainer.innerHTML="";
 
-    data.forEach(item=>{
+    if(data.length===0){
 
-        container.innerHTML+=`
+        produkContainer.innerHTML=`
 
-        <div class="card">
+        <div class="kosong">
 
-            <span class="badge">${item.badge}</span>
+            <h2>
 
-            <img src="${item.gambar}" alt="${item.nama}">
+            😢 Produk tidak ditemukan
 
-            <h3>${item.nama}</h3>
-
-            <p>${item.deskripsi}</p>
-
-            <div class="harga">
-
-                Rp${item.harga.toLocaleString("id-ID")}
-
-            </div>
-
-            <button onclick="tambahKeranjang('${item.nama}',${item.harga})">
-
-                Tambah Keranjang
-
-            </button>
+            </h2>
 
         </div>
 
         `;
 
+        return;
+
+    }
+
+    data.forEach((item,index)=>{
+
+        produkContainer.innerHTML +=`
+
+<div class="card fadeUp"
+style="animation-delay:${index*0.08}s">
+
+<span class="badge">
+
+${item.badge}
+
+</span>
+
+<div class="wishlist">
+
+<i class="fa-regular fa-heart"></i>
+
+</div>
+
+<img
+src="${item.gambar}"
+alt="${item.nama}">
+
+<h3>
+
+${item.nama}
+
+</h3>
+
+<p>
+
+${item.deskripsi}
+
+</p>
+
+<div class="rating">
+
+⭐⭐⭐⭐⭐
+
+</div>
+
+<div class="harga">
+
+Rp ${item.harga.toLocaleString("id-ID")}
+
+</div>
+
+<button
+onclick="tambahKeranjang(${item.id})">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+Tambah Keranjang
+
+</button>
+
+</div>
+
+`;
+
     });
 
 }
-const searchInput = document.getElementById("searchInput");
 
-searchInput.addEventListener("keyup", function(){
+/*========================================
+ TAMPILKAN SEMUA PRODUK
+========================================*/
 
-    const keyword = this.value.toLowerCase();
+tampilProduk(produk);
 
-    const hasil = produk.filter(item =>
+/*========================================
+ SEARCH PRODUK
+========================================*/
 
-        item.nama.toLowerCase().includes(keyword) ||
+searchInput.addEventListener("keyup",function(){
+
+    const keyword=this.value.toLowerCase();
+
+    const hasil=produk.filter(item=>
+
+        item.nama.toLowerCase().includes(keyword)
+
+        ||
+
+        item.deskripsi.toLowerCase().includes(keyword)
+
+        ||
 
         item.kategori.toLowerCase().includes(keyword)
 
@@ -75,192 +138,35 @@ searchInput.addEventListener("keyup", function(){
 
 });
 
-tampilProduk(produk);
-function tambahKeranjang(nama, harga){
+/*========================================
+ FILTER KATEGORI
+========================================*/
 
-    cart.push({
-        nama:nama,
-        harga:harga
-    });
+kategoriFilter.addEventListener("change",function(){
 
-    localStorage.setItem("cart",JSON.stringify(cart));
+    const kategori=this.value;
 
-    updateCart();
+    if(kategori==="Semua"){
 
-    showToast("Produk berhasil ditambahkan 🛒");
-
-}
-
-//===============================
-// Update Keranjang
-//===============================
-
-function updateCart(){
-
-    const count=document.getElementById("cart-count");
-
-    const list=document.getElementById("cartList");
-
-    if(count){
-
-        count.innerHTML=cart.length;
-
-    }
-
-    if(!list) return;
-
-    if(cart.length==0){
-
-        list.innerHTML="Belum ada produk.";
+        tampilProduk(produk);
 
         return;
 
     }
 
-    let html="";
+    const hasil=produk.filter(item=>
 
-    let total=0;
+        item.kategori===kategori
 
-    cart.forEach((item,index)=>{
+    );
 
-        total+=item.harga;
-
-        html+=`
-
-        <div class="cart-item">
-
-            <div>
-
-                <h3>${item.nama}</h3>
-
-                <p>Rp ${item.harga.toLocaleString("id-ID")}</p>
-
-            </div>
-
-            <button onclick="hapusProduk(${index})">
-
-                ❌
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    html+=`
-
-        <hr>
-
-        <h2>
-
-        Total
-
-        </h2>
-
-        <h3 style="color:#ff2d75">
-
-        Rp ${total.toLocaleString("id-ID")}
-
-        </h3>
-
-    `;
-
-    list.innerHTML=html;
-
-}
-
-//===============================
-// Hapus Produk
-//===============================
-
-function hapusProduk(index){
-
-    cart.splice(index,1);
-
-    localStorage.setItem("cart",JSON.stringify(cart));
-
-    updateCart();
-
-}
-
-//===============================
-// Checkout WhatsApp
-//===============================
-
-const checkout=document.querySelector(".checkout-btn");
-
-if(checkout){
-
-checkout.addEventListener("click",function(){
-
-    if(cart.length==0){
-
-        alert("Keranjang masih kosong.");
-
-        return;
-
-    }
-
-    let pesan="Halo Admin RARA DRW SKINCARE%0A%0A";
-
-    pesan+="Saya ingin memesan:%0A";
-
-    let total=0;
-
-    cart.forEach(item=>{
-
-        pesan+=`• ${item.nama} - Rp${item.harga.toLocaleString("id-ID")}%0A`;
-
-        total+=item.harga;
-
-    });
-
-    pesan+=`%0ATotal : Rp${total.toLocaleString("id-ID")}`;
-
-    // Ganti nomor berikut dengan nomor WhatsApp Anda
-    window.open(
-
-"https://wa.me/6282381432222?text="+pesan,
-
-"_blank"
-
-);
+    tampilProduk(hasil);
 
 });
 
-}
-
-//===============================
-// Header Glow Saat Scroll
-//===============================
-
-window.addEventListener("scroll",function(){
-
-    const header=document.querySelector("header");
-
-    if(window.scrollY>50){
-
-        header.style.background="rgba(255,255,255,.95)";
-
-        header.style.boxShadow="0 10px 30px rgba(0,0,0,.15)";
-
-    }
-
-    else{
-
-        header.style.background="rgba(255,255,255,.75)";
-
-        header.style.boxShadow="none";
-
-    }
-
-});
-
-//===============================
-// Animasi Scroll
-//===============================
+/*========================================
+ ANIMASI SAAT SCROLL
+========================================*/
 
 const observer=new IntersectionObserver(entries=>{
 
@@ -276,60 +182,30 @@ entry.target.classList.add("show");
 
 });
 
-document.querySelectorAll(".card,.box,.testi").forEach(el=>{
+document.querySelectorAll(".card").forEach(card=>{
 
-el.classList.add("hidden");
-
-observer.observe(el);
+observer.observe(card);
 
 });
 
-//===============================
-// Toast Notification
-//===============================
+/*========================================
+ LOADER
+========================================*/
 
-function showToast(text){
+window.addEventListener("load",()=>{
 
-let toast=document.createElement("div");
+const loader=document.getElementById("loader");
 
-toast.className="toast";
+if(loader){
 
-toast.innerHTML=text;
-
-document.body.appendChild(toast);
+loader.style.opacity="0";
 
 setTimeout(()=>{
 
-toast.classList.add("showToast");
+loader.style.display="none";
 
-},100);
-
-setTimeout(()=>{
-
-toast.remove();
-
-},3000);
+},500);
 
 }
 
-//===============================
-// Hero Floating Animation
-//===============================
-
-const hero=document.querySelector(".hero-image img");
-
-if(hero){
-
-setInterval(()=>{
-
-hero.style.transform="translateY(-10px)";
-
-setTimeout(()=>{
-
-hero.style.transform="translateY(0px)";
-
-},1500);
-
-},3000);
-
-}
+});
