@@ -4,11 +4,11 @@ const produk=[
 
 id:1,
 
-nama:"Sunscreen Oily Acne",
+nama:"Sunscreen Oily & Acne",
 
 harga:125000,
 
-gambar:"images/produk/Sunscreen Oily & Acne.png",
+gambar:"images/Sunscreen Oily & Acne.png",
 
 kategori:"Cream Siang",
 
@@ -26,7 +26,7 @@ nama:"Day Cream Acne 1",
 
 harga:100000,
 
-gambar:"images/produk/Day Cream Acne 1 TO.png",
+gambar:"images/Day Cream Acne 1 TO.png",
 
 kategori:"Cream Siang",
 
