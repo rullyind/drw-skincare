@@ -2,13 +2,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Publish Website ke GitHub",
+            "label": "🚀 UPDATE WEBSITE",
             "type": "shell",
             "command": "git publish",
             "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "focus": false
             }
         }
     ]
