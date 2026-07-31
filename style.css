@@ -1,27 +1,140 @@
 /* ======================================================
 HEADER
 ====================================================== */
+/* =========================================
+   HEADER - PINK GOLD LUXURY
+========================================= */
 
-header{
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 
-position:fixed;
-top:0;
-left:0;
-width:100%;
+    padding: 18px 7%;
 
-padding:18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-display:flex;
-justify-content:space-between;
-align-items:center;
+    background: linear-gradient(
+        135deg,
+        #fff9fc 0%,
+        #ffe7f1 50%,
+        #fffdf8 100%
+    );
 
-background:rgba(15,15,20,.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 
-backdrop-filter:blur(15px);
+    border-bottom: 1px solid rgba(218, 165, 90, 0.35);
 
-z-index:999;
+    box-shadow:
+        0 8px 25px rgba(255, 105, 180, 0.15),
+        0 2px 8px rgba(212, 175, 55, 0.12);
 
-box-shadow:0 8px 25px rgba(0,0,0,.4);
+    z-index: 999;
+
+    transition:
+        background 0.45s ease,
+        box-shadow 0.45s ease,
+        transform 0.35s ease;
+}
+
+
+/* =========================================
+   SAAT BAR DISENTUH
+========================================= */
+
+header:hover {
+    background: linear-gradient(
+        135deg,
+        #fff5fa 0%,
+        #ffd6e7 50%,
+        #fff9ed 100%
+    );
+
+    box-shadow:
+        0 12px 35px rgba(255, 105, 180, 0.25),
+        0 3px 15px rgba(212, 175, 55, 0.18);
+}
+
+
+/* =========================================
+   MENU NAVIGASI
+========================================= */
+
+nav a {
+    position: relative;
+
+    color: #8a405f;
+    text-decoration: none;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* Hover menu */
+
+nav a:hover {
+    color: #f04f91;
+
+    transform: translateY(-2px);
+}
+
+
+/* Garis emas elegan di bawah menu */
+
+nav a::after {
+    content: "";
+
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+
+    width: 0;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        #f04f91,
+        #d8af55,
+        #f04f91
+    );
+
+    transform: translateX(-50%);
+
+    transition: width 0.35s ease;
+
+    border-radius: 10px;
+}
+
+
+nav a:hover::after {
+    width: 70%;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo img {
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+}
+
+
+.logo img:hover {
+    transform: scale(1.05);
+
+    filter:
+        drop-shadow(0 4px 8px rgba(255, 105, 180, 0.25))
+        drop-shadow(0 2px 4px rgba(212, 175, 55, 0.25));
+
 
 }
 
