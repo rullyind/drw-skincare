@@ -8,7 +8,7 @@ nama:"Sunscreen Oily Acne",
 
 harga:125000,
 
-gambar:"images/produk/sunscreen.png",
+gambar:"images/produk/Sunscreen Oily & Acne.png",
 
 kategori:"Cream Siang",
 
@@ -22,11 +22,11 @@ deskripsi:"Melindungi kulit dari sinar UV."
 
 id:2,
 
-nama:"Day Cream Acne",
+nama:"Day Cream Acne 1",
 
-harga:95000,
+harga:100000,
 
-gambar:"images/produk/daycream.png",
+gambar:"images/produk/Day Cream Acne 1 TO.png",
 
 kategori:"Cream Siang",
 
