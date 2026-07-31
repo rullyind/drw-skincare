@@ -701,12 +701,3 @@ tampilHalaman();
 /*==================================================
     SELESAI
 ==================================================*/
-
-console.log("RARA DRW SKINCARE Premium Loaded");
-window.addEventListener("scroll", function(){
-
-    let header=document.querySelector(".header");
-
-    header.classList.toggle("active",window.scrollY>30);
-
-});
