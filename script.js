@@ -30,7 +30,7 @@ function tampilProduk(data){
 
             <h2>
 
-            😢 Produk tidak ditemukan
+            ðŸ˜¢ Produk tidak ditemukan
 
             </h2>
 
@@ -79,7 +79,7 @@ ${item.deskripsi}
 
 <div class="rating">
 
-⭐⭐⭐⭐⭐
+â­â­â­â­â­
 
 </div>
 
@@ -237,7 +237,7 @@ function updateCart(){
 
         <div class="empty-cart">
 
-            <h3>🛒 Keranjang masih kosong</h3>
+            <h3>ðŸ›’ Keranjang masih kosong</h3>
 
             <p>Silakan pilih produk terlebih dahulu.</p>
 
@@ -277,7 +277,7 @@ Rp ${item.harga.toLocaleString("id-ID")}
 
 <button onclick="kurangQty(${item.id})">
 
-−
+âˆ’
 
 </button>
 
@@ -509,7 +509,7 @@ function toggleWishlist(id){
 
         wishlist.push(item);
 
-        showToast("Produk ditambahkan ke Wishlist ❤️");
+        showToast("Produk ditambahkan ke Wishlist â¤ï¸");
 
     }
 
@@ -552,7 +552,7 @@ total+=item.qty*item.harga;
 
 pesan+=`%0ATotal : Rp ${total.toLocaleString("id-ID")}`;
 
-const nomor="6282381432222"; // GANTI NOMOR ANDA
+const nomor="6281234567890"; // GANTI NOMOR ANDA
 
 window.open(
 
