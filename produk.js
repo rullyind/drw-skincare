@@ -2,129 +2,62 @@ const produk = [
 
 {
     id:1,
-
-    nama:"Sunscreen Oily & Acne",
-
-    harga:105000,
-
-    gambar:"images/Sunscreen Oily & Acne.png",
-
-    kategori:"Cream Siang",
-
+    nama:"Sunscreen Oily Acne",
+    harga:125000,
+    gambar:"images/sb-acne.png",
+    kategori:"Acne",
     badge:"BEST SELLER",
-
-    deskripsi:"Untuk Wajah Berminyak dan Berjerawat",
+    deskripsi:"Melindungi kulit dari sinar UV dan cocok untuk kulit berminyak."
+},
 
 {
     id:2,
-
     nama:"Day Cream Acne 1",
-
-    harga:100000,
-
-    gambar:"images/Day Cream Acne 1 TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Best Seller",
-
-    deskripsi:"Cream Siang Foundation Untuk Kulit Berminyak."
-
-}
+    harga:95000,
+    gambar:"images/daycream1.png",
+    kategori:"Acne",
+    badge:"NEW",
+    deskripsi:"Membantu mencerahkan kulit dan mengurangi bekas jerawat."
+},
 
 {
     id:3,
+    nama:"Night Cream Acne",
+    harga:135000,
+    gambar:"images/nightcream.png",
+    kategori:"Acne",
+    badge:"PROMO",
+    deskripsi:"Menutrisi kulit saat malam hari."
+},
 
-    nama:"Day Cream Acne 2",
-
-    harga:100000,
-
-    gambar:"images/Day Cream Acne 2 TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Foundation",
-
-    deskripsi:"Melindungi Kulit dari Sinar UV."
-
-}
 {
     id:4,
+    nama:"Facial Wash",
+    harga:85000,
+    gambar:"images/facialwash.png",
+    kategori:"Cleanser",
+    badge:"",
+    deskripsi:"Membersihkan wajah secara lembut."
+},
 
-    nama:"Sunscreen Natural Glow",
-
-    harga:100000,
-
-    gambar:"images/Sunscreen Natural Glow TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Normal",
-
-    deskripsi:"Cerah Putih danm Glowing."
-
-}
 {
     id:5,
+    nama:"Brightening Toner",
+    harga:99000,
+    gambar:"images/toner.png",
+    kategori:"Brightening",
+    badge:"",
+    deskripsi:"Membantu menyegarkan dan mencerahkan kulit."
+},
 
-    nama:"Sunscreen Glowing",
-
-    harga:100000,
-
-    gambar:"images/Sunscreen Glowing TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Glowing",
-
-    deskripsi:"Mencerahkan kulit, meelembabkan, dan putih."
-
-}
 {
     id:6,
-
-    nama:"Sunscreen Yellow Glow",
-
-    harga:100000,
-
-    gambar:"images/Sunscreen Yellow Glow TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Foundation",
-
-    deskripsi:"Mencerahkan Melindungi kulit."
-
+    nama:"Whitening Serum",
+    harga:175000,
+    gambar:"images/serum.png",
+    kategori:"Serum",
+    badge:"HOT",
+    deskripsi:"Serum premium untuk kulit lebih cerah."
 }
-{
-    id:7,
 
-    nama:"Day Cream WHITE",
-
-    harga:100000,
-
-    gambar:"images/Day Cream White TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Foundation,
-
-    deskripsi:"Mencerahkan & Melindungi kulit."
-
-}
-{
-    id:8,
-
-    nama:"Day Cream Pink",
-
-    harga:100000,
-
-    gambar:"images/Day Cream TO.png",
-
-    kategori:"Cream Siang",
-
-    badge:"Found",
-
-    deskripsi:"Menjaga kulit dari Sinar UV."
-
-}
+];
