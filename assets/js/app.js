@@ -1,1 +1,1 @@
-console.log("DRW Skincare Premium Loaded");
+console.log("DRW Skincare Premium v2 Loaded");
