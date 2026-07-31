@@ -1387,3 +1387,121 @@ opacity:1;
 transform:translateY(0);
 
 }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Poppins,sans-serif;
+    background:#f8f8f8;
+}
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:999;
+    transition:.4s;
+}
+
+.container{
+
+    width:90%;
+    max-width:1300px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:22px 0;
+
+}
+
+.logo{
+
+    text-decoration:none;
+
+    color:#222;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+}
+
+.logo span{
+
+    color:#d4af37;
+
+}
+
+.navbar{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+.navbar a{
+
+    text-decoration:none;
+
+    color:#444;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.navbar a:hover{
+
+    color:#d4af37;
+
+}
+
+.btn-order{
+
+    text-decoration:none;
+
+    background:#d4af37;
+
+    color:#fff;
+
+    padding:14px 28px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-order:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 30px rgba(212,175,55,.35);
+
+}
+
+/* efek saat scroll */
+
+.header.active{
+
+    background:#fff;
+
+    box-shadow:0 5px 30px rgba(0,0,0,.08);
+
+}
