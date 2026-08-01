@@ -1,111 +1,348 @@
 /* =========================================
-   DRW SKINCARE - PRODUCT DETAIL
-   MULTI PRODUCT / BUNDLE SYSTEM
+   DRW SKINCARE
+   PRODUCT DETAIL SYSTEM
+   DYNAMIC PRODUCT + BUNDLE + CART
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================================
+       CHECK PRODUCT DATABASE
+    ========================================== */
+
+    if (
+        typeof DRW_PRODUCTS === "undefined" ||
+        !Array.isArray(DRW_PRODUCTS)
+    ) {
+
+        console.error(
+            "DRW_PRODUCTS tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    /* =========================================
+       GET PRODUCT ID FROM URL
+    ========================================== */
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const productId =
+        urlParams.get("id");
+
+
+    /* =========================================
+       FIND CURRENT PRODUCT
+    ========================================== */
+
+    const currentProduct =
+        DRW_PRODUCTS.find(function (product) {
+
+            return product.id === productId;
+
+        });
+
+
+    /* =========================================
+       PRODUCT NOT FOUND
+    ========================================== */
+
+    if (!currentProduct) {
+
+        console.error(
+            "Produk tidak ditemukan:",
+            productId
+        );
+
+
+        /*
+           Jika URL tidak memiliki ID,
+           kembali ke halaman products.
+        */
+
+        window.location.href =
+            "products.html";
+
+        return;
+
+    }
 
 
     /* =========================================
        ELEMENTS
     ========================================== */
 
+    const productDetail =
+        document.querySelector(
+            ".product-detail"
+        );
+
+
+    const productNameElement =
+        document.querySelector(
+            ".product-detail-info h1"
+        );
+
+
+    const productCategoryElement =
+        document.querySelector(
+            ".detail-category"
+        );
+
+
+    const productPriceElement =
+        document.querySelector(
+            ".detail-price"
+        );
+
+
+    const productDescriptionElement =
+        document.querySelector(
+            ".detail-description"
+        );
+
+
+    const productMainImage =
+        document.querySelector(
+            ".product-main-image"
+        );
+
+
+    const detailOptions =
+        document.querySelectorAll(
+            ".detail-option-btn"
+        );
+
+
     const quantityNumber =
         document.querySelector(
             ".quantity-control span"
         );
+
 
     const minusButton =
         document.querySelector(
             ".quantity-control button:first-child"
         );
 
+
     const plusButton =
         document.querySelector(
             ".quantity-control button:last-child"
         );
+
 
     const addToCartButton =
         document.querySelector(
             ".detail-cart-btn"
         );
 
+
     const buyNowButton =
         document.querySelector(
             ".detail-buy-btn"
         );
 
-    const optionButtons =
-        document.querySelectorAll(
-            ".detail-option-btn"
-        );
-const selectedProductsList =
-    document.querySelector(
-        "#selectedProductsList"
-    );
 
     /* =========================================
-       PRODUCT DATA
+       FORMAT RUPIAH
     ========================================== */
 
-    const products = [
+    function formatRupiah(number) {
 
-        {
-            id: "drw-premium-facial-care",
+        return "Rp " +
+            Number(number || 0)
+                .toLocaleString("id-ID");
 
-            name: "DRW Premium Facial Care",
-
-            category: "FACIAL CARE",
-
-            description:
-                "Premium skincare collection",
-
-            price: 149000
-        },
+    }
 
 
-        {
-            id: "drw-brightening-serum",
+    /* =========================================
+       PRODUCT IMAGE
+    ========================================== */
 
-            name: "DRW Brightening Serum",
+    function renderProductImage() {
 
-            category: "SERUM",
-
-            description:
-                "Brightening skincare serum",
-
-            price: 129000
-        },
-
-
-        {
-            id: "drw-moisturizer",
-
-            name: "DRW Moisturizer",
-
-            category: "MOISTURIZER",
-
-            description:
-                "Daily hydrating moisturizer",
-
-            price: 119000
+        if (!productMainImage) {
+            return;
         }
 
-    ];
+
+        /*
+           Cari gambar yang sudah ada.
+        */
+
+        let image =
+            productMainImage.querySelector(
+                ".product-detail-image"
+            );
+
+
+        /*
+           Kalau belum ada,
+           buat gambar baru.
+        */
+
+        if (!image) {
+
+            image =
+                document.createElement("img");
+
+            image.className =
+                "product-detail-image";
+
+
+            /*
+               Hapus placeholder lama.
+            */
+
+            const placeholder =
+                productMainImage.querySelector(
+                    ".product-placeholder"
+                );
+
+
+            if (placeholder) {
+
+                placeholder.remove();
+
+            }
+
+
+            productMainImage.appendChild(
+                image
+            );
+
+        }
+
+
+        image.src =
+            currentProduct.image || "";
+
+
+        image.alt =
+            currentProduct.name;
+
+
+        /*
+           Jika gambar gagal ditemukan,
+           tampilkan fallback.
+        */
+
+        image.onerror =
+            function () {
+
+                image.style.display =
+                    "none";
+
+
+                let fallback =
+                    productMainImage.querySelector(
+                        ".product-image-fallback"
+                    );
+
+
+                if (!fallback) {
+
+                    fallback =
+                        document.createElement("div");
+
+                    fallback.className =
+                        "product-image-fallback";
+
+
+                    fallback.innerHTML = `
+
+                        <strong>
+                            DRW
+                        </strong>
+
+                        <small>
+                            SKINCARE
+                        </small>
+
+                    `;
+
+
+                    productMainImage.appendChild(
+                        fallback
+                    );
+
+                }
+
+            };
+
+    }
 
 
     /* =========================================
-       SELECTED PRODUCT OPTION
+       RENDER CURRENT PRODUCT
     ========================================== */
 
-    let selectedOption = 1;
+    function renderCurrentProduct() {
+
+        if (productNameElement) {
+
+            productNameElement.textContent =
+                currentProduct.name;
+
+        }
 
 
-    /*
-       1 = 1 Product
-       2 = 2 Products
-       3 = 3 Products
-    */
+        if (productCategoryElement) {
+
+            productCategoryElement.textContent =
+                currentProduct.category ||
+                "DRW SKINCARE";
+
+        }
+
+
+        if (productPriceElement) {
+
+            productPriceElement.textContent =
+                formatRupiah(
+                    currentProduct.price
+                );
+
+        }
+
+
+        if (productDescriptionElement) {
+
+            productDescriptionElement.textContent =
+                currentProduct.description ||
+                "Produk skincare DRW untuk melengkapi rutinitas perawatan kulit Anda.";
+
+        }
+
+
+        /*
+           Update title browser.
+        */
+
+        document.title =
+            currentProduct.name +
+            " | DRW Skincare";
+
+
+        /*
+           Update gambar.
+        */
+
+        renderProductImage();
+
+    }
+
+
+    renderCurrentProduct();
 
 
     /* =========================================
@@ -115,25 +352,17 @@ const selectedProductsList =
     let quantity = 1;
 
 
-   function updateQuantityDisplay() {
+    function updateQuantityDisplay() {
 
-    if (quantityNumber) {
+        if (quantityNumber) {
 
-        quantityNumber.textContent =
-            quantity;
+            quantityNumber.textContent =
+                quantity;
+
+        }
 
     }
 
-    updateBundlePrice();
-
-    renderSelectedProducts();
-
-}
-
-
-    /* =========================================
-       QUANTITY PLUS
-    ========================================== */
 
     if (plusButton) {
 
@@ -145,15 +374,13 @@ const selectedProductsList =
 
                 updateQuantityDisplay();
 
+                updateSelectedBundle();
+
             }
         );
 
     }
 
-
-    /* =========================================
-       QUANTITY MINUS
-    ========================================== */
 
     if (minusButton) {
 
@@ -169,6 +396,8 @@ const selectedProductsList =
 
                 updateQuantityDisplay();
 
+                updateSelectedBundle();
+
             }
         );
 
@@ -176,50 +405,304 @@ const selectedProductsList =
 
 
     /* =========================================
-       PRODUCT OPTION
+       BUNDLE SYSTEM
     ========================================== */
 
-    optionButtons.forEach(
+    /*
+       1 Product
+       = produk sekarang
+
+       2 Products
+       = produk sekarang + produk berikutnya
+
+       3 Products
+       = produk sekarang + 2 produk berikutnya
+    */
+
+
+    let selectedBundleSize = 1;
+
+
+    /*
+       Posisi produk sekarang
+       di database.
+    */
+
+    const currentProductIndex =
+        DRW_PRODUCTS.findIndex(
+            function (product) {
+
+                return product.id ===
+                    currentProduct.id;
+
+            }
+        );
+
+
+    /* =========================================
+       GET BUNDLE PRODUCTS
+    ========================================== */
+
+    function getBundleProducts(
+        bundleSize
+    ) {
+
+        const products = [];
+
+
+        for (
+            let i = 0;
+            i < bundleSize;
+            i++
+        ) {
+
+            const product =
+                DRW_PRODUCTS[
+                    currentProductIndex + i
+                ];
+
+
+            /*
+               Jangan memasukkan produk
+               jika sudah melewati database.
+            */
+
+            if (product) {
+
+                products.push(product);
+
+            }
+
+        }
+
+
+        return products;
+
+    }
+
+
+    /* =========================================
+       BUNDLE PRICE
+    ========================================== */
+
+    function getBundlePrice(
+        bundleProducts
+    ) {
+
+        let price = 0;
+
+
+        bundleProducts.forEach(
+            function (product) {
+
+                price +=
+                    Number(product.price) || 0;
+
+            }
+        );
+
+
+        return price;
+
+    }
+
+
+    /* =========================================
+       SELECTED PRODUCTS PREVIEW
+    ========================================== */
+
+    function renderSelectedProducts() {
+
+        const lists =
+            document.querySelectorAll(
+                ".selected-products-list"
+            );
+
+
+        if (!lists.length) {
+
+            return;
+
+        }
+
+
+        const bundleProducts =
+            getBundleProducts(
+                selectedBundleSize
+            );
+
+
+        lists.forEach(
+            function (list) {
+
+                list.innerHTML = "";
+
+
+                bundleProducts.forEach(
+                    function (product) {
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        item.className =
+                            "selected-product-item";
+
+
+                        item.innerHTML = `
+
+                            <span class="selected-product-name">
+                                ${product.name}
+                            </span>
+
+                            <span class="selected-product-price">
+                                ${formatRupiah(
+                                    product.price
+                                )}
+                            </span>
+
+                        `;
+
+
+                        list.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       UPDATE BUNDLE
+    ========================================== */
+
+    function updateSelectedBundle() {
+
+        const bundleProducts =
+            getBundleProducts(
+                selectedBundleSize
+            );
+
+
+        /*
+           Update harga utama.
+        */
+
+        if (productPriceElement) {
+
+            productPriceElement.textContent =
+                formatRupiah(
+                    getBundlePrice(
+                        bundleProducts
+                    )
+                );
+
+        }
+
+
+        /*
+           Update preview.
+        */
+
+        renderSelectedProducts();
+
+
+        /*
+           Update tombol.
+        */
+
+        detailOptions.forEach(
+            function (button, index) {
+
+                if (
+                    index + 1 ===
+                    selectedBundleSize
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                } else {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       OPTION BUTTON
+    ========================================== */
+
+    detailOptions.forEach(
         function (button, index) {
 
             button.addEventListener(
                 "click",
                 function () {
 
-                    /*
-                       index 0 = 1 Product
-                       index 1 = 2 Products
-                       index 2 = 3 Products
-                    */
-
-                    selectedOption =
+                    const requestedSize =
                         index + 1;
 
 
-                    /* REMOVE ACTIVE */
-
-                    optionButtons.forEach(
-                        function (btn) {
-
-                            btn.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
+                    const availableProducts =
+                        getBundleProducts(
+                            requestedSize
+                        );
 
 
-                    /* ADD ACTIVE */
+                    /*
+                       Kalau database belum
+                       memiliki produk sebanyak
+                       pilihan yang dipilih.
+                    */
 
-                    button.classList.add(
-                        "active"
-                    );
+                    if (
+                        availableProducts.length <
+                        requestedSize
+                    ) {
+
+                        alert(
+                            "Paket ini belum tersedia karena produk tambahan belum tersedia."
+                        );
+
+                        return;
+
+                    }
+
+
+                    selectedBundleSize =
+                        requestedSize;
+
+
+                    updateSelectedBundle();
 
                 }
             );
 
         }
     );
+
+
+    /* =========================================
+       INITIAL BUNDLE
+    ========================================== */
+
+    updateSelectedBundle();
 
 
     /* =========================================
@@ -244,7 +727,9 @@ const selectedProductsList =
         try {
 
             const cart =
-                JSON.parse(savedCart);
+                JSON.parse(
+                    savedCart
+                );
 
 
             return Array.isArray(cart)
@@ -254,9 +739,10 @@ const selectedProductsList =
         } catch (error) {
 
             console.error(
-                "Cart data rusak:",
+                "Data cart rusak:",
                 error
             );
+
 
             return [];
 
@@ -280,134 +766,27 @@ const selectedProductsList =
 
 
     /* =========================================
-       GET SELECTED PRODUCTS
-    ========================================== */
-
-    function getSelectedProducts() {
-
-        /*
-           selectedOption menentukan
-           berapa produk berbeda yang
-           dimasukkan.
-        */
-
-        return products.slice(
-            0,
-            selectedOption
-        );
-
-    }
-/* =========================================
-   RENDER SELECTED PRODUCTS
-========================================= */
-
-function renderSelectedProducts() {
-
-    if (!selectedProductsList) {
-        return;
-    }
-
-
-    const selectedProducts =
-        getSelectedProducts();
-
-
-    let html = "";
-
-
-    selectedProducts.forEach(
-        function (product) {
-
-            html += `
-
-                <div class="selected-product-item">
-
-                    <div class="selected-product-name">
-
-                        <span class="selected-product-check">
-                            ✓
-                        </span>
-
-                        <span>
-                            ${product.name}
-                        </span>
-
-                    </div>
-
-                    <span class="selected-product-price">
-                        Rp ${product.price.toLocaleString("id-ID")}
-                    </span>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-
-    const bundlePrice =
-        selectedProducts.reduce(
-            function (total, product) {
-
-                return total + product.price;
-
-            },
-            0
-        );
-
-
-    const totalPrice =
-        bundlePrice * quantity;
-
-
-    html += `
-
-        <div class="selected-products-total">
-
-            <span>
-                Total Paket
-            </span>
-
-            <strong>
-                Rp ${totalPrice.toLocaleString("id-ID")}
-            </strong>
-
-        </div>
-
-    `;
-
-
-    selectedProductsList.innerHTML =
-        html;
-
-}
-
-    /* =========================================
        ADD PRODUCTS TO CART
     ========================================== */
 
-    function addProductsToCart() {
+    function addProductsToCart(
+        products,
+        productQuantity
+    ) {
 
         const cart =
             getCart();
 
 
-        const selectedProducts =
-            getSelectedProducts();
-
-
-        selectedProducts.forEach(
+        products.forEach(
             function (product) {
 
                 const existingProduct =
                     cart.find(
                         function (item) {
 
-                            return (
-                                item.id ===
-                                product.id
-                            );
+                            return item.id ===
+                                product.id;
 
                         }
                     );
@@ -416,7 +795,7 @@ function renderSelectedProducts() {
                 if (existingProduct) {
 
                     existingProduct.quantity +=
-                        quantity;
+                        productQuantity;
 
                 } else {
 
@@ -435,10 +814,15 @@ function renderSelectedProducts() {
                             product.description,
 
                         price:
-                            product.price,
+                            Number(
+                                product.price
+                            ) || 0,
+
+                        image:
+                            product.image || "",
 
                         quantity:
-                            quantity
+                            productQuantity
 
                     });
 
@@ -452,8 +836,9 @@ function renderSelectedProducts() {
 
 
         /*
-           Simpan produk pertama untuk
-           kompatibilitas sistem lama.
+           Kompatibilitas checkout lama.
+           drwProduct tetap menggunakan
+           produk pertama.
         */
 
         if (cart.length > 0) {
@@ -467,11 +852,65 @@ function renderSelectedProducts() {
 
         }
 
+
+        /*
+           Update cart count
+           jika tersedia.
+        */
+
+        updateCartCount();
+
     }
 
 
     /* =========================================
-       ADD TO CART
+       CART COUNT
+    ========================================== */
+
+    function updateCartCount() {
+
+        const cart =
+            getCart();
+
+
+        let totalQuantity = 0;
+
+
+        cart.forEach(
+            function (product) {
+
+                totalQuantity +=
+                    Number(
+                        product.quantity
+                    ) || 0;
+
+            }
+        );
+
+
+        const counters =
+            document.querySelectorAll(
+                ".cart-count"
+            );
+
+
+        counters.forEach(
+            function (counter) {
+
+                counter.textContent =
+                    totalQuantity;
+
+            }
+        );
+
+    }
+
+
+    updateCartCount();
+
+
+    /* =========================================
+       ADD TO CART BUTTON
     ========================================== */
 
     if (addToCartButton) {
@@ -480,7 +919,27 @@ function renderSelectedProducts() {
             "click",
             function () {
 
-                addProductsToCart();
+                const bundleProducts =
+                    getBundleProducts(
+                        selectedBundleSize
+                    );
+
+
+                if (!bundleProducts.length) {
+
+                    alert(
+                        "Produk tidak ditemukan."
+                    );
+
+                    return;
+
+                }
+
+
+                addProductsToCart(
+                    bundleProducts,
+                    quantity
+                );
 
 
                 const originalText =
@@ -488,7 +947,12 @@ function renderSelectedProducts() {
 
 
                 addToCartButton.textContent =
-                    "✓ Added To Cart";
+                    "✓ ADDED TO CART";
+
+
+                addToCartButton.classList.add(
+                    "added"
+                );
 
 
                 setTimeout(
@@ -496,6 +960,10 @@ function renderSelectedProducts() {
 
                         addToCartButton.textContent =
                             originalText;
+
+                        addToCartButton.classList.remove(
+                            "added"
+                        );
 
                     },
                     1500
@@ -517,17 +985,30 @@ function renderSelectedProducts() {
             "click",
             function () {
 
+                const bundleProducts =
+                    getBundleProducts(
+                        selectedBundleSize
+                    );
+
+
+                if (!bundleProducts.length) {
+
+                    alert(
+                        "Produk tidak ditemukan."
+                    );
+
+                    return;
+
+                }
+
+
                 /*
-                   BUY NOW hanya membeli
-                   pilihan saat ini.
+                   BUY NOW mengganti cart
+                   dengan bundle yang dipilih.
                 */
 
-                const selectedProducts =
-                    getSelectedProducts();
-
-
                 const buyNowCart =
-                    selectedProducts.map(
+                    bundleProducts.map(
                         function (product) {
 
                             return {
@@ -545,7 +1026,12 @@ function renderSelectedProducts() {
                                     product.description,
 
                                 price:
-                                    product.price,
+                                    Number(
+                                        product.price
+                                    ) || 0,
+
+                                image:
+                                    product.image || "",
 
                                 quantity:
                                     quantity
@@ -556,18 +1042,13 @@ function renderSelectedProducts() {
                     );
 
 
-                /*
-                   Ganti cart dengan
-                   paket Buy Now.
-                */
-
                 saveCart(
                     buyNowCart
                 );
 
 
                 /*
-                   Kompatibilitas sistem lama
+                   Kompatibilitas checkout.
                 */
 
                 if (
@@ -584,6 +1065,10 @@ function renderSelectedProducts() {
                 }
 
 
+                /*
+                   Langsung ke cart.
+                */
+
                 window.location.href =
                     "cart.html";
 
@@ -594,9 +1079,91 @@ function renderSelectedProducts() {
 
 
     /* =========================================
-       INITIAL DISPLAY
+       OPTIONAL:
+       UPDATE SELECTED PRODUCT LABELS
     ========================================== */
 
-    updateQuantityDisplay();
+    function updateOptionLabels() {
+
+        if (!detailOptions.length) {
+
+            return;
+
+        }
+
+
+        const availableCount =
+            DRW_PRODUCTS.length -
+            currentProductIndex;
+
+
+        detailOptions.forEach(
+            function (button, index) {
+
+                const size =
+                    index + 1;
+
+
+                const productsAvailable =
+                    size <= availableCount;
+
+
+                if (!productsAvailable) {
+
+                    button.disabled =
+                        true;
+
+
+                    button.style.opacity =
+                        "0.4";
+
+
+                    button.style.cursor =
+                        "not-allowed";
+
+                } else {
+
+                    button.disabled =
+                        false;
+
+
+                    button.style.opacity =
+                        "";
+
+
+                    button.style.cursor =
+                        "";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    updateOptionLabels();
+
+
+    /* =========================================
+       DEBUG
+    ========================================== */
+
+    console.log(
+        "DRW Product Detail Loaded:",
+        currentProduct.name
+    );
+
+
+    console.log(
+        "Product ID:",
+        currentProduct.id
+    );
+
+
+    console.log(
+        "Current Product Index:",
+        currentProductIndex
+    );
 
 });

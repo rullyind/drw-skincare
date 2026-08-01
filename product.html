@@ -317,10 +317,11 @@
                 <div class="products-search">
 
                     <input
-                        type="search"
-                        placeholder="Search products..."
-                        aria-label="Search products"
-                    >
+    type="search"
+    id="productSearch"
+    placeholder="Search products..."
+    aria-label="Search products"
+>
 
                     <button type="button">
                         🔍
@@ -334,335 +335,49 @@
             <!-- FILTER -->
             <div class="products-filter">
 
-                <button class="product-filter-btn active">
-                    All
-                </button>
+    <button
+        class="product-filter-btn active"
+        data-category="all">
+        All
+    </button>
 
-                <button class="product-filter-btn">
-                    Facial Care
-                </button>
+    <button
+        class="product-filter-btn"
+        data-category="Cream Siang">
+        Cream Siang
+    </button>
 
-                <button class="product-filter-btn">
-                    Brightening
-                </button>
+    <button
+        class="product-filter-btn"
+        data-category="Serum">
+        Serum
+    </button>
 
-                <button class="product-filter-btn">
-                    Hydration
-                </button>
+    <button
+        class="product-filter-btn"
+        data-category="Moisturizer">
+        Moisturizer
+    </button>
 
-                <button class="product-filter-btn">
-                    Treatment
-                </button>
+    <button
+        class="product-filter-btn"
+        data-category="Treatment">
+        Treatment
+    </button>
 
-            </div>
+</div>
 
 
             <!-- PRODUCT GRID -->
-            <div class="products-grid">
+           <div class="products-grid" id="productsGrid">
 
-
-                <!-- PRODUCT 01 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <span class="product-badge">
-                            BEST SELLER
-                        </span>
-
-                        <img
-                            src="assets/images/product1.png"
-                            alt="DRW Skincare Product"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            FACIAL CARE
-                        </span>
-
-                        <h3>
-                            DRW Premium Facial Care
-                        </h3>
-
-                        <p class="product-page-description">
-                            Daily skincare essential for a fresh
-                            and healthy-looking complexion.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 149.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUCT 02 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <img
-                            src="assets/images/product2.png"
-                            alt="DRW Brightening Product"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            BRIGHTENING
-                        </span>
-
-                        <h3>
-                            DRW Brightening Collection
-                        </h3>
-
-                        <p class="product-page-description">
-                            A radiant-looking skincare ritual
-                            for your everyday routine.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 159.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUCT 03 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <span class="product-badge">
-                            NEW
-                        </span>
-
-                        <img
-                            src="assets/images/product3.png"
-                            alt="DRW Hydration Product"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            HYDRATION
-                        </span>
-
-                        <h3>
-                            DRW Hydration Essence
-                        </h3>
-
-                        <p class="product-page-description">
-                            Lightweight hydration for soft
-                            and supple-looking skin.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 139.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUCT 04 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <img
-                            src="assets/images/product4.png"
-                            alt="DRW Skin Treatment"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            TREATMENT
-                        </span>
-
-                        <h3>
-                            DRW Skin Treatment
-                        </h3>
-
-                        <p class="product-page-description">
-                            Targeted care to complement your
-                            personalized skincare routine.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 169.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUCT 05 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <img
-                            src="assets/images/product1.png"
-                            alt="DRW Daily Cleanser"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            FACIAL CARE
-                        </span>
-
-                        <h3>
-                            DRW Gentle Cleanser
-                        </h3>
-
-                        <p class="product-page-description">
-                            A gentle cleansing step for your
-                            everyday skincare ritual.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 119.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUCT 06 -->
-                <article class="product-page-card">
-
-                    <a href="product-detail.html"
-                       class="product-page-image">
-
-                        <img
-                            src="assets/images/product2.png"
-                            alt="DRW Glow Serum"
-                        >
-
-                    </a>
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            BRIGHTENING
-                        </span>
-
-                        <h3>
-                            DRW Glow Serum
-                        </h3>
-
-                        <p class="product-page-description">
-                            A lightweight serum for a smooth,
-                            radiant-looking finish.
-                        </p>
-
-                        <div class="product-page-bottom">
-
-                            <strong>
-                                Rp 179.000
-                            </strong>
-
-                            <a href="product-detail.html">
-                                View →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
+           </div>
 
             <!-- PAGINATION -->
-            <div class="products-pagination">
-
-                <button class="pagination-active">
-                    1
-                </button>
-
-                <button>
-                    2
-                </button>
-
-                <button>
-                    3
-                </button>
-
-                <button>
-                    →
-                </button>
-
-            </div>
-
-        </div>
+<div
+    class="products-pagination"
+    id="productsPagination">
+</div>
 
     </section>
 
@@ -994,8 +709,9 @@
          JAVASCRIPT
     ====================================================== -->
 
-    <script src="assets/js/app.js"></script>
-
+    <script src="assets/js/products-data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/products-page.js"></script>
 
 </body>
 
