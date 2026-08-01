@@ -11478,4 +11478,632 @@ body:has(.order-success-page) {
     .order-receipt::after {
         color: rgba(190, 150, 165, 0.09) !important;
     }
+}/* =========================================================
+   BEST SELLER — PREMIUM LAYOUT
+========================================================= */
+
+.best-seller {
+    position: relative;
+    width: 100%;
+    padding: 120px 7vw 135px;
+    background:
+        radial-gradient(
+            circle at 15% 45%,
+            rgba(244, 179, 201, 0.22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 88% 70%,
+            rgba(239, 195, 143, 0.12),
+            transparent 28%
+        ),
+        #fffafb;
+    overflow: hidden;
+}
+
+
+/* ---------- HEADING ---------- */
+
+.best-seller-heading {
+    max-width: 760px;
+    margin: 0 auto 70px;
+    text-align: center;
+}
+
+.best-seller-eyebrow {
+    display: block;
+    margin-bottom: 18px;
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+
+    color: #c95f86;
+}
+
+.best-seller-heading h2 {
+    margin: 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(52px, 5.5vw, 82px);
+    line-height: 0.94;
+    font-weight: 400;
+    letter-spacing: -3px;
+
+    color: #713849;
+}
+
+.best-seller-heading h2 em {
+    display: block;
+
+    font-style: italic;
+    font-weight: 400;
+
+    color: #dc7197;
+}
+
+.best-seller-heading p {
+    max-width: 580px;
+    margin: 28px auto 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+
+    color: #866c75;
+}
+
+
+/* ---------- MAIN LAYOUT ---------- */
+
+.best-seller-layout {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+
+    align-items: stretch;
+}
+
+
+/* ---------- MAIN PRODUCT ---------- */
+
+.best-seller-main {
+    position: relative;
+
+    min-height: 590px;
+
+    display: grid;
+    grid-template-rows: 1fr auto;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    border: 1px solid rgba(214, 157, 177, 0.25);
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 65px rgba(119, 55, 77, 0.08);
+
+    transition:
+        transform 0.45s ease,
+        box-shadow 0.45s ease;
+}
+
+.best-seller-main:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 35px 80px rgba(119, 55, 77, 0.13);
+}
+
+
+/* ---------- MAIN VISUAL ---------- */
+
+.best-seller-main-visual {
+    position: relative;
+    min-height: 390px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(247, 177, 202, 0.34),
+            rgba(255, 247, 250, 0.4) 38%,
+            transparent 70%
+        );
+}
+
+.best-seller-badge {
+    position: absolute;
+    top: 28px;
+    left: 30px;
+
+    z-index: 5;
+
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+    color: #bd5479;
+}
+
+
+/* ---------- GLOW ---------- */
+
+.best-seller-glow {
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(233, 117, 158, 0.2);
+
+    filter: blur(50px);
+}
+
+
+/* ---------- ORBIT ---------- */
+
+.best-seller-orbit {
+    position: absolute;
+
+    width: 360px;
+    height: 210px;
+
+    border: 1px solid rgba(215, 102, 145, 0.22);
+
+    border-radius: 50%;
+
+    transform: rotate(-17deg);
+}
+
+.best-seller-orbit::before {
+    content: "";
+
+    position: absolute;
+    inset: 25px 30px;
+
+    border: 1px solid rgba(215, 102, 145, 0.15);
+
+    border-radius: 50%;
+}
+
+
+/* ---------- BOTTLE ---------- */
+
+.bs-bottle {
+    position: relative;
+    z-index: 3;
+
+    width: 145px;
+    height: 250px;
+
+    margin-top: 10px;
+}
+
+.bs-cap {
+    position: absolute;
+
+    top: -38px;
+    left: 42px;
+
+    width: 61px;
+    height: 48px;
+
+    border-radius: 7px 7px 3px 3px;
+
+    background: linear-gradient(
+        135deg,
+        #dba957,
+        #b77a2d
+    );
+
+    box-shadow:
+        0 8px 15px rgba(155, 101, 37, 0.18);
+}
+
+.bs-body {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 15px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f3a1bc,
+            #d75f8d
+        );
+
+    border: 1px solid rgba(255,255,255,0.65);
+
+    color: white;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 600;
+
+    box-shadow:
+        0 28px 45px rgba(178, 75, 111, 0.28),
+        inset 10px 0 20px rgba(255,255,255,0.12);
+}
+
+.bs-body::after {
+    content: "";
+
+    position: absolute;
+    top: 22px;
+    left: 18px;
+
+    width: 10px;
+    height: 115px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.28);
+
+    filter: blur(2px);
+}
+
+.bs-body small {
+    margin-top: 7px;
+
+    font-family: Arial, sans-serif;
+    font-size: 7px;
+    letter-spacing: 4px;
+}
+
+.bs-body span {
+    display: block;
+
+    margin-top: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 7px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+
+/* ---------- MAIN INFO ---------- */
+
+.best-seller-main-info {
+    padding: 30px 34px 34px;
+
+    background: rgba(255,255,255,0.72);
+}
+
+.bs-category {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+    color: #bd6883;
+}
+
+.best-seller-main-info h3 {
+    margin: 0 0 12px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    font-weight: 400;
+
+    color: #713849;
+}
+
+.best-seller-main-info p {
+    max-width: 430px;
+
+    margin: 0 0 22px;
+
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.7;
+
+    color: #866c75;
+}
+
+.bs-main-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+
+    color: #713849;
+    text-decoration: none;
+
+    transition: gap 0.3s ease;
+}
+
+.bs-main-link:hover {
+    gap: 14px;
+}
+
+.bs-main-link span {
+    font-size: 16px;
+}
+
+
+/* ---------- SIDE PRODUCTS ---------- */
+
+.best-seller-side {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.best-seller-item {
+    min-height: 184px;
+
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 24px;
+
+    align-items: center;
+
+    padding: 20px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    border: 1px solid rgba(214, 157, 177, 0.22);
+    border-radius: 24px;
+
+    box-shadow:
+        0 18px 40px rgba(119, 55, 77, 0.055);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.best-seller-item:hover {
+    transform: translateX(6px);
+
+    box-shadow:
+        0 25px 50px rgba(119, 55, 77, 0.1);
+}
+
+
+/* ---------- SMALL VISUAL ---------- */
+
+.bs-item-visual {
+    position: relative;
+
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 19px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(244, 174, 198, 0.35),
+            rgba(255, 247, 250, 0.9) 65%
+        );
+}
+
+.bs-mini-bottle {
+    position: relative;
+
+    width: 58px;
+    height: 95px;
+}
+
+.bs-mini-cap {
+    position: absolute;
+
+    top: -12px;
+    left: 18px;
+
+    width: 23px;
+    height: 17px;
+
+    border-radius: 3px 3px 2px 2px;
+
+    background: #c99245;
+}
+
+.bs-mini-body {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #efa0bb,
+            #d66590
+        );
+
+    color: white;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    box-shadow:
+        0 12px 20px rgba(178, 75, 111, 0.2);
+}
+
+.bs-mini-body small {
+    margin-top: 4px;
+
+    font-family: Arial, sans-serif;
+    font-size: 4px;
+    letter-spacing: 2px;
+}
+
+
+/* ---------- SIDE INFO ---------- */
+
+.bs-item-info > span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: Arial, sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+
+    color: #bd6883;
+}
+
+.bs-item-info h4 {
+    margin: 0 0 8px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.15;
+
+    color: #713849;
+}
+
+.bs-item-info p {
+    margin: 0 0 13px;
+
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.55;
+
+    color: #8b737a;
+}
+
+.bs-item-info a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+
+    color: #713849;
+    text-decoration: none;
+
+    transition: gap 0.3s ease;
+}
+
+.bs-item-info a:hover {
+    gap: 10px;
+}
+
+.bs-item-info a span {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .best-seller {
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+
+    .best-seller-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .best-seller-main {
+        min-height: 560px;
+    }
+
+    .best-seller-side {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .best-seller-item {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bs-item-visual {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .best-seller {
+        padding-top: 85px;
+        padding-bottom: 90px;
+    }
+
+    .best-seller-heading {
+        margin-bottom: 45px;
+    }
+
+    .best-seller-heading h2 {
+        font-size: 52px;
+        letter-spacing: -2px;
+    }
+
+    .best-seller-side {
+        grid-template-columns: 1fr;
+    }
+
+    .best-seller-item {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 18px;
+    }
+
+    .bs-item-visual {
+        height: 125px;
+    }
+
+    .best-seller-main-visual {
+        min-height: 350px;
+    }
+
+    .bs-bottle {
+        transform: scale(0.9);
+    }
 }
