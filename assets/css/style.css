@@ -7759,3 +7759,1017 @@ font-size:38px;
     font-size: 17px;
     color: #211a1e;
 }
+/* =========================================
+   ORDER RECEIPT / NOTA
+========================================= */
+
+.order-receipt {
+    width: 100%;
+    margin: 32px 0;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #ead9df;
+    border-radius: 24px;
+    box-sizing: border-box;
+    text-align: left;
+    box-shadow: 0 18px 45px rgba(60, 30, 40, 0.05);
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.receipt-eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: #c96f8d;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.receipt-header h2 {
+    margin: 0;
+    color: #2d2328;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.receipt-order-number {
+    text-align: right;
+}
+
+.receipt-order-number span {
+    display: block;
+    margin-bottom: 6px;
+    color: #c96f8d;
+    font-size: 8px;
+    letter-spacing: 2px;
+}
+
+.receipt-order-number strong {
+    color: #2d2328;
+    font-size: 13px;
+}
+
+.receipt-divider {
+    width: 100%;
+    height: 1px;
+    margin: 22px 0;
+    background: #ead9df;
+}
+
+.receipt-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.receipt-meta span {
+    display: block;
+    margin-bottom: 5px;
+    color: #9a858d;
+    font-size: 12px;
+}
+
+.receipt-meta strong {
+    color: #2d2328;
+    font-size: 13px;
+}
+
+.receipt-products-title {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding-bottom: 8px;
+    color: #9a858d;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.receipt-product {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    padding: 12px 0;
+}
+
+.receipt-product-info strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #2d2328;
+    font-family: "Playfair Display", serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.receipt-product-info span {
+    color: #9a858d;
+    font-size: 11px;
+}
+
+.receipt-product-price {
+    align-self: center;
+    color: #2d2328;
+    font-size: 13px;
+}
+
+.receipt-summary > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+}
+
+.receipt-summary span {
+    color: #8f7a83;
+    font-size: 12px;
+}
+
+.receipt-summary strong {
+    color: #2d2328;
+    font-size: 13px;
+}
+
+.receipt-grand-total {
+    margin-top: 8px;
+    padding-top: 16px !important;
+    border-top: 1px solid #ead9df;
+}
+
+.receipt-grand-total span {
+    color: #2d2328;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.receipt-grand-total strong {
+    font-size: 22px;
+}
+
+.receipt-print-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding: 15px 20px;
+    border: 0;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ce8198, #e4ad62);
+    color: #ffffff;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.receipt-print-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(200, 120, 145, 0.18);
+}
+
+
+/* =========================================
+   RECEIPT MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .order-receipt {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .receipt-header {
+        flex-direction: column;
+    }
+
+    .receipt-order-number {
+        text-align: left;
+    }
+
+    .receipt-meta {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================
+   PRINT NOTA
+========================================= */
+
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    .order-receipt,
+    .order-receipt * {
+        visibility: visible;
+    }
+
+    .order-receipt {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .receipt-print-btn {
+        display: none;
+    }
+
+}/* =====================================================
+   DRW SKINCARE
+   PREMIUM ORDER RECEIPT
+===================================================== */
+
+.order-receipt {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* =====================================================
+   RECEIPT CONTENT
+===================================================== */
+
+.order-receipt > *:not(.receipt-watermark) {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =====================================================
+   WATERMARK
+===================================================== */
+
+.receipt-watermark {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-32deg);
+
+    width: 120%;
+
+    text-align: center;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 48px;
+
+    font-weight: 600;
+
+    line-height: 1.15;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    color: rgba(80, 60, 50, 0.055);
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 1;
+}
+
+
+/* WATERMARK SUBTITLE */
+
+.receipt-watermark span {
+
+    display: block;
+
+    margin-top: 8px;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 19px;
+
+    font-weight: 600;
+
+    letter-spacing: 8px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* =====================================================
+   PREMIUM RECEIPT BRAND
+===================================================== */
+
+.receipt-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* =====================================================
+   DRW LOGO
+===================================================== */
+
+.receipt-logo {
+
+    display: inline-flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    margin-bottom: 8px;
+
+}
+
+
+.receipt-logo strong {
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 38px;
+
+    font-weight: 600;
+
+    line-height: 0.9;
+
+    letter-spacing: 4px;
+
+}
+
+
+.receipt-logo span {
+
+    margin-top: 7px;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 6px;
+
+}
+
+
+/* =====================================================
+   RECEIPT EYEBROW
+===================================================== */
+
+.receipt-eyebrow {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 2.5px;
+
+    text-transform: uppercase;
+
+    opacity: 0.55;
+
+}
+
+
+/* =====================================================
+   RECEIPT TITLE
+===================================================== */
+
+.receipt-brand h2 {
+
+    margin-top: 12px;
+
+}
+
+
+/* =====================================================
+   PRINT BUTTON
+===================================================== */
+
+.receipt-print-btn {
+
+    position: relative;
+
+    z-index: 5;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   PRINT MODE
+===================================================== */
+
+@media print {
+
+    @page {
+
+        size: A4;
+
+        margin: 15mm;
+
+    }
+
+
+    body {
+
+        background: #ffffff !important;
+
+    }
+
+
+    /* Sembunyikan semua kecuali nota */
+
+    body > *:not(main) {
+
+        display: none !important;
+
+    }
+
+
+    .order-success-page {
+
+        display: block !important;
+
+        min-height: auto !important;
+
+        padding: 0 !important;
+
+        background: #ffffff !important;
+
+    }
+
+
+    .order-success-card {
+
+        width: 100% !important;
+
+        max-width: none !important;
+
+        padding: 0 !important;
+
+        margin: 0 !important;
+
+        box-shadow: none !important;
+
+        border: none !important;
+
+        background: #ffffff !important;
+
+    }
+
+
+    /* Sembunyikan bagian sukses */
+
+    .success-icon,
+    .success-label,
+    .order-success-card > h1,
+    .success-message,
+    .order-number-box,
+    .success-info,
+    .success-home-btn,
+    .success-shop-link,
+    .success-secure {
+
+        display: none !important;
+
+    }
+
+
+    /* Nota */
+
+    .order-receipt {
+
+        display: block !important;
+
+        width: 100% !important;
+
+        max-width: none !important;
+
+        margin: 0 !important;
+
+        padding: 20px !important;
+
+        border: 1px solid #ddd !important;
+
+        box-shadow: none !important;
+
+        background: #fff !important;
+
+        overflow: hidden !important;
+
+        page-break-inside: avoid;
+
+    }
+
+
+    /* Watermark saat print */
+
+    .receipt-watermark {
+
+        display: block !important;
+
+        color: rgba(80, 60, 50, 0.07) !important;
+
+        z-index: 1 !important;
+
+    }
+
+
+    .receipt-print-btn {
+
+        display: none !important;
+
+    }
+
+
+    .receipt-header,
+    .receipt-meta,
+    .receipt-products,
+    .receipt-summary,
+    .receipt-divider {
+
+        position: relative;
+
+        z-index: 2;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .receipt-watermark {
+
+        font-size: 30px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .receipt-watermark span {
+
+        font-size: 13px;
+
+        letter-spacing: 5px;
+
+    }
+
+
+    .receipt-logo strong {
+
+        font-size: 32px;
+
+    }
+
+}   /* =========================================
+   LOGO NOTA DRW SKINCARE
+========================================= */
+
+.note-branding {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.note-logo-image {
+    display: block;
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+/* =========================================================
+   DRW SKINCARE - FINAL ORDER SUCCESS / RECEIPT FIX
+========================================================= */
+
+/* HALAMAN */
+.order-success-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+    padding: 50px 20px !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+
+    box-sizing: border-box !important;
+}
+
+/* KARTU UTAMA */
+.order-success-page .order-success-card {
+    width: 620px !important;
+    max-width: 620px !important;
+    min-width: 0 !important;
+
+    margin: 0 auto !important;
+    padding: 40px !important;
+
+    display: block !important;
+    position: relative !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   NOTA
+========================================================= */
+
+.order-success-page .order-receipt {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 35px 0 0 0 !important;
+    padding: 28px !important;
+
+    display: block !important;
+    position: relative !important;
+
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* RESET SEMUA ELEMEN ANAK NOTA */
+
+.order-success-page .order-receipt > *,
+.order-success-page .order-receipt > * > * {
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.order-success-page .receipt-header {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.order-success-page .receipt-header > div {
+    position: relative !important;
+    inset: auto !important;
+    float: none !important;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.order-success-page .note-branding {
+    display: block !important;
+    position: relative !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+}
+
+.order-success-page .note-logo {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: max-content !important;
+}
+
+/* Kalau logo PNG sudah dipasang */
+.order-success-page .note-logo-image {
+    display: block !important;
+    width: 140px !important;
+    max-width: 140px !important;
+    height: auto !important;
+}
+
+/* =========================================================
+   ORDER NUMBER
+========================================================= */
+
+.order-success-page .receipt-order-number {
+    position: relative !important;
+    inset: auto !important;
+
+    flex: 0 0 auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    text-align: right !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.order-success-page .receipt-divider {
+    position: relative !important;
+    inset: auto !important;
+
+    width: 100% !important;
+    height: 1px !important;
+
+    margin: 20px 0 !important;
+    padding: 0 !important;
+}
+
+/* =========================================================
+   META
+========================================================= */
+
+.order-success-page .receipt-meta {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 30px !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.order-success-page .receipt-meta > div {
+    position: relative !important;
+    inset: auto !important;
+
+    width: auto !important;
+    float: none !important;
+}
+
+/* =========================================================
+   PRODUK
+========================================================= */
+
+.order-success-page .receipt-products {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: block !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* JUDUL PRODUK / TOTAL */
+
+.order-success-page .receipt-products-title {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+}
+
+/* BARIS PRODUK */
+
+.order-success-page .receipt-product {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 12px 0 !important;
+
+    float: none !important;
+}
+
+/* INFO PRODUK */
+
+.order-success-page .receipt-product-info {
+    width: auto !important;
+    max-width: 70% !important;
+    min-width: 0 !important;
+
+    flex: 1 1 auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    position: relative !important;
+    inset: auto !important;
+}
+
+/* HARGA */
+
+.order-success-page .receipt-product-price {
+    width: auto !important;
+    min-width: 100px !important;
+
+    flex: 0 0 auto !important;
+
+    text-align: right !important;
+    white-space: nowrap !important;
+
+    position: relative !important;
+    inset: auto !important;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.order-success-page .receipt-summary {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: block !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.order-success-page .receipt-summary > div {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 0 !important;
+    padding: 7px 0 !important;
+
+    float: none !important;
+}
+
+/* TOTAL BESAR */
+
+.order-success-page .receipt-grand-total {
+    width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin-top: 5px !important;
+}
+
+/* =========================================================
+   BUTTON CETAK
+========================================================= */
+
+.order-success-page .receipt-print-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+    inset: auto !important;
+
+    margin: 25px 0 0 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   BUTTON DI BAWAH NOTA
+========================================================= */
+
+.order-success-page .success-home-btn,
+.order-success-page .success-shop-link,
+.order-success-page .success-secure {
+    position: relative !important;
+    inset: auto !important;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .order-success-page {
+        padding: 25px 12px !important;
+    }
+
+    .order-success-page .order-success-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 25px 18px !important;
+    }
+
+    .order-success-page .order-receipt {
+        width: 100% !important;
+        padding: 20px !important;
+    }
+
+    .order-success-page .receipt-header {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .order-success-page .receipt-order-number {
+        text-align: left !important;
+    }
+
+    .order-success-page .receipt-meta {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .order-success-page .receipt-product-price {
+        min-width: 85px !important;
+    }
+}

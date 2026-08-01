@@ -22,6 +22,9 @@
 
     <link rel="stylesheet"
           href="assets/css/style.css">
+          
+          <link rel="stylesheet"
+      href="assets/css/order-success-fix.css">
 
 </head>
 
@@ -58,8 +61,9 @@
             <p class="success-message">
 
                 Terima kasih telah berbelanja di
-                <strong>DRW Skincare</strong>.
-
+               <strong id="notaOrderNumber">
+    DRW-000000
+</strong>
                 Pesanan Anda telah berhasil dibuat
                 dan sedang kami proses.
 
@@ -91,7 +95,7 @@
                         Status
                     </span>
 
-                    <strong>
+                    <strong>    
                         Pesanan Diterima
                     </strong>
 
@@ -111,7 +115,251 @@
                 </div>
 
             </div>
+<!-- =========================================
+     ORDER RECEIPT / NOTA
+========================================= -->
+<!-- =========================================
+     ORDER RECEIPT / NOTA
+========================================= -->
 
+<section class="order-receipt" id="orderReceipt">
+
+    <!-- WATERMARK -->
+    <div class="receipt-watermark" aria-hidden="true">
+        Rara DRW Skincare
+        <span>Direktur</span>
+    </div>
+
+
+    <!-- RECEIPT HEADER -->
+
+    <div class="receipt-header">
+
+        <div class="note-branding">
+
+    <img
+        src="assets/images/logo/logo.png"
+        alt="DRW Skincare"
+        class="note-logo-image">
+
+</div>
+
+
+            <span class="receipt-eyebrow">
+                PREMIUM SKINCARE
+            </span>
+
+
+            <h2>
+                Nota Pesanan
+            </h2>
+
+        </div>
+
+
+        <div class="receipt-order-number">
+
+            <span>
+                ORDER NUMBER
+            </span>
+
+            <strong id="receiptOrderNumber">
+                DRW-000000
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="receipt-divider"></div>
+
+
+    <!-- META -->
+
+    <div class="receipt-meta">
+
+        <div>
+
+            <span>
+                Tanggal
+            </span>
+
+            <strong id="receiptDate">
+                -
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                Pesanan Diterima
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="receipt-divider"></div>
+
+
+    <!-- PRODUCTS -->
+
+    <div class="receipt-products">
+
+        <div class="receipt-products-title">
+
+            <span>
+                Produk
+            </span>
+
+            <span>
+                Total
+            </span>
+
+        </div>
+
+
+        <div class="receipt-product">
+
+            <div class="receipt-product-info">
+
+                <strong>
+                    Sunscreen Oily & Acne
+                </strong>
+
+                <span>
+                    Qty: 1
+                </span>
+
+            </div>
+
+            <strong class="receipt-product-price">
+                Rp105.000
+            </strong>
+
+        </div>
+
+
+        <div class="receipt-product">
+
+            <div class="receipt-product-info">
+
+                <strong>
+                    Day Cream Acne 1
+                </strong>
+
+                <span>
+                    Qty: 1
+                </span>
+
+            </div>
+
+            <strong class="receipt-product-price">
+                Rp100.000
+            </strong>
+
+        </div>
+
+
+        <div class="receipt-product">
+
+            <div class="receipt-product-info">
+
+                <strong>
+                    Day Cream Acne 2
+                </strong>
+
+                <span>
+                    Qty: 1
+                </span>
+
+            </div>
+
+            <strong class="receipt-product-price">
+                Rp100.000
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="receipt-divider"></div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="receipt-summary">
+
+        <div>
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong>
+                Rp305.000
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Shipping
+            </span>
+
+            <strong>
+                Rp15.000
+            </strong>
+
+        </div>
+
+
+        <div class="receipt-grand-total">
+
+            <span>
+                Total
+            </span>
+
+            <strong>
+                Rp320.000
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- PRINT BUTTON -->
+
+    <button
+        type="button"
+        class="receipt-print-btn"
+        onclick="window.print()">
+
+        <span>
+            🖨
+        </span>
+
+        Cetak / Simpan Nota
+
+        <span>
+            →
+        </span>
+
+    </button>
+
+</section>
 
             <!-- BUTTON -->
 
@@ -149,30 +397,74 @@
     </main>
 
 
-    <script>
+<script>
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-                const orderNumber =
-                    document.getElementById("orderNumber");
+    /* =========================================
+       AMBIL NOMOR ORDER
+    ========================================= */
 
-                const savedOrder =
-                    localStorage.getItem("drwOrderNumber");
+    const savedOrder =
+        localStorage.getItem("drwOrderNumber");
 
 
-                if (savedOrder && orderNumber) {
+    /* =========================================
+       NOMOR ORDER UTAMA
+    ========================================= */
 
-                    orderNumber.textContent =
-                        savedOrder;
+    const mainOrderNumber =
+        document.getElementById("orderNumber");
 
+    if (mainOrderNumber && savedOrder) {
+
+        mainOrderNumber.textContent =
+            savedOrder;
+
+    }
+
+
+    /* =========================================
+       NOMOR ORDER PADA NOTA
+    ========================================= */
+
+    const receiptOrderNumber =
+        document.getElementById("receiptOrderNumber");
+
+    if (receiptOrderNumber && savedOrder) {
+
+        receiptOrderNumber.textContent =
+            savedOrder;
+
+    }
+
+
+    /* =========================================
+       TANGGAL
+    ========================================= */
+
+    const receiptDate =
+        document.getElementById("receiptDate");
+
+    if (receiptDate) {
+
+        const today = new Date();
+
+        receiptDate.textContent =
+            today.toLocaleDateString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
                 }
+            );
 
-            }
-        );
+    }
 
-    </script>
+});
+
+</script>
 
 
 </body>
