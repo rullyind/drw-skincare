@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pesanan Berhasil | DRW Skincare</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <main class="order-success-page">
+
+        <div class="order-success-card">
+
+
+            <!-- SUCCESS ICON -->
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <!-- LABEL -->
+
+            <span class="success-label">
+                ORDER CONFIRMED
+            </span>
+
+
+            <!-- TITLE -->
+
+            <h1>
+                Pesanan Berhasil
+            </h1>
+
+
+            <p class="success-message">
+
+                Terima kasih telah berbelanja di
+                <strong>DRW Skincare</strong>.
+
+                Pesanan Anda telah berhasil dibuat
+                dan sedang kami proses.
+
+            </p>
+
+
+            <!-- ORDER NUMBER -->
+
+            <div class="order-number-box">
+
+                <span>
+                    ORDER NUMBER
+                </span>
+
+                <strong id="orderNumber">
+                    DRW-000000
+                </strong>
+
+            </div>
+
+
+            <!-- INFO -->
+
+            <div class="success-info">
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        Pesanan Diterima
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Pembayaran
+                    </span>
+
+                    <strong>
+                        Menunggu Pembayaran
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <a href="index.html"
+               class="success-home-btn">
+
+                Kembali ke Beranda
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+
+            <a href="products.html"
+               class="success-shop-link">
+
+                Lanjut Belanja
+
+            </a>
+
+
+            <!-- FOOTER -->
+
+            <div class="success-secure">
+
+                ✓ Secure & protected order
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const orderNumber =
+                    document.getElementById("orderNumber");
+
+                const savedOrder =
+                    localStorage.getItem("drwOrderNumber");
+
+
+                if (savedOrder && orderNumber) {
+
+                    orderNumber.textContent =
+                        savedOrder;
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
