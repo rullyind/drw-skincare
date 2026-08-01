@@ -1,0 +1,993 @@
+/* =========================================================
+   DRW SKINCARE
+   ORDER SUCCESS + NOTA
+   FINAL FIX
+   File: order-success-fix.css
+========================================================= */
+
+
+/* =========================================================
+   1. HALAMAN ORDER SUCCESS
+========================================================= */
+
+.order-success-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 50px 20px 80px !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+
+    box-sizing: border-box !important;
+
+    overflow-x: hidden !important;
+}
+
+
+/* =========================================================
+   2. KARTU UTAMA
+========================================================= */
+
+.order-success-page .order-success-card {
+    width: 620px !important;
+    max-width: 620px !important;
+    min-width: 0 !important;
+
+    margin: 0 auto !important;
+    padding: 40px !important;
+
+    display: block !important;
+
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   3. NOTA
+========================================================= */
+
+.order-success-page .order-receipt {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 35px 0 0 !important;
+    padding: 30px !important;
+
+    display: block !important;
+
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+
+    box-sizing: border-box !important;
+
+    overflow: hidden !important;
+
+    border: 1px solid #ead9df !important;
+    border-radius: 24px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 18px 45px rgba(60, 30, 40, 0.05) !important;
+
+    text-align: left !important;
+
+    isolation: isolate !important;
+}
+
+
+/* =========================================================
+   4. RESET POSISI SEMUA ELEMEN NOTA
+========================================================= */
+
+.order-success-page .order-receipt *,
+.order-success-page .order-receipt *::before,
+.order-success-page .order-receipt *::after {
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   5. LOGO FOTO DRW SKINCARE
+   Menggunakan:
+   assets/images/logo/logo.png
+========================================================= */
+
+.order-success-page .note-branding {
+    width: 170px !important;
+    height: auto !important;
+
+    margin: 0 0 14px 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    position: relative !important;
+}
+
+
+/* sembunyikan logo teks lama */
+
+.order-success-page .note-branding .note-logo {
+    display: none !important;
+}
+
+
+/* foto logo */
+
+.order-success-page .note-branding::before {
+    content: "" !important;
+
+    display: block !important;
+
+    width: 150px !important;
+    height: 65px !important;
+
+    background-image:
+        url("../images/logo/logo.png") !important;
+
+    background-repeat: no-repeat !important;
+    background-position: left center !important;
+    background-size: contain !important;
+}
+
+
+/* =========================================================
+   6. HEADER NOTA
+========================================================= */
+
+.order-success-page .receipt-header {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+
+    gap: 20px !important;
+
+    position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+}
+
+
+/* cegah elemen header melebar */
+
+.order-success-page .receipt-header > div {
+    position: relative !important;
+
+    width: auto !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    float: none !important;
+}
+
+
+/* =========================================================
+   7. JUDUL NOTA
+========================================================= */
+
+.order-success-page .receipt-header h2 {
+    margin: 8px 0 0 !important;
+
+    color: #2d2328 !important;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif !important;
+
+    font-size: 28px !important;
+    line-height: 1.15 !important;
+
+    font-weight: 500 !important;
+}
+
+
+/* =========================================================
+   8. LABEL DRW SKINCARE
+========================================================= */
+
+.order-success-page .receipt-eyebrow {
+    display: block !important;
+
+    margin: 0 0 6px !important;
+
+    color: #c96f8d !important;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif !important;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    letter-spacing: 3px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+/* =========================================================
+   9. NOMOR ORDER
+========================================================= */
+
+.order-success-page .receipt-order-number {
+    width: auto !important;
+    min-width: 120px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: flex-end !important;
+
+    text-align: right !important;
+
+    position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+}
+
+
+.order-success-page .receipt-order-number span {
+    display: block !important;
+
+    margin: 0 0 6px !important;
+
+    color: #c96f8d !important;
+
+    font-size: 8px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: 2px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+.order-success-page .receipt-order-number strong {
+    color: #2d2328 !important;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif !important;
+
+    font-size: 13px !important;
+
+    font-weight: 700 !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   10. WATERMARK
+   Tidak perlu menambah HTML.
+========================================================= */
+
+.order-success-page .order-receipt::before {
+    content:
+        "RARA DRW SKINCARE" !important;
+
+    position: absolute !important;
+
+    z-index: 1 !important;
+
+    top: 48% !important;
+    left: 50% !important;
+
+    width: 140% !important;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-30deg) !important;
+
+    text-align: center !important;
+
+    color: rgba(90, 70, 80, 0.055) !important;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif !important;
+
+    font-size: 42px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: 3px !important;
+
+    white-space: nowrap !important;
+
+    pointer-events: none !important;
+}
+
+
+.order-success-page .order-receipt::after {
+    content:
+        "DIREKTUR" !important;
+
+    position: absolute !important;
+
+    z-index: 1 !important;
+
+    top: 55% !important;
+    left: 50% !important;
+
+    width: 100% !important;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-30deg) !important;
+
+    text-align: center !important;
+
+    color: rgba(90, 70, 80, 0.045) !important;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif !important;
+
+    font-size: 14px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: 7px !important;
+
+    white-space: nowrap !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   11. ISI NOTA DI ATAS WATERMARK
+========================================================= */
+
+.order-success-page .order-receipt > * {
+    position: relative !important;
+
+    z-index: 2 !important;
+}
+
+
+/* =========================================================
+   12. GARIS
+========================================================= */
+
+.order-success-page .receipt-divider {
+    width: 100% !important;
+    height: 1px !important;
+
+    margin: 20px 0 !important;
+    padding: 0 !important;
+
+    background: #ead9df !important;
+
+    border: 0 !important;
+}
+
+
+/* =========================================================
+   13. INFORMASI TANGGAL + STATUS
+========================================================= */
+
+.order-success-page .receipt-meta {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: grid !important;
+
+    grid-template-columns: 1fr 1fr !important;
+
+    gap: 30px !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-meta > div {
+    width: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    float: none !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-meta span {
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: #9a858d !important;
+
+    font-size: 11px !important;
+}
+
+
+.order-success-page .receipt-meta strong {
+    display: block !important;
+
+    color: #2d2328 !important;
+
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   14. PRODUK
+========================================================= */
+
+.order-success-page .receipt-products {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-products-title {
+    width: 100% !important;
+
+    margin: 0 0 8px !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-products-title span {
+    color: #9a858d !important;
+
+    font-size: 9px !important;
+
+    font-weight: 600 !important;
+
+    letter-spacing: 2px !important;
+
+    text-transform: uppercase !important;
+}
+
+
+/* =========================================================
+   15. BARIS PRODUK
+========================================================= */
+
+.order-success-page .receipt-product {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 12px 0 !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+
+    gap: 20px !important;
+
+    position: relative !important;
+
+    float: none !important;
+}
+
+
+.order-success-page .receipt-product-info {
+    width: auto !important;
+    max-width: 70% !important;
+    min-width: 0 !important;
+
+    flex: 1 1 auto !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-product-info strong {
+    display: block !important;
+
+    margin: 0 0 4px !important;
+
+    color: #2d2328 !important;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif !important;
+
+    font-size: 15px !important;
+
+    font-weight: 500 !important;
+
+    line-height: 1.35 !important;
+}
+
+
+.order-success-page .receipt-product-info span {
+    display: block !important;
+
+    color: #9a858d !important;
+
+    font-size: 10px !important;
+}
+
+
+.order-success-page .receipt-product-price {
+    width: auto !important;
+    min-width: 100px !important;
+
+    flex: 0 0 auto !important;
+
+    margin: 0 !important;
+
+    text-align: right !important;
+
+    color: #2d2328 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600 !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   16. RINGKASAN HARGA
+========================================================= */
+
+.order-success-page .receipt-summary {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    position: relative !important;
+}
+
+
+.order-success-page .receipt-summary > div {
+    width: 100% !important;
+
+    margin: 0 !important;
+    padding: 7px 0 !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+
+    float: none !important;
+}
+
+
+.order-success-page .receipt-summary span {
+    color: #8f7a83 !important;
+
+    font-size: 11px !important;
+}
+
+
+.order-success-page .receipt-summary strong {
+    color: #2d2328 !important;
+
+    font-size: 12px !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   17. TOTAL BESAR
+========================================================= */
+
+.order-success-page .receipt-grand-total {
+    width: 100% !important;
+
+    margin-top: 5px !important;
+    padding: 16px 0 0 !important;
+
+    border-top: 1px solid #ead9df !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+
+.order-success-page .receipt-grand-total span {
+    color: #2d2328 !important;
+
+    font-size: 14px !important;
+
+    font-weight: 600 !important;
+}
+
+
+.order-success-page .receipt-grand-total strong {
+    color: #2d2328 !important;
+
+    font-size: 21px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   18. TOMBOL CETAK
+========================================================= */
+
+.order-success-page .receipt-print-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: auto !important;
+    min-height: 52px !important;
+
+    margin: 24px 0 0 !important;
+    padding: 15px 20px !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    position: relative !important;
+
+    border: 0 !important;
+    border-radius: 50px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ce8198,
+            #e4ad62
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   19. TOMBOL SETELAH NOTA
+========================================================= */
+
+.order-success-page .success-home-btn,
+.order-success-page .success-shop-link,
+.order-success-page .success-secure {
+    position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+}
+
+
+/* =========================================================
+   20. MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .order-success-page {
+        padding: 25px 12px 50px !important;
+    }
+
+
+    .order-success-page .order-success-card {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        padding: 25px 18px !important;
+    }
+
+
+    .order-success-page .order-receipt {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin-top: 25px !important;
+
+        padding: 22px !important;
+
+        border-radius: 20px !important;
+    }
+
+
+    .order-success-page .receipt-header {
+        flex-direction: column !important;
+
+        gap: 18px !important;
+    }
+
+
+    .order-success-page .receipt-order-number {
+        width: 100% !important;
+
+        align-items: flex-start !important;
+
+        text-align: left !important;
+    }
+
+
+    .order-success-page .receipt-meta {
+        grid-template-columns: 1fr !important;
+
+        gap: 15px !important;
+    }
+
+
+    .order-success-page .receipt-product {
+        gap: 10px !important;
+    }
+
+
+    .order-success-page .receipt-product-info {
+        max-width: 65% !important;
+    }
+
+
+    .order-success-page .receipt-product-price {
+        min-width: 85px !important;
+    }
+
+
+    .order-success-page .order-receipt::before {
+        font-size: 27px !important;
+    }
+
+
+    .order-success-page .order-receipt::after {
+        font-size: 10px !important;
+
+        letter-spacing: 5px !important;
+    }
+
+}
+
+
+/* =========================================================
+   21. PRINT / CETAK NOTA
+========================================================= */
+
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 12mm;
+    }
+
+
+    html,
+    body {
+        width: 100% !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+    }
+
+
+    /* MATIKAN LAYOUT HALAMAN LAMA */
+
+    .order-success-page {
+        width: 100% !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        background: #ffffff !important;
+
+        overflow: visible !important;
+    }
+
+
+    .order-success-page .order-success-card {
+        width: 100% !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        border: 0 !important;
+        box-shadow: none !important;
+
+        background: #ffffff !important;
+    }
+
+
+    /* SEMBUNYIKAN SEMUA BAGIAN SELAIN NOTA */
+
+    .order-success-page .order-success-card > * {
+        display: none !important;
+    }
+
+
+    /* TAMPILKAN HANYA NOTA */
+
+    .order-success-page .order-success-card > .order-receipt {
+        display: block !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin: 0 !important;
+        padding: 12mm !important;
+
+        border: 1px solid #d9cdd1 !important;
+        border-radius: 5mm !important;
+
+        box-shadow: none !important;
+
+        background: #ffffff !important;
+
+        overflow: hidden !important;
+
+        page-break-inside: avoid !important;
+
+        break-inside: avoid !important;
+    }
+
+
+    /* LOGO */
+
+    .order-success-page .note-branding::before {
+        display: block !important;
+
+        width: 150px !important;
+        height: 65px !important;
+
+        background-image:
+            url("../images/logo/logo.png") !important;
+
+        background-repeat: no-repeat !important;
+
+        background-position: left center !important;
+
+        background-size: contain !important;
+    }
+
+
+    /* WATERMARK */
+
+    .order-success-page .order-receipt::before {
+        display: block !important;
+
+        color: rgba(80, 60, 50, 0.065) !important;
+
+        z-index: 1 !important;
+    }
+
+
+    .order-success-page .order-receipt::after {
+        display: block !important;
+
+        color: rgba(80, 60, 50, 0.05) !important;
+
+        z-index: 1 !important;
+    }
+
+
+    /* ISI NOTA */
+
+    .order-success-page .order-receipt > * {
+        position: relative !important;
+
+        z-index: 2 !important;
+    }
+
+
+    /* TOMBOL CETAK TIDAK IKUT DICETAK */
+
+    .order-success-page .receipt-print-btn {
+        display: none !important;
+    }
+
+
+    /* JAGA AGAR NOTA TIDAK PECAH */
+
+    .order-success-page .receipt-header,
+    .order-success-page .receipt-meta,
+    .order-success-page .receipt-products,
+    .order-success-page .receipt-summary {
+        page-break-inside: avoid !important;
+
+        break-inside: avoid !important;
+    }
+
+}
