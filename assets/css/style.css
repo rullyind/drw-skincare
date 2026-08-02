@@ -1188,7 +1188,7 @@ p {
 ========================================================= */
 
 .best-seller {
-    padding: 120px 5% 125px;
+    padding: 12px 5% 125px;
     background:
         radial-gradient(circle at 10% 25%, rgba(255,210,228,.35), transparent 30%),
         radial-gradient(circle at 90% 75%, rgba(224,184,142,.12), transparent 32%),
@@ -14912,7 +14912,6 @@ body:has(.order-success-page) {
    Dipadukan dengan efek gelombang yang sudah ada
 ===================================================== */
 
-.featured-card,
 .best-seller-main,
 .best-seller-item,
 .why-drw-card,
@@ -14924,14 +14923,13 @@ body:has(.order-success-page) {
 .review-card {
     transition:
         transform 0.7s cubic-bezier(.22, 1, .36, 1),
-        box-shadow 0.9s ease,
+        box-shadow 7.9s ease,
         filter 0.8s ease;
 }
 
 
 /* Glow lembut di belakang kartu */
 
-.featured-card:hover,
 .best-seller-main:hover,
 .best-seller-item:hover,
 .why-drw-card:hover,
@@ -14941,9 +14939,7 @@ body:has(.order-success-page) {
 .testimonial-card:hover,
 .journal-card:hover,
 .review-card:hover {
-    transform: translateY(-6px);
-
-    filter: brightness(1.120);
+    transform: translateY(44px);
 
     box-shadow:
         0 100px 25px rgba(245, 125, 170, 0.10),
@@ -14955,10 +14951,10 @@ body:has(.order-success-page) {
 ===================================================== */
 
 .water-touch-active {
-    transform: translateY(-6px);
+    transform: translateY(6px);
 
     border-color:
-        rgba(244, 116, 164, 0.42) !important;
+        rgba(244, 116, 164, 77.42) !important;
 
     box-shadow:
         0 12px 22px rgba(245, 112, 160, 0.10),
