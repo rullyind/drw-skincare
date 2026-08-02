@@ -851,61 +851,6 @@ p {
     transform: translateY(-8px);
     box-shadow: 0 35px 80px rgba(190,92,125,.16);
 }
-.featured-card:hover,
-.best-seller-main:hover,
-.best-seller-item:hover,
-.why-drw-card:hover,
-.category-card:hover,
-.before-after-card:hover,
-.ba-card:hover,
-.testimonial-card:hover,
-.journal-card:hover,
-.review-card:hover {
-
-    transform: translateY(-5px);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(125, 38, 72, 0.96),
-            rgba(91, 24, 51, 0.94)
-        ) !important;
-
-    border-color:
-        rgba(255, 145, 185, 0.35) !important;
-
-    box-shadow:
-        0 8px 18px rgba(45, 8, 25, 0.24),
-        0 20px 42px rgba(55, 8, 30, 0.30),
-        0 38px 70px rgba(45, 5, 25, 0.25),
-        0 0 28px rgba(235, 80, 135, 0.13);
-
-    filter: brightness(1.02);
-
-    transition:
-        background 1s cubic-bezier(.22, 1, .36, 1),
-        box-shadow 1s cubic-bezier(.22, 1, .36, 1),
-        transform .8s cubic-bezier(.22, 1, .36, 1),
-        filter 1s ease;
-}
-.featured-card,
-.best-seller-main,
-.best-seller-item,
-.why-drw-card,
-.category-card,
-.before-after-card,
-.ba-card,
-.testimonial-card,
-.journal-card,
-.review-card {
-
-    transition:
-        background 1s cubic-bezier(.22, 1, .36, 1),
-        box-shadow 1.1s cubic-bezier(.22, 1, .36, 1),
-        transform .8s cubic-bezier(.22, 1, .36, 1),
-        border-color 1s ease,
-        filter 1s ease;
-}
 
 .featured-card-main {
     background:
@@ -14964,6 +14909,21 @@ body:has(.order-success-page) {
    TESTIMONIAL HOVER - FANTA PINK
 ================================= */
 
+.review-card:hover {
+    background: linear-gradient(
+        145deg,
+        #f58ab0,
+        #e96f9b
+    );
+
+    border-color: #f58ab0;
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 25px 55px rgba(233, 111, 155, 0.30);
+}
+
 .review-card:hover .review-stars {
     color: #fff;
 }
@@ -15031,10 +14991,17 @@ body:has(.order-success-page) {
     background: #fff;
     color: #d85f8b;
 }
-/* =====================================================
-   DRW GLOBAL CARD HOVER
-   PINK FANTA EFFECT
-===================================================== */
+
+/* =========================================================
+   DRW PREMIUM TOUCH EFFECT
+   DESKTOP + TABLET + HP
+   SINKING CARD / FLOATING CONTENT / RIPPLE / GLOW
+========================================================= */
+
+
+/* =========================================================
+   1. DASAR KARTU
+========================================================= */
 
 .featured-card,
 .best-seller-main,
@@ -15045,19 +15012,25 @@ body:has(.order-success-page) {
 .ba-card,
 .testimonial-card,
 .journal-card,
-.review-card {
+.review-card,
+.product-card {
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
     transition:
-        background 0.35s ease,
-        color 0.35s ease,
-        border-color 0.35s ease,
-        box-shadow 0.35s ease,
-        transform 0.35s ease;
+        transform 0.8s cubic-bezier(.22,1,.36,1),
+        box-shadow 0.9s ease,
+        background 0.9s ease,
+        border-color 0.8s ease;
 }
 
 
-/* =====================================================
-   PINK FANTA HOVER
-===================================================== */
+/* =========================================================
+   2. KARTU SAAT DISENTUH / HOVER
+   BACKGROUND TENGGELAM
+========================================================= */
 
 .featured-card:hover,
 .best-seller-main:hover,
@@ -15079,288 +15052,55 @@ body:has(.order-success-page) {
 .ba-card:active,
 .testimonial-card:active,
 .journal-card:active,
-.review-card:active {
+.review-card:active,
+.product-card:active {
 
-    background: linear-gradient(
-        145deg,
-        #f58ab0 0%,
-        #ed6f9d 100%
-    ) !important;
-
-    border-color: #f58ab0 !important;
-
-    color: #ffffff;
-
-    transform: translateY(-7px);
-
-    box-shadow:
-        0 25px 60px rgba(233, 91, 145, 0.30);
-}
-
-
-/* =====================================================
-   TEXT JADI PUTIH
-===================================================== */
-
-.featured-card:hover h3,
-.featured-card:hover p,
-.featured-card:hover span,
-.featured-card:hover a,
-
-.best-seller-main:hover h3,
-.best-seller-main:hover p,
-.best-seller-main:hover span,
-.best-seller-main:hover a,
-
-.best-seller-item:hover h4,
-.best-seller-item:hover p,
-.best-seller-item:hover span,
-.best-seller-item:hover a,
-
-.why-drw-card:hover h3,
-.why-drw-card:hover p,
-.why-drw-card:hover span,
-
-.category-card:hover h3,
-.category-card:hover p,
-.category-card:hover span,
-.category-card:hover strong,
-
-.before-after-card:hover h3,
-.before-after-card:hover p,
-.before-after-card:hover span,
-
-.ba-card:hover h3,
-.ba-card:hover p,
-.ba-card:hover span,
-
-.testimonial-card:hover h3,
-.testimonial-card:hover p,
-.testimonial-card:hover span,
-
-.journal-card:hover h3,
-.journal-card:hover p,
-.journal-card:hover span,
-.journal-card:hover a,
-
-.review-card:hover h3,
-.review-card:hover p,
-.review-card:hover span,
-.review-card:hover strong {
-
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   ICON / STAR
-===================================================== */
-
-.why-drw-card:hover .why-drw-icon,
-.testimonial-card:hover .testimonial-stars,
-.testimonial-card:hover .testimonial-quote,
-.review-card:hover .review-stars,
-.ba-card:hover .ba-stars {
-
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   LINK / BUTTON
-===================================================== */
-
-.featured-card:hover a,
-.best-seller-main:hover a,
-.best-seller-item:hover a,
-.journal-card:hover a {
-
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   IMAGE / PLACEHOLDER
-===================================================== */
-
-.featured-card:hover .product-placeholder,
-.ba-card:hover .product-placeholder {
-
-    background: rgba(255, 255, 255, 0.15);
-
-    color: #ffffff;
-
-    border-color: rgba(255, 255, 255, 0.45);
-}
-
-
-/* =====================================================
-   AUTHOR AVATAR
-===================================================== */
-
-.testimonial-card:hover .testimonial-avatar,
-.review-card:hover .author-avatar {
-
-    background: rgba(255, 255, 255, 0.18);
-
-    color: #ffffff;
-
-    border-color: rgba(255, 255, 255, 0.45);
-}
-/* =====================================================
-   DRW — SOFT PINK WATER TOUCH EFFECT
-===================================================== */
-
-.featured-card,
-.best-seller-main,
-.best-seller-item,
-.why-drw-card,
-.category-card,
-.before-after-card,
-.ba-card,
-.testimonial-card,
-.journal-card,
-.review-card {
-    position: relative;
-    overflow: hidden;
-
-    transition:
-        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.8s ease;
-}
-
-
-/* Lapisan pink lembut */
-.featured-card::before,
-.best-seller-main::before,
-.best-seller-item::before,
-.why-drw-card::before,
-.category-card::before,
-.before-after-card::before,
-.ba-card::before,
-.testimonial-card::before,
-.journal-card::before,
-.review-card::before {
-
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    z-index: 0;
+    transform: scale(.985);
 
     background:
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(245, 105, 157, 0.48),
-            rgba(245, 105, 157, 0.20) 38%,
-            rgba(245, 105, 157, 0.04) 68%,
-            transparent 78%
-        );
-
-    opacity: 0;
-
-    transform: scale(0.85);
-
-    transition:
-        opacity 0.9s ease,
-        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* Pastikan isi kartu berada di atas efek */
-.featured-card > *,
-.best-seller-main > *,
-.best-seller-item > *,
-.why-drw-card > *,
-.category-card > *,
-.before-after-card > *,
-.ba-card > *,
-.testimonial-card > *,
-.journal-card > *,
-.review-card > * {
-
-    position: relative;
-    z-index: 1;
-}
-/* =====================================================
-   DRW SOFT DARK FANTA + GLOW + RIPPLE
-===================================================== */
-
-.featured-card,
-.best-seller-main,
-.best-seller-item,
-.why-drw-card,
-.category-card,
-.before-after-card,
-.ba-card,
-.testimonial-card,
-.journal-card,
-.review-card {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-
-    transition:
-        transform 0.8s cubic-bezier(.22, 1, .36, 1),
-        box-shadow 1s ease,
-        border-color 1s ease,
-        background 1s ease;
-}
-
-
-/* =====================================================
-   SAAT DISENTUH
-===================================================== */
-
-.featured-card:hover,
-.best-seller-main:hover,
-.best-seller-item:hover,
-.why-drw-card:hover,
-.category-card:hover,
-.before-after-card:hover,
-.ba-card:hover,
-.testimonial-card:hover,
-.journal-card:hover,
-.review-card:hover {
-
-    transform: translateY(-5px);
-
-    background:
-    linear-gradient(
-        145deg,
-        rgba(255, 190, 215, 0.96),
-        rgba(255, 218, 232, 0.96)
-    ) !important;
+        linear-gradient(
+            145deg,
+            rgba(255, 220, 233, .72),
+            rgba(255, 238, 245, .55)
+        ) !important;
 
     border-color:
-        rgba(255, 150, 185, 0.38) !important;
+        rgba(239, 143, 178, .30) !important;
 
     box-shadow:
-    0 10px 20px rgba(220, 100, 145, 0.16),
-    0 24px 48px rgba(220, 100, 145, 0.20),
-    0 42px 78px rgba(220, 100, 145, 0.14),
-    0 0 30px rgba(255, 145, 190, 0.18);
+        inset 0 12px 28px
+        rgba(100, 40, 65, .07),
+
+        inset 0 -4px 16px
+        rgba(255,255,255,.35),
+
+        0 10px 25px
+        rgba(100,40,65,.08);
+
+    transition:
+        transform .8s cubic-bezier(.22,1,.36,1),
+        background .9s ease,
+        box-shadow .9s ease;
 }
 
 
-/* =====================================================
-   CAHAYA PINK LEMBUT
-===================================================== */
+/* =========================================================
+   3. CAHAYA PINK YANG MENGIKUTI JARI / MOUSE
+========================================================= */
 
 .card-water-light {
+
     position: absolute;
 
-    width: 180px;
-    height: 180px;
+    width: 190px;
+    height: 190px;
 
     left: var(--mouse-x, 50%);
     top: var(--mouse-y, 50%);
 
     transform:
-        translate(-50%, -50%)
-        scale(.15);
+        translate(-50%,-50%)
+        scale(.1);
 
     border-radius: 50%;
 
@@ -15371,37 +15111,206 @@ body:has(.order-success-page) {
     background:
         radial-gradient(
             circle,
-            rgba(255, 120, 170, .25),
-            rgba(255, 120, 170, .12) 35%,
-            transparent 72%
+
+            rgba(255, 166, 198, .28) 0%,
+
+            rgba(255, 177, 205, .18) 28%,
+
+            rgba(255, 195, 218, .09) 48%,
+
+            transparent 73%
         );
 
-    filter: blur(10px);
+    filter: blur(12px);
 
     opacity: 0;
 
     transition:
-        left .25s ease-out,
-        top .25s ease-out,
+        left .22s ease-out,
+        top .22s ease-out,
         opacity .8s ease,
         transform 1s cubic-bezier(.16,1,.3,1);
 }
 
 
 .card-water-light.is-active {
+
     opacity: 1;
 
     transform:
-        translate(-50%, -50%)
-        scale(1.8);
+        translate(-50%,-50%)
+        scale(2);
 }
 
 
-/* =====================================================
-   RIPPLE / GELOMBANG
-===================================================== */
+/* =========================================================
+   4. ISI KARTU TERANGKAT
+========================================================= */
+
+.featured-card:hover > *,
+.best-seller-main:hover > *,
+.best-seller-item:hover > *,
+.why-drw-card:hover > *,
+.category-card:hover > *,
+.before-after-card:hover > *,
+.ba-card:hover > *,
+.testimonial-card:hover > *,
+.journal-card:hover > *,
+.review-card:hover > *,
+.product-card:hover > *,
+
+.featured-card:active > *,
+.best-seller-main:active > *,
+.best-seller-item:active > *,
+.why-drw-card:active > *,
+.category-card:active > *,
+.before-after-card:active > *,
+.ba-card:active > *,
+.testimonial-card:active > *,
+.journal-card:active > *,
+.review-card:active > *,
+.product-card:active > * {
+
+    transform:
+        translateY(-10px);
+
+    filter:
+        drop-shadow(
+            0 10px 10px
+            rgba(65,25,45,.16)
+        );
+
+    transition:
+        transform .75s cubic-bezier(.22,1,.36,1),
+        filter .75s ease;
+}
+
+
+/* =========================================================
+   5. PRODUK / GAMBAR NAIK LEBIH TINGGI
+========================================================= */
+
+.featured-card:hover img,
+.best-seller-main:hover img,
+.best-seller-item:hover img,
+.category-card:hover img,
+.product-card:hover img,
+
+.featured-card:active img,
+.best-seller-main:active img,
+.best-seller-item:active img,
+.category-card:active img,
+.product-card:active img,
+
+.featured-card:hover .product-placeholder,
+.best-seller-main:hover .bs-bottle,
+.best-seller-item:hover .bs-mini-bottle,
+
+.featured-card:active .product-placeholder,
+.best-seller-main:active .bs-bottle,
+.best-seller-item:active .bs-mini-bottle {
+
+    transform:
+        translateY(-22px)
+        scale(1.035);
+
+    filter:
+        drop-shadow(
+            0 22px 17px
+            rgba(55,20,40,.27)
+        );
+
+    transition:
+        transform .8s cubic-bezier(.22,1,.36,1),
+        filter .8s ease;
+}
+
+
+/* =========================================================
+   6. TULISAN NAIK
+========================================================= */
+
+.featured-card:hover h3,
+.featured-card:hover p,
+.featured-card:hover a,
+
+.best-seller-main:hover h3,
+.best-seller-main:hover p,
+.best-seller-main:hover a,
+
+.best-seller-item:hover h4,
+.best-seller-item:hover p,
+.best-seller-item:hover a,
+
+.why-drw-card:hover h3,
+.why-drw-card:hover p,
+
+.category-card:hover h3,
+.category-card:hover p,
+.category-card:hover strong,
+
+.testimonial-card:hover h3,
+.testimonial-card:hover p,
+
+.journal-card:hover h3,
+.journal-card:hover p,
+.journal-card:hover a,
+
+.review-card:hover strong,
+.review-card:hover span,
+.review-card:hover p,
+
+.featured-card:active h3,
+.featured-card:active p,
+.featured-card:active a,
+
+.best-seller-main:active h3,
+.best-seller-main:active p,
+.best-seller-main:active a,
+
+.best-seller-item:active h4,
+.best-seller-item:active p,
+.best-seller-item:active a,
+
+.why-drw-card:active h3,
+.why-drw-card:active p,
+
+.category-card:active h3,
+.category-card:active p,
+.category-card:active strong,
+
+.testimonial-card:active h3,
+.testimonial-card:active p,
+
+.journal-card:active h3,
+.journal-card:active p,
+.journal-card:active a,
+
+.review-card:active strong,
+.review-card:active span,
+.review-card:active p {
+
+    transform:
+        translateY(-7px);
+
+    filter:
+        drop-shadow(
+            0 7px 7px
+            rgba(60,20,40,.18)
+        );
+
+    transition:
+        transform .75s cubic-bezier(.22,1,.36,1),
+        filter .75s ease;
+}
+
+
+/* =========================================================
+   7. RIPPLE
+========================================================= */
 
 .card-ripple {
+
     position: absolute;
 
     width: 22px;
@@ -15411,27 +15320,29 @@ body:has(.order-success-page) {
     top: var(--ripple-y);
 
     transform:
-        translate(-50%, -50%)
+        translate(-50%,-50%)
         scale(0);
 
     border-radius: 50%;
 
     pointer-events: none;
 
-    z-index: 2;
+    z-index: 5;
 
     border:
         1px solid
-        rgba(255, 145, 185, .38);
+        rgba(255, 143, 181, .40);
 
     background:
         radial-gradient(
             circle,
-            rgba(255, 135, 180, .16),
+
+            rgba(255, 165, 200, .18),
+
             transparent 68%
         );
 
-    filter: blur(.3px);
+    filter: blur(.4px);
 
     animation:
         drwWaterRipple
@@ -15444,24 +15355,28 @@ body:has(.order-success-page) {
 @keyframes drwWaterRipple {
 
     0% {
+
         transform:
-            translate(-50%, -50%)
+            translate(-50%,-50%)
             scale(0);
 
         opacity: .65;
     }
 
     35% {
+
         opacity: .42;
     }
 
     70% {
+
         opacity: .18;
     }
 
     100% {
+
         transform:
-            translate(-50%, -50%)
+            translate(-50%,-50%)
             scale(8);
 
         opacity: 0;
@@ -15469,9 +15384,9 @@ body:has(.order-success-page) {
 }
 
 
-/* =====================================================
-   KILAUAN LEMBUT
-===================================================== */
+/* =========================================================
+   8. KILAUAN
+========================================================= */
 
 .featured-card:hover::after,
 .best-seller-main:hover::after,
@@ -15482,29 +15397,45 @@ body:has(.order-success-page) {
 .ba-card:hover::after,
 .testimonial-card:hover::after,
 .journal-card:hover::after,
-.review-card:hover::after {
+.review-card:hover::after,
+
+.featured-card:active::after,
+.best-seller-main:active::after,
+.best-seller-item:active::after,
+.why-drw-card:active::after,
+.category-card:active::after,
+.before-after-card:active::after,
+.ba-card:active::after,
+.testimonial-card:active::after,
+.journal-card:active::after,
+.review-card:active::after {
 
     content: "";
 
     position: absolute;
 
-    top: -50%;
+    top: -60%;
     left: -80%;
 
-    width: 25%;
-    height: 200%;
+    width: 24%;
+    height: 220%;
 
     pointer-events: none;
 
-    z-index: 3;
+    z-index: 6;
 
     background:
         linear-gradient(
             105deg,
+
             transparent,
+
             rgba(255,255,255,.08),
-            rgba(255,255,255,.38),
+
+            rgba(255,255,255,.42),
+
             rgba(255,255,255,.08),
+
             transparent
         );
 
@@ -15523,28 +15454,32 @@ body:has(.order-success-page) {
 @keyframes drwSoftShine {
 
     0% {
+
         left: -80%;
         opacity: 0;
     }
 
     25% {
-        opacity: .3;
+
+        opacity: .25;
     }
 
     55% {
-        opacity: .55;
+
+        opacity: .5;
     }
 
     100% {
+
         left: 150%;
         opacity: 0;
     }
 }
 
 
-/* =====================================================
-   MOBILE
-===================================================== */
+/* =========================================================
+   9. TOUCH DEVICE
+========================================================= */
 
 @media (hover: none) {
 
@@ -15557,12 +15492,33 @@ body:has(.order-success-page) {
     .ba-card:active,
     .testimonial-card:active,
     .journal-card:active,
-    .review-card:active {
+    .review-card:active,
+    .product-card:active {
 
-        transform: translateY(-2px);
+        transform:
+            scale(.985);
+    }
+}
 
-        box-shadow:
-            0 15px 35px rgba(35, 5, 20, .30),
-            0 25px 55px rgba(35, 5, 20, .20);
+
+/* =========================================================
+   10. REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .featured-card,
+    .best-seller-main,
+    .best-seller-item,
+    .why-drw-card,
+    .category-card,
+    .before-after-card,
+    .ba-card,
+    .testimonial-card,
+    .journal-card,
+    .review-card,
+    .product-card {
+
+        transition: none !important;
     }
 }
