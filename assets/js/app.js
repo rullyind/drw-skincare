@@ -1285,4 +1285,151 @@ document.addEventListener("DOMContentLoaded", function () {
         "DRW Skincare Premium v3 Loaded"
     );
 
+});/* =====================================================
+   DRW LIVE WATER RIPPLE
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const cards = document.querySelectorAll(`
+        .featured-card,
+        .best-seller-main,
+        .best-seller-item,
+        .why-drw-card,
+        .category-card,
+        .before-after-card,
+        .ba-card,
+        .testimonial-card,
+        .journal-card,
+        .review-card
+    `);
+
+
+    cards.forEach(card => {
+
+        /* Cahaya yang mengikuti mouse */
+
+        const light = document.createElement("span");
+
+        light.className = "card-water-light";
+
+        card.appendChild(light);
+
+
+        /* Mouse masuk */
+
+        card.addEventListener("mouseenter", event => {
+
+            card.classList.add("water-touch-active");
+
+            createRipple(card, event);
+
+            moveLight(card, light, event);
+
+        });
+
+
+        /* Mouse bergerak */
+
+        card.addEventListener("mousemove", event => {
+
+            moveLight(card, light, event);
+
+            /*
+             * Ripple kecil secara berkala
+             * ketika mouse sedang bergerak.
+             */
+
+            if (!card._lastRipple) {
+                card._lastRipple = 0;
+            }
+
+            const now = Date.now();
+
+            if (now - card._lastRipple > 260) {
+
+                createRipple(card, event);
+
+                card._lastRipple = now;
+
+            }
+
+        });
+
+
+        /* Mouse keluar */
+
+        card.addEventListener("mouseleave", () => {
+
+            card.classList.remove("water-touch-active");
+
+            light.classList.remove("is-active");
+
+            light.style.opacity = "0";
+
+        });
+
+    });
+
+
+    function moveLight(card, light, event) {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        light.style.setProperty(
+            "--mouse-x",
+            `${x}px`
+        );
+
+        light.style.setProperty(
+            "--mouse-y",
+            `${y}px`
+        );
+
+        light.classList.add("is-active");
+
+    }
+
+
+    function createRipple(card, event) {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+
+        const ripple = document.createElement("span");
+
+        ripple.className = "card-ripple";
+
+
+        ripple.style.setProperty(
+            "--ripple-x",
+            `${x}px`
+        );
+
+        ripple.style.setProperty(
+            "--ripple-y",
+            `${y}px`
+        );
+
+
+        card.appendChild(ripple);
+
+
+        ripple.addEventListener(
+            "animationend",
+            () => {
+
+                ripple.remove();
+
+            }
+        );
+
+    }
+
 });
