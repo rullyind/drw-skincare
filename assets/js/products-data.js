@@ -1,625 +1,113 @@
-const DRW_PRODUCTS = [
+const PRODUCT_DATA = [
+  ["3 in 1 Exfoliating Gel 100 ml", "Perawatan Wajah", 100000, "products/Exfoliating/exfoliating 1.jpg"],
+  ["Acne Cream 3", "Cream Malam", 100000, "products/Cream Malam/Acne Cream 3/Acne Cream 3 New.png"],
+  ["Bamboo Charcoal Soap Premium", "Body Care", 55000, "products/Perawatan Badan/Bamboo Carcoal fb.jpg"],
+  ["BB Cream Air Cushion Shade Ivory", "Make Up & Riasan", 125000, "products/Bedak/BB Cream Air Cushion Shade Ivory TO.png"],
+  ["Beauty DNA Salmon Spray", "Paket Perawatan Wajah", 90000, "products/Paket Radiant Bright Ultimate DNA Salmon/Paket RBU DNA Salmon.png"],
+  ["Breast Cream", "Body Care", 130000, "products/Perawatan Badan/BEAST-CREAM-2.jpg"],
+  ["Brightening Cream", "Cream Malam", 100000, "products/Cream Malam/Brightening Cream/Brightening Cream.png"],
+  ["Brightening Peel Off Mask with Charcoal 60 ml", "Perawatan Wajah", 110000, "products/Brightening Peel Off/brightening peel Off.jpg"],
+  ["Cleansing Milk With Green Tea 110 ml", "Facial Wash", 80000, "products/Masker/Masker Green Tea.jpg"],
+  ["Cleansing Milk With Green Tea 63 ml", "Facial Wash", 65000, "products/Masker/Masker Green Tea.jpg"],
+  ["Compact Powder Natural Whitening", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
+  ["Coolbright Deo Herba", "Body Care", 85000, "products/deodorant/Coolbright Deo Herba.jpg"],
+  ["Coolbright Deo Herba Strong", "Body Care", 90000, "products/deodorant/Coolbright Deo Herba trong.jpg"],
+  ["Daily Ceramoist Hydra Gel", "Perawatan Wajah", 120000, "products/Daily Ceramoist/Daily Ceramoist.jpg"],
+  ["Daily Compact Powder Beige", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
+  ["Daily Compact Powder Natural", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
+  ["Daily Compact Powder Pink", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
+  ["Day Acne Cream 1", "Cream Siang", 100000, "products/Cream Siang/Day Cream Acne 1/Day Cream Acne 1 TO.png"],
+  ["Day Acne Cream 2", "Cream Siang", 100000, "products/Cream Siang/Day Cream Acne 2/Day Cream Acne 2 TO.png"],
+  ["Day Body Foundation Premium", "Body Care", 80000, "products/Lotion/Day Body Foundation Premium Rara Drw Skincare.png"],
+  ["Day Body Lotion Premium 110 ml", "Body Care", 80000, "products/Lotion/day body lotion Premium Rara Drw Skincare.png"],
+  ["Day Pink Cream", "Cream Siang", 100000, "products/Cream Siang/Day Cream Pink/Day Cream Pink TO.png"],
+  ["Day White Cream", "Cream Siang", 100000, "products/Cream Siang/Day Cream White/day cream white new.png"],
+  ["DNA Salmon Extra Marine Collagen and Hyaluronic Acid 30 ml", "Serum", 155000, "products/Serum/serum DNA Salmond/drwskincare_drwskincare_serum_wajah_dna_salmon_with_extra_marine_collagen_-_hyaluronic_acid_full05_3a60c0df.jpg"],
+  ["DRW Kapsul Gemuk Badan isi 60", "Body Care", 225000, "products/Suplemen/Drw Kapsul Gemuk Badan Rara Drw Skincare.png"],
+  ["DRW Slimming Capsule isi 60", "Body Care", 225000, "products/Suplemen/DRW Slimming Capsule Rara Drw Skincare.png"],
+  ["Exfoliating Apple Gel", "Perawatan Wajah", 100000, "products/Exfoliating/Peeling Gel Apel.jpg"],
+  ["Exfoliating Strawberry Gel", "Perawatan Wajah", 100000, "products/Exfoliating/Peeling Gel Strawberry.jpg"],
+  ["Face Mist Centella Asiatica", "Perawatan Wajah", 75000, "products/Facemist/face mist centella asiatica.jpg"],
+  ["Facial Wash For Normal Skin 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 110 ml 2.jpg"],
+  ["Facial Wash For Normal Skin 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 60 ml.jpg"],
+  ["Facial Wash Oily Acne 110 ml", "Facial Wash", 105000, "products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png"],
+  ["Facial Wash Oily Acne 63 ml", "Facial Wash", 85000, "products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png"],
+  ["Facial Wash Pink Brightening 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg"],
+  ["Facial Wash Pink Brightening 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg"],
+  ["Facial Wash Tea Tree Oil 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Tea Tree Oil/facial wash tea tree oil 100 ml  new.jpg"],
+  ["Facial Wash Tea Tree Oil 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Tea Tree Oil/Facial Wash Tea Tree Oil 60 ml.jpg"],
+  ["Firming Body Cream Pink", "Body Care", 100000, "products/Perawatan Badan/57.-Firming-Body-Cream-Green-scaled.jpg"],
+  ["Flawless BB Cushion", "Make Up & Riasan", 125000, "products/Bedak/Flawless BB Cushion Rara Drw Skincare.png"],
+  ["Green Tea Face Mask Premium", "Perawatan Wajah", 75000, "products/Masker/Masker Green Tea.jpg"],
+  ["Hair Serum Premium", "Hair Care", 120000, "products/Serum/Serum Bulu Mata/hair serum.jfif"],
+  ["Hair Tonic Normal 220 ml", "Perawatan Rambut", 120000, "products/Perawatan Rambut/Hair Tonic Normal.png"],
+  ["HB Dosting 75 gram", "Body Care", 120000, "products/HB Dosting/hb dosting rara drw skincare.jpg"],
+  ["Kojic Acid Milk Soap", "Body Care", 80000, "products/Perawatan Badan/kojic/kojic acid milk soap.jpg"],
+  ["Lipgloss Beauty Gold", "Make Up & Riasan", 100000, "products/Lips/Lipgloss Beauty Gold.jpg"],
+  ["Lipgloss Beauty Gold + Vit E", "Make Up & Riasan", 110000, "products/Lips/Lipgloss Beauty Gold.jpg"],
+  ["Lipgloss Beauty Pink", "Make Up & Riasan", 100000, "products/Lips/Lipgloss Beauty Pink.jpg"],
+  ["Lipgloss Beauty Pink + Vit E", "Make Up & Riasan", 110000, "products/Lips/Lipgloss Beauty Pink.jpg"],
+  ["Lipscare", "Make Up & Riasan", 135000, "products/Lips/lipscare new.png"],
+  ["Lulur Brightening Premium", "Body Care", 100000, "products/Serum/Serum Brightening Glow/Serum Brightening Glow Rara Drw Skincare.png"],
+  ["Luminous Brightening Vitamin C plus Collagen Serum", "Serum", 120000, "products/Serum/Serum Brightening VIt CE/37.-Serum-Brightening-With-Vit-C-E-scaled.jpg"],
+  ["Moisturizer Gel Aloe Vera", "Cream Siang", 85000, "products/Paket Shampoo Drw skincare/Shampoo Aloe Vera.jpg"],
+  ["Moisturizer Gel Avocado", "Cream Siang", 85000, "products/Masker/Moisture Gel Avocado.jpg"],
+  ["Moisturizer Gel Cucumber Vit E", "Cream Siang", 85000, "products/Masker/Moisture Gel Cucumber.jpg"],
+  ["Rice Face Mask Limpasu", "Perawatan Wajah", 75000, "products/Facemist/face mist centella asiatica.jpg"],
+  ["Serum AHA BHA", "Serum", 110000, "products/Serum/Serum AHA BHA/serum aha bha new.jpg"],
+  ["Serum Brightening Glowing", "Serum", 100000, "products/Serum/Serum Brightening Glow/Serum Brightening Glow Rara Drw Skincare.png"],
+  ["Serum Brightening With Vit C & E", "Serum", 90000, "products/Serum/Serum Brightening VIt CE/37.-Serum-Brightening-With-Vit-C-E-scaled.jpg"],
+  ["Serum For Acne Skin", "Serum", 100000, "products/Serum/Serum For Acne Skin/1779248778210-1779248778207-foto-0-764e5ea3-497e-4210-ac5c-6a84678b5439.jpg"],
+  ["Serum Retinol", "Serum", 120000, "products/Serum/Retinol/Serum Retinol;.jfif"],
+  ["Silky Soft Face Powder Beige", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Beige Rara Drw Skincare.png"],
+  ["Silky Soft Face Powder Ivory", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Ivory Rara Drw Skincare.png"],
+  ["Silky Soft Face Powder Natural", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Natural Rara Drw Skincare.png"],
+  ["Snail Cream Anti Aging", "Cream Malam", 120000, "products/Cream Malam/Brightening Cream/Brightening Cream.png"],
+  ["Strawberry Micellar Water 100 ml", "Facial Wash", 60000, "products/Micellar Water/Micellar water 100 ml 2.jpg"],
+  ["Strawberry Micellar Water 63 ml", "Facial Wash", 50000, "products/Micellar Water/Micellar water 100 ml 2.jpg"],
+  ["Stretchmark Cream With Olive Oil", "Body Care", 130000, "products/Perawatan Badan/Stretchmark Cream With Olive Oil.jpg"],
+  ["Sulfur Soap Plus Milk", "Body Care", 80000, "products/Perawatan Badan/kojic/84.-Sulfur-Soap-Plus-Milk-1-2048x2047.jpg"],
+  ["Sunscreen Glowing", "Cream Siang", 100000, "products/Cream Siang/sunscreen glowing/sunscreen glowing new.jpg"],
+  ["Sunscreen For Oily and Acne New", "Cream Siang", 105000, "products/Cream Siang/Sunscreen Oily & Acne/Sunscreen-For-Oily-Acne. 3jpg.jpg"],
 
-    {
-        id: "3-in-1-exfoliating-gel-100-ml",
-        name: "3 in 1 Exfoliating Gel 100 ml",
-        category: "Body Care",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Exfoliating/exfoliating 1.jpg",
-        description: "3 in 1 Exfoliating Gel 100 ml untuk melengkapi perawatan kulit."
-    },
+  ["Toner Honey Premium 110 ml New", "Toner", 90000, "products/Toner/Toner Honey/Toner Honey 110 ml.jpg"],
+  ["Toner Honey Premium 63 ml", "Toner", 65000, "products/Toner/Toner Honey/Toner Honey 110 ml.jpg"],
+  ["Toner Lime Premium 110 ml", "Toner", 80000, "products/Toner/Toner Lime/Toner lime 110 ml Rara .jpg"],
+  ["Toner Lime Premium 63 ml", "Toner", 65000, "products/Toner/Toner Lime/Toner Lime Premium 63 ml .png"],
 
-    {
-        id: "acne-cream-3",
-        name: "Acne Cream 3",
-        category: "Cream Malam",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Malam/Acne Cream 3/Acne Cream 3.png",
-        description: "Acne Cream 3 untuk melengkapi rutinitas perawatan kulit."
-    },
-
-    {
-        id: "bamboo-charcoal-soap-premium",
-        name: "Bamboo Charcoal Soap Premium",
-        category: "Body Care",
-        prices: {
-            director: 25000,
-            manager: 30000,
-            supervisor: 35000,
-            reseller: 45000,
-            umum: 55000
-        },
-        price: 55000,
-        image: "assets/images/products/Perawatan Badan/Bamboo Carcoal fb.jpg",
-        description: "Bamboo Charcoal Soap Premium untuk melengkapi perawatan kulit."
-    },
-
-    {
-        id: "bb-cream-air-cushion-shade-ivory",
-        name: "BB Cream Air Cushion Shade Ivory",
-        category: "Make Up & Riasan",
-        prices: {
-            director: 65000,
-            manager: 75000,
-            supervisor: 85000,
-            reseller: 105000,
-            umum: 125000
-        },
-        price: 125000,
-        image: "assets/images/products/Bedak/BB Cream Air Cushion Shade Ivory TO.png",
-        description: "BB Cream Air Cushion Shade Ivory untuk melengkapi riasan wajah."
-    },
-
-    {
-        id: "beauty-dna-salmon-spray",
-        name: "Beauty DNA Salmon Spray",
-        category: "Paket Perawatan Wajah",
-        prices: {
-            director: 40000,
-            manager: 55000,
-            supervisor: 70000,
-            reseller: 80000,
-            umum: 90000
-        },
-        price: 90000,
-        image: "assets/images/products/Paket Radiant Bright Ultimate DNA Salmon/Paket RBU DNA Salmon Dir Rara.png",
-        description: "Beauty DNA Salmon Spray untuk melengkapi rangkaian perawatan DRW Skincare."
-    },
-
-    {
-        id: "breast-cream",
-        name: "Breast Cream",
-        category: "Body Care",
-        prices: {
-            director: 70000,
-            manager: 80000,
-            supervisor: 90000,
-            reseller: 110000,
-            umum: 130000
-        },
-        price: 130000,
-        image: "assets/images/products/Perawatan Badan/BEAST-CREAM-2.jpg",
-        description: "Breast Cream untuk melengkapi rangkaian perawatan tubuh."
-    },
-
-    {
-        id: "brightening-cream",
-        name: "Brightening Cream",
-        category: "Cream Malam",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Malam/Brightening Cream/Brightening Cream.png",
-        description: "Brightening Cream untuk melengkapi rutinitas perawatan kulit."
-    },
-
-    {
-        id: "brightening-peel-off-mask-charcoal-60-ml",
-        name: "Brightening Peel Off Mask with Charcoal 60 ml",
-        category: "Body Care",
-        prices: {
-            director: 70000,
-            manager: 80000,
-            supervisor: 90000,
-            reseller: 100000,
-            umum: 110000
-        },
-        price: 110000,
-        image: "assets/images/products/Brightening Peel Off/brightening peel Off.jpg",
-        description: "Brightening Peel Off Mask with Charcoal 60 ml."
-    },
-
-    {
-        id: "cleansing-milk-green-tea-110-ml",
-        name: "Cleansing Milk With Green Tea 110 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg",
-        description: "Cleansing Milk With Green Tea 110 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "cleansing-milk-green-tea-63-ml",
-        name: "Cleansing Milk With Green Tea 63 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 25000,
-            manager: 35000,
-            supervisor: 45000,
-            reseller: 55000,
-            umum: 65000
-        },
-        price: 65000,
-        image: "assets/images/products/Masker/Masker Green Tea.jpg",
-        description: "Cleansing Milk With Green Tea 63 ml untuk melengkapi pembersihan wajah."
-    },
-
-    {
-        id: "compact-powder-natural-whitening",
-        name: "Compact Powder Natural Whitening",
-        category: "Make Up & Riasan",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 85000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        description: "Compact Powder Natural Whitening untuk melengkapi riasan wajah."
-    },
-
-    {
-        id: "coolbright-deo-herba",
-        name: "Coolbright Deo Herba",
-        category: "Body Care",
-        prices: {
-            director: 45000,
-            manager: 55000,
-            supervisor: 65000,
-            reseller: 75000,
-            umum: 85000
-        },
-        price: 85000,
-        image: "assets/images/products/deodorant/Coolbright Deo Herba.jpg",
-        description: "Coolbright Deo Herba untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "coolbright-deo-herba-strong",
-        name: "Coolbright Deo Herba Strong",
-        category: "Body Care",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 80000,
-            umum: 90000
-        },
-        price: 90000,
-        image: "assets/images/products/deodorant/Coolbright Deo Herba trong.jpg",
-        description: "Coolbright Deo Herba Strong untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "daily-ceramoist-hydra-gel",
-        name: "Daily Ceramoist Hydra Gel",
-        category: "Body Care",
-        prices: {
-            director: 70000,
-            manager: 85000,
-            supervisor: 100000,
-            reseller: 110000,
-            umum: 120000
-        },
-        price: 120000,
-        image: "assets/images/products/Daily Ceramoist/Daily Ceramoist 2.jpg",
-        description: "Daily Ceramoist Hydra Gel untuk melengkapi rutinitas perawatan kulit."
-    },
-
-    {
-        id: "daily-compact-powder-beige",
-        name: "Daily Compact Powder Beige",
-        category: "Make Up & Riasan",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 85000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        description: "Daily Compact Powder Beige untuk melengkapi riasan wajah."
-    },
-
-    {
-        id: "daily-compact-powder-natural",
-        name: "Daily Compact Powder Natural",
-        category: "Make Up & Riasan",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 85000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        description: "Daily Compact Powder Natural untuk melengkapi riasan wajah."
-    },
-
-    {
-        id: "daily-compact-powder-pink",
-        name: "Daily Compact Powder Pink",
-        category: "Make Up & Riasan",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 85000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        description: "Daily Compact Powder Pink untuk melengkapi riasan wajah."
-    },
-
-    {
-        id: "day-acne-cream-1",
-        name: "Day Acne Cream 1",
-        category: "Cream Siang",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Siang/Day Cream Acne 1/Day Cream Acne 1 TO.png",
-        description: "Day Acne Cream 1 untuk melengkapi perawatan kulit pada siang hari."
-    },
-    {
-        id: "day-acne-cream-2",
-        name: "Day Acne Cream 2",
-        category: "Cream Siang",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Siang/Day Cream Acne 2/Day Cream Acne 2 TO.png",
-        description: "Day Acne Cream 2 untuk melengkapi perawatan kulit pada siang hari."
-    },
-   
-    {
-        id: "day-body-lotion-premium-110-ml",
-        name: "Day Body Lotion Premium 110 ml",
-        category: "Body Care",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Lotion/Day Body Lotion Premium 110 ml.jpg",
-        description: "Day Body Lotion Premium 110 ml untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "day-cream-acne-3",
-        name: "Day Cream Acne 3",
-        category: "Cream Siang",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Siang/Day Cream Acne 3/Day Cream Acne 3.png",
-        description: "Day Cream Acne 3 untuk melengkapi perawatan kulit pada siang hari."
-    },
-
-    {
-        id: "day-cream-pink",
-        name: "Day Cream Pink",
-        category: "Cream Siang",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Siang/Day Pink Cream/Day Pink Cream.png",
-        description: "Day Cream Pink untuk melengkapi perawatan kulit pada siang hari."
-    },
-
-    {
-        id: "day-cream-white",
-        name: "Day Cream White",
-        category: "Cream Siang",
-        prices: {
-            director: 60000,
-            manager: 70000,
-            supervisor: 80000,
-            reseller: 90000,
-            umum: 100000
-        },
-        price: 100000,
-        image: "assets/images/products/Cream Siang/Day White Cream/Day White Cream.png",
-        description: "Day Cream White untuk melengkapi perawatan kulit pada siang hari."
-    },
-
-    {
-        id: "deodorant-coolbright",
-        name: "Deodorant Coolbright",
-        category: "Body Care",
-        prices: {
-            director: 45000,
-            manager: 55000,
-            supervisor: 65000,
-            reseller: 75000,
-            umum: 85000
-        },
-        price: 85000,
-        image: "assets/images/products/deodorant/Coolbright Deo Herba.jpg",
-        description: "Deodorant Coolbright untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "deodorant-herba",
-        name: "Deodorant Herba",
-        category: "Body Care",
-        prices: {
-            director: 45000,
-            manager: 55000,
-            supervisor: 65000,
-            reseller: 75000,
-            umum: 85000
-        },
-        price: 85000,
-        image: "assets/images/products/deodorant/Coolbright Deo Herba.jpg",
-        description: "Deodorant Herba untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "deodorant-herba-strong",
-        name: "Deodorant Herba Strong",
-        category: "Body Care",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 80000,
-            umum: 90000
-        },
-        price: 90000,
-        image: "assets/images/products/deodorant/Coolbright Deo Herba trong.jpg",
-        description: "Deodorant Herba Strong untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "facial-wash-brightening-pink-110-ml",
-        name: "Facial Wash Brightening Pink 110 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg",
-        description: "Facial Wash Brightening Pink 110 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-brightening-pink-60-ml",
-        name: "Facial Wash Brightening Pink 60 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 25000,
-            manager: 35000,
-            supervisor: 45000,
-            reseller: 55000,
-            umum: 65000
-        },
-        price: 65000,
-        image: "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 60 ml.jpg",
-        description: "Facial Wash Brightening Pink 60 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-acne-110-ml",
-        name: "Facial Wash Acne 110 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Acne/Facial Wash Acne 110 ml.jpg",
-        description: "Facial Wash Acne 110 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-acne-60-ml",
-        name: "Facial Wash Acne 60 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 25000,
-            manager: 35000,
-            supervisor: 45000,
-            reseller: 55000,
-            umum: 65000
-        },
-        price: 65000,
-        image: "assets/images/products/Facial wash/Facial Wash Acne/Facial Wash Acne 60 ml.jpg",
-        description: "Facial Wash Acne 60 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-ceramoist-110-ml",
-        name: "Facial Wash Ceramoist 110 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Ceramoist/Facial Wash Ceramoist 110 ml.jpg",
-        description: "Facial Wash Ceramoist 110 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-ceramoist-60-ml",
-        name: "Facial Wash Ceramoist 60 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 25000,
-            manager: 35000,
-            supervisor: 45000,
-            reseller: 55000,
-            umum: 65000
-        },
-        price: 65000,
-        image: "assets/images/products/Facial wash/Facial Wash Ceramoist/Facial Wash Ceramoist 60 ml.jpg",
-        description: "Facial Wash Ceramoist 60 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-oily-acne-110-ml",
-        name: "Facial Wash Oily Acne 110 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Oily Acne/Facial Wash Oily Acne 110 ml.jpg",
-        description: "Facial Wash Oily Acne 110 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "facial-wash-oily-acne-60-ml",
-        name: "Facial Wash Oily Acne 60 ml",
-        category: "Facial Wash",
-        prices: {
-            director: 25000,
-            manager: 35000,
-            supervisor: 45000,
-            reseller: 55000,
-            umum: 65000
-        },
-        price: 65000,
-        image: "assets/images/products/Facial wash/Facial Wash Oily Acne/Facial Wash Oily Acne 60 ml.jpg",
-        description: "Facial Wash Oily Acne 60 ml untuk membersihkan wajah."
-    },
-
-    {
-        id: "glowing-body-lotion",
-        name: "Glowing Body Lotion",
-        category: "Body Care",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Lotion/Glowing Body Lotion.jpg",
-        description: "Glowing Body Lotion untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "glowing-body-lotion-premium",
-        name: "Glowing Body Lotion Premium",
-        category: "Body Care",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 80000,
-            umum: 90000
-        },
-        price: 90000,
-        image: "assets/images/products/Lotion/Glowing Body Lotion Premium.jpg",
-        description: "Glowing Body Lotion Premium untuk melengkapi perawatan tubuh."
-    },
-
-    {
-        id: "green-tea-cleansing-milk",
-        name: "Green Tea Cleansing Milk",
-        category: "Facial Wash",
-        prices: {
-            director: 40000,
-            manager: 50000,
-            supervisor: 60000,
-            reseller: 70000,
-            umum: 80000
-        },
-        price: 80000,
-        image: "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg",
-        description: "Green Tea Cleansing Milk untuk membantu membersihkan wajah."
-    },
-
-    {
-        id: "hair-tonic",
-        name: "Hair Tonic",
-        category: "Perawatan Rambut",
-        prices: {
-            director: 50000,
-            manager: 60000,
-            supervisor: 70000,
-            reseller: 80000,
-            umum: 90000
-        },
-        price: 90000,
-        image: "assets/images/products/Perawatan Rambut/Hair Tonic.jpg",
-        description: "Hair Tonic untuk melengkapi perawatan rambut."
-    },
-
-    {
-        id: "hair-vitamin",
-        name: "Hair Vitamin",
-        category: "Perawatan Rambut",
-        prices: {
-            director: 45000,
-            manager: 55000,
-            supervisor: 65000,
-            reseller: 75000,
-            umum: 85000
-        },
-        price: 85000,
-        image: "assets/images/products/Perawatan Rambut/Hair Vitamin.jpg",
-        description: "Hair Vitamin untuk melengkapi perawatan rambut."
-    },
+  ["Paket Acne For Men", "Paket Perawatan Wajah", 250000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Acne Micellar For Men", "Paket Perawatan Wajah", 300000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Body Brightening", "Paket Perawatan Wajah", 330000, "products/Paket Body Lotion/Paket Body Lotion Whitening.png"],
+  ["Paket Body Lotion Rejuvenation", "Paket Perawatan Wajah", 395000, "products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png"],
+  ["Paket Brightening 1", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
+  ["Paket Brightening 2", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
+  ["Paket Brightening 3", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU kering 3 raara drw skincare.png"],
+  ["Paket Brightening Custom", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
+  ["Paket Brightening Glow 100ml", "Paket Perawatan Wajah", 300000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
+  ["Paket Brightening Glow 60 ml", "Paket Perawatan Wajah", 290000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
+  ["Paket Brightening Oily Custom", "Paket Perawatan Wajah", 260000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
+  ["Paket Ceramoist Acne", "Paket Perawatan Wajah", 280000, "products/Paket Ceramois/paket Ceramois Acne.jpg"],
+  ["Paket Ceramoist Glowing", "Paket Perawatan Wajah", 280000, "products/Paket Ceramois/paket ceramois glowing.jpg"],
+  ["Paket Custom For Men", "Paket Perawatan Wajah", 250000, "products/Cream Siang/Sunscreen For Men/Sunscreen Oily n Acne for Men.jpg"],
+  ["Paket Glow For Men", "Paket Perawatan Wajah", 250000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
+  ["Paket Hemat Radiant Acne Brightening Milk Cleanser", "Paket Perawatan Wajah", 350000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Hemat Radiant Acne Micellar", "Paket Perawatan Wajah", 285000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Lotion Rejuvenation", "Paket Perawatan Wajah", 255000, "products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png"],
+  ["Paket Normal For Men", "Paket Perawatan Wajah", 250000, "products/Paket Radiant Brigh Ultimate/Paket RBU Normal Glowing.png"],
+  ["Paket Normal Micellar For Men", "Paket Perawatan Wajah", 300000, "products/Paket Radiant Brigh Ultimate/Paket RBU Normal Glowing.png"],
+  ["Paket Oily Acne Abha 100 ml", "Paket Perawatan Wajah", 300000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
+  ["Paket Oily Acne Abha 3", "Paket Perawatan Wajah", 275000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
+  ["Paket Oily Acne Abha 60ml", "Paket Perawatan Wajah", 290000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
+  ["Paket Radiant Acne", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Radiant Brightening", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
+  ["Paket Radiant Brightening Flek", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"]
 ];
+
+const DRW_PRODUCTS = PRODUCT_DATA.map(([name, category, price, image]) => ({
+  id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+  name,
+  category,
+  price,
+  image: `assets/images/${image}`,
+  description: "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
+}));
