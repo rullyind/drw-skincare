@@ -14945,3 +14945,415 @@ body:has(.order-success-page) {
     border-color: rgba(255, 255, 255, 0.45);
     color: #fff;
 }
+/* =================================
+   PRODUCT CARD - FANTA PINK HOVER
+================================= */
+
+.product-card {
+    transition:
+        transform 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.product-card:hover {
+    background: linear-gradient(
+        145deg,
+        #f58ab0,
+        #e96f9b
+    );
+
+    border-color: #f58ab0;
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 25px 55px rgba(233, 111, 155, 0.30);
+}
+
+/* Tulisan produk */
+.product-card:hover h3,
+.product-card:hover h4,
+.product-card:hover p {
+    color: #fff;
+}
+
+/* Harga */
+.product-card:hover .price,
+.product-card:hover .product-price {
+    color: #fff;
+}
+
+/* Tombol produk */
+.product-card:hover .product-button,
+.product-card:hover .add-to-cart {
+    background: #fff;
+    color: #d85f8b;
+}
+/* =====================================================
+   DRW GLOBAL CARD HOVER
+   PINK FANTA EFFECT
+===================================================== */
+
+.featured-card,
+.best-seller-main,
+.best-seller-item,
+.why-drw-card,
+.category-card,
+.before-after-card,
+.ba-card,
+.testimonial-card,
+.journal-card,
+.review-card {
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+/* =====================================================
+   PINK FANTA HOVER
+===================================================== */
+
+.featured-card:hover,
+.best-seller-main:hover,
+.best-seller-item:hover,
+.why-drw-card:hover,
+.category-card:hover,
+.before-after-card:hover,
+.ba-card:hover,
+.testimonial-card:hover,
+.journal-card:hover,
+.review-card:hover,
+
+.featured-card:active,
+.best-seller-main:active,
+.best-seller-item:active,
+.why-drw-card:active,
+.category-card:active,
+.before-after-card:active,
+.ba-card:active,
+.testimonial-card:active,
+.journal-card:active,
+.review-card:active {
+
+    background: linear-gradient(
+        145deg,
+        #f58ab0 0%,
+        #ed6f9d 100%
+    ) !important;
+
+    border-color: #f58ab0 !important;
+
+    color: #ffffff;
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 25px 60px rgba(233, 91, 145, 0.30);
+}
+
+
+/* =====================================================
+   TEXT JADI PUTIH
+===================================================== */
+
+.featured-card:hover h3,
+.featured-card:hover p,
+.featured-card:hover span,
+.featured-card:hover a,
+
+.best-seller-main:hover h3,
+.best-seller-main:hover p,
+.best-seller-main:hover span,
+.best-seller-main:hover a,
+
+.best-seller-item:hover h4,
+.best-seller-item:hover p,
+.best-seller-item:hover span,
+.best-seller-item:hover a,
+
+.why-drw-card:hover h3,
+.why-drw-card:hover p,
+.why-drw-card:hover span,
+
+.category-card:hover h3,
+.category-card:hover p,
+.category-card:hover span,
+.category-card:hover strong,
+
+.before-after-card:hover h3,
+.before-after-card:hover p,
+.before-after-card:hover span,
+
+.ba-card:hover h3,
+.ba-card:hover p,
+.ba-card:hover span,
+
+.testimonial-card:hover h3,
+.testimonial-card:hover p,
+.testimonial-card:hover span,
+
+.journal-card:hover h3,
+.journal-card:hover p,
+.journal-card:hover span,
+.journal-card:hover a,
+
+.review-card:hover h3,
+.review-card:hover p,
+.review-card:hover span,
+.review-card:hover strong {
+
+    color: #ffffff !important;
+}
+
+
+/* =====================================================
+   ICON / STAR
+===================================================== */
+
+.why-drw-card:hover .why-drw-icon,
+.testimonial-card:hover .testimonial-stars,
+.testimonial-card:hover .testimonial-quote,
+.review-card:hover .review-stars,
+.ba-card:hover .ba-stars {
+
+    color: #ffffff !important;
+}
+
+
+/* =====================================================
+   LINK / BUTTON
+===================================================== */
+
+.featured-card:hover a,
+.best-seller-main:hover a,
+.best-seller-item:hover a,
+.journal-card:hover a {
+
+    color: #ffffff !important;
+}
+
+
+/* =====================================================
+   IMAGE / PLACEHOLDER
+===================================================== */
+
+.featured-card:hover .product-placeholder,
+.ba-card:hover .product-placeholder {
+
+    background: rgba(255, 255, 255, 0.15);
+
+    color: #ffffff;
+
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* =====================================================
+   AUTHOR AVATAR
+===================================================== */
+
+.testimonial-card:hover .testimonial-avatar,
+.review-card:hover .author-avatar {
+
+    background: rgba(255, 255, 255, 0.18);
+
+    color: #ffffff;
+
+    border-color: rgba(255, 255, 255, 0.45);
+}
+/* =====================================================
+   DRW — SOFT PINK WATER TOUCH EFFECT
+===================================================== */
+
+.featured-card,
+.best-seller-main,
+.best-seller-item,
+.why-drw-card,
+.category-card,
+.before-after-card,
+.ba-card,
+.testimonial-card,
+.journal-card,
+.review-card {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.8s ease;
+}
+
+
+/* Lapisan pink lembut */
+.featured-card::before,
+.best-seller-main::before,
+.best-seller-item::before,
+.why-drw-card::before,
+.category-card::before,
+.before-after-card::before,
+.ba-card::before,
+.testimonial-card::before,
+.journal-card::before,
+.review-card::before {
+
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(245, 105, 157, 0.48),
+            rgba(245, 105, 157, 0.20) 38%,
+            rgba(245, 105, 157, 0.04) 68%,
+            transparent 78%
+        );
+
+    opacity: 0;
+
+    transform: scale(0.85);
+
+    transition:
+        opacity 0.9s ease,
+        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* Pastikan isi kartu berada di atas efek */
+.featured-card > *,
+.best-seller-main > *,
+.best-seller-item > *,
+.why-drw-card > *,
+.category-card > *,
+.before-after-card > *,
+.ba-card > *,
+.testimonial-card > *,
+.journal-card > *,
+.review-card > * {
+
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =====================================================
+   SAAT DISENTUH / HOVER
+===================================================== */
+
+.featured-card:hover,
+.best-seller-main:hover,
+.best-seller-item:hover,
+.why-drw-card:hover,
+.category-card:hover,
+.before-after-card:hover,
+.ba-card:hover,
+.testimonial-card:hover,
+.journal-card:hover,
+.review-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(242, 121, 165, 0.55) !important;
+
+    box-shadow:
+
+        0 12px 25px
+        rgba(245, 112, 160, 0.12),
+
+        0 25px 55px
+        rgba(245, 112, 160, 0.22),
+
+        0 45px 80px
+        rgba(245, 112, 160, 0.12);
+}
+
+
+/* Pink muncul perlahan seperti air */
+.featured-card:hover::before,
+.best-seller-main:hover::before,
+.best-seller-item:hover::before,
+.why-drw-card:hover::before,
+.category-card:hover::before,
+.before-after-card:hover::before,
+.ba-card:hover::before,
+.testimonial-card:hover::before,
+.journal-card:hover::before,
+.review-card:hover::before {
+
+    opacity: 1;
+
+    transform: scale(1.08);
+}
+
+
+/* =====================================================
+   EFEK SAAT KURSOR MASUK
+===================================================== */
+
+.featured-card,
+.best-seller-main,
+.best-seller-item,
+.why-drw-card,
+.category-card,
+.before-after-card,
+.ba-card,
+.testimonial-card,
+.journal-card,
+.review-card {
+
+    will-change:
+        transform,
+        box-shadow;
+}
+
+
+/* =====================================================
+   MOBILE / TOUCH
+===================================================== */
+
+@media (hover: none) {
+
+    .featured-card:active,
+    .best-seller-main:active,
+    .best-seller-item:active,
+    .why-drw-card:active,
+    .category-card:active,
+    .before-after-card:active,
+    .ba-card:active,
+    .testimonial-card:active,
+    .journal-card:active,
+    .review-card:active {
+
+        transform: scale(0.985);
+
+        box-shadow:
+            0 15px 35px
+            rgba(245, 112, 160, 0.20);
+    }
+
+    .featured-card:active::before,
+    .best-seller-main:active::before,
+    .best-seller-item:active::before,
+    .why-drw-card:active::before,
+    .category-card:active::before,
+    .before-after-card:active::before,
+    .ba-card:active::before,
+    .testimonial-card:active::before,
+    .journal-card:active::before,
+    .review-card:active::before {
+
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
