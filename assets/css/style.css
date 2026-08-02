@@ -1188,7 +1188,7 @@ p {
 ========================================================= */
 
 .best-seller {
-    padding: 12px 5% 125px;
+    padding: 120px 5% 125px;
     background:
         radial-gradient(circle at 10% 25%, rgba(255,210,228,.35), transparent 30%),
         radial-gradient(circle at 90% 75%, rgba(224,184,142,.12), transparent 32%),
@@ -14904,72 +14904,5 @@ body:has(.order-success-page) {
     .review-text {
         margin: 30px 0;
         font-size: 16px;
-    }
-}
-
-/* =====================================================
-   DRW — SOFT BLUR / GLOW / SHIMMER
-   Dipadukan dengan efek gelombang yang sudah ada
-===================================================== */
-
-.best-seller-main,
-.best-seller-item,
-.why-drw-card,
-.category-card,
-.before-after-card,
-.ba-card,
-.testimonial-card,
-.journal-card,
-.review-card {
-    transition:
-        transform 0.7s cubic-bezier(.22, 1, .36, 1),
-        box-shadow 7.9s ease,
-        filter 0.8s ease;
-}
-
-
-/* Glow lembut di belakang kartu */
-
-.best-seller-main:hover,
-.best-seller-item:hover,
-.why-drw-card:hover,
-.category-card:hover,
-.before-after-card:hover,
-.ba-card:hover,
-.testimonial-card:hover,
-.journal-card:hover,
-.review-card:hover {
-    transform: translateY(44px);
-
-    box-shadow:
-        0 100px 25px rgba(245, 125, 170, 0.10),
-        0 22px 50px rgba(245, 125, 170, 0.18),
-        0 42px 80px rgba(245, 125, 170, 0.12);
-}
-/* =====================================================
-   CARD TERANGKAT + BAYANGAN PINK
-===================================================== */
-
-.water-touch-active {
-    transform: translateY(6px);
-
-    border-color:
-        rgba(244, 116, 164, 77.42) !important;
-
-    box-shadow:
-        0 12px 22px rgba(245, 112, 160, 0.10),
-        0 25px 45px rgba(245, 112, 160, 0.16),
-        0 40px 75px rgba(245, 112, 160, 0.10);
-}
-
-
-/* =====================================================
-   MOBILE TOUCH
-===================================================== */
-
-@media (hover: none) {
-
-    .water-touch-active {
-        transform: translateY(-3px);
     }
 }
