@@ -14717,3 +14717,231 @@ body:has(.order-success-page) {
   }
 
 }
+/* =================================
+   CUSTOMER REVIEWS
+================================= */
+
+.customer-reviews {
+    position: relative;
+    padding: 120px 40px 130px;
+    background:
+        radial-gradient(circle at 15% 35%,
+        rgba(245, 214, 225, 0.32),
+        transparent 34%),
+        radial-gradient(circle at 85% 65%,
+        rgba(250, 224, 204, 0.28),
+        transparent 35%),
+        #fffafb;
+    overflow: hidden;
+}
+
+.customer-reviews .section-heading {
+    max-width: 760px;
+    margin: 0 auto 65px;
+    text-align: center;
+}
+
+.customer-reviews .eyebrow {
+    display: block;
+    margin-bottom: 16px;
+    color: #c4779a;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+.customer-reviews h2 {
+    margin: 0;
+    color: #34252d;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 400;
+    line-height: 0.98;
+}
+
+.customer-reviews h2 em {
+    display: block;
+    color: #d89b72;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.customer-reviews .section-heading p {
+    margin: 28px auto 0;
+    color: #76666d;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.reviews-grid {
+    width: min(1050px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.review-card {
+    min-height: 335px;
+    padding: 38px 32px;
+    border: 1px solid rgba(213, 157, 178, 0.28);
+    border-radius: 26px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.98),
+            rgba(252,244,247,0.92)
+        );
+    box-shadow:
+        0 20px 50px rgba(74, 42, 56, 0.07);
+    display: flex;
+    flex-direction: column;
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(213, 157, 178, 0.48);
+    box-shadow:
+        0 28px 60px rgba(74, 42, 56, 0.11);
+}
+
+.review-stars {
+    color: #d7a15d;
+    font-size: 15px;
+    letter-spacing: 4px;
+}
+
+.review-text {
+    margin: 38px 0 34px;
+    color: #5f5158;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.75;
+}
+
+.review-author {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.author-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(201, 125, 155, 0.25);
+    border-radius: 50%;
+    background: linear-gradient(
+        145deg,
+        #fff,
+        #f7e4eb
+    );
+    color: #a86a82;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+}
+
+.review-author strong {
+    display: block;
+    color: #3c2d34;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.review-author span {
+    display: block;
+    margin-top: 4px;
+    color: #9b8a91;
+    font-size: 11px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+    }
+
+    .review-card {
+        min-height: 300px;
+    }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .customer-reviews {
+        padding: 90px 20px 100px;
+    }
+
+    .customer-reviews .section-heading {
+        margin-bottom: 45px;
+    }
+
+    .customer-reviews h2 {
+        font-size: 42px;
+    }
+
+    .review-card {
+        padding: 30px 25px;
+        border-radius: 22px;
+    }
+
+    .review-text {
+        margin: 30px 0;
+        font-size: 16px;
+    }
+}/* =================================
+   TESTIMONIAL HOVER - FANTA PINK
+================================= */
+
+.review-card:hover {
+    background: linear-gradient(
+        145deg,
+        #f58ab0,
+        #e96f9b
+    );
+
+    border-color: #f58ab0;
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 25px 55px rgba(233, 111, 155, 0.30);
+}
+
+.review-card:hover .review-stars {
+    color: #fff;
+}
+
+.review-card:hover .review-text {
+    color: #fff;
+}
+
+.review-card:hover .review-author strong {
+    color: #fff;
+}
+
+.review-card:hover .review-author span {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.review-card:hover .author-avatar {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+}
