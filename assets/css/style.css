@@ -13138,4 +13138,923 @@ body:has(.order-success-page) {
     padding: 25px;
   }
 
+}/* =========================================
+   TESTIMONIALS
+========================================= */
+
+.testimonials {
+  position: relative;
+
+  padding: 125px 7%;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(238, 205, 215, 0.25),
+      transparent 32%
+    ),
+    #ffffff;
+
+  overflow: hidden;
+}
+
+.testimonials-container {
+  position: relative;
+
+  max-width: 1250px;
+
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.testimonials-heading {
+  max-width: 720px;
+
+  margin: 0 auto 70px;
+
+  text-align: center;
+}
+
+.testimonials-label {
+  display: inline-block;
+
+  margin-bottom: 16px;
+
+  color: #b88a65;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.testimonials-heading h2 {
+  margin: 0;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(40px, 5vw, 62px);
+
+  font-weight: 500;
+
+  line-height: 1.08;
+}
+
+.testimonials-heading h2 span {
+  display: block;
+
+  color: #c98da3;
+
+  font-style: italic;
+}
+
+.testimonials-heading p {
+  max-width: 600px;
+
+  margin: 24px auto 0;
+
+  color: #786c71;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+}
+
+/* =========================================
+   TESTIMONIAL GRID
+========================================= */
+
+.testimonials-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 22px;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.testimonial-card {
+  position: relative;
+
+  padding: 40px 34px;
+
+  min-height: 390px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(253, 245, 248, 0.9)
+    );
+
+  border:
+
+    1px solid
+    rgba(201, 141, 163, 0.22);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 50px
+    rgba(115, 76, 91, 0.07);
+
+  transition:
+
+    transform 0.35s ease,
+
+    box-shadow 0.35s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 28px 65px
+    rgba(115, 76, 91, 0.13);
+}
+
+.featured-testimonial {
+  background:
+    linear-gradient(
+      145deg,
+      #f8e7ed,
+      #fff8fa
+    );
+}
+
+/* =========================================
+   STARS
+========================================= */
+
+.testimonial-stars {
+  color: #bd916b;
+
+  font-size: 13px;
+
+  letter-spacing: 3px;
+}
+
+/* =========================================
+   QUOTE
+========================================= */
+
+.testimonial-quote {
+  margin-top: 22px;
+
+  color: #d6a6b7;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 58px;
+
+  line-height: 0.7;
+}
+
+/* =========================================
+   TEXT
+========================================= */
+
+.testimonial-text {
+  margin: 18px 0 35px;
+
+  color: #63565c;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 17px;
+
+  line-height: 1.75;
+
+  font-style: italic;
+}
+
+/* =========================================
+   AUTHOR
+========================================= */
+
+.testimonial-author {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: auto;
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  color: #9d6d7d;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff,
+      #f3dce4
+    );
+
+  border:
+    1px solid
+    rgba(201, 141, 163, 0.2);
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 18px;
+}
+
+.testimonial-author h3 {
+  margin: 0 0 4px;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+.testimonial-author span {
+  color: #97878d;
+
+  font-size: 11px;
+
+  letter-spacing: 0.4px;
+}
+
+/* =========================================
+   BOTTOM
+========================================= */
+
+.testimonials-bottom {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 18px;
+
+  margin-top: 55px;
+
+  color: #ae979f;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-align: center;
+}
+
+.testimonials-line {
+  width: 60px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      to right,
+      transparent,
+      #d7b7c2,
+      transparent
+    );
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .testimonials {
+    padding: 100px 5%;
+  }
+
+  .testimonials-grid {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .testimonial-card:last-child {
+    grid-column:
+      1 / -1;
+
+    max-width: 50%;
+
+    width: 100%;
+
+    margin: 0 auto;
+  }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+  .testimonials {
+    padding: 80px 20px;
+  }
+
+  .testimonials-heading {
+    margin-bottom: 45px;
+  }
+
+  .testimonials-heading h2 {
+    font-size: 40px;
+  }
+
+  .testimonials-heading p {
+    font-size: 14px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .testimonial-card {
+    min-height: auto;
+
+    padding: 32px 27px;
+  }
+
+  .testimonial-card:last-child {
+    grid-column: auto;
+
+    max-width: none;
+
+    margin: 0;
+  }
+
+  .testimonial-text {
+    font-size: 16px;
+  }
+
+  .testimonials-bottom {
+    gap: 8px;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+  }
+
+  .testimonials-line {
+    width: 25px;
+  }
+
+} /* =========================================
+    DRW JOURNAL / BEAUTY TIPS
+ ========================================= */
+
+.drw-journal {
+  position: relative;
+
+  padding: 125px 7%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffafc 0%,
+      #ffffff 100%
+    );
+
+  overflow: hidden;
+}
+
+.drw-journal-container {
+  position: relative;
+
+  max-width: 1250px;
+
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.drw-journal-heading {
+  max-width: 720px;
+
+  margin: 0 auto 70px;
+
+  text-align: center;
+}
+
+.drw-journal-label {
+  display: inline-block;
+
+  margin-bottom: 16px;
+
+  color: #b88a65;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.drw-journal-heading h2 {
+  margin: 0;
+
+  color: #3b2931;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(40px, 5vw, 62px);
+
+  font-weight: 500;
+
+  line-height: 1.08;
+}
+
+.drw-journal-heading h2 span {
+  display: block;
+
+  color: #c98da3;
+
+  font-style: italic;
+}
+
+.drw-journal-heading p {
+  max-width: 600px;
+
+  margin: 24px auto 0;
+
+  color: #786c71;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+}
+
+/* =========================================
+   GRID
+========================================= */
+
+.drw-journal-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.journal-card {
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    rgba(201, 141, 163, 0.2);
+
+  border-radius: 26px;
+
+  box-shadow:
+    0 18px 45px
+    rgba(115, 76, 91, 0.07);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.journal-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 28px 60px
+    rgba(115, 76, 91, 0.13);
+}
+
+/* =========================================
+   JOURNAL IMAGE
+========================================= */
+
+.journal-image {
+  position: relative;
+
+  height: 270px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.journal-image-1 {
+  background:
+    radial-gradient(
+      circle at 70% 25%,
+      rgba(255,255,255,0.9),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #f2d9e2,
+      #fff7fa
+    );
+}
+
+.journal-image-2 {
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(255,235,203,0.8),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #f8eadb,
+      #fffaf4
+    );
+}
+
+.journal-image-3 {
+  background:
+    radial-gradient(
+      circle at 75% 30%,
+      rgba(232,215,225,0.8),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #eee1e8,
+      #fff9fb
+    );
+}
+
+/* Decorative circles */
+
+.journal-image::before {
+  content: "";
+
+  position: absolute;
+
+  width: 230px;
+  height: 230px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.7);
+
+  transform: translate(70px, -50px);
+}
+
+.journal-image::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.6);
+
+  transform: translate(-90px, 80px);
+}
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+.journal-category {
+  position: absolute;
+
+  top: 20px;
+  left: 20px;
+
+  z-index: 3;
+
+  padding: 8px 13px;
+
+  color: #6e515c;
+
+  background:
+    rgba(255,255,255,0.72);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.8);
+
+  border-radius: 50px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.8px;
+
+  backdrop-filter: blur(8px);
+}
+
+/* =========================================
+   IMAGE TYPOGRAPHY
+========================================= */
+
+.journal-image-content {
+  position: relative;
+
+  z-index: 2;
+
+  text-align: center;
+
+  transform: rotate(-5deg);
+}
+
+.journal-image-content span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #b88a65;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 14px;
+
+  letter-spacing: 3px;
+}
+
+.journal-image-content strong {
+  color: #765361;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 28px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 2px;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.journal-content {
+  padding: 28px 28px 30px;
+}
+
+.journal-date {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #b88a65;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.journal-content h3 {
+  margin: 0 0 13px;
+
+  color: #3b2931;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 500;
+
+  line-height: 1.25;
+}
+
+.journal-content p {
+  margin: 0 0 22px;
+
+  color: #786c71;
+
+  font-size: 14px;
+
+  line-height: 1.75;
+}
+
+/* =========================================
+   LINK
+========================================= */
+
+.journal-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #9c6b7c;
+
+  text-decoration: none;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  transition:
+    gap 0.3s ease,
+    color 0.3s ease;
+}
+
+.journal-link span {
+  font-size: 17px;
+
+  line-height: 1;
+}
+
+.journal-link:hover {
+  gap: 15px;
+
+  color: #b47b91;
+}
+
+/* =========================================
+   FOOTER LINK
+========================================= */
+
+.journal-footer {
+  margin-top: 55px;
+
+  text-align: center;
+}
+
+.journal-all-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px 24px;
+
+  color: #74515e;
+
+  text-decoration: none;
+
+  border:
+    1px solid
+    rgba(201, 141, 163, 0.3);
+
+  border-radius: 50px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.journal-all-link span {
+  font-size: 18px;
+}
+
+.journal-all-link:hover {
+  background: #fff3f7;
+
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .drw-journal {
+    padding: 100px 5%;
+  }
+
+  .drw-journal-grid {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .journal-card:last-child {
+    grid-column: 1 / -1;
+
+    max-width: 50%;
+
+    width: 100%;
+
+    margin: 0 auto;
+  }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+  .drw-journal {
+    padding: 80px 20px;
+  }
+
+  .drw-journal-heading {
+    margin-bottom: 45px;
+  }
+
+  .drw-journal-heading h2 {
+    font-size: 40px;
+  }
+
+  .drw-journal-heading p {
+    font-size: 14px;
+  }
+
+  .drw-journal-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .journal-card:last-child {
+    grid-column: auto;
+
+    max-width: none;
+
+    margin: 0;
+  }
+
+  .journal-image {
+    height: 250px;
+  }
+
+  .journal-content {
+    padding: 25px;
+  }
+
+  .journal-content h3 {
+    font-size: 22px;
+  }
+
 }
