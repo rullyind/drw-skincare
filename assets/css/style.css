@@ -12329,4 +12329,813 @@ body:has(.order-success-page) {
     padding: 32px 25px;
   }
 
+}/* =========================================
+   PRODUCT CATEGORIES
+========================================= */
+
+.product-categories {
+  position: relative;
+  padding: 120px 7%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.categories-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* Heading */
+
+.categories-heading {
+  max-width: 720px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.categories-label {
+  display: inline-block;
+  margin-bottom: 16px;
+
+  color: #b88a65;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.categories-heading h2 {
+  margin: 0;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(38px, 5vw, 60px);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.categories-heading h2 span {
+  display: block;
+
+  color: #c98da3;
+
+  font-style: italic;
+}
+
+.categories-heading p {
+  max-width: 600px;
+  margin: 24px auto 0;
+
+  color: #786c71;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   CATEGORY GRID
+========================================= */
+
+.categories-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  grid-template-rows: repeat(2, 310px);
+
+  gap: 22px;
+}
+
+/* Cards */
+
+.category-card {
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+
+  min-height: 310px;
+
+  padding: 38px;
+
+  overflow: hidden;
+
+  text-decoration: none;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f9e7ed,
+      #fff8fa
+    );
+
+  border: 1px solid rgba(201, 141, 163, 0.18);
+
+  box-shadow:
+    0 18px 45px rgba(115, 76, 91, 0.08);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.category-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 250px;
+  height: 250px;
+
+  right: -70px;
+  top: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  transition: transform 0.5s ease;
+}
+
+.category-card::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.35)
+    );
+
+  pointer-events: none;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 28px 60px rgba(115, 76, 91, 0.14);
+}
+
+.category-card:hover::before {
+  transform: scale(1.25);
+}
+
+/* Individual backgrounds */
+
+.category-large {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255, 255, 255, 0.9),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #f4dce5,
+      #fff8fa
+    );
+}
+
+.category-brightening {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255, 230, 193, 0.6),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f8eee2,
+      #fffaf4
+    );
+}
+
+.category-acne {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(221, 239, 232, 0.75),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #e9f3ef,
+      #fbfffd
+    );
+}
+
+.category-body {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(237, 218, 226, 0.75),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #eee3e8,
+      #fffafb
+    );
+}
+
+/* =========================================
+   CATEGORY CONTENT
+========================================= */
+
+.category-content {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 330px;
+}
+
+.category-content > span {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: #b88a65;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.category-content h3 {
+  margin: 0 0 10px;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 34px;
+  font-weight: 500;
+}
+
+.category-content p {
+  margin: 0 0 22px;
+
+  color: #74686d;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+.category-content strong {
+  color: #9c6b7c;
+
+  font-size: 13px;
+
+  letter-spacing: 0.5px;
+
+  transition: color 0.3s ease;
+}
+
+.category-card:hover .category-content strong {
+  color: #b47b91;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .product-categories {
+    padding: 95px 5%;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-rows: repeat(2, 280px);
+  }
+
+  .category-card {
+    min-height: 280px;
+
+    padding: 30px;
+  }
+
+  .category-content h3 {
+    font-size: 29px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .product-categories {
+    padding: 80px 20px;
+  }
+
+  .categories-heading {
+    margin-bottom: 45px;
+  }
+
+  .categories-heading h2 {
+    font-size: 39px;
+  }
+
+  .categories-heading p {
+    font-size: 14px;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+
+    grid-template-rows: none;
+
+    gap: 18px;
+  }
+
+  .category-card {
+    min-height: 260px;
+
+    padding: 28px;
+  }
+
+  .category-content h3 {
+    font-size: 30px;
+  }
+}/* =========================================
+   BEFORE / AFTER
+========================================= */
+
+.before-after {
+  position: relative;
+  padding: 125px 7%;
+  background:
+    radial-gradient(
+      circle at 15% 30%,
+      rgba(244, 205, 217, 0.25),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      rgba(222, 195, 162, 0.14),
+      transparent 32%
+    ),
+    #fffafc;
+  overflow: hidden;
+}
+
+.before-after-container {
+  position: relative;
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.before-after-heading {
+  max-width: 700px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.before-after-label {
+  display: inline-block;
+  margin-bottom: 16px;
+
+  color: #b88a65;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.before-after-heading h2 {
+  margin: 0;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(40px, 5vw, 62px);
+  font-weight: 500;
+
+  line-height: 1.08;
+}
+
+.before-after-heading h2 span {
+  display: block;
+
+  color: #c98da3;
+
+  font-style: italic;
+}
+
+.before-after-heading p {
+  max-width: 600px;
+  margin: 24px auto 0;
+
+  color: #786c71;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   MAIN GRID
+========================================= */
+
+.before-after-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 120px 1fr;
+
+  align-items: center;
+
+  gap: 25px;
+}
+
+/* =========================================
+   IMAGE CARDS
+========================================= */
+
+.before-after-card {
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.78);
+
+  border: 1px solid rgba(201, 141, 163, 0.22);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 55px rgba(115, 76, 91, 0.08);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.before-after-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 28px 65px rgba(115, 76, 91, 0.14);
+}
+
+/* =========================================
+   IMAGE AREA
+========================================= */
+
+.before-after-image {
+  position: relative;
+
+  height: 360px;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.before-image {
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 255, 255, 0.9),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #e8d5d9,
+      #f5e7e9
+    );
+}
+
+.after-image {
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 255, 255, 0.95),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #f4e4e5,
+      #fff5ed
+    );
+}
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.before-after-placeholder {
+  width: 170px;
+  height: 230px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 90px 90px 35px 35px;
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.18)
+    );
+
+  box-shadow:
+    0 20px 40px rgba(105, 72, 82, 0.1);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.before-after-placeholder span {
+  color: rgba(107, 77, 87, 0.45);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+/* =========================================
+   BEFORE / AFTER LABEL
+========================================= */
+
+.before-after-tag {
+  position: absolute;
+
+  top: 22px;
+  left: 22px;
+
+  z-index: 3;
+
+  padding: 8px 13px;
+
+  color: #6e515c;
+
+  background: rgba(255, 255, 255, 0.7);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  border-radius: 50px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  backdrop-filter: blur(8px);
+}
+
+/* =========================================
+   INFO
+========================================= */
+
+.before-after-info {
+  padding: 30px 30px 34px;
+}
+
+.before-after-info h3 {
+  margin: 0 0 10px;
+
+  color: #3b2931;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.before-after-info p {
+  margin: 0;
+
+  color: #786c71;
+
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* =========================================
+   CENTER JOURNEY
+========================================= */
+
+.before-after-center {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+}
+
+.journey-line {
+  width: 1px;
+  height: 100px;
+
+  margin-bottom: 20px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      #d5a9b7,
+      transparent
+    );
+}
+
+.journey-icon {
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  color: #b88a65;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff,
+      #f8e9ee
+    );
+
+  border: 1px solid rgba(201, 141, 163, 0.25);
+
+  box-shadow:
+    0 12px 30px rgba(181, 125, 148, 0.12);
+
+  font-size: 25px;
+}
+
+.before-after-center > span {
+  color: #b88a65;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.before-after-center strong {
+  margin-top: 7px;
+
+  color: #5b404b;
+
+  font-size: 11px;
+
+  letter-spacing: 1.5px;
+}
+
+/* =========================================
+   NOTE
+========================================= */
+
+.before-after-note {
+  margin-top: 35px;
+
+  text-align: center;
+
+  color: #9a898f;
+
+  font-size: 11px;
+
+  letter-spacing: 0.3px;
+}
+
+.before-after-note span {
+  margin-right: 5px;
+
+  color: #b88a65;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+
+  .before-after {
+    padding: 100px 5%;
+  }
+
+  .before-after-grid {
+    grid-template-columns: 1fr 80px 1fr;
+
+    gap: 15px;
+  }
+
+  .before-after-image {
+    height: 300px;
+  }
+
+  .before-after-placeholder {
+    width: 145px;
+    height: 195px;
+  }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .before-after {
+    padding: 80px 20px;
+  }
+
+  .before-after-heading {
+    margin-bottom: 45px;
+  }
+
+  .before-after-heading h2 {
+    font-size: 40px;
+  }
+
+  .before-after-heading p {
+    font-size: 14px;
+  }
+
+  .before-after-grid {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+  }
+
+  .before-after-card {
+    width: 100%;
+  }
+
+  .before-after-image {
+    height: 330px;
+  }
+
+  .before-after-center {
+    order: 2;
+
+    flex-direction: row;
+
+    gap: 12px;
+  }
+
+  .before-after-grid .before-after-card:last-child {
+    order: 3;
+  }
+
+  .journey-line {
+    width: 50px;
+    height: 1px;
+
+    margin: 0;
+  }
+
+  .journey-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0;
+
+    font-size: 19px;
+  }
+
+  .before-after-center > span,
+  .before-after-center strong {
+    display: none;
+  }
+
+  .before-after-info {
+    padding: 25px;
+  }
+
 }
