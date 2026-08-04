@@ -16,26 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
         <nav class="nav-left">
 
             <a href="index.html#home" class="btn btn-secondary">
-                Home
-            </a>
-
-            <a href="index.html#products" class="btn btn-secondary">
+                ADIT PELEWE
+            <a href="products.html" class="btn btn-secondary">
                 Produk
-            </a>
+            
+                </a>
 
-            <a href="index.html#treatment" class="btn btn-secondary">
-                Treatment
-            </a>
-
-            <a href="index.html#home" class="btn btn-secondary">
-                Home
-            </a>
-
-            <a href="index.html#products" class="btn btn-secondary">
-                Produk
-            </a>
-
-            <a href="index.html#treatment" class="btn btn-secondary">
+            <a href="product-detail.html" class="btn btn-secondary">
                 Treatment
             </a>
 
