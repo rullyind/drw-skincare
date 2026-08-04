@@ -15675,29 +15675,672 @@ body:has(.order-success-page) {
     opacity: 0;
     transform: rotate(15deg);
 }
-/* ================================
-   SIGNATURE COLLECTION DI BAWAH FOTO
-================================ */
+/* =========================================
+   BEST SELLER PREMIUM - VERTICAL CARD
+========================================= */
 
-.signature-content {
-    position: static !important;
+.best-seller-layout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.best-seller-main {
+    width: 100%;
+    max-width: 520px;
+    display: flex !important;
+    flex-direction: column !important;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(210, 105, 145, 0.18);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow:
+        0 25px 60px rgba(190, 90, 130, 0.12),
+        0 8px 25px rgba(190, 90, 130, 0.06);
+    transition: all 0.45s ease;
+}
+
+.best-seller-main:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 35px 80px rgba(210, 90, 145, 0.20),
+        0 10px 30px rgba(210, 90, 145, 0.10);
+}
+
+
+/* FOTO */
+.best-seller-main-visual {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 190, 215, 0.35),
+            rgba(255, 248, 251, 0.95) 68%
+        );
+}
+
+
+/* Badge */
+.best-seller-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 20;
+    padding: 9px 16px;
+    border-radius: 30px;
+    background: #d95787;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+
+/* Gambar produk */
+.best-seller-product-image {
     width: 100% !important;
+    max-width: 460px !important;
+    height: 460px !important;
+    object-fit: contain !important;
     display: block !important;
-    text-align: center;
-    padding: 22px 20px 28px;
+    margin: 30px auto 0 !important;
+    transform: none !important;
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 5;
+}
+
+.best-seller-main:hover .best-seller-product-image {
+    transform: scale(1.04);
+}
+
+
+/* INFO */
+.best-seller-main-info {
+    width: 100%;
+    padding: 30px 32px 34px;
+    text-align: left;
+    background: white;
     box-sizing: border-box;
 }
 
-.signature-content span {
+
+.bs-category {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    color: #d45a87;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
 }
 
-.signature-content h3 {
-    margin: 0;
+
+.best-seller-main-info h3 {
+    margin: 0 0 12px;
+    color: #713348;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
-.product-card {
+
+.best-seller-main-info p {
+    margin: 0 0 20px;
+    color: #80636d;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+.bs-price {
+    margin-bottom: 22px;
+    color: #572638;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+.bs-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 13px 22px;
+    border-radius: 30px;
+    background: #d95787;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+
+.bs-button span {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+
+.bs-button:hover {
+    background: #c83f73;
+    transform: translateY(-2px);
+}
+
+
+.bs-button:hover span {
+    transform: translateX(5px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .best-seller-layout {
+        padding: 0 18px;
+        box-sizing: border-box;
+    }
+
+    .best-seller-main {
+        max-width: 100%;
+        border-radius: 25px;
+    }
+
+    .best-seller-main-visual {
+        height: 400px;
+    }
+
+    .best-seller-product-image {
+        width: 100% !important;
+        max-width: 360px !important;
+        height: 360px !important;
+    }
+
+    .best-seller-badge {
+        top: 18px;
+        left: 18px;
+        font-size: 9px;
+    }
+
+    .best-seller-main-info {
+        padding: 25px 22px 30px;
+    }
+
+    .best-seller-main-info h3 {
+        font-size: 24px;
+    }
+
+    .best-seller-main-info p {
+        font-size: 13px;
+    }
+}/* =====================================================
+   BEST SELLER PREMIUM - DESKTOP + MOBILE RESPONSIVE
+===================================================== */
+
+.best-seller-layout {
+    width: 100%;
+    max-width: 1150px;
+    margin: 50px auto 0;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+
+/* =====================================================
+   KARTU UTAMA
+===================================================== */
+
+.best-seller-main {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(210,90,135,0.16);
+    border-radius: 28px;
+    box-shadow: 0 20px 55px rgba(180,70,120,0.10);
+    transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.best-seller-main:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 70px rgba(190,70,120,0.16);
+}
+
+
+/* FOTO UTAMA */
+
+.best-seller-main-visual {
+    position: relative;
+    width: 100%;
+    height: 520px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,190,215,.30),
+            rgba(255,249,252,.95) 72%
+        );
+}
+
+
+/* FOTO PRODUK */
+
+.best-seller-product-image {
+    width: 100% !important;
+    max-width: 430px !important;
+    height: 470px !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+    margin: 25px auto 0 !important;
+
+    position: relative;
+    z-index: 5;
+
+    transform: none !important;
+    transition: transform .45s ease;
+}
+
+.best-seller-main:hover .best-seller-product-image {
+    transform: scale(1.035) !important;
+}
+
+
+/* BADGE */
+
+.best-seller-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+
+    z-index: 20;
+
+    padding: 9px 17px;
+
+    border-radius: 30px;
+
+    background: #d95787;
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+
+/* INFO PRODUK UTAMA */
+
+.best-seller-main-info {
+    width: 100%;
+    padding: 30px 32px 35px;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.bs-category {
+    display: block;
+    margin-bottom: 10px;
+
+    color: #d95787;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.best-seller-main-info h3 {
+    margin: 0 0 12px;
+
+    color: #713348;
+
+    font-family: "Playfair Display", serif;
+    font-size: 29px;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.best-seller-main-info p {
+    margin: 0 0 20px;
+
+    color: #80636d;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.bs-price {
+    margin-bottom: 20px;
+
+    color: #572638;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.bs-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 13px 22px;
+
+    border-radius: 30px;
+
+    background: #d95787;
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    transition: all .3s ease;
+}
+
+.bs-button:hover {
+    background: #c83f73;
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   PRODUK KECIL DI SEBELAH KANAN
+===================================================== */
+
+.best-seller-side {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+}
+
+
+.best-seller-side-card {
+    min-height: 0;
+
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+
+    padding: 22px;
+
+    background: rgba(255,255,255,.96);
+
+    border: 1px solid rgba(210,90,135,.14);
+    border-radius: 25px;
+
+    box-shadow: 0 15px 40px rgba(180,70,120,.07);
+
+    transition: all .35s ease;
+}
+
+.best-seller-side-card:hover {
+    transform: translateX(-5px);
+
+    box-shadow:
+        0 20px 50px rgba(190,70,120,.13);
+}
+
+
+/* FOTO PRODUK KECIL */
+
+.best-seller-side-image {
+    flex: 0 0 145px;
+    width: 145px;
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,190,215,.30),
+            rgba(255,250,252,.95)
+        );
+
+    overflow: hidden;
+}
+
+.best-seller-side-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+
+/* INFORMASI PRODUK SAMPING */
+
+.best-seller-side-info {
+    flex: 1;
+}
+
+.best-seller-side-category {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #d95787;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.best-seller-side-info h4 {
+    margin: 0 0 8px;
+
+    color: #713348;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.best-seller-side-info p {
+    margin: 0 0 12px;
+
+    color: #80636d;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.best-seller-side-link {
+    color: #713348;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.best-seller-side-link:hover {
+    color: #d95787;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .best-seller-layout {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+        padding: 0 25px;
+        box-sizing: border-box;
+    }
+
+    .best-seller-side {
+        grid-template-rows: none;
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =====================================================
+   HP
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .best-seller-layout {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        max-width: 100%;
+
+        padding: 0 15px;
+        margin-top: 30px;
+
+        gap: 18px;
+        box-sizing: border-box;
+    }
+
+
+    /* KARTU UTAMA */
+
+    .best-seller-main {
+        width: 100%;
+        border-radius: 23px;
+    }
+
+
+    /* FOTO BESAR DI HP */
+
+    .best-seller-main-visual {
+        width: 100%;
+        height: 390px;
+
+        min-height: 390px;
+    }
+
+    .best-seller-product-image {
+        width: 100% !important;
+        max-width: 340px !important;
+
+        height: 350px !important;
+
+        margin-top: 25px !important;
+    }
+
+
+    /* BADGE */
+
+    .best-seller-badge {
+        top: 18px;
+        left: 18px;
+
+        padding: 8px 13px;
+
+        font-size: 8px;
+        letter-spacing: 1.7px;
+    }
+
+
+    /* INFO */
+
+    .best-seller-main-info {
+        padding: 25px 22px 28px;
+    }
+
+    .best-seller-main-info h3 {
+        font-size: 24px;
+    }
+
+    .best-seller-main-info p {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+
+    /* PRODUK SAMPING MENJADI KARTU DI BAWAH */
+
+    .best-seller-side {
+        display: flex;
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+
+    .best-seller-side-card {
+        width: 100%;
+        min-height: 150px;
+
+        padding: 15px;
+
+        gap: 17px;
+
+        border-radius: 20px;
+
+        box-sizing: border-box;
+    }
+
+
+    .best-seller-side-image {
+        flex: 0 0 105px;
+
+        width: 105px;
+        height: 105px;
+
+        border-radius: 16px;
+    }
+
+
+    .best-seller-side-image img {
+        padding: 8px;
+    }
+
+
+    .best-seller-side-info h4 {
+        font-size: 18px;
+    }
+
+    .best-seller-side-info p {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .best-seller-side-category {
+        font-size: 8px;
+        letter-spacing: 1.5px;
+    }
+
+    .best-seller-side-link {
+        font-size: 9px;
+    }
 }
