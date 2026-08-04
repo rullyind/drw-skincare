@@ -265,8 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const image =
                     product.image ||
-                    "assets/images/product1.png";
-
+                    "assets/images/products/default-product.jpg";
 
                 /*
                    CATEGORY

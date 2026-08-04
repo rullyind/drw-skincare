@@ -16343,4 +16343,80 @@ body:has(.order-success-page) {
     .best-seller-side-link {
         font-size: 9px;
     }
+}/* =========================================
+   BEST SELLER - PINK TOUCH EFFECT
+========================================= */
+
+.best-seller-main,
+.best-seller-card {
+    background: #fff;
+    color: #111;
+    border: 1px solid rgba(220, 80, 140, 0.25);
+    transition: all 0.35s ease;
+}
+
+/* Tulisan hitam */
+.best-seller-main h2,
+.best-seller-main h3,
+.best-seller-main p,
+.best-seller-main span,
+.best-seller-main .bs-category,
+.best-seller-main .bs-price {
+    color: #111 !important;
+}
+
+/* Saat mouse menyentuh */
+.best-seller-main:hover,
+.best-seller-card:hover {
+    background: #e85b91;
+    border-color: #e85b91;
+    transform: scale(1.02);
+}
+
+.best-seller-main:active {
+    background: #e85b91;
+    border-color: #e85b91;
+    transform: scale(0.98);
+}
+
+/* Saat disentuh HP */
+.best-seller-main:active,
+.best-seller-card:active {
+    background: #e85b91;
+    border-color: #e85b91;
+    transform: scale(0.99);
+}
+
+/* Tulisan tetap hitam ketika pink */
+.best-seller-main:hover h2,
+.best-seller-main:hover h3,
+.best-seller-main:hover p,
+.best-seller-main:hover span,
+.best-seller-main:hover .bs-category,
+.best-seller-main:hover .bs-price,
+.best-seller-card:hover h2,
+.best-seller-card:hover h3,
+.best-seller-card:hover p,
+.best-seller-card:hover span {
+    color: #111 !important;
+}
+
+/* Badge */
+.best-seller-badge {
+    background: #df4f88;
+    color: #fff !important;
+}
+
+/* Tombol */
+.best-seller-main a,
+.best-seller-main button {
+    background: #df4f88;
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+.best-seller-main a:hover,
+.best-seller-main button:hover {
+    background: #fff;
+    color: #111 !important;
 }
