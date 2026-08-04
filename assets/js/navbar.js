@@ -1,48 +1,94 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const navbar = document.querySelector(".navbar");
+    const navbarHTML = `
+    <header class="navbar">
 
-    if (!navbar) return;
+        <!-- MOBILE MENU -->
+        <button
+            class="mobile-menu-toggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+            type="button">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-    const mobileButton = navbar.querySelector(".mobile-menu-toggle");
-    const navLeft = navbar.querySelector(".nav-left");
-    const navRight = navbar.querySelector(".nav-right");
+        <!-- LEFT NAV -->
+        <nav class="nav-left">
 
-    if (!mobileButton) return;
+            <a href="index.html#home" class="btn btn-secondary">
+                ADIT LEWE
+            <a href="products.html" class="btn btn-secondary">
+                Produk
+            
+                </a>
 
-    mobileButton.addEventListener("click", function () {
+            <a href="product-detail.html#Paket-Radiant-Glow-Booster" class="btn btn-secondary">
+                Treatment
+            </a>
 
-        navLeft?.classList.toggle("mobile-active");
-        navRight?.classList.toggle("mobile-active");
+        </nav>
 
-        const isOpen =
-            navLeft?.classList.contains("mobile-active") ||
-            navRight?.classList.contains("mobile-active");
+        <!-- LOGO -->
+        <a href="index.html#home" class="logo">
+            <img
+                src="assets/images/logo/logo.png"
+                width="220"
+                height="50"
+                alt="RARA DRW SKINCARE">
+        </a>
 
-        mobileButton.setAttribute(
-            "aria-expanded",
-            isOpen ? "true" : "false"
-        );
+        <!-- RIGHT NAV -->
+        <nav class="nav-right">
 
-        mobileButton.innerHTML = isOpen
-            ? '<i class="fa-solid fa-xmark"></i>'
-            : '<i class="fa-solid fa-bars"></i>';
-    });
+            <a href="index.html#best-seller" class="btn btn-secondary">
+                Best Seller
+            </a>
 
-    // Tutup menu setelah tombol navigasi diklik
-    navbar.querySelectorAll("a").forEach(function (link) {
+            <a href=product-detail.html?id=3-in-1-exfoliating-gel-100-ml    
+                Tentang Kami
+            </a>
 
-        link.addEventListener("click", function () {
+            <a href="index.html#contact" class="btn btn-secondary">
+                Kontak
+            </a>
 
-            navLeft?.classList.remove("mobile-active");
-            navRight?.classList.remove("mobile-active");
+        </nav>
 
-            mobileButton.setAttribute("aria-expanded", "false");
+    </header>
+    `;
 
-            mobileButton.innerHTML =
-                '<i class="fa-solid fa-bars"></i>';
+    /*
+     * Masukkan navbar ke halaman
+     */
+    const navbarContainer = document.getElementById("navbar-container");
+
+    if (navbarContainer) {
+        navbarContainer.innerHTML = navbarHTML;
+    }
+
+    /*
+     * MOBILE MENU
+     */
+    const menuButton = document.querySelector(".mobile-menu-toggle");
+    const navLeft = document.querySelector(".nav-left");
+    const navRight = document.querySelector(".nav-right");
+
+    if (menuButton) {
+
+        menuButton.addEventListener("click", function () {
+
+            const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            navLeft?.classList.toggle("mobile-open");
+            navRight?.classList.toggle("mobile-open");
+
         });
 
-    });
+    }
 
 });
