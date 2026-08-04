@@ -1,94 +1,48 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const navbarHTML = `
-    <header class="navbar">
+    const navbar = document.querySelector(".navbar");
 
-        <!-- MOBILE MENU -->
-        <button
-            class="mobile-menu-toggle"
-            aria-label="Open menu"
-            aria-expanded="false"
-            type="button">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+    if (!navbar) return;
 
-        <!-- LEFT NAV -->
-        <nav class="nav-left">
+    const mobileButton = navbar.querySelector(".mobile-menu-toggle");
+    const navLeft = navbar.querySelector(".nav-left");
+    const navRight = navbar.querySelector(".nav-right");
 
-            <a href="index.html#home" class="btn btn-secondary">
-                ADIT PELEWE
-            <a href="products.html" class="btn btn-secondary">
-                Produk
-            
-                </a>
+    if (!mobileButton) return;
 
-            <a href="product-detail.html" class="btn btn-secondary">
-                Treatment
-            </a>
+    mobileButton.addEventListener("click", function () {
 
-        </nav>
+        navLeft?.classList.toggle("mobile-active");
+        navRight?.classList.toggle("mobile-active");
 
-        <!-- LOGO -->
-        <a href="index.html#home" class="logo">
-            <img
-                src="assets/images/logo/logo.png"
-                width="220"
-                height="50"
-                alt="RARA DRW SKINCARE">
-        </a>
+        const isOpen =
+            navLeft?.classList.contains("mobile-active") ||
+            navRight?.classList.contains("mobile-active");
 
-        <!-- RIGHT NAV -->
-        <nav class="nav-right">
+        mobileButton.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
 
-            <a href="index.html#best-seller" class="btn btn-secondary">
-                Best Seller
-            </a>
+        mobileButton.innerHTML = isOpen
+            ? '<i class="fa-solid fa-xmark"></i>'
+            : '<i class="fa-solid fa-bars"></i>';
+    });
 
-            <a href="index.html#about" class="btn btn-secondary">
-                Tentang Kami
-            </a>
+    // Tutup menu setelah tombol navigasi diklik
+    navbar.querySelectorAll("a").forEach(function (link) {
 
-            <a href="index.html#contact" class="btn btn-secondary">
-                Kontak
-            </a>
+        link.addEventListener("click", function () {
 
-        </nav>
+            navLeft?.classList.remove("mobile-active");
+            navRight?.classList.remove("mobile-active");
 
-    </header>
-    `;
+            mobileButton.setAttribute("aria-expanded", "false");
 
-    /*
-     * Masukkan navbar ke halaman
-     */
-    const navbarContainer = document.getElementById("navbar-container");
-
-    if (navbarContainer) {
-        navbarContainer.innerHTML = navbarHTML;
-    }
-
-    /*
-     * MOBILE MENU
-     */
-    const menuButton = document.querySelector(".mobile-menu-toggle");
-    const navLeft = document.querySelector(".nav-left");
-    const navRight = document.querySelector(".nav-right");
-
-    if (menuButton) {
-
-        menuButton.addEventListener("click", function () {
-
-            const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(!isOpen)
-            );
-
-            navLeft?.classList.toggle("mobile-open");
-            navRight?.classList.toggle("mobile-open");
-
+            mobileButton.innerHTML =
+                '<i class="fa-solid fa-bars"></i>';
         });
 
-    }
+    });
 
 });
