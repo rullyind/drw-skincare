@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
         <nav class="nav-left">
 
             <a href="index.html#home" class="btn btn-secondary">
-                ADIT LEWE
+                Home
             <a href="products.html" class="btn btn-secondary">
                 Produk
             
                 </a>
 
-            <a href="product-detail.html#Paket-Radiant-Glow-Booster" class="btn btn-secondary">
+            <a href="product-detail.html" class="btn btn-secondary">
                 Treatment
             </a>
 
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 Best Seller
             </a>
 
-            <a href=product-detail.html?id=3-in-1-exfoliating-gel-100-ml    
+            <a href="index.html#about" class="btn btn-secondary">
                 Tentang Kami
             </a>
 
