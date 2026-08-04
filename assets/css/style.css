@@ -15675,3 +15675,29 @@ body:has(.order-success-page) {
     opacity: 0;
     transform: rotate(15deg);
 }
+/* ================================
+   SIGNATURE COLLECTION DI BAWAH FOTO
+================================ */
+
+.signature-content {
+    position: static !important;
+    width: 100% !important;
+    display: block !important;
+    text-align: center;
+    padding: 22px 20px 28px;
+    box-sizing: border-box;
+}
+
+.signature-content span {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.signature-content h3 {
+    margin: 0;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+}
