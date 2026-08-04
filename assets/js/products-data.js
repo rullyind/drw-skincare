@@ -76,7 +76,7 @@ const PRODUCT_DATA = [
   ["Toner Lime Premium 63 ml", "Toner", 65000, "products/Toner/Toner Lime/Toner Lime Premium 63 ml .png"],
   ["Paket Radiant Acne Repair", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Acne Repair/Paket Basic RAR 2.jpg"],
   ["Paket Radiant Bright Ultimate", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Radiant Glow Booster", "Paket Perawatan Wajah", 280000, "products/Paket Radiant Glow Booster/assets/images/products/Paket Radiant Glow Booster/Paket Radint Glow Booster Kulit Normal.png"],
+  ["Paket Radiant Glow Booster", "Paket Perawatan Wajah", 280000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Normal.png"],
   ["Paket Brightening 2", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
   ["Paket Brightening 3", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU kering 3 raara drw skincare.png"],
   ["Paket Brightening Custom", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
