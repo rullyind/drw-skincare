@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Pesanan Berhasil | DRW Skincare</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Pesanan DRW Skincare berhasil dibuat.">
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link rel="icon"
+          href="favicondrw.png">
+
+
+    <!-- =====================================================
+         STYLE
+    ====================================================== -->
 
     <style>
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
         * {
             box-sizing: border-box;
         }
+
 
         html,
         body {
@@ -21,167 +58,433 @@
             min-height: 100%;
         }
 
+
         body {
-            background: #fffafb;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 225, 235, 0.30),
+                    transparent 35%
+                ),
+                #fffafb;
+
             color: #18283b;
-            font-family: "DM Sans", sans-serif;
+
+            font-family:
+                "DM Sans",
+                sans-serif;
+
             overflow-x: hidden;
         }
 
+
+
+        /* =====================================================
+           PAGE
+        ====================================================== */
+
         .order-success-page {
+
             width: 100%;
+
             min-height: 100vh;
-            padding: 48px 20px 64px;
+
+            padding:
+                48px
+                20px
+                64px;
         }
+
+
+
+        /* =====================================================
+           MAIN CARD
+        ====================================================== */
 
         .order-success-card {
-            width: min(760px, 100%);
-            margin: 0 auto;
+
+            width:
+                min(
+                    760px,
+                    100%
+                );
+
+            margin:
+                0 auto;
+
             padding: 48px;
-            background: #fff;
-            border: 1px solid #efdce2;
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #efdce2;
+
             border-radius: 24px;
-            box-shadow: 0 18px 50px rgba(80, 45, 60, 0.06);
+
+            box-shadow:
+                0 18px 50px
+                rgba(
+                    80,
+                    45,
+                    60,
+                    0.06
+                );
         }
 
-        /* SUCCESS */
+
+
+        /* =====================================================
+           SUCCESS ICON
+        ====================================================== */
+
         .success-icon {
+
             width: 64px;
+
             height: 64px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+            margin:
+                0 auto 20px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
             border-radius: 50%;
-            background: linear-gradient(135deg, #d4869b, #e7ad5c);
-            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #d4869b,
+                    #e7ad5c
+                );
+
+            color: #ffffff;
+
             font-size: 34px;
+
             line-height: 1;
+
+            box-shadow:
+                0 10px 25px
+                rgba(
+                    212,
+                    134,
+                    155,
+                    0.20
+                );
         }
+
+
+
+        /* =====================================================
+           LABEL
+        ====================================================== */
 
         .success-label {
+
             display: block;
+
             margin-bottom: 12px;
+
             text-align: center;
+
             color: #cf7891;
+
             font-size: 9px;
+
             font-weight: 600;
+
             letter-spacing: 4px;
         }
 
+
+
+        /* =====================================================
+           TITLE
+        ====================================================== */
+
         .order-success-card > h1 {
-            margin: 0 0 14px;
+
+            margin:
+                0 0 14px;
+
             text-align: center;
+
             color: #18283b;
-            font-family: "Playfair Display", serif;
-            font-size: clamp(34px, 5vw, 42px);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(
+                    34px,
+                    5vw,
+                    42px
+                );
+
             font-weight: 500;
+
             line-height: 1.2;
         }
 
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
         .success-message {
-            width: min(600px, 100%);
-            margin: 0 auto 30px;
+
+            width:
+                min(
+                    600px,
+                    100%
+                );
+
+            margin:
+                0 auto 30px;
+
             text-align: center;
+
             color: #7b6b73;
+
             font-size: 14px;
+
             line-height: 1.75;
         }
 
-        /* ORDER NUMBER */
+
+        .success-message strong {
+
+            color: #cf7891;
+        }
+
+
+
+        /* =====================================================
+           ORDER NUMBER
+        ====================================================== */
+
         .order-number-box {
+
             width: 100%;
+
             margin-bottom: 20px;
-            padding: 18px 20px;
+
+            padding:
+                18px
+                20px;
+
             text-align: center;
+
             background: #fff7f9;
-            border: 1px solid #efdce2;
+
+            border:
+                1px solid
+                #efdce2;
+
             border-radius: 14px;
         }
+
 
         .order-number-box span,
         .receipt-order-number span {
+
             display: block;
+
             margin-bottom: 7px;
+
             color: #cf7891;
+
             font-size: 8px;
+
             font-weight: 600;
+
             letter-spacing: 3px;
         }
 
+
         .order-number-box strong {
+
             font-size: 16px;
+
             letter-spacing: 1px;
         }
 
-        /* STATUS */
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
         .success-info {
+
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 14px;
+
             margin-bottom: 30px;
         }
 
+
         .success-info > div {
+
             min-width: 0;
+
             padding: 17px;
+
             text-align: center;
-            border: 1px solid #efdce2;
+
+            border:
+                1px solid
+                #efdce2;
+
             border-radius: 14px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.8
+                );
         }
+
 
         .success-info span,
         .success-info strong {
+
             display: block;
         }
 
+
         .success-info span {
+
             margin-bottom: 7px;
+
             color: #9b8991;
+
             font-size: 10px;
         }
 
+
         .success-info strong {
+
             font-size: 12px;
         }
 
-        /* RECEIPT */
+
+
+        /* =====================================================
+           RECEIPT
+        ====================================================== */
+
         .order-receipt {
+
             position: relative;
+
             isolation: isolate;
+
             width: 100%;
+
             margin-top: 6px;
+
             padding: 30px;
+
             overflow: hidden;
-            background: #fff;
-            border: 1px solid #ead6dd;
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #ead6dd;
+
             border-radius: 20px;
         }
 
+
+
+        /* =====================================================
+           WATERMARK
+        ====================================================== */
+
         .receipt-watermark {
+
             position: absolute;
+
             z-index: 0;
+
             top: 50%;
+
             left: 50%;
+
             width: 100%;
-            transform: translate(-50%, -50%) rotate(-28deg);
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                )
+                rotate(-28deg);
+
             text-align: center;
+
             pointer-events: none;
-            color: rgba(190, 150, 165, 0.08);
-            font-family: "Playfair Display", serif;
+
+            color:
+                rgba(
+                    190,
+                    150,
+                    165,
+                    0.08
+                );
+
+            font-family:
+                "Playfair Display",
+                serif;
+
             font-size: 23px;
+
             font-weight: 600;
+
             line-height: 1.5;
+
             letter-spacing: 3px;
+
             white-space: nowrap;
         }
 
+
         .receipt-watermark span {
+
             display: block;
-            font-family: "DM Sans", sans-serif;
+
+            font-family:
+                "DM Sans",
+                sans-serif;
+
             font-size: 10px;
+
             letter-spacing: 5px;
         }
+
+
+
+        /* =====================================================
+           RECEIPT LAYERS
+        ====================================================== */
 
         .receipt-header,
         .receipt-header > *,
@@ -190,266 +493,690 @@
         .receipt-products,
         .receipt-summary,
         .receipt-print-btn {
+
             position: relative;
+
             z-index: 1;
         }
 
+
+
+        /* =====================================================
+           RECEIPT HEADER
+        ====================================================== */
+
         .receipt-header {
+
             display: grid;
-            grid-template-columns: 1fr auto;
+
+            grid-template-columns:
+                1fr auto;
+
             gap: 24px;
+
             align-items: start;
         }
 
+
         .note-branding {
+
             min-width: 0;
         }
 
+
         .note-logo-image {
+
             display: block;
+
             width: 145px;
+
             height: auto;
+
             max-width: 100%;
+
             object-fit: contain;
+
             margin-bottom: 12px;
         }
 
+
         .receipt-eyebrow {
+
             display: block;
+
             margin-bottom: 7px;
+
             color: #cf7891;
+
             font-size: 8px;
+
             font-weight: 600;
+
             letter-spacing: 3px;
         }
 
+
         .receipt-header h2 {
+
             margin: 0;
+
             color: #18283b;
-            font-family: "Playfair Display", serif;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
             font-size: 29px;
+
             font-weight: 500;
+
             line-height: 1.2;
         }
 
+
         .receipt-order-number {
+
             text-align: right;
         }
 
+
         .receipt-order-number strong {
+
             display: block;
+
             font-size: 13px;
+
             letter-spacing: 0.5px;
         }
 
+
+
+        /* =====================================================
+           DIVIDER
+        ====================================================== */
+
         .receipt-divider {
+
             width: 100%;
+
             height: 1px;
-            margin: 22px 0;
+
+            margin:
+                22px 0;
+
             background: #ead6dd;
         }
 
-        /* META */
+
+
+        /* =====================================================
+           META
+        ====================================================== */
+
         .receipt-meta {
+
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 24px;
         }
+
 
         .receipt-meta span,
         .receipt-products-title,
         .receipt-summary span {
+
             color: #8f7c85;
+
             font-size: 10px;
         }
 
+
         .receipt-meta strong {
+
             display: block;
+
             margin-top: 5px;
+
             font-size: 12px;
         }
 
-        /* PRODUCTS */
+
+
+        /* =====================================================
+           PRODUCTS HEADER
+        ====================================================== */
+
         .receipt-products-title {
+
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            text-transform: uppercase;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 8px;
+
+            text-transform:
+                uppercase;
+
             letter-spacing: 2px;
+
             font-size: 8px;
+
             font-weight: 600;
         }
 
+
+
+        /* =====================================================
+           PRODUCT ITEM
+        ====================================================== */
+
         .receipt-product {
+
             display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                auto;
+
             gap: 18px;
+
             align-items: start;
-            padding: 12px 0;
+
+            padding:
+                12px 0;
         }
+
+
+        .receipt-product-info {
+
+            min-width: 0;
+        }
+
 
         .receipt-product-info strong {
+
             display: block;
+
             margin-bottom: 4px;
+
             color: #18283b;
-            font-family: "Playfair Display", serif;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
             font-size: 14px;
+
             font-weight: 500;
+
+            line-height: 1.45;
         }
 
+
         .receipt-product-info span {
+
             color: #9b8991;
+
             font-size: 9px;
         }
 
+
         .receipt-product-price {
+
             white-space: nowrap;
+
             font-size: 11px;
+
+            font-weight: 600;
         }
 
-        /* SUMMARY */
+
+
+        /* =====================================================
+           SUMMARY
+        ====================================================== */
+
         .receipt-summary > div {
+
             display: flex;
+
             align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             gap: 20px;
+
             padding: 6px 0;
         }
 
+
         .receipt-summary strong {
+
             white-space: nowrap;
+
             font-size: 11px;
         }
 
+
         .receipt-grand-total {
+
             margin-top: 8px;
+
             padding-top: 15px !important;
-            border-top: 1px solid #ead6dd;
+
+            border-top:
+                1px solid
+                #ead6dd;
         }
 
+
         .receipt-grand-total span {
+
             color: #18283b;
+
             font-weight: 600;
         }
 
+
         .receipt-grand-total strong {
+
             color: #18283b;
+
             font-size: 18px;
         }
 
-        /* BUTTONS */
-        .receipt-print-btn,
-        .success-home-btn {
-            min-height: 52px;
-            border-radius: 28px;
-            background: linear-gradient(90deg, #d4869b, #e7ad5c);
-            color: #fff;
-            box-shadow: 0 10px 24px rgba(190, 120, 130, 0.14);
-        }
+
+
+        /* =====================================================
+           PRINT BUTTON
+        ====================================================== */
 
         .receipt-print-btn {
+
             width: 100%;
+
+            min-height: 52px;
+
             margin-top: 24px;
-            padding: 0 20px;
+
+            padding:
+                0 20px;
+
             display: flex;
+
             align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             border: 0;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #d4869b,
+                    #e7ad5c
+                );
+
+            color: #ffffff;
+
             font: inherit;
+
             font-size: 12px;
+
             font-weight: 600;
+
             cursor: pointer;
+
+            box-shadow:
+                0 10px 24px
+                rgba(
+                    190,
+                    120,
+                    130,
+                    0.14
+                );
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
         }
+
+
+        .receipt-print-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(
+                    190,
+                    120,
+                    130,
+                    0.22
+                );
+        }
+
+
+
+        /* =====================================================
+           HOME BUTTON
+        ====================================================== */
 
         .success-home-btn {
+
+            width: 100%;
+
+            min-height: 52px;
+
             margin-top: 22px;
-            padding: 0 24px;
+
+            padding:
+                0 24px;
+
             display: flex;
+
             align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #d4869b,
+                    #e7ad5c
+                );
+
+            color: #ffffff;
+
             text-decoration: none;
+
             font-size: 12px;
+
             font-weight: 600;
+
+            box-shadow:
+                0 10px 24px
+                rgba(
+                    190,
+                    120,
+                    130,
+                    0.14
+                );
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
         }
+
+
+        .success-home-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(
+                    190,
+                    120,
+                    130,
+                    0.22
+                );
+        }
+
+
+
+        /* =====================================================
+           SHOP LINK
+        ====================================================== */
 
         .success-shop-link {
+
             display: block;
+
             margin-top: 14px;
+
             text-align: center;
+
             color: #cf7891;
+
             font-size: 11px;
+
             text-decoration: none;
+
+            transition:
+                color 0.2s ease;
         }
 
+
+        .success-shop-link:hover {
+
+            color: #e7ad5c;
+        }
+
+
+
+        /* =====================================================
+           SECURE
+        ====================================================== */
+
         .success-secure {
+
             margin-top: 12px;
+
             text-align: center;
+
             color: #9b8991;
+
             font-size: 10px;
         }
 
-        /* MOBILE */
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
         @media (max-width: 700px) {
+
             .order-success-page {
-                padding: 24px 12px 40px;
+
+                padding:
+                    24px
+                    12px
+                    40px;
             }
 
+
             .order-success-card {
-                padding: 28px 18px;
+
+                padding:
+                    28px
+                    18px;
+
                 border-radius: 20px;
             }
 
+
             .success-info,
             .receipt-meta {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
             }
+
 
             .order-receipt {
-                padding: 22px 18px;
+
+                padding:
+                    22px
+                    18px;
             }
 
+
             .receipt-header {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
                 gap: 18px;
             }
 
+
             .receipt-order-number {
+
                 text-align: left;
             }
 
+
             .note-logo-image {
+
                 width: 135px;
             }
 
+
             .receipt-watermark {
+
                 font-size: 17px;
             }
+
+
+            .receipt-product {
+
+                grid-template-columns:
+                    minmax(0, 1fr)
+                    auto;
+
+                gap: 10px;
+            }
+
+
+            .receipt-product-info strong {
+
+                font-size: 13px;
+            }
+
+
+            .receipt-product-price {
+
+                font-size: 10px;
+            }
+
+
+            .receipt-header h2 {
+
+                font-size: 26px;
+            }
+
         }
 
-        /* PRINT */
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ====================================================== */
+
+        @media (max-width: 420px) {
+
+            .order-success-card {
+
+                padding:
+                    24px
+                    14px;
+            }
+
+
+            .order-receipt {
+
+                padding:
+                    20px
+                    14px;
+            }
+
+
+            .receipt-product {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .receipt-product-price {
+
+                text-align: left;
+            }
+
+
+            .receipt-summary > div {
+
+                gap: 10px;
+            }
+
+
+            .receipt-grand-total strong {
+
+                font-size: 16px;
+            }
+
+        }
+
+
+
+        /* =====================================================
+           PRINT
+        ====================================================== */
+
         @media print {
+
             @page {
+
                 size: A4;
+
                 margin: 15mm;
             }
 
+
             body {
-                background: #fff;
+
+                background: #ffffff;
             }
+
 
             .order-success-page {
+
                 min-height: auto;
+
                 padding: 0;
             }
 
+
             .order-success-card {
+
                 width: 100%;
+
                 max-width: none;
+
                 margin: 0;
+
                 padding: 0;
+
                 border: 0;
+
                 box-shadow: none;
             }
+
 
             .success-icon,
             .success-label,
@@ -460,193 +1187,652 @@
             .success-home-btn,
             .success-shop-link,
             .success-secure {
+
                 display: none !important;
             }
 
+
             .order-receipt {
+
                 width: 100%;
+
                 margin: 0;
+
                 padding: 20px;
-                border: 1px solid #ddd;
+
+                border:
+                    1px solid
+                    #ddd;
+
                 border-radius: 0;
+
                 box-shadow: none;
             }
 
+
             .receipt-print-btn {
+
                 display: none !important;
             }
+
         }
+
     </style>
+
 </head>
 
+
 <body>
-    <main class="order-success-page">
-        <div class="order-success-card">
 
-            <div class="success-icon" aria-hidden="true">✓</div>
 
-            <span class="success-label">ORDER CONFIRMED</span>
+<main class="order-success-page">
 
-            <h1>Pesanan Berhasil</h1>
 
-            <p class="success-message">
-                Terima kasih telah berbelanja di
-                <strong id="notaOrderNumber">DRW-000000</strong>
-                Pesanan Anda telah berhasil dibuat dan sedang kami proses.
-            </p>
+    <div class="order-success-card">
 
-            <div class="order-number-box">
-                <span>ORDER NUMBER</span>
-                <strong id="orderNumber">DRW-000000</strong>
-            </div>
 
-            <div class="success-info">
-                <div>
-                    <span>Status</span>
-                    <strong>Pesanan Diterima</strong>
-                </div>
+        <!-- =================================================
+             SUCCESS ICON
+        ================================================== -->
 
-                <div>
-                    <span>Pembayaran</span>
-                    <strong>Menunggu Pembayaran</strong>
-                </div>
-            </div>
+        <div class="success-icon"
+             aria-hidden="true">
 
-            <section class="order-receipt" id="orderReceipt">
-                <div class="receipt-watermark" aria-hidden="true">
-                    Rara DRW Skincare
-                    <span>Direktur</span>
-                </div>
+            ✓
 
-                <div class="receipt-header">
-                    <div class="note-branding">
-                        <img
-                            src="assets/images/logo/logo.png"
-                            alt="DRW Skincare"
-                            class="note-logo-image">
-                        <span class="receipt-eyebrow">PREMIUM SKINCARE</span>
-                        <h2>Nota Pesanan</h2>
-                    </div>
-
-                    <div class="receipt-order-number">
-                        <span>ORDER NUMBER</span>
-                        <strong id="receiptOrderNumber">DRW-000000</strong>
-                    </div>
-                </div>
-
-                <div class="receipt-divider"></div>
-
-                <div class="receipt-meta">
-                    <div>
-                        <span>Tanggal</span>
-                        <strong id="receiptDate">-</strong>
-                    </div>
-
-                    <div>
-                        <span>Status</span>
-                        <strong>Pesanan Diterima</strong>
-                    </div>
-                </div>
-
-                <div class="receipt-divider"></div>
-
-                <div class="receipt-products">
-                    <div class="receipt-products-title">
-                        <span>Produk</span>
-                        <span>Total</span>
-                    </div>
-
-                    <div class="receipt-product">
-                        <div class="receipt-product-info">
-                            <strong>Sunscreen Oily &amp; Acne</strong>
-                            <span>Qty: 1</span>
-                        </div>
-                        <strong class="receipt-product-price">Rp105.000</strong>
-                    </div>
-
-                    <div class="receipt-product">
-                        <div class="receipt-product-info">
-                            <strong>Day Cream Acne 1</strong>
-                            <span>Qty: 1</span>
-                        </div>
-                        <strong class="receipt-product-price">Rp100.000</strong>
-                    </div>
-
-                    <div class="receipt-product">
-                        <div class="receipt-product-info">
-                            <strong>Day Cream Acne 2</strong>
-                            <span>Qty: 1</span>
-                        </div>
-                        <strong class="receipt-product-price">Rp100.000</strong>
-                    </div>
-                </div>
-
-                <div class="receipt-divider"></div>
-
-                <div class="receipt-summary">
-                    <div>
-                        <span>Subtotal</span>
-                        <strong>Rp305.000</strong>
-                    </div>
-
-                    <div>
-                        <span>Shipping</span>
-                        <strong>Rp10.000</strong>
-                    </div>
-
-                    <div class="receipt-grand-total">
-                        <span>Total</span>
-                        <strong>Rp320.000</strong>
-                    </div>
-                </div>
-
-                <button
-                    type="button"
-                    class="receipt-print-btn"
-                    onclick="window.print()">
-                    <span>🖨</span>
-                    <span>Cetak / Simpan Nota</span>
-                    <span>→</span>
-                </button>
-            </section>
-
-            <a href="index.html" class="success-home-btn">
-                <span>Kembali ke Beranda</span>
-                <span>→</span>
-            </a>
-
-            <a href="products.html" class="success-shop-link">
-                Lanjut Belanja
-            </a>
-
-            <div class="success-secure">
-                ✓ Secure &amp; protected order
-            </div>
         </div>
-    </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const savedOrder = localStorage.getItem("drwOrderNumber");
 
-            const mainOrderNumber = document.getElementById("orderNumber");
-            if (mainOrderNumber && savedOrder) {
-                mainOrderNumber.textContent = savedOrder;
+        <span class="success-label">
+
+            ORDER CONFIRMED
+
+        </span>
+
+
+        <h1>
+
+            Pesanan Berhasil
+
+        </h1>
+
+
+        <p class="success-message">
+
+            Terima kasih telah berbelanja di
+            <strong id="notaOrderNumber">
+                DRW-000000
+            </strong>.
+
+            Pesanan Anda telah berhasil dibuat
+            dan sedang kami proses.
+
+        </p>
+
+
+
+        <!-- =================================================
+             ORDER NUMBER
+        ================================================== -->
+
+        <div class="order-number-box">
+
+            <span>
+                ORDER NUMBER
+            </span>
+
+            <strong id="orderNumber">
+                DRW-000000
+            </strong>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATUS
+        ================================================== -->
+
+        <div class="success-info">
+
+
+            <div>
+
+                <span>
+                    Status
+                </span>
+
+                <strong>
+                    Pesanan Diterima
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Pembayaran
+                </span>
+
+                <strong>
+                    Menunggu Pembayaran
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             RECEIPT
+        ================================================== -->
+
+        <section class="order-receipt"
+                 id="orderReceipt">
+
+
+            <!-- WATERMARK -->
+
+            <div class="receipt-watermark"
+                 aria-hidden="true">
+
+                Rara DRW Skincare
+
+                <span>
+                    Direktur
+                </span>
+
+            </div>
+
+
+
+            <!-- RECEIPT HEADER -->
+
+            <div class="receipt-header">
+
+
+                <div class="note-branding">
+
+
+                    <img
+                        src="assets/images/logo/logo.png"
+                        alt="DRW Skincare"
+                        class="note-logo-image">
+
+
+                    <span class="receipt-eyebrow">
+
+                        PREMIUM SKINCARE
+
+                    </span>
+
+
+                    <h2>
+
+                        Nota Pesanan
+
+                    </h2>
+
+
+                </div>
+
+
+
+                <div class="receipt-order-number">
+
+
+                    <span>
+
+                        ORDER NUMBER
+
+                    </span>
+
+
+                    <strong id="receiptOrderNumber">
+
+                        DRW-000000
+
+                    </strong>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="receipt-divider"></div>
+
+
+
+            <!-- =================================================
+                 ORDER META
+            ================================================== -->
+
+            <div class="receipt-meta">
+
+
+                <div>
+
+                    <span>
+                        Tanggal
+                    </span>
+
+                    <strong id="receiptDate">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        Pesanan Diterima
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="receipt-divider"></div>
+
+
+
+            <!-- =================================================
+                 PRODUCTS
+                 DIISI OTOMATIS DARI drwOrder
+            ================================================== -->
+
+            <div class="receipt-products">
+
+
+                <div class="receipt-products-title">
+
+                    <span>
+                        Produk
+                    </span>
+
+                    <span>
+                        Total
+                    </span>
+
+                </div>
+
+
+                <!--
+                    JAVASCRIPT AKAN MEMASUKKAN
+                    SEMUA PRODUK DI SINI
+                -->
+
+                <div id="receiptProducts"></div>
+
+
+            </div>
+
+
+
+            <div class="receipt-divider"></div>
+
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <div class="receipt-summary">
+
+
+                <div>
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="receiptSubtotal">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Shipping
+                    </span>
+
+                    <strong id="receiptShipping">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-grand-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="receiptTotal">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PRINT
+            ================================================== -->
+
+            <button
+                type="button"
+                class="receipt-print-btn"
+                onclick="window.print()">
+
+
+                <span>
+                    🖨
+                </span>
+
+
+                <span>
+                    Cetak / Simpan Nota
+                </span>
+
+
+                <span>
+                    →
+                </span>
+
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             HOME
+        ================================================== -->
+
+        <a
+            href="index.html"
+            class="success-home-btn">
+
+            <span>
+                Kembali ke Beranda
+            </span>
+
+            <span>
+                →
+            </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             SHOP
+        ================================================== -->
+
+        <a
+            href="products.html"
+            class="success-shop-link">
+
+            Lanjut Belanja
+
+        </a>
+
+
+
+        <!-- =================================================
+             SECURE
+        ================================================== -->
+
+        <div class="success-secure">
+
+            ✓ Secure &amp; protected order
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ORDER SUCCESS
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =================================================
+           FORMAT RUPIAH
+        ================================================= */
+
+        function formatRupiah(number) {
+
+            return "Rp " +
+                Number(number || 0)
+                    .toLocaleString("id-ID");
+
+        }
+
+
+
+        /* =================================================
+           GET ORDER
+        ================================================= */
+
+        let order = null;
+
+
+        try {
+
+            const savedOrder =
+                localStorage.getItem(
+                    "drwOrder"
+                );
+
+
+            if (savedOrder) {
+
+                order =
+                    JSON.parse(
+                        savedOrder
+                    );
+
             }
 
-            const receiptOrderNumber =
-                document.getElementById("receiptOrderNumber");
+        } catch (error) {
 
-            if (receiptOrderNumber && savedOrder) {
-                receiptOrderNumber.textContent = savedOrder;
+            console.error(
+                "Data order rusak:",
+                error
+            );
+
+        }
+
+
+
+        /* =================================================
+           CHECK ORDER
+        ================================================= */
+
+        if (
+            !order ||
+            !Array.isArray(
+                order.products
+            )
+        ) {
+
+            console.warn(
+                "Data pesanan tidak ditemukan."
+            );
+
+
+            /*
+               Jangan mengarang harga.
+               Jika data order tidak ada,
+               tampilkan informasi yang jelas.
+            */
+
+            const productsElement =
+                document.getElementById(
+                    "receiptProducts"
+                );
+
+
+            if (productsElement) {
+
+                productsElement.innerHTML =
+
+                    '<div style="' +
+                    'padding:20px 0;' +
+                    'text-align:center;' +
+                    'color:#9b8991;' +
+                    'font-size:12px;">' +
+
+                    'Data pesanan tidak ditemukan.' +
+
+                    '</div>';
+
             }
 
-            const receiptDate = document.getElementById("receiptDate");
 
-            if (receiptDate) {
-                const today = new Date();
+            return;
 
-                receiptDate.textContent = today.toLocaleDateString(
+        }
+
+
+
+        /* =================================================
+           ORDER NUMBER
+        ================================================= */
+
+        const orderNumber =
+
+            order.orderNumber ||
+
+            localStorage.getItem(
+                "drwOrderNumber"
+            ) ||
+
+            "DRW-000000";
+
+
+
+        const mainOrderNumber =
+
+            document.getElementById(
+                "orderNumber"
+            );
+
+
+        const notaOrderNumber =
+
+            document.getElementById(
+                "notaOrderNumber"
+            );
+
+
+        const receiptOrderNumber =
+
+            document.getElementById(
+                "receiptOrderNumber"
+            );
+
+
+
+        if (mainOrderNumber) {
+
+            mainOrderNumber.textContent =
+                orderNumber;
+
+        }
+
+
+        if (notaOrderNumber) {
+
+            notaOrderNumber.textContent =
+                orderNumber;
+
+        }
+
+
+        if (receiptOrderNumber) {
+
+            receiptOrderNumber.textContent =
+                orderNumber;
+
+        }
+
+
+
+        /* =================================================
+           DATE
+        ================================================= */
+
+        const receiptDate =
+
+            document.getElementById(
+                "receiptDate"
+            );
+
+
+        if (receiptDate) {
+
+
+            let orderDate;
+
+
+            if (order.createdAt) {
+
+                orderDate =
+                    new Date(
+                        order.createdAt
+                    );
+
+            } else {
+
+                orderDate =
+                    new Date();
+
+            }
+
+
+            receiptDate.textContent =
+
+                orderDate.toLocaleDateString(
                     "id-ID",
                     {
                         day: "2-digit",
@@ -654,14 +1840,330 @@
                         year: "numeric"
                     }
                 );
-            }
-        });
-    </script>
 
-        <script src="assets/js/app.js"></script>
-<script src="assets/js/cart.js"></script>
- <script src="assets/js/products-data.js"></script>
-<script src="assets/js/products-page.js"></script>
+        }
+
+
+
+        /* =================================================
+           PRODUCTS
+        ================================================= */
+
+        const receiptProducts =
+
+            document.getElementById(
+                "receiptProducts"
+            );
+
+
+        let calculatedSubtotal = 0;
+
+
+
+        if (receiptProducts) {
+
+
+            receiptProducts.innerHTML =
+                "";
+
+
+            order.products.forEach(
+                function (product) {
+
+
+                    /* =====================================
+                       PRICE
+                    ====================================== */
+
+                    const price =
+
+                        Number(
+                            product.price
+                        ) || 0;
+
+
+
+                    /* =====================================
+                       QUANTITY
+                       Support quantity + qty
+                    ====================================== */
+
+                    const quantity =
+
+                        parseInt(
+                            product.quantity,
+                            10
+                        ) ||
+
+                        parseInt(
+                            product.qty,
+                            10
+                        ) ||
+
+                        1;
+
+
+
+                    /* =====================================
+                       ITEM TOTAL
+                    ====================================== */
+
+                    const itemTotal =
+
+                        price *
+                        quantity;
+
+
+
+                    calculatedSubtotal +=
+                        itemTotal;
+
+
+
+                    /* =====================================
+                       PRODUCT ELEMENT
+                    ====================================== */
+
+                    const productElement =
+
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    productElement.className =
+                        "receipt-product";
+
+
+
+                    /* =====================================
+                       PRODUCT NAME
+                    ====================================== */
+
+                    const productName =
+
+                        product.name ||
+
+                        product.nama ||
+
+                        "DRW Skincare Product";
+
+
+
+                    productElement.innerHTML =
+
+                        '<div class="receipt-product-info">' +
+
+                            '<strong>' +
+
+                            productName +
+
+                            '</strong>' +
+
+                            '<span>' +
+
+                            'Qty: ' +
+
+                            quantity +
+
+                            '</span>' +
+
+                        '</div>' +
+
+
+                        '<strong class="receipt-product-price">' +
+
+                        formatRupiah(
+                            itemTotal
+                        ) +
+
+                        '</strong>';
+
+
+
+                    receiptProducts.appendChild(
+                        productElement
+                    );
+
+
+                }
+            );
+
+        }
+
+
+
+        /* =================================================
+           SUBTOTAL
+        ================================================= */
+
+        const storedSubtotal =
+
+            Number(
+                order.subtotal
+            );
+
+
+        const finalSubtotal =
+
+            Number.isFinite(
+                storedSubtotal
+            )
+
+                ? storedSubtotal
+
+                : calculatedSubtotal;
+
+
+
+        const receiptSubtotal =
+
+            document.getElementById(
+                "receiptSubtotal"
+            );
+
+
+        if (receiptSubtotal) {
+
+            receiptSubtotal.textContent =
+
+                formatRupiah(
+                    finalSubtotal
+                );
+
+        }
+
+
+
+        /* =================================================
+           SHIPPING
+        ================================================= */
+
+        const shipping =
+
+            Number(
+                order.shipping
+            ) || 0;
+
+
+
+        const receiptShipping =
+
+            document.getElementById(
+                "receiptShipping"
+            );
+
+
+        if (receiptShipping) {
+
+            receiptShipping.textContent =
+
+                formatRupiah(
+                    shipping
+                );
+
+        }
+
+
+
+        /* =================================================
+           TOTAL
+        ================================================= */
+
+        const storedTotal =
+
+            Number(
+                order.total
+            );
+
+
+        const finalTotal =
+
+            Number.isFinite(
+                storedTotal
+            )
+
+                ? storedTotal
+
+                : finalSubtotal + shipping;
+
+
+
+        const receiptTotal =
+
+            document.getElementById(
+                "receiptTotal"
+            );
+
+
+        if (receiptTotal) {
+
+            receiptTotal.textContent =
+
+                formatRupiah(
+                    finalTotal
+                );
+
+        }
+
+
+
+        /* =================================================
+           DEBUG CONSOLE
+        ================================================= */
+
+        console.log(
+            "================================"
+        );
+
+
+        console.log(
+            "DRW ORDER SUCCESS"
+        );
+
+
+        console.log(
+            "Order Number:",
+            orderNumber
+        );
+
+
+        console.log(
+            "Products:",
+            order.products
+        );
+
+
+        console.log(
+            "Subtotal:",
+            finalSubtotal
+        );
+
+
+        console.log(
+            "Shipping:",
+            shipping
+        );
+
+
+        console.log(
+            "Total:",
+            finalTotal
+        );
+
+
+        console.log(
+            "================================"
+        );
+
+
+    }
+
+);
+
+</script>
+
 
 </body>
+
 </html>
