@@ -975,108 +975,205 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =========================================
-       BUY NOW
-    ========================================== */
+/* =========================================
+   BUY NOW → ADD TO CART → CART PAGE
+========================================= */
 
-    if (buyNowButton) {
+if (buyNowButton) {
 
-        buyNowButton.addEventListener(
-            "click",
-            function () {
+    buyNowButton.addEventListener(
+        "click",
+        function (event) {
 
-                const bundleProducts =
-                    getBundleProducts(
-                        selectedBundleSize
-                    );
+            event.preventDefault();
 
-
-                if (!bundleProducts.length) {
-
-                    alert(
-                        "Produk tidak ditemukan."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                   BUY NOW mengganti cart
-                   dengan bundle yang dipilih.
-                */
-
-                const buyNowCart =
-                    bundleProducts.map(
-                        function (product) {
-
-                            return {
-
-                                id:
-                                    product.id,
-
-                                name:
-                                    product.name,
-
-                                category:
-                                    product.category,
-
-                                description:
-                                    product.description,
-
-                                price:
-                                    Number(
-                                        product.price
-                                    ) || 0,
-
-                                image:
-                                    product.image || "",
-
-                                quantity:
-                                    quantity
-
-                            };
-
-                        }
-                    );
-
-
-                saveCart(
-                    buyNowCart
+            const bundleProducts =
+                getBundleProducts(
+                    selectedBundleSize
                 );
 
+            if (!bundleProducts.length) {
 
-                /*
-                   Kompatibilitas checkout.
-                */
+                alert(
+                    "Produk tidak ditemukan."
+                );
 
-                if (
-                    buyNowCart.length > 0
-                ) {
+                return;
 
-                    localStorage.setItem(
-                        "drwProduct",
-                        JSON.stringify(
-                            buyNowCart[0]
-                        )
-                    );
+            }
+
+
+            /* =====================================
+               AMBIL CART YANG SUDAH ADA
+            ===================================== */
+
+            let cart = [];
+
+            try {
+
+                const savedCart =
+                    localStorage.getItem("drwCart");
+
+                cart =
+                    savedCart
+                        ? JSON.parse(savedCart)
+                        : [];
+
+                if (!Array.isArray(cart)) {
+
+                    cart = [];
 
                 }
 
+            } catch (error) {
 
-                /*
-                   Langsung ke cart.
-                */
+                console.error(
+                    "Cart rusak:",
+                    error
+                );
 
-                window.location.href =
-                    "cart.html";
+                cart = [];
 
             }
-        );
 
-    }
 
+            /* =====================================
+               MASUKKAN PRODUK / PAKET KE CART
+            ===================================== */
+
+            bundleProducts.forEach(
+                function (product) {
+
+                    const existingProduct =
+                        cart.find(
+                            function (item) {
+
+                                return String(item.id) ===
+                                    String(product.id);
+
+                            }
+                        );
+
+
+                    if (existingProduct) {
+
+                        const oldQuantity =
+                            Number(
+                                existingProduct.quantity ||
+                                existingProduct.qty ||
+                                1
+                            );
+
+
+                        const newQuantity =
+                            oldQuantity + quantity;
+
+
+                        existingProduct.quantity =
+                            newQuantity;
+
+                        existingProduct.qty =
+                            newQuantity;
+
+                    } else {
+
+                        cart.push({
+
+                            id:
+                                String(product.id),
+
+                            name:
+                                product.name,
+
+                            category:
+                                product.category ||
+                                "SKINCARE",
+
+                            description:
+                                product.description ||
+                                "",
+
+                            price:
+                                Number(product.price) || 0,
+
+                            image:
+                                product.image || "",
+
+                            quantity:
+                                quantity,
+
+                            qty:
+                                quantity
+
+                        });
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================
+               SIMPAN CART
+            ===================================== */
+
+            localStorage.setItem(
+                "drwCart",
+                JSON.stringify(cart)
+            );
+
+
+            /* =====================================
+               LEGACY PRODUCT
+            ===================================== */
+
+            if (cart.length > 0) {
+
+                localStorage.setItem(
+                    "drwProduct",
+                    JSON.stringify(
+                        cart[0]
+                    )
+                );
+
+            }
+
+
+            /* =====================================
+               FEEDBACK BUTTON
+            ===================================== */
+
+            const originalText =
+                buyNowButton.textContent;
+
+
+            buyNowButton.textContent =
+                "✓ ADDED TO CART";
+
+
+            buyNowButton.classList.add(
+                "added"
+            );
+
+
+            /* =====================================
+               MASUK KE CART
+            ===================================== */
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "cart.html";
+
+                },
+                300
+            );
+
+        }
+    );
+
+}
 
     /* =========================================
        OPTIONAL:
