@@ -1,93 +1,185 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const navbarHTML = `
-    <header class="navbar">
+    const navbarContainer = document.getElementById("navbar-container");
 
-        <!-- MOBILE MENU -->
-        <button
-            class="mobile-menu-toggle"
-            aria-label="Open menu"
-            aria-expanded="false"
-            type="button">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+    if (!navbarContainer) return;
 
-        <!-- LEFT NAV -->
-        <nav class="nav-left">
+    navbarContainer.innerHTML = `
 
-            <a href="index.html#home" class="btn btn-secondary">
-                Home
-            <a href="products.html" class="btn btn-secondary">
-                Produk
-            
-                </a>
+        <header class="navbar">
 
-            <a href="product-detail.html" class="btn btn-secondary">
-                Treatment
+            <!-- LOGO -->
+            <a href="index.html" class="logo">
+                <img
+                    src="assets/images/logo/logo.png"
+                    alt="RARA DRW Skincare"
+                >
             </a>
 
-        </nav>
 
-        <!-- LOGO -->
-        <a href="index.html#home" class="logo">
-            <img
-                src="assets/images/logo/logo.png"
-                width="220"
-                height="50"
-                alt="RARA DRW SKINCARE">
-        </a>
+            <!-- NAVIGATION -->
+            <nav class="nav-left">
 
-        <!-- RIGHT NAV -->
-        <nav class="nav-right">
+                <a href="index.html">
+                    Home
+                </a>
 
-            <a href="index.html#best-seller" class="btn btn-secondary">
+                <a href="products.html">
+                    Produk
+                </a>
+
+                <a href="index.html#best-seller">
+                    Best Seller
+                </a>
+
+                <a href="index.html#treatment">
+                    Treatment
+                </a>
+
+                <a href="index.html#skin-concern">
+                    Skin Concern
+                </a>
+
+                <a href="index.html#about">
+                    About Us
+                </a>
+
+                <a href="index.html#beauty-tips">
+                    Beauty Tips
+                </a>
+
+                <a href="index.html#contact">
+                    Konsultasi
+                </a>
+
+            </nav>
+
+
+            <!-- RIGHT NAV -->
+            <nav class="nav-right">
+
+                <a href="products.html">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+
+                <a href="cart.html">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
+
+            </nav>
+
+
+            <!-- MOBILE BUTTON -->
+            <button
+                class="mobile-menu-toggle"
+                type="button"
+                aria-label="Buka menu"
+            >
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </header>
+
+
+        <!-- MOBILE MENU -->
+        <div class="mobile-menu">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="products.html">
+                Produk
+            </a>
+
+            <a href="index.html#best-seller">
                 Best Seller
             </a>
 
-            <a href="index.html#about" class="btn btn-secondary">
-                Tentang Kami
+            <a href="index.html#treatment">
+                Treatment
             </a>
 
-            <a href="index.html#contact" class="btn btn-secondary">
-                Kontak
+            <a href="index.html#skin-concern">
+                Skin Concern
             </a>
 
-        </nav>
+            <a href="index.html#about">
+                About Us
+            </a>
 
-    </header>
+            <a href="index.html#beauty-tips">
+                Beauty Tips
+            </a>
+
+            <a href="index.html#contact">
+                Konsultasi
+            </a>
+
+            <a href="cart.html">
+                Keranjang
+            </a>
+
+        </div>
+
     `;
 
-    /*
-     * Masukkan navbar ke halaman
-     */
-    const navbarContainer = document.getElementById("navbar-container");
 
-    if (navbarContainer) {
-        navbarContainer.innerHTML = navbarHTML;
-    }
+    /* ================================
+       MOBILE MENU
+    ================================= */
 
-    /*
-     * MOBILE MENU
-     */
-    const menuButton = document.querySelector(".mobile-menu-toggle");
-    const navLeft = document.querySelector(".nav-left");
-    const navRight = document.querySelector(".nav-right");
+    const menuButton =
+        document.querySelector(".mobile-menu-toggle");
 
-    if (menuButton) {
+    const mobileMenu =
+        document.querySelector(".mobile-menu");
+
+
+    if (menuButton && mobileMenu) {
 
         menuButton.addEventListener("click", function () {
 
-            const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+            mobileMenu.classList.toggle("active");
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(!isOpen)
-            );
+            const icon =
+                menuButton.querySelector("i");
 
-            navLeft?.classList.toggle("mobile-open");
-            navRight?.classList.toggle("mobile-open");
+            if (mobileMenu.classList.contains("active")) {
+
+                icon.classList.remove("fa-bars");
+                icon.classList.add("fa-xmark");
+
+            } else {
+
+                icon.classList.remove("fa-xmark");
+                icon.classList.add("fa-bars");
+
+            }
 
         });
+
+
+        /* Tutup menu setelah klik link */
+
+        mobileMenu
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
+                    mobileMenu.classList.remove("active");
+
+                    const icon =
+                        menuButton.querySelector("i");
+
+                    icon.classList.remove("fa-xmark");
+                    icon.classList.add("fa-bars");
+
+                });
+
+            });
 
     }
 

@@ -1,1572 +1,327 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RARA DRW Skincare | Premium Skincare Indonesia</title>
+<meta name="description" content="RARA DRW Skincare - Temukan rangkaian skincare untuk membantu merawat kulit wajah dan tubuh.">
+<meta name="keywords" content="RARA DRW Skincare, DRW Skincare, skincare Indonesia, facial wash, cream wajah, body care">
+<meta name="theme-color" content="#e0528b">
+<link rel="icon" href="favicondrw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
 
-    <meta charset="UTF-8">
+<style>
+:root{--pink:#e0528b;--pink-light:#fff0f7;--dark:#171217;--muted:#6d6269}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fffafc;color:var(--dark);font-family:"DM Sans",sans-serif}
+img{max-width:100%}
+.section-shell{width:min(1180px,calc(100% - 36px));margin:auto}
+.site-section{padding:90px 0}
+.soft-section{background:#fff5f9}
+.section-heading{text-align:center;margin-bottom:42px}
+.section-heading .eyebrow,.about-copy .eyebrow{color:var(--pink);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
+.section-heading h2{margin:10px 0 12px;font:500 clamp(30px,4vw,48px)/1.1 "Playfair Display",serif}
+.section-heading p{max-width:650px;margin:auto;color:var(--muted);line-height:1.8}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+.top-bar{display:flex;justify-content:space-between;gap:15px;padding:8px 24px;background:#171217;color:#fff;font-size:11px}
+.top-left,.top-right{display:flex;align-items:center;gap:12px}.top-bar a{color:#fff;text-decoration:none}
 
-    <title>DRW Skincare | Director</title>
+.hero{padding:75px 0 90px;overflow:hidden;background:radial-gradient(circle at 75% 40%,rgba(240,120,165,.2),transparent 35%),linear-gradient(135deg,#fff,#fff7fa 55%,#ffeef6)}
+.hero-content{width:min(1180px,calc(100% - 36px));margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px}
+.hero-text .eyebrow{color:var(--pink);font-size:11px;font-weight:700;letter-spacing:2.5px}
+.hero-text h1{margin:18px 0 0;font:500 clamp(44px,6vw,78px)/1.02 "Playfair Display",serif}
+.hero-text h1 span{display:block;color:var(--pink)}
+.hero-description{max-width:590px;margin:24px 0 30px;color:var(--muted);line-height:1.8}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 22px;border-radius:30px;text-decoration:none;font-weight:700;transition:.3s}
+.btn-primary{background:var(--pink);color:#fff!important;box-shadow:0 12px 28px rgba(224,82,139,.2)}
+.btn-secondary{background:#fff;color:#222!important;border:1px solid rgba(224,82,139,.25)}
+.btn:hover{transform:translateY(-2px)}.btn-primary:hover,.btn-secondary:hover{background:var(--pink);color:#fff!important}
+.hero-visual{position:relative;min-height:500px;display:flex;align-items:center;justify-content:center}
+.hero-visual:before{content:"";position:absolute;width:390px;height:390px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,210,.48),transparent 70%)}
+.hero-visual img{position:relative;z-index:2;width:min(100%,500px);height:auto;object-fit:contain}
 
-    <meta name="description"
-          content="DRW Skincare - Premium skincare untuk kulit sehat, glowing dan radiant setiap hari.">
+.trust-grid{width:min(1180px,calc(100% - 36px));margin:auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.trust-item{display:flex;justify-content:center;align-items:center;gap:12px;padding:20px 10px;font-size:13px;text-align:center}
+.trust-item i{color:var(--pink)}
 
-    <meta name="keywords"
-          content="DRW Skincare, skincare,Wajah Berjerawarat dan Beruntusan, Wajah Glowing, Skincare Asia
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.product-card{overflow:hidden;background:#fff;border:1px solid rgba(224,82,139,.12);border-radius:24px;box-shadow:0 14px 35px rgba(100,40,70,.06);transition:.35s}
+.product-card:hover{transform:translateY(-7px);background:#fff0f7;border-color:var(--pink)}
+.product-card-image{height:250px;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(circle,#fff0f7,#fff)}
+.product-card-image img{width:100%;height:215px;object-fit:contain}
+.product-card-body{padding:20px}.product-card-body small{color:var(--pink);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.product-card-body h3{margin:8px 0;font:500 20px "Playfair Display",serif}
+.product-card-body p{min-height:44px;color:#716870;font-size:13px;line-height:1.6}
+.price{font-weight:700}.card-link{display:inline-flex;margin-top:14px;color:var(--pink);font-size:12px;font-weight:700;text-decoration:none}
 
-    <link rel="icon" href="favicondrw.png">
+.best-seller-showcase{display:grid;grid-template-columns:1.05fr .95fr;gap:28px}
+.best-main-card{min-height:520px;padding:35px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;background:linear-gradient(145deg,#fff,#fff0f7);border:1px solid rgba(224,82,139,.14);border-radius:30px}
+.badge{align-self:flex-start;padding:8px 14px;border-radius:30px;background:var(--pink);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.4px}
+.best-main-image{width:100%;height:300px;object-fit:contain}
+.best-main-card h3{margin:0 0 8px;font:500 30px "Playfair Display",serif}
+.best-side-list{display:grid;gap:18px}
+.best-side-card{display:grid;grid-template-columns:145px 1fr;min-height:205px;overflow:hidden;background:#fff;border:1px solid rgba(224,82,139,.13);border-radius:24px;transition:.3s}
+.best-side-card:hover{background:#fff0f7;border-color:var(--pink);transform:translateY(-3px)}
+.best-side-image{width:100%;height:100%;min-height:205px;object-fit:contain;padding:12px;box-sizing:border-box;background:radial-gradient(circle,#ffeaf3,#fff)}
+.best-side-info{padding:22px;display:flex;flex-direction:column;justify-content:center}
+.best-side-info small{color:var(--pink);font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+.best-side-info h3{margin:7px 0 10px;font:500 19px "Playfair Display",serif}
 
-    <!-- =====================================================
-         GOOGLE FONTS
-    ====================================================== -->
+.category-grid,.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.category-card{min-height:190px;padding:25px;display:flex;flex-direction:column;justify-content:flex-end;border-radius:24px;background:linear-gradient(145deg,#fff,#fff1f7);border:1px solid rgba(224,82,139,.12);text-decoration:none;transition:.35s;color:#171217}
+.category-card i{margin-bottom:auto;color:var(--pink);font-size:27px}.category-card h3{margin:0 0 6px;font:500 22px "Playfair Display",serif}.category-card p{margin:0;color:#756a71;font-size:12px}
+.category-card:hover{transform:translateY(-5px);background:var(--pink);color:#fff}.category-card:hover i,.category-card:hover p{color:#fff}
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+.why-card{padding:30px 24px;background:#fff;border-radius:24px;border:1px solid rgba(224,82,139,.12);text-align:center;transition:.3s}
+.why-card:hover{background:#fff0f7;transform:translateY(-5px)}
+.why-card i{width:55px;height:55px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px;border-radius:50%;background:#fff0f7;color:var(--pink)}
+.why-card h3{margin:0 0 9px;font:500 21px "Playfair Display",serif}.why-card p{margin:0;color:#70666d;font-size:13px;line-height:1.7}
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center}
+.about-image{min-height:440px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:30px;background:linear-gradient(145deg,#fff,#ffeef6)}
+.about-image img{width:100%;height:440px;object-fit:contain}.about-copy h2{margin:12px 0 18px;font:500 clamp(32px,4vw,50px)/1.1 "Playfair Display",serif}.about-copy p{color:var(--muted);line-height:1.85}
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
-          rel="stylesheet">
+.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.tip-card{padding:28px;border-radius:24px;background:#fff;border:1px solid rgba(224,82,139,.12)}
+.tip-card span{color:var(--pink);font-size:11px;font-weight:700;letter-spacing:1.4px}.tip-card h3{margin:12px 0;font:500 23px "Playfair Display",serif}.tip-card p{color:#70666d;font-size:13px;line-height:1.75}
 
+.consultation{padding:75px 0;background:linear-gradient(135deg,#ffeaf3,#fff)}
+.cta-box{padding:50px;border-radius:32px;text-align:center;background:#fff;border:1px solid rgba(224,82,139,.14)}
+.cta-box h2{margin:12px 0;font:500 clamp(30px,4vw,48px) "Playfair Display",serif}.cta-box p{max-width:650px;margin:0 auto 25px;color:var(--muted);line-height:1.8}
 
-    <!-- =====================================================
-         FONT AWESOME
-    ====================================================== -->
+footer{background:#171217;color:#fff;padding:65px 0 25px}.footer-grid{width:min(1180px,calc(100% - 36px));margin:auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px}
+.footer-brand h2{font:500 25px "Playfair Display",serif}.footer-brand p,footer li,footer a{color:#d4cbd0;font-size:13px;line-height:1.8}footer ul{list-style:none;padding:0}footer a{text-decoration:none}footer a:hover{color:#fff}.footer-title{font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.footer-bottom{width:min(1180px,calc(100% - 36px));margin:45px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;color:#aaa0a6;font-size:11px}
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-    <!-- =====================================================
-         MAIN CSS
-    ====================================================== -->
-
-    <link rel="stylesheet"
-          href="assets/css/style.css">
-
+@media(max-width:900px){
+.hero-content,.best-seller-showcase,.about-grid{grid-template-columns:1fr}
+.product-grid,.category-grid,.why-grid{grid-template-columns:repeat(2,1fr)}
+.hero-visual{min-height:360px}.footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+.top-bar{justify-content:center;padding:8px 12px}.top-right{display:none}.top-left{font-size:9px}
+.section-shell,.hero-content{width:calc(100% - 28px)}.site-section{padding:65px 0}
+.hero{padding:55px 0 65px}.hero-text h1{font-size:42px}.hero-buttons{flex-direction:column}.hero-buttons a{width:100%;box-sizing:border-box}
+.hero-visual{min-height:280px}.hero-visual:before{width:280px;height:280px}
+.trust-grid{width:100%;grid-template-columns:repeat(2,1fr)}.trust-item{font-size:11px;padding:15px 8px}
+.product-grid,.category-grid,.why-grid,.tips-grid{grid-template-columns:1fr}
+.product-card-image{height:230px}
+.best-main-card{min-height:430px;padding:23px}.best-main-image{height:240px}
+.best-side-card{grid-template-columns:115px 1fr;min-height:170px}.best-side-image{min-height:170px}.best-side-info{padding:15px}.best-side-info h3{font-size:17px}
+.about-image,.about-image img{min-height:320px;height:320px}.cta-box{padding:35px 20px}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}
+}
+</style>
 </head>
 
-
 <body>
+
 <div id="navbar-container"></div>
 
-    <!-- =====================================================
-         TOP BAR
-    ====================================================== -->
-
-    <div class="top-bar">
-
-        <div class="top-left">
-
-            <span>✦¦</span>
-
-            FREE SHIPPING UNTUK PEMBELIAN DIATAS Rp500.000
-
-            <span>✦¦</span>
-
-        </div>
-
-
-        <div class="top-right">
-
-            <a href="#">
-              Login / Register
-            </a>
-
-            <span class="divider"></span>
-
-            <a href="#">
-                Indonesia
-            </a>
-
-        </div>
-
+<div class="top-bar">
+    <div class="top-left"><span>âœ¦</span> FREE SHIPPING UNTUK PEMBELIAN DIATAS Rp500.000 <span>âœ¦</span></div>
+    <div class="top-right">
+        <a href="login.html">Login / Register</a>
+        <span>|</span>
+        <a href="#">Indonesia</a>
     </div>
-
-
-
-    <!-- =====================================================
-         MOBILE NAVIGATION
-    ====================================================== -->
-
-    <nav class="mobile-navigation"
-         aria-label="Mobile navigation">
-
-        <a href="#home">
-            HOME
-        </a>
-
-        <a href="#products">
-            SHOP
-        </a>
-
-        <a href="#treatment">
-            TREATMENT
-        </a>
-
-        <a href="#best-seller">
-            BEST SELLER
-        </a>
-
-        <a href="#skin-concern">
-            SKIN CONCERN
-        </a>
-
-        <a href="#about">
-            ABOUT US
-        </a>
-
-        <a href="#beauty-tips">
-            BEAUTY TIPS
-        </a>
-
-        <a href="#contact">
-            CONSULTATION
-        </a>
-
-    </nav>
-
-
-
-    <!-- MOBILE OVERLAY -->
-
-    <div class="mobile-overlay"></div>
-
-
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
+</div>
 
 <main>
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
-    <section class="hero" id="home">
-
-        <div class="hero-content">
-
-            <!-- HERO TEXT -->
-            <div class="hero-text">
-
-                <span class="eyebrow">
-                    PREMIUM SKINCARE COLLECTION
-                </span>
-
-                <h1>
-                    Pancarkan Pesona
-                    <span>Natural Beauty</span>
-                </h1>
-
-                <p class="hero-description">
-                    Temukan rangkaian skincare pilihan untuk membantu
-                    merawat kulit dan menjadikan rutinitas kecantikan
-                    terasa lebih menyenangkan.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="products.html" class="btn btn-primary">
-                        Koleksi Produk
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                    <a href="#best-seller" class="btn btn-secondary">
-                        Best Seller Produk
-                        <i class="fa-solid fa-arrow-down"></i>
-                    </a>
-
-                </div>
-
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-text">
+            <span class="eyebrow">PREMIUM SKINCARE COLLECTION</span>
+            <h1>Pancarkan Pesona <span>Natural Beauty</span></h1>
+            <p class="hero-description">
+                Temukan rangkaian skincare pilihan untuk membantu merawat kulit
+                wajah dan tubuh, menjadikan rutinitas kecantikan terasa lebih nyaman.
+            </p>
+            <div class="hero-buttons">
+                <a href="products.html" class="btn btn-primary">Koleksi Produk <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#best-seller" class="btn btn-secondary">Best Seller <i class="fa-solid fa-arrow-down"></i></a>
             </div>
-
-
-            <!-- HERO PRODUCT -->
-             
-<img src="assets/images/icons/model-1.png"
-     alt="DRW Skincare Hero"
-     style="display:block !important; width:100%; max-width:500px; height:auto;">
-
-
-                <!-- DECORATIONS -->
-                <span class="sparkle sparkle-">—¦</span>
-                <span class="sparkle sparkle-two">—¦</span>
-                <span class="sparkle sparkle-three">—¦</span>
-                <span class="sparkle sparkle-four">—¦</span>
-                <span class="sparkle sparkle-five">—¦</span>
-                <span class="sparkle sparkle-six">—¦</span>
-                
-                <span class="petal petal-one">—¦</span>
-                <span class="petal petal-two">—¦</span>
-                <span class="petal petal-three">—¦</span>
-
-                <span class="flower flower-one">—¦</span>
-                <span class="flower flower-two">—¦</span>
-
-            </div>
-
         </div>
-
-    </section>
-
-
-   <!-- =========================================
-     BEST SELLER
-========================================== -->
-
-<section class="best-seller" id="best-seller">
-
-    <div class="best-seller-heading">
-
-        <span class="best-seller-eyebrow">
-            BEST SELLER PICKS
-        </span>
-
-        <h2>
-            Disukai Banyak
-            <em>Beauty Lovers</em>
-        </h2>
-
-        <p>
-            Produk favorit yang paling sering dipilih
-            untuk rutinitas glow sehari-hari
-        </p>
-
-    </div>
-
-
-    <div class="best-seller-layout">
-
-        <!-- MAIN BEST SELLER -->
-            
-
-            <article class="best-seller-main">
-
-    <div class="best-seller-main-visual">
-
-        <span class="best-seller-badge">
-            PALING DISUKAI
-        </span>
-
-        <img
-            src="assets/images/products/Paket Radiant Bright Ultimate DNA Salmon/Paket RBU DNA Salmon.png"
-            alt="Paket Radiant Bright Ultimate DNA Salmon"
-            class="best-seller-product-image"
-        >
-
-    </div>
-
-    <div class="best-seller-main-info">
-
-        <span class="bs-category">
-            DRW SIGNATURE COLLECTION
-        </span>
-
-        <h3>
-            Paket Radiant Bright Ultimate DNA Salmon
-        </h3>
-
-        <p>
-            Rangkaian skincare pilihan untuk membantu merawat,
-            mencerahkan, dan menjaga kulit tampak sehat setiap hari.
-        </p>
-
-        <div class="bs-price">
-            Rp 425.000
+        <div class="hero-visual">
+            <img src="assets/images/icons/model-1.png" alt="RARA DRW Skincare" loading="eager">
         </div>
-
-        <a href="product.html" class="bs-button">
-            Lihat Produk
-            <span>→</span>
-        </a>
-
     </div>
-
-</article>
-      
-
-
-        <!-- SIDE PRODUCTS -->
-  <article class="best-seller-item-side"> 
-
-    <div class="best-seller-main-visual-side">
-
-        <span class="best-seller-badge">
-            Pembersih Wajah
-        </span>
-
-        <img
-            src="assets/images/products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png"
-            alt="Facial Wash Oily & Acne 110 ml"
-            class="best-seller-product-side-image">
-            
-    <div class="best-seller-main-info-side">
-
-        <span class="bs-category">
-            Perawatan Kulit Wajah
-        </span>
-
-        <h3>
-            Facial Wash Oily & Acne 110 ml
-        </h3>
-
-        <div class="bs-price">
-            Rp 105.000
-                    </div>
-
-        <a href="products.ml" class="bs-button">
-            Lihat Produk
-            <span>→</span>
-        </a>
-
-    </div>
-
-</article>
-
-            <!-- PRODUCT 02 -->
-            <article class="best-seller-item">
-
-                <div class="bs-item-visual">
-                    <div class="bs-mini-bottle">
-                        <div class="bs-mini-cap"></div>
-                        <div class="bs-mini-body">
-                            DRW
-                            <small>SKINCARE</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bs-item-info">
-
-                    <span>BRIGHTENING</span>
-
-                    <h4>
-                        Brightening Ritual
-                    </h4>
-
-                    <p>
-                        Perawatan untuk membantu kulit
-                        tampak lebih bercahaya.
-                    </p>
-
-                    <a href="products.html">
-                        View Product <span>&rarr;</span>
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <!-- PRODUCT 03 -->
-            <article class="best-seller-item">
-
-                <div class="bs-item-visual">
-                    <div class="bs-mini-bottle">
-                        <div class="bs-mini-cap"></div>
-                        <div class="bs-mini-body">
-                            DRW
-                            <small>SKINCARE</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bs-item-info">
-
-                    <span>HYDRATION</span>
-
-                    <h4>
-                        Hydration Essential
-                    </h4>
-
-                    <p>
-                        Rutinitas hidrasi untuk kulit
-                        yang terasa nyaman dan terawat.
-                    </p>
-
-                    <a href="products.html">
-                        View Product <span>&rarr;</span>
-                    </a>
-
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
 </section>
 
-<!-- =========================
-     WHY CHOOSE DRW
-========================= -->
-<section class="why-drw" id="why-drw">
-  <div class="why-drw-container">
-
-    <div class="why-drw-heading">
-      <span class="why-drw-label">WHY CHOOSE DRW</span>
-
-      <h2>
-        Beauty That Feels
-        <span>Extraordinary</span>
-      </h2>
-
-      <p>
-        Perawatan kulit premium yang dirancang untuk membantu
-        menghadirkan kulit yang tampak sehat, cerah, dan terawat
-        setiap hari.
-      </p>
+<section class="trust-bar">
+    <div class="trust-grid">
+        <div class="trust-item"><i class="fa-solid fa-shield-heart"></i><span>Produk Pilihan</span></div>
+        <div class="trust-item"><i class="fa-solid fa-box-open"></i><span>Kemasan Aman</span></div>
+        <div class="trust-item"><i class="fa-solid fa-truck-fast"></i><span>Pengiriman Cepat</span></div>
+        <div class="trust-item"><i class="fa-solid fa-headset"></i><span>Konsultasi Ramah</span></div>
     </div>
-
-    <div class="why-drw-grid">
-
-      <!-- Card 1 -->
-      <div class="why-drw-card">
-        <div class="why-drw-icon">
-          ✦
-        </div>
-
-        <h3>Premium Quality</h3>
-
-        <p>
-          Formula dan bahan pilihan untuk menghadirkan pengalaman
-          skincare yang nyaman dan premium.
-        </p>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="why-drw-card">
-        <div class="why-drw-icon">
-          ♡
-        </div>
-
-        <h3>Skin Loving</h3>
-
-        <p>
-          Dirancang untuk menjadi bagian dari rutinitas perawatan
-          kulit yang praktis dan menyenangkan.
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="why-drw-card">
-        <div class="why-drw-icon">
-          ✧
-        </div>
-
-        <h3>Modern Beauty</h3>
-
-        <p>
-          Menggabungkan perawatan kulit dengan tampilan modern,
-          elegan, dan effortless.
-        </p>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="why-drw-card">
-        <div class="why-drw-icon">
-          ❋
-        </div>
-
-        <h3>Made With Care</h3>
-
-        <p>
-          Setiap produk dipersembahkan dengan perhatian terhadap
-          kualitas dan kebutuhan kecantikan masa kini.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
 </section>
 
-<!-- =========================
-     PRODUCT CATEGORIES
-========================= -->
-<section class="product-categories" id="categories">
-  <div class="categories-container">
-
-    <div class="categories-heading">
-      <span class="categories-label">SHOP BY CATEGORY</span>
-
-      <h2>
-        Find Your Perfect
-        <span>Skincare Ritual</span>
-      </h2>
-
-      <p>
-        Temukan rangkaian perawatan yang sesuai dengan kebutuhan
-        kulit dan rutinitas kecantikanmu.
-      </p>
-    </div>
-
-    <div class="categories-grid">
-
-      <a href="#" class="category-card category-large">
-        <div class="category-content">
-          <span>01</span>
-          <h3>Face Care</h3>
-          <p>Daily essentials for healthy-looking skin</p>
-          <strong>Explore Collection →</strong>
-        </div>
-      </a>
-
-      <a href="#" class="category-card category-brightening">
-        <div class="category-content">
-          <span>02</span>
-          <h3>Brightening</h3>
-          <p>Reveal a brighter, radiant complexion</p>
-          <strong>Shop Now →</strong>
-        </div>
-      </a>
-
-      <a href="#" class="category-card category-acne">
-        <div class="category-content">
-          <span>03</span>
-          <h3>Acne Care</h3>
-          <p>Gentle care for clearer-looking skin</p>
-          <strong>Shop Now →</strong>
-        </div>
-      </a>
-
-      <a href="#" class="category-card category-body">
-        <div class="category-content">
-          <span>04</span>
-          <h3>Body Care</h3>
-          <p>Complete your beauty ritual from head to toe</p>
-          <strong>Discover More →</strong>
-        </div>
-      </a>
-
-    </div>
-
-  </div>
-</section>
-<!-- =========================
-     BEFORE / AFTER
-========================= -->
-<section class="before-after" id="before-after">
-  <div class="before-after-container">
-
-    <div class="before-after-heading">
-      <span class="before-after-label">REAL SKIN JOURNEY</span>
-
-      <h2>
-        Your Skin,
-        <span>Your Journey</span>
-      </h2>
-
-      <p>
-        Perawatan kulit adalah perjalanan. Bangun rutinitas yang
-        konsisten dan berikan kulitmu perhatian yang layak.
-      </p>
-    </div>
-
-    <div class="before-after-grid">
-
-      <!-- LEFT -->
-      <div class="before-after-card">
-
-        <div class="before-after-image before-image">
-          <span class="before-after-tag">BEFORE</span>
-
-          <div class="before-after-placeholder">
-            <span>YOUR PHOTO</span>
-          </div>
-        </div>
-
-        <div class="before-after-info">
-          <h3>Starting Your Journey</h3>
-
-          <p>
-            Awali perjalanan dengan memahami kebutuhan kulit
-            dan membangun rutinitas yang konsisten.
-          </p>
-        </div>
-
-      </div>
-
-      <!-- CENTER -->
-      <div class="before-after-center">
-
-        <div class="journey-line"></div>
-
-        <div class="journey-icon">
-          →
-        </div>
-
-        <span>THE DRW</span>
-        <strong>BEAUTY JOURNEY</strong>
-
-      </div>
-
-      <!-- RIGHT -->
-      <div class="before-after-card">
-
-        <div class="before-after-image after-image">
-          <span class="before-after-tag">AFTER</span>
-
-          <div class="before-after-placeholder">
-            <span>YOUR PHOTO</span>
-          </div>
-        </div>
-
-        <div class="before-after-info">
-          <h3>Glow With Confidence</h3>
-
-          <p>
-            Nikmati rutinitas perawatan yang membuat kulit terasa
-            lebih terawat dan membuatmu semakin percaya diri.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="before-after-note">
-      <span>✦</span>
-      Hasil setiap individu dapat berbeda.
-    </div>
-
-  </div>
-</section>
-
-<!-- =========================
-     TESTIMONIALS
-========================= -->
-<section class="testimonials" id="testimonials">
-  <div class="testimonials-container">
-
-    <div class="testimonials-heading">
-      <span class="testimonials-label">DRW BEAUTY STORIES</span>
-
-      <h2>
-        Loved By Women,
-        <span>Made For You</span>
-      </h2>
-
-      <p>
-        Setiap perjalanan kulit memiliki cerita. Temukan inspirasi
-        dari mereka yang menjadikan perawatan kulit sebagai bagian
-        dari rutinitas hariannya.
-      </p>
-    </div>
-
-    <div class="testimonials-grid">
-
-      <!-- Testimonial 1 -->
-      <article class="testimonial-card featured-testimonial">
-
-        <div class="testimonial-stars">
-          ★ ★ ★ ★ ★
-        </div>
-
-        <div class="testimonial-quote">
-          “
-        </div>
-
-        <p class="testimonial-text">
-          Aku suka banget dengan pengalaman menggunakan produk DRW.
-          Rutinitas skincare terasa lebih menyenangkan dan kulit
-          terasa semakin terawat.
-        </p>
-
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">A</div>
-
-          <div>
-            <h3>Amelia</h3>
-            <span>DRW Beauty Customer</span>
-          </div>
-        </div>
-
-      </article>
-
-      <!-- Testimonial 2 -->
-      <article class="testimonial-card">
-
-        <div class="testimonial-stars">
-          ★ ★ ★ ★ ★
-        </div>
-
-        <div class="testimonial-quote">
-          “
-        </div>
-
-        <p class="testimonial-text">
-          Packaging-nya cantik dan terasa premium. Yang paling aku
-          suka adalah rutinitasnya jadi simpel dan nyaman digunakan
-          setiap hari.
-        </p>
-
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">N</div>
-
-          <div>
-            <h3>Nadia</h3>
-            <span>DRW Beauty Customer</span>
-          </div>
-        </div>
-
-      </article>
-
-      <!-- Testimonial 3 -->
-      <article class="testimonial-card">
-
-        <div class="testimonial-stars">
-          ★ ★ ★ ★ ★
-        </div>
-
-        <div class="testimonial-quote">
-          “
-        </div>
-
-        <p class="testimonial-text">
-          Sekarang skincare routine terasa seperti me-time.
-          Simple, elegant, dan membuat aku lebih konsisten merawat
-          kulit setiap hari.
-        </p>
-
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">S</div>
-
-          <div>
-            <h3>Sarah</h3>
-            <span>DRW Beauty Customer</span>
-          </div>
-        </div>
-
-      </article>
-
-    </div>
-
-    <div class="testimonials-bottom">
-      <span class="testimonials-line"></span>
-      <span>REAL STORIES • REAL ROUTINES • REAL BEAUTY</span>
-      <span class="testimonials-line"></span>
-    </div>
-
-  </div>
-</section>
-
-<!-- =========================
-     BEAUTY TIPS / DRW JOURNAL
-========================= -->
-<section class="drw-journal" id="journal">
-  <div class="drw-journal-container">
-
-    <div class="drw-journal-heading">
-      <span class="drw-journal-label">DRW JOURNAL</span>
-
-      <h2>
-        Beauty Notes
-        <span>For Your Glow</span>
-      </h2>
-
-      <p>
-        Temukan inspirasi, tips, dan insight sederhana untuk
-        menjadikan skincare routine lebih menyenangkan.
-      </p>
-    </div>
-
-    <div class="drw-journal-grid">
-
-      <!-- ARTICLE 1 -->
-      <article class="journal-card">
-
-        <div class="journal-image journal-image-1">
-          <span class="journal-category">
-            SKINCARE
-          </span>
-
-          <div class="journal-image-content">
-            <span>DRW</span>
-            <strong>SKINCARE<br>RITUAL</strong>
-          </div>
-        </div>
-
-        <div class="journal-content">
-
-          <span class="journal-date">
-            BEAUTY GUIDE
-          </span>
-
-          <h3>
-            5 Steps Simple untuk
-            Skincare Routine
-          </h3>
-
-          <p>
-            Bangun rutinitas skincare yang sederhana dan konsisten
-            sesuai kebutuhan kulitmu.
-          </p>
-
-          <a href="#" class="journal-link">
-            Read More
-            <span>→</span>
-          </a>
-
-        </div>
-
-      </article>
-
-      <!-- ARTICLE 2 -->
-      <article class="journal-card">
-
-        <div class="journal-image journal-image-2">
-          <span class="journal-category">
-            GLOW GUIDE
-          </span>
-
-          <div class="journal-image-content">
-            <span>GLOW</span>
-            <strong>EVERY<br>DAY</strong>
-          </div>
-        </div>
-
-        <div class="journal-content">
-
-          <span class="journal-date">
-            BEAUTY GUIDE
-          </span>
-
-          <h3>
-            Cara Menjaga Kulit
-            Tetap Terlihat Fresh
-          </h3>
-
-          <p>
-            Kebiasaan kecil sehari-hari yang dapat membantu menjaga
-            kulit tetap terasa nyaman dan terawat.
-          </p>
-
-          <a href="#" class="journal-link">
-            Read More
-            <span>→</span>
-          </a>
-
-        </div>
-
-      </article>
-
-      <!-- ARTICLE 3 -->
-      <article class="journal-card">
-
-        <div class="journal-image journal-image-3">
-          <span class="journal-category">
-            SELF CARE
-          </span>
-
-          <div class="journal-image-content">
-            <span>LOVE</span>
-            <strong>YOUR<br>SKIN</strong>
-          </div>
-        </div>
-
-        <div class="journal-content">
-
-          <span class="journal-date">
-            BEAUTY GUIDE
-          </span>
-
-<h3>
-  Make Skincare
-  Your Me-Time
-</h3>
-
-<p>
-  Jadikan rutinitas perawatan kulit sebagai momen me-time
-  yang menyenangkan dan menenangkan.
-</p>
-
-<a href="#" class="journal-link">
-  Read More
-  <span>→</span>
-</a>
-
+<section class="site-section" id="products">
+<div class="section-shell">
+<div class="section-heading">
+    <span class="eyebrow">OUR COLLECTION</span>
+    <h2>Temukan Produk Favoritmu</h2>
+    <p>Pilih produk perawatan wajah, tubuh, rambut, dan kebutuhan kecantikan lainnya.</p>
 </div>
 
+<div class="product-grid">
+
+<article class="product-card">
+<div class="product-card-image"><img src="assets/images/products/Facial wash/Facial Wash Oily Acne/Facial Wash Oily Acne 110 ml.jpg" alt="Facial Wash Oily Acne 110 ml" loading="lazy"></div>
+<div class="product-card-body"><small>Facial Wash</small><h3>Facial Wash Oily &amp; Acne</h3><p>Pembersih wajah untuk melengkapi rutinitas perawatan kulit.</p><div class="price">Rp 80.000</div><a class="card-link" href="products.html">Lihat Produk â†’</a></div>
+</article>
+
+<article class="product-card">
+<div class="product-card-image"><img src="assets/images/products/Cream Siang/Day Pink Cream/Day Pink Cream.png" alt="Day Cream Pink" loading="lazy"></div>
+<div class="product-card-body"><small>Cream Siang</small><h3>Day Cream Pink</h3><p>Melengkapi perawatan kulit pada rutinitas siang hari.</p><div class="price">Rp 100.000</div><a class="card-link" href="products.html">Lihat Produk â†’</a></div>
+</article>
+
+<article class="product-card">
+<div class="product-card-image"><img src="assets/images/products/Cream Malam/Brightening Cream/Brightening Cream.png" alt="Brightening Cream" loading="lazy"></div>
+<div class="product-card-body"><small>Cream Malam</small><h3>Brightening Cream</h3><p>Melengkapi rutinitas perawatan kulit malam hari.</p><div class="price">Rp 100.000</div><a class="card-link" href="products.html">Lihat Produk â†’</a></div>
+</article>
+
+<article class="product-card">
+<div class="product-card-image"><img src="assets/images/products/Lotion/Glowing Body Lotion.jpg" alt="Glowing Body Lotion" loading="lazy"></div>
+<div class="product-card-body"><small>Body Care</small><h3>Glowing Body Lotion</h3><p>Perawatan tubuh untuk melengkapi rutinitas harian.</p><div class="price">Rp 80.000</div><a class="card-link" href="products.html">Lihat Produk â†’</a></div>
 </article>
 
 </div>
+<div style="text-align:center;margin-top:35px"><a href="products.html" class="btn btn-primary">Lihat Semua Produk <i class="fa-solid fa-arrow-right"></i></a></div>
+</div>
+</section>
 
-<div class="journal-footer">
-  <a href="#" class="journal-all-link">
-    Explore DRW Journal
-    <span>→</span>
-  </a>
+<section class="site-section soft-section" id="best-seller">
+<div class="section-shell">
+<div class="section-heading">
+    <span class="eyebrow">BEST SELLER PICKS</span>
+    <h2>Disukai Banyak Orang</h2>
+    <p>Produk pilihan yang paling menarik perhatian untuk melengkapi rutinitas skincare.</p>
 </div>
 
+<div class="best-seller-showcase">
+
+<article class="best-main-card">
+<span class="badge">BEST SELLER</span>
+<img class="best-main-image" src="assets/images/products/Facial wash/Facial Wash Oily Acne/Facial Wash Oily Acne 110 ml.jpg" alt="Facial Wash Oily Acne 110 ml" loading="lazy">
+<div><h3>Facial Wash Oily &amp; Acne 110 ml</h3><div class="price">Rp 80.000</div><a href="products.html" class="btn btn-primary" style="margin-top:18px">Lihat Produk <i class="fa-solid fa-arrow-right"></i></a></div>
+</article>
+
+<div class="best-side-list">
+
+<article class="best-side-card">
+<img class="best-side-image" src="assets/images/products/Cream Siang/Day Pink Cream/Day Pink Cream.png" alt="Day Cream Pink" loading="lazy">
+<div class="best-side-info"><small>Cream Siang</small><h3>Day Cream Pink</h3><div class="price">Rp 100.000</div><a href="products.html" class="card-link">Lihat Produk â†’</a></div>
+</article>
+
+<article class="best-side-card">
+<img class="best-side-image" src="assets/images/products/Cream Malam/Brightening Cream/Brightening Cream.png" alt="Brightening Cream" loading="lazy">
+<div class="best-side-info"><small>Cream Malam</small><h3>Brightening Cream</h3><div class="price">Rp 100.000</div><a href="products.html" class="card-link">Lihat Produk â†’</a></div>
+</article>
+
 </div>
-
+</div>
+</div>
 </section>
 
-
-
-    <!-- =========================================
-         CUSTOMER STORIES
-    ========================================== -->
-
-    <section class="before-after" id="customer-stories">
-
-        <div class="ba-container">
-
-            <div class="ba-heading">
-
-                <span class="ba-eyebrow">
-                    CUSTOMER STORIES
-                </span>
-
-                <h2>
-                    Real Stories,
-                    <span>Real Confidence</span>
-                </h2>
-
-                <p>
-                    Pengalaman pelanggan menjadi bagian penting
-                    dari perjalanan DRW Skincare.
-                </p>
-
-            </div>
-
-
-            <div class="ba-card">
-
-                <div class="ba-image">
-
-                    <span class="ba-label">
-                        BEFORE
-                    </span>
-
-                    <div class="product-placeholder">
-                        DRW
-                        <small>SKINCARE</small>
-                    </div>
-
-                </div>
-
-
-                <div class="ba-divider">
-
-                    <div class="ba-circle">
-                        &rarr;
-                    </div>
-
-                </div>
-
-
-                <div class="ba-image">
-
-                    <span class="ba-label">
-                        AFTER
-                    </span>
-
-                    <div class="product-placeholder">
-                        DRW
-                        <small>SKINCARE</small>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="ba-info">
-
-                <div class="ba-stars">
-                    ★★★★★
-                </div>
-
-                <h3>
-                    A Better Skincare Journey
-                </h3>
-
-                <p>
-                    Setiap perjalanan kulit berbeda. Gunakan produk
-                    sesuai kebutuhan dan petunjuk penggunaan.
-                </p>
-
-                <div class="ba-features">
-
-                    <span>
-                        ✦ Daily Routine
-                    </span>
-
-                    <span>
-                        ✦ Consistent Care
-                    </span>
-
-                    <span>
-                        ✦ Beauty Confidence
-                    </span>
-
-                </div>
-
-                <a href="products.html" class="ba-button">
-                    Explore Products
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-<!-- ================================
-     CUSTOMER REVIEWS
-================================= -->
-<section class="customer-reviews" id="reviews">
-
-    <div class="section-heading">
-        <span class="eyebrow">CUSTOMER REVIEWS</span>
-
-        <h2>
-            Loved by
-            <em>Thousands of<br>Customers</em>
-        </h2>
-
-        <p>
-            Customer experiences help us improve every day.
-        </p>
-    </div>
-
-    <div class="reviews-grid">
-
-        <!-- REVIEW 01 -->
-        <article class="review-card">
-            <div class="review-stars">★★★★★</div>
-
-            <p class="review-text">
-                "Tekstur produknya ringan, nyaman dipakai setiap hari,
-                dan rutinitas skincare terasa lebih menyenangkan."
-            </p>
-
-            <div class="review-author">
-                <div class="author-avatar">A</div>
-
-                <div>
-                    <strong>Andini</strong>
-                    <span>Verified Customer</span>
-                </div>
-            </div>
-        </article>
-
-
-        <!-- REVIEW 02 -->
-        <article class="review-card">
-            <div class="review-stars">★★★★★</div>
-
-            <p class="review-text">
-                "Packaging premium, pengiriman cepat, dan pengalaman
-                menggunakan produknya sangat nyaman."
-            </p>
-
-            <div class="review-author">
-                <div class="author-avatar">R</div>
-
-                <div>
-                    <strong>Rina</strong>
-                    <span>Verified Customer</span>
-                </div>
-            </div>
-        </article>
-
-
-        <!-- REVIEW 03 -->
-        <article class="review-card">
-            <div class="review-stars">★★★★★</div>
-
-            <p class="review-text">
-                "Website mudah digunakan dan koleksi produknya tersusun
-                rapi sehingga mudah dipilih."
-            </p>
-
-            <div class="review-author">
-                <div class="author-avatar">D</div>
-
-                <div>
-                    <strong>Dewi</strong>
-                    <span>Verified Customer</span>
-                </div>
-            </div>
-        </article>
-
-    </div>
-
-</section>
-                           
-    </main>
-
-    <!-- =========================
-     FAQ
-========================= -->
-<section class="drw-faq" id="faq">
-  <div class="drw-faq-container">
-
-    <div class="drw-faq-heading">
-      <span>FAQ</span>
-
-      <h2>
-        Questions,
-        <em>Answered.</em>
-      </h2>
-
-      <p>
-        Temukan jawaban atas pertanyaan umum seputar
-        DRW Skincare dan rutinitas perawatan kulit.
-      </p>
-    </div>
-
-    <div class="drw-faq-list">
-
-      <details class="drw-faq-item" open>
-        <summary>
-          <span>Bagaimana cara memilih produk DRW yang sesuai?</span>
-          <b>+</b>
-        </summary>
-
-        <div class="drw-faq-answer">
-          <p>
-            Pilih produk berdasarkan kebutuhan dan kondisi kulitmu.
-            Jika masih ragu, gunakan informasi produk sebagai panduan
-            sebelum menentukan rangkaian perawatan.
-          </p>
-        </div>
-      </details>
-
-      <details class="drw-faq-item">
-        <summary>
-          <span>Bagaimana urutan pemakaian skincare?</span>
-          <b>+</b>
-        </summary>
-
-        <div class="drw-faq-answer">
-          <p>
-            Secara umum, gunakan produk dari tekstur yang lebih ringan
-            menuju tekstur yang lebih kaya. Selalu ikuti petunjuk
-            penggunaan yang tercantum pada masing-masing produk.
-          </p>
-        </div>
-      </details>
-
-      <details class="drw-faq-item">
-        <summary>
-          <span>Apakah produk dapat digunakan setiap hari?</span>
-          <b>+</b>
-        </summary>
-
-        <div class="drw-faq-answer">
-          <p>
-            Frekuensi penggunaan bergantung pada jenis produk dan
-            petunjuk pemakaiannya. Ikuti aturan penggunaan pada
-            kemasan produk.
-          </p>
-        </div>
-      </details>
-
-      <details class="drw-faq-item">
-        <summary>
-          <span>Bagaimana cara membeli produk DRW?</span>
-          <b>+</b>
-        </summary>
-
-        <div class="drw-faq-answer">
-          <p>
-            Gunakan tombol pembelian atau tautan toko resmi yang
-            nantinya akan kita hubungkan pada website DRW.
-          </p>
-        </div>
-      </details>
-
-      <details class="drw-faq-item">
-        <summary>
-          <span>Bagaimana informasi pengiriman produk?</span>
-          <b>+</b>
-        </summary>
-
-        <div class="drw-faq-answer">
-          <p>
-            Informasi pengiriman akan kita hubungkan dengan sistem
-            toko resmi setelah fitur e-commerce website selesai.
-          </p>
-        </div>
-      </details>
-
-    </div>
-
-  </div>
+<section class="site-section" id="treatment">
+<div class="section-shell">
+<div class="section-heading"><span class="eyebrow">SHOP BY CATEGORY</span><h2>Perawatan Sesuai Kebutuhan</h2><p>Jelajahi kategori produk DRW Skincare sesuai kebutuhan perawatanmu.</p></div>
+<div class="category-grid">
+<a href="products.html?category=Facial%20Wash" class="category-card"><i class="fa-solid fa-droplet"></i><h3>Facial Wash</h3><p>Pembersihan wajah</p></a>
+<a href="products.html?category=Cream%20Siang" class="category-card"><i class="fa-solid fa-sun"></i><h3>Cream Siang</h3><p>Perawatan siang hari</p></a>
+<a href="products.html?category=Cream%20Malam" class="category-card"><i class="fa-solid fa-moon"></i><h3>Cream Malam</h3><p>Rutinitas malam</p></a>
+<a href="products.html?category=Body%20Care" class="category-card"><i class="fa-solid fa-spa"></i><h3>Body Care</h3><p>Perawatan tubuh</p></a>
+<a href="products.html?category=Perawatan%20Wajah" class="category-card"><i class="fa-solid fa-face-smile"></i><h3>Perawatan Wajah</h3><p>Perawatan wajah</p></a>
+<a href="products.html?category=Perawatan%20Rambut" class="category-card"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Hair Care</h3><p>Perawatan rambut</p></a>
+<a href="products.html?category=Make%20Up%20%26%20Riasan" class="category-card"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Make Up &amp; Riasan</h3><p>Riasan untuk berbagai kesempatan</p></a>
+<a href="products.html" class="category-card"><i class="fa-solid fa-table-cells-large"></i><h3>Semua Produk</h3><p>Lihat koleksi lengkap</p></a>
+</div>
+</div>
 </section>
 
-<!-- =========================
-     DRW FOOTER
-========================= -->
-<footer class="drw-footer">
+<section class="site-section soft-section" id="why-us">
+<div class="section-shell">
+<div class="section-heading"><span class="eyebrow">WHY CHOOSE RARA DRW</span><h2>Perawatan yang Lebih Menyenangkan</h2><p>Pengalaman memilih dan merawat kulit dibuat sederhana dan nyaman.</p></div>
+<div class="why-grid">
+<article class="why-card"><i class="fa-solid fa-gem"></i><h3>Premium Selection</h3><p>Koleksi produk pilihan untuk menemani rutinitas kecantikanmu.</p></article>
+<article class="why-card"><i class="fa-solid fa-heart"></i><h3>Beauty First</h3><p>Dirancang untuk membantu membuat rutinitas skincare lebih nyaman.</p></article>
+<article class="why-card"><i class="fa-solid fa-box"></i><h3>Packaging Aman</h3><p>Produk dipersiapkan dengan perhatian agar sampai dengan baik.</p></article>
+<article class="why-card"><i class="fa-solid fa-comments"></i><h3>Friendly Support</h3><p>Hubungi kami untuk mendapatkan bantuan dan informasi produk.</p></article>
+</div>
+</div>
+</section>
 
-  <div class="drw-footer-container">
+<section class="site-section" id="skin-concern">
+<div class="section-shell">
+<div class="section-heading"><span class="eyebrow">SKIN CONCERN</span><h2>Mulai dari Kebutuhan Kulitmu</h2><p>Pilih kebutuhan yang ingin kamu eksplorasi.</p></div>
+<div class="category-grid">
+<a href="products.html?concern=acne" class="category-card"><i class="fa-solid fa-face-frown"></i><h3>Acne Care</h3><p>Eksplorasi produk untuk rutinitas kulit berjerawat.</p></a>
+<a href="products.html?concern=brightening" class="category-card"><i class="fa-solid fa-sun"></i><h3>Brightening</h3><p>Pilihan untuk tampilan kulit lebih cerah.</p></a>
+<a href="products.html?concern=hydration" class="category-card"><i class="fa-solid fa-water"></i><h3>Hydration</h3><p>Pilihan untuk rutinitas yang mengutamakan kelembapan.</p></a>
+<a href="products.html" class="category-card"><i class="fa-solid fa-sparkles"></i><h3>Explore All</h3><p>Lihat semua produk DRW Skincare.</p></a>
+</div>
+</div>
+</section>
 
-    <div class="drw-footer-main">
+<section class="site-section soft-section" id="about">
+<div class="section-shell">
+<div class="about-grid">
+<div class="about-image"><img src="assets/images/icons/model-1.png" alt="RARA DRW Skincare" loading="lazy"></div>
+<div class="about-copy">
+<span class="eyebrow">RARA DRW SKINCARE</span>
+<h2>Cantikmu, <span style="color:var(--pink)">Ritualmu.</span></h2>
+<p>RARA DRW Skincare hadir untuk menemani perjalanan perawatan kulit dengan pilihan produk yang mudah ditemukan dan nyaman digunakan dalam rutinitas sehari-hari.</p>
+<p>Jelajahi koleksi kami dan temukan produk yang paling sesuai dengan kebutuhanmu.</p>
+<a href="products.html" class="btn btn-primary">Jelajahi Produk <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</section>
 
-      <div class="drw-footer-brand">
-        <a href="#" class="drw-footer-logo">
-          DRW<span>.</span>
-        </a>
+<section class="site-section" id="beauty-tips">
+<div class="section-shell">
+<div class="section-heading"><span class="eyebrow">BEAUTY TIPS</span><h2>Tips Sederhana untuk Rutinitasmu</h2><p>Kebiasaan sederhana dapat membantu membuat rutinitas perawatan kulit lebih teratur.</p></div>
+<div class="tips-grid">
+<article class="tip-card"><span>01 â€” CLEANSE</span><h3>Bersihkan Wajah dengan Lembut</h3><p>Gunakan pembersih sesuai kebutuhan kulit dan hindari menggosok wajah terlalu keras.</p></article>
+<article class="tip-card"><span>02 â€” ROUTINE</span><h3>Jaga Rutinitas Tetap Konsisten</h3><p>Rutinitas yang sederhana dan konsisten lebih mudah dijadikan kebiasaan sehari-hari.</p></article>
+<article class="tip-card"><span>03 â€” PROTECT</span><h3>Perlindungan Siang Hari</h3><p>Lengkapi rutinitas pagi dengan perlindungan dari paparan sinar matahari sesuai kebutuhan.</p></article>
+</div>
+</div>
+</section>
 
-        <p>
-          Beauty begins with the way you care for yourself.
-          Temukan pengalaman skincare yang elegan untuk
-          rutinitas kecantikanmu.
-        </p>
+<section class="consultation" id="contact">
+<div class="section-shell">
+<div class="cta-box">
+<span class="eyebrow">NEED HELP?</span>
+<h2>Bingung Memilih Produk?</h2>
+<p>Hubungi kami untuk mendapatkan informasi produk dan bantuan memilih koleksi yang ingin kamu lihat.</p>
+<a href="https://wa.me/" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>Konsultasi via WhatsApp</a>
+</div>
+</div>
+</section>
 
-        <div class="drw-footer-social">
-          <a href="#" aria-label="Instagram">IG</a>
-          <a href="#" aria-label="TikTok">TK</a>
-          <a href="#" aria-label="Facebook">FB</a>
-        </div>
-      </div>
+</main>
 
-      <div class="drw-footer-column">
-        <h3>Shop</h3>
-
-        <a href="#categories">Face Care</a>
-        <a href="#categories">Brightening</a>
-        <a href="#categories">Acne Care</a>
-        <a href="#categories">Body Care</a>
-      </div>
-
-      <div class="drw-footer-column">
-        <h3>Explore</h3>
-
-        <a href="#why-drw">Why DRW</a>
-        <a href="#before-after">Beauty Journey</a>
-        <a href="#testimonials">Customer Stories</a>
-        <a href="#journal">DRW Journal</a>
-      </div>
-
-      <div class="drw-footer-column">
-        <h3>Help</h3>
-
-        <a href="#faq">FAQ</a>
-        <a href="#">Shipping</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-
-    </div>
-
-    <div class="drw-footer-newsletter">
-
-      <div>
-        <span>STAY IN THE GLOW</span>
-
-        <h3>
-          Join the DRW Beauty Circle
-        </h3>
-
-        <p>
-          Dapatkan beauty tips dan informasi terbaru dari DRW.
-        </p>
-      </div>
-
-      <form class="drw-newsletter-form">
-
-        <input
-          type="email"
-          placeholder="Your email address"
-          aria-label="Your email address"
-        >
-
-        <button type="submit">
-          Subscribe
-          <span>→</span>
-        </button>
-
-      </form>
-
-    </div>
-
-    <div class="drw-footer-bottom">
-
-      <span>
-        © 2026 DRW Skincare. All rights reserved.
-      </span>
-
-      <span>
-        BEAUTY • CARE • CONFIDENCE
-      </span>
-
-    </div>
-
-  </div>
-
+<footer>
+<div class="footer-grid">
+<div class="footer-brand"><h2>RARA DRW SKINCARE</h2><p>Premium skincare collection untuk menemani rutinitas kecantikanmu setiap hari.</p></div>
+<div><h3 class="footer-title">Navigation</h3><ul><li><a href="#home">Home</a></li><li><a href="products.html">Produk</a></li><li><a href="#best-seller">Best Seller</a></li><li><a href="#about">Tentang Kami</a></li></ul></div>
+<div><h3 class="footer-title">Explore</h3><ul><li><a href="#treatment">Treatment</a></li><li><a href="#skin-concern">Skin Concern</a></li><li><a href="#beauty-tips">Beauty Tips</a></li><li><a href="#contact">Konsultasi</a></li></ul></div>
+<div><h3 class="footer-title">Account</h3><ul><li><a href="cart.html">Keranjang</a></li><li><a href="checkout.html">Checkout</a></li><li><a href="login.html">Login / Register</a></li><li><a href="products.html">Semua Produk</a></li></ul></div>
+</div>
+<div class="footer-bottom"><span>Â© 2026 RARA DRW Skincare. All rights reserved.</span><span>Made with care for your beauty routine.</span></div>
 </footer>
 
-    <!-- =====================================================
-         PRODUCT DETAIL MODAL
-    ====================================================== -->
-
-    <div class="product-modal"
-         id="productModal"
-         aria-hidden="true">
-
-
-        <div class="product-modal-overlay"></div>
-
-
-        <div class="product-modal-box"
-             role="dialog"
-             aria-modal="true"
-             aria-labelledby="modalProductName">
-
-
-            <button class="product-modal-close"
-                    id="productModalClose"
-                    type="button"
-                    aria-label="Close product">
-
-                Ã—
-
-            </button>
-
-
-
-            <div class="product-modal-grid">
-
-
-                <div class="product-modal-image">
-
-                    <img id="modalProductImage"
-                         src=""
-                         alt=""> 
-
-                </div>
-
-
-
-                <div class="product-modal-content">
-
-
-                    <span class="product-modal-category"
-                          id="modalProductCategory">
-                    </span>
-
-
-                    <h2 id="modalProductName">
-                    </h2>
-
-
-                    <div class="modal-rating">
-
-                        ✦˜…✦˜…✦˜…✦˜…✦˜…
-
-                        <span>
-                            4.9
-                        </span>
-
-                    </div>
-
-
-                    <div class="product-modal-price"
-                         id="modalProductPrice">
-                    </div>
-
-
-                    <p id="modalProductDescription">
-                    </p>
-
-
-
-                    <div class="modal-quantity">
-
-
-                        <button id="qtyMinus"
-                                type="button"
-                                aria-label="Decrease quantity">
-
-                            ✦ˆ’
-
-                        </button>
-
-
-                        <span id="modalQuantity">
-                            1
-                        </span>
-
-
-                        <button id="qtyPlus"
-                                type="button"
-                                aria-label="Increase quantity">
-
-                            +
-
-                        </button>
-
-
-                    </div>
-
-
-
-                    <button class="modal-add-cart"
-                            id="modalAddCart"
-                            type="button">
-
-                        ADD TO BAG
-
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         CART OVERLAY
-    ====================================================== -->
-
-    <div class="cart-overlay"
-         id="cartOverlay">
-    </div>
-
-
-
-    <!-- =====================================================
-         CART DRAWER
-    ====================================================== -->
-
-    <aside class="cart-drawer"
-           id="cartDrawer"
-           aria-label="Shopping cart">
-
-
-        <div class="cart-header">
-
-
-            <div>
-
-                <span class="eyebrow">
-                    YOUR SHOPPING BAG
-                </span>
-
-
-                <h3>
-                    Your Cart
-                </h3>
-
-            </div>
-
-
-            <button class="cart-close"
-                    id="cartClose"
-                    type="button"
-                    aria-label="Close cart">
-
-                Ã—
-
-            </button>
-
-
-        </div>
-
-
-
-        <div class="cart-items"
-             id="cartItems">
-
-
-            <div class="cart-empty">
-
-
-                <div class="cart-empty-icon">
-                    ✦™™
-                </div>
-
-
-                <h4>
-                    Your bag is empty
-                </h4>
-
-
-                <p>
-
-                    Temukan produk favoritmu dan
-                    mulai your skincare journey.
-
-                </p>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <div class="cart-footer">
-
-
-            <div class="cart-total-row">
-
-                <span>
-                    Subtotal
-                </span>
-
-
-                <strong id="cartSubtotal">
-                    Rp0
-                </strong>
-
-            </div>
-
-
-            <button class="checkout-btn"
-                    type="button">
-
-                CHECKOUT
-
-                <span>
-                    →’
-                </span>
-
-            </button>
-
-
-        </div>
-
-
-    </aside>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
     <script src="assets/js/app.js"></script>
-<script src="assets/js/navbar.js"></script>
+<script src="assets/js/cart.js"></script>
+ <script src="assets/js/products-data.js"></script>
+<script src="assets/js/products-page.js"></script>
 
 </body>
-
 </html>
