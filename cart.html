@@ -54,161 +54,113 @@
 <body>
 
 
-    <!-- =====================================================
-         TOP BAR
-    ====================================================== -->
+<!-- =========================================================
+     RARA DRW SKINCARE — TOP BAR + NAVBAR
+========================================================= -->
 
+<header class="site-header">
+
+    <!-- TOP BAR -->
     <div class="top-bar">
 
-        <div class="top-left">
-
-            <span>✦</span>
-
-            FREE SHIPPING UNTUK PEMBELIAN DIATAS Rp500.000
-
-            <span>✦</span>
-
+        <div class="top-bar-left">
+            <span class="top-highlight">✦</span>
+            FREE SHIPPING UNTUK PEMBELIAN DI ATAS Rp500.000
+            <span class="top-highlight">✦</span>
         </div>
 
-
-        <div class="top-right">
-
-            <a href="#">
-                ♙ Login / Register
-            </a>
-
-            <span class="divider"></span>
-
-            <a href="#">
-                ◎ ID⌄
-            </a>
-
+        <div class="top-bar-right">
+            <a href="#">Login / Register</a>
+            <span class="top-divider">|</span>
+            <span>Indonesia</span>
         </div>
 
     </div>
 
 
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
-
-    <header class="navbar">
-
-
-        <!-- MOBILE MENU BUTTON -->
-
-        <button class="mobile-menu-toggle"
-                aria-label="Open menu"
-                aria-expanded="false"
-                type="button">
-
-            <i class="fa-solid fa-bars"></i>
-
-        </button>
-
-
-
-        <!-- LEFT NAV -->
-
-        <nav class="nav-left">
-
-            <a class="active"
-               href="#home">
-
-                HOME
-
-            </a>
-
-
-            <a href="#featured-products">
-
-                SHOP
-
-                <i class="fa-solid fa-chevron-down"></i>
-
-            </a>
-
-
-            <a href="#treatment">
-
-                TREATMENT
-
-            </a>
-
-        </nav>
-
-
+    <!-- MAIN NAVBAR -->
+    <nav class="main-navbar">
 
         <!-- LOGO -->
+        <a href="index.html" class="brand-logo">
 
-        <a href="#home"
-           class="logo">
-
-            <span class="logo-main">
-                DRW
-            </span>
-
-            <span class="logo-sub">
-                S K I N C A R E
-            </span>
+            <img
+                src="assets/images/logo/logo.png"
+                alt="RARA DRW Skincare"
+            >
 
         </a>
 
 
+        <!-- MENU -->
+        <div class="nav-menu">
 
-        <!-- RIGHT NAV -->
-
-        <nav class="nav-right">
-
-            <a href="#best-seller">
-                BEST SELLER
+            <a href="index.html" class="nav-item active">
+                Home
             </a>
 
-            <a href="#about">
-                ABOUT US
+            <a href="products.html" class="nav-item">
+                Produk
             </a>
 
-            <a href="#beauty-tips">
-                BEAUTY TIPS
+            <a href="index.html#best-seller" class="nav-item">
+                Best Seller
             </a>
 
+            <a href="index.html#kategori-produk" class="nav-item">
+                Kategori Produk
+            </a>
 
-            <button class="icon-btn"
-                    type="button"
-                    aria-label="Search">
+                <a href="index.html#about" class="nav-item">
+                Tentang Kami
+            </a>
 
+            <a href="index.html#beauty-tips" class="nav-item">
+                Beauty Tips
+            </a>
+
+            <a href="index.html#contact" class="nav-item">
+                Konsultasi
+            </a>
+
+        </div>
+
+
+        <!-- ACTION -->
+        <div class="nav-actions">
+
+            <button
+                type="button"
+                class="nav-icon"
+                aria-label="Cari produk"
+                id="searchButton"
+            >
                 <i class="fa-solid fa-magnifying-glass"></i>
-
             </button>
 
 
-            <button class="icon-btn"
-                    type="button"
-                    aria-label="Wishlist">
-
-                <i class="fa-regular fa-heart"></i>
-
-            </button>
-
-
-            <button class="cart-btn"
-                    type="button"
-                    data-cart
-                    aria-label="Shopping cart">
+            <a
+                href="cart.html"
+                class="nav-icon cart-icon"
+                aria-label="Keranjang"
+            >
 
                 <i class="fa-solid fa-bag-shopping"></i>
 
-                <span class="cart-count">
-                    0
-                </span>
+                <span
+                    class="cart-count"
+                    id="cartCount"
+                >0</span>
 
-            </button>
+            </a>
 
-        </nav>
+        </div>
 
-    </header>
+    </nav>
 
+</header>
+
+<main>
 
 
     <!-- =====================================================

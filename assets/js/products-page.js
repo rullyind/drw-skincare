@@ -557,11 +557,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             <button
                                 type="button"
-                                class="product-add-cart-btn"
+                                class="product-add-cart-btn-btn"
                                 data-product-id="${product.id}"
                             >
                                 <i class="fa-solid fa-bag-shopping"></i>
-                                ADD TO BAG
+                                Tambah Keranjang
                             </button>
 
                         </div>

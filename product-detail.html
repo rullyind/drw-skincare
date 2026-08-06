@@ -54,38 +54,113 @@
 <body>
 <div id="navbar-container"></div>
 
-    <!-- =====================================================
-         TOP BAR
-    ====================================================== -->
+<!-- =========================================================
+     RARA DRW SKINCARE — TOP BAR + NAVBAR
+========================================================= -->
 
+<header class="site-header">
+
+    <!-- TOP BAR -->
     <div class="top-bar">
 
-        <div class="top-left">
-
-            <span>✦</span>
-
-            FREE SHIPPING UNTUK PEMBELIAN DIATAS Rp500.000
-
-            <span>✦</span>
-
+        <div class="top-bar-left">
+            <span class="top-highlight">✦</span>
+            FREE SHIPPING UNTUK PEMBELIAN DI ATAS Rp500.000
+            <span class="top-highlight">✦</span>
         </div>
 
-
-        <div class="top-right">
-
-            <a href="#">
-                ♙ Login / Register
-            </a>
-
-            <span class="divider"></span>
-
-            <a href="#">
-                ◎ ID⌄
-            </a>
-
+        <div class="top-bar-right">
+            <a href="#">Login / Register</a>
+            <span class="top-divider">|</span>
+            <span>Indonesia</span>
         </div>
 
     </div>
+
+
+    <!-- MAIN NAVBAR -->
+    <nav class="main-navbar">
+
+        <!-- LOGO -->
+        <a href="index.html" class="brand-logo">
+
+            <img
+                src="assets/images/logo/logo.png"
+                alt="RARA DRW Skincare"
+            >
+
+        </a>
+
+
+        <!-- MENU -->
+        <div class="nav-menu">
+
+            <a href="index.html" class="nav-item active">
+                Home
+            </a>
+
+            <a href="products.html" class="nav-item">
+                Produk
+            </a>
+
+            <a href="index.html#best-seller" class="nav-item">
+                Best Seller
+            </a>
+
+            <a href="index.html#kategori-produk" class="nav-item">
+                Kategori Produk
+            </a>
+
+                <a href="index.html#about" class="nav-item">
+                Tentang Kami
+            </a>
+
+            <a href="index.html#beauty-tips" class="nav-item">
+                Beauty Tips
+            </a>
+
+            <a href="index.html#contact" class="nav-item">
+                Konsultasi
+            </a>
+
+        </div>
+
+
+        <!-- ACTION -->
+        <div class="nav-actions">
+
+            <button
+                type="button"
+                class="nav-icon"
+                aria-label="Cari produk"
+                id="searchButton"
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+
+            <a
+                href="cart.html"
+                class="nav-icon cart-icon"
+                aria-label="Keranjang"
+            >
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span
+                    class="cart-count"
+                    id="cartCount"
+                >0</span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main>
 
     <!-- MOBILE OVERLAY -->
 
@@ -663,7 +738,6 @@
    <script src="assets/js/products-data.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/product-detail.js"></script>
-<script src="assets/js/navbar.js"></script>
 
 </body>
 

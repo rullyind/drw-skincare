@@ -1,186 +1,549 @@
+/* =========================================================
+   RARA DRW SKINCARE
+   NAVBAR.JS — FINAL
+   ---------------------------------------------------------
+   FEATURES:
+   1. Cart Count
+   2. Search Button
+   3. Active Navigation
+   4. Navbar Scroll Effect
+   5. Mobile Menu Support
+   6. LocalStorage drwCart Support
+   7. Compatible with app.js / cart.js
+========================================================= */
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    const navbarContainer = document.getElementById("navbar-container");
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
 
-    if (!navbarContainer) return;
+    const header = document.querySelector(".site-header");
+    const navbar = document.querySelector(".main-navbar");
 
-    navbarContainer.innerHTML = `
+    const searchButton =
+        document.getElementById("searchButton");
 
-        <header class="navbar">
-
-            <!-- LOGO -->
-            <a href="index.html" class="logo">
-                <img
-                    src="assets/images/logo/logo.png"
-                    alt="RARA DRW Skincare"
-                >
-            </a>
+    const cartCount =
+        document.getElementById("cartCount");
 
 
-            <!-- NAVIGATION -->
-            <nav class="nav-left">
+    /* =====================================================
+       1. UPDATE CART COUNT
+    ===================================================== */
 
-                <a href="index.html">
-                    Home
-                </a>
+    function updateCartCount() {
 
-                <a href="products.html">
-                    Produk
-                </a>
+        if (!cartCount) return;
 
-                <a href="index.html#best-seller">
-                    Best Seller
-                </a>
+        let cart = [];
 
-                <a href="index.html#treatment">
-                    Treatment
-                </a>
+        try {
 
-                <a href="index.html#skin-concern">
-                    Skin Concern
-                </a>
+            const savedCart =
+                localStorage.getItem("drwCart");
 
-                <a href="index.html#about">
-                    About Us
-                </a>
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
 
-                <a href="index.html#beauty-tips">
-                    Beauty Tips
-                </a>
+        } catch (error) {
 
-                <a href="index.html#contact">
-                    Konsultasi
-                </a>
+            console.warn(
+                "DRW Navbar: gagal membaca drwCart",
+                error
+            );
 
-            </nav>
+            cart = [];
+        }
 
 
-            <!-- RIGHT NAV -->
-            <nav class="nav-right">
+        /*
+         * SUPPORT:
+         * qty
+         * quantity
+         * fallback 1
+         */
 
-                <a href="products.html">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </a>
-
-                <a href="cart.html">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-count">0</span>
-                </a>
-
-            </nav>
+        let totalItems = 0;
 
 
-            <!-- MOBILE BUTTON -->
-            <button
-                class="mobile-menu-toggle"
-                type="button"
-                aria-label="Buka menu"
-            >
-                <i class="fa-solid fa-bars"></i>
-            </button>
+        if (Array.isArray(cart)) {
 
-        </header>
+            cart.forEach(function (item) {
 
+                const quantity =
+                    Number(
+                        item.qty ??
+                        item.quantity ??
+                        1
+                    );
 
-        <!-- MOBILE MENU -->
-        <div class="mobile-menu">
+                if (
+                    Number.isFinite(quantity) &&
+                    quantity > 0
+                ) {
 
-            <a href="index.html">
-                Home
-            </a>
+                    totalItems += quantity;
 
-            <a href="products.html">
-                Produk
-            </a>
+                }
 
-            <a href="index.html#best-seller">
-                Best Seller
-            </a>
+            });
 
-            <a href="index.html#treatment">
-                Treatment
-            </a>
-
-            <a href="index.html#skin-concern">
-                Skin Concern
-            </a>
-
-            <a href="index.html#about">
-                About Us
-            </a>
-
-            <a href="index.html#beauty-tips">
-                Beauty Tips
-            </a>
-
-            <a href="index.html#contact">
-                Konsultasi
-            </a>
-
-            <a href="cart.html">
-                Keranjang
-            </a>
-
-        </div>
-
-    `;
+        }
 
 
-    /* ================================
-       MOBILE MENU
-    ================================= */
-
-    const menuButton =
-        document.querySelector(".mobile-menu-toggle");
-
-    const mobileMenu =
-        document.querySelector(".mobile-menu");
+        cartCount.textContent = totalItems;
 
 
-    if (menuButton && mobileMenu) {
+        /* -------------------------------------------------
+           HIDE COUNT IF EMPTY
+        ------------------------------------------------- */
 
-        menuButton.addEventListener("click", function () {
+        if (totalItems <= 0) {
 
-            mobileMenu.classList.toggle("active");
+            cartCount.classList.remove("has-items");
 
-            const icon =
-                menuButton.querySelector("i");
+        } else {
 
-            if (mobileMenu.classList.contains("active")) {
+            cartCount.classList.add("has-items");
 
-                icon.classList.remove("fa-bars");
-                icon.classList.add("fa-xmark");
+        }
 
-            } else {
+    }
 
-                icon.classList.remove("fa-xmark");
-                icon.classList.add("fa-bars");
+
+    /* Jalankan pertama kali */
+    updateCartCount();
+
+
+    /* =====================================================
+       2. LISTEN LOCAL STORAGE
+    ===================================================== */
+
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (event.key === "drwCart") {
+
+                updateCartCount();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       3. CUSTOM CART EVENT
+       -----------------------------------------------------
+       Bisa dipanggil oleh cart.js / app.js:
+       
+       window.dispatchEvent(
+           new Event("cartUpdated")
+       );
+    ===================================================== */
+
+    window.addEventListener(
+        "cartUpdated",
+        function () {
+
+            updateCartCount();
+
+        }
+    );
+
+
+    /* =====================================================
+       4. SEARCH BUTTON
+    ===================================================== */
+
+    if (searchButton) {
+
+        searchButton.addEventListener(
+            "click",
+            function () {
+
+                /*
+                 * Jika sudah ada halaman products.html,
+                 * langsung arahkan ke sana.
+                 */
+
+                const currentPage =
+                    window.location.pathname
+                        .split("/")
+                        .pop()
+                        .toLowerCase();
+
+
+                if (
+                    currentPage === "product.html" ||
+                    currentPage === "products.html"
+                ) {
+
+                    /*
+                     * Cari input search yang sudah ada
+                     */
+
+                    const searchInput =
+                        document.querySelector(
+                            "#productSearch, " +
+                            "#searchInput, " +
+                            ".product-search input, " +
+                            "input[type='search']"
+                        );
+
+
+                    if (searchInput) {
+
+                        searchInput.focus();
+
+                        searchInput.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                    }
+
+                } else {
+
+                    /*
+                     * Jika bukan halaman produk,
+                     * buka product.html
+                     */
+
+                    window.location.href =
+                        "product.html";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       5. ACTIVE NAVIGATION
+    ===================================================== */
+
+    const navItems =
+        document.querySelectorAll(
+            ".nav-menu .nav-item"
+        );
+
+
+    function setActiveNavigation() {
+
+        const currentPath =
+            window.location.pathname
+                .split("/")
+                .pop()
+                .toLowerCase();
+
+
+        const currentHash =
+            window.location.hash.toLowerCase();
+
+
+        navItems.forEach(function (item) {
+
+            item.classList.remove("active");
+
+            const href =
+                item.getAttribute("href");
+
+            if (!href) return;
+
+
+            /*
+             * Pisahkan halaman + hash
+             */
+
+            const parts =
+                href.split("#");
+
+            const linkPage =
+                (
+                    parts[0] ||
+                    "index.html"
+                )
+                    .split("/")
+                    .pop()
+                    .toLowerCase();
+
+            const linkHash =
+                parts[1]
+                    ? "#" + parts[1].toLowerCase()
+                    : "";
+
+
+            /* ------------------------------------------------
+               HOME
+            ------------------------------------------------ */
+
+            if (
+                (currentPath === "" ||
+                 currentPath === "index.html") &&
+                linkPage === "index.html" &&
+                !linkHash
+            ) {
+
+                item.classList.add("active");
+
+            }
+
+
+            /* ------------------------------------------------
+               PRODUCT PAGE
+            ------------------------------------------------ */
+
+            else if (
+
+                (
+                    currentPath === "product.html" ||
+                    currentPath === "products.html"
+                ) &&
+
+                (
+                    linkPage === "product.html" ||
+                    linkPage === "products.html"
+                ) &&
+
+                (
+                    !linkHash ||
+                    linkHash === currentHash
+                )
+
+            ) {
+
+                /*
+                 * Jangan otomatis membuat semua link
+                 * product page aktif.
+                 */
+
+                if (
+                    !currentHash &&
+                    !linkHash
+                ) {
+
+                    item.classList.add("active");
+
+                }
+
+            }
+
+
+            /* ------------------------------------------------
+               OTHER PAGES
+            ------------------------------------------------ */
+
+            else if (
+
+                linkPage &&
+                linkPage === currentPath &&
+                !linkHash
+
+            ) {
+
+                item.classList.add("active");
 
             }
 
         });
 
+    }
 
-        /* Tutup menu setelah klik link */
 
-        mobileMenu
-            .querySelectorAll("a")
-            .forEach(function (link) {
+    setActiveNavigation();
 
-                link.addEventListener("click", function () {
 
-                    mobileMenu.classList.remove("active");
+    /* =====================================================
+       6. HASH NAVIGATION
+    ===================================================== */
 
-                    const icon =
-                        menuButton.querySelector("i");
+    window.addEventListener(
+        "hashchange",
+        function () {
 
-                    icon.classList.remove("fa-xmark");
-                    icon.classList.add("fa-bars");
+            setActiveNavigation();
 
-                });
+        }
+    );
 
-            });
+
+    /* =====================================================
+       7. NAVBAR SCROLL EFFECT
+    ===================================================== */
+
+    let lastScroll = 0;
+
+
+    function handleNavbarScroll() {
+
+        if (!header) return;
+
+
+        const scrollY =
+            window.scrollY;
+
+
+        if (scrollY > 30) {
+
+            header.classList.add(
+                "navbar-scrolled"
+            );
+
+        } else {
+
+            header.classList.remove(
+                "navbar-scrolled"
+            );
+
+        }
+
+
+        lastScroll = scrollY;
 
     }
+
+
+    window.addEventListener(
+        "scroll",
+        handleNavbarScroll,
+        { passive: true }
+    );
+
+
+    handleNavbarScroll();
+
+
+    /* =====================================================
+       8. MOBILE MENU
+       -----------------------------------------------------
+       Mendukung HTML tambahan:
+       
+       <button class="mobile-menu-toggle">
+       
+       <div class="nav-menu">
+    ===================================================== */
+
+    const mobileToggle =
+        document.querySelector(
+            ".mobile-menu-toggle"
+        );
+
+
+    if (mobileToggle) {
+
+        mobileToggle.addEventListener(
+            "click",
+            function () {
+
+                if (!navbar) return;
+
+                navbar.classList.toggle(
+                    "mobile-menu-open"
+                );
+
+                const isOpen =
+                    navbar.classList.contains(
+                        "mobile-menu-open"
+                    );
+
+                mobileToggle.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                        ? "true"
+                        : "false"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       9. CLOSE MOBILE MENU AFTER CLICK
+    ===================================================== */
+
+    navItems.forEach(function (item) {
+
+        item.addEventListener(
+            "click",
+            function () {
+
+                if (!navbar) return;
+
+                navbar.classList.remove(
+                    "mobile-menu-open"
+                );
+
+                if (mobileToggle) {
+
+                    mobileToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       10. ESCAPE KEY
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key !== "Escape") return;
+
+            if (!navbar) return;
+
+            navbar.classList.remove(
+                "mobile-menu-open"
+            );
+
+            if (mobileToggle) {
+
+                mobileToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       11. CART COUNT SAFETY REFRESH
+       -----------------------------------------------------
+       Berguna jika app.js/cart.js mengubah localStorage
+       di halaman yang sama.
+    ===================================================== */
+
+    setInterval(
+        updateCartCount,
+        1000
+    );
+
+
+    /* =====================================================
+       12. DEBUG
+    ===================================================== */
+
+    console.log(
+        "RARA DRW SKINCARE — Navbar JS Loaded ✓"
+    );
 
 });
