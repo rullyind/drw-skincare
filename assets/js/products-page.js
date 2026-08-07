@@ -1,15 +1,29 @@
 /* =========================================================
-   DRW SKINCARE
-   PRODUCTS PAGE FINAL
-   - PRODUCT DATABASE
-   - SEARCH
-   - FILTER
-   - PAGINATION
-   - ADD TO CART
-   - MULTI PRODUCT CART
-   - PRODUCT MODAL
+   RARA DRW SKINCARE
+   PRODUCTS-PAGE.JS FINAL
+   =========================================================
+   FEATURES:
+   ✓ Product database
+   ✓ Harga otomatis berdasarkan level login
+   ✓ Director
+   ✓ Manager
+   ✓ Supervisor
+   ✓ Reseller
+   ✓ Umum
+   ✓ Search
+   ✓ Category filter
+   ✓ Pagination
+   ✓ Add to cart
+   ✓ Multi product cart
+   ✓ Product detail link
+   ✓ Premium product card
+   ✓ Button berubah menjadi CHECKLIST setelah klik
+   ✓ Product modal
+   ✓ Quantity modal
 ========================================================= */
-console.log("PRODUCTS-PAGE JS TERBACA");
+
+console.log("RARA DRW - PRODUCTS PAGE FINAL");
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -21,8 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
         typeof DRW_PRODUCTS === "undefined" ||
         !Array.isArray(DRW_PRODUCTS)
     ) {
+
         console.error("DRW_PRODUCTS tidak ditemukan.");
         return;
+
     }
 
 
@@ -43,8 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (!productsGrid) {
-        console.error("#productsGrid tidak ditemukan.");
+
+        console.error(
+            "#productsGrid tidak ditemukan."
+        );
+
         return;
+
     }
 
 
@@ -79,6 +100,102 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       GET CURRENT PRICE
+       DIRECTOR / MANAGER / SUPERVISOR /
+       RESELLER / UMUM
+    ===================================================== */
+
+    function getCurrentPrice(product) {
+
+        if (!product) {
+            return 0;
+        }
+
+
+        /*
+           Gunakan sistem DRW_PRICE jika tersedia.
+        */
+
+        if (
+            window.DRW_PRICE &&
+            typeof window.DRW_PRICE.getPrice === "function"
+        ) {
+
+            try {
+
+                const price =
+                    Number(
+                        window.DRW_PRICE.getPrice(
+                            String(product.id)
+                        )
+                    );
+
+
+                if (
+                    Number.isFinite(price) &&
+                    price > 0
+                ) {
+
+                    return price;
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Gagal mengambil harga level:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+           Fallback ke harga dasar produk.
+        */
+
+        return Number(product.price) || 0;
+
+    }
+
+
+    /* =====================================================
+       GET CURRENT USER LEVEL
+    ===================================================== */
+
+    function getCurrentLevel() {
+
+        if (
+            window.DRW_PRICE &&
+            typeof window.DRW_PRICE.getLevel === "function"
+        ) {
+
+            try {
+
+                return String(
+                    window.DRW_PRICE.getLevel()
+                ).toLowerCase();
+
+            } catch (error) {
+
+                console.warn(
+                    "Gagal membaca level harga.",
+                    error
+                );
+
+            }
+
+        }
+
+
+        return "umum";
+
+    }
+
+
+    /* =====================================================
        PRODUCT URL
     ===================================================== */
 
@@ -93,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       FILTER
+       FILTER PRODUCT
     ===================================================== */
 
     function getFilteredProducts() {
@@ -106,10 +223,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         product.category || ""
                     ).toLowerCase();
 
+
                 const name =
                     String(
                         product.name || ""
                     ).toLowerCase();
+
 
                 const description =
                     String(
@@ -145,17 +264,47 @@ document.addEventListener("DOMContentLoaded", function () {
        ADD PRODUCT TO CART
     ===================================================== */
 
-    function addProduct(product, quantity = 1) {
+    function addProduct(
+        product,
+        quantity = 1
+    ) {
 
         if (!product) {
-            console.error("Produk tidak valid.");
+
+            console.error(
+                "Produk tidak valid."
+            );
+
             return;
+
         }
 
 
         /*
-           Gunakan API DRWCart dari app.js
+           PENTING:
+           Harga yang masuk ke cart adalah
+           harga sesuai level pengguna.
         */
+
+        const currentPrice =
+            getCurrentPrice(product);
+
+
+        const cartProduct = {
+
+            ...product,
+
+            price: currentPrice,
+
+            priceLevel:
+                getCurrentLevel()
+
+        };
+
+
+        /* =================================================
+           DRW CART API
+        ================================================= */
 
         if (
             window.DRWCart &&
@@ -163,17 +312,21 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
 
             window.DRWCart.add(
-                product,
+                cartProduct,
                 quantity
             );
 
-        } else {
+        }
 
-            /*
-               Fallback jika DRWCart belum tersedia
-            */
+
+        /* =================================================
+           FALLBACK LOCAL STORAGE
+        ================================================= */
+
+        else {
 
             let cart = [];
+
 
             try {
 
@@ -192,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             const productId =
-                String(product.id);
+                String(cartProduct.id);
 
 
             const existingIndex =
@@ -220,27 +373,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 cart[existingIndex].quantity =
                     oldQty + quantity;
 
+
                 cart[existingIndex].qty =
                     oldQty + quantity;
 
-            } else {
+
+                /*
+                   Update harga sesuai level terbaru.
+                */
+
+                cart[existingIndex].price =
+                    currentPrice;
+
+                cart[existingIndex].priceLevel =
+                    getCurrentLevel();
+
+            }
+
+
+            else {
 
                 cart.push({
 
                     id:
-                        String(product.id),
+                        String(cartProduct.id),
 
                     name:
-                        product.name,
+                        cartProduct.name,
 
                     category:
-                        product.category,
+                        cartProduct.category,
 
                     price:
-                        Number(product.price) || 0,
+                        currentPrice,
+
+                    priceLevel:
+                        getCurrentLevel(),
 
                     image:
-                        product.image || "",
+                        cartProduct.image || "",
 
                     qty:
                         quantity,
@@ -262,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           Beritahu sistem lain bahwa cart berubah.
+           Beritahu sistem cart.
         */
 
         window.dispatchEvent(
@@ -271,10 +442,6 @@ document.addEventListener("DOMContentLoaded", function () {
             )
         );
 
-
-        /*
-           Feedback
-        */
 
         showCartMessage(
             product.name,
@@ -306,6 +473,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "div"
                 );
 
+
             message.id =
                 "drwCartMessage";
 
@@ -326,10 +494,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 "16px 22px";
 
             message.style.borderRadius =
-                "14px";
+                "16px";
 
             message.style.background =
-                "#e0528b";
+                "linear-gradient(135deg,#e94f91,#f47bab)";
 
             message.style.color =
                 "#ffffff";
@@ -341,10 +509,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 "600";
 
             message.style.boxShadow =
-                "0 12px 35px rgba(0,0,0,.18)";
+                "0 12px 35px rgba(0,0,0,.20)";
 
             message.style.transition =
-                "opacity .3s ease";
+                "opacity .3s ease, transform .3s ease";
+
+            message.style.transform =
+                "translateY(10px)";
 
 
             document.body.appendChild(
@@ -365,6 +536,9 @@ document.addEventListener("DOMContentLoaded", function () {
         message.style.opacity =
             "1";
 
+        message.style.transform =
+            "translateY(0)";
+
 
         clearTimeout(
             message._timer
@@ -377,6 +551,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     message.style.opacity =
                         "0";
+
+                    message.style.transform =
+                        "translateY(10px)";
 
                 },
                 1800
@@ -469,6 +646,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     "product-page-card";
 
 
+                /*
+                   PENTING:
+                   ID produk disimpan agar
+                   sistem mudah mencari produk.
+                */
+
+                article.dataset.productId =
+                    String(product.id);
+
+
                 const image =
                     product.image ||
                     "assets/images/products/default-product.jpg";
@@ -488,7 +675,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     getProductUrl(product);
 
 
+                /*
+                   HARGA SESUAI LEVEL LOGIN
+                */
+
+                const currentPrice =
+                    getCurrentPrice(product);
+
+
+                const currentLevel =
+                    getCurrentLevel();
+
+
                 article.innerHTML = `
+
+                    <!-- PRODUCT IMAGE -->
 
                     <div class="product-page-image">
 
@@ -498,18 +699,28 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span class="product-badge">
                                     ${product.badge}
                                 </span>
-                              `
+                            `
                             : ""
                         }
 
-                        <img
-                            src="${image}"
-                            alt="${product.name}"
-                            loading="lazy"
+                        <a
+                            href="${productUrl}"
+                            class="product-image-link"
+                            aria-label="Lihat ${product.name}"
                         >
+
+                            <img
+                                src="${image}"
+                                alt="${product.name}"
+                                loading="lazy"
+                            >
+
+                        </a>
 
                     </div>
 
+
+                    <!-- PRODUCT INFO -->
 
                     <div class="product-page-info">
 
@@ -528,45 +739,61 @@ document.addEventListener("DOMContentLoaded", function () {
                         </p>
 
 
-                        <div class="product-page-bottom">
+                        <!-- PRICE -->
 
-                            <strong>
-                                ${formatRupiah(product.price)}
-                            </strong>
+                        <<div class="product-page-bottom">
+    <strong class="drw-product-price">
+        ${formatRupiah(getDisplayPrice(product))}
+    </strong>
 
-                        </div>
 
+                        <!-- LEVEL PRICE -->
 
-                        <div
-                            class="product-page-actions"
+                        <span
+                            class="product-price-level"
                             style="
-                                display:flex;
-                                gap:10px;
-                                margin-top:16px;
-                                flex-wrap:wrap;
+                                display:block;
+                                margin-top:5px;
+                                font-size:11px;
+                                color:#b85a7d;
+                                text-transform:uppercase;
+                                letter-spacing:.08em;
                             "
                         >
 
+                            Harga ${currentLevel}
+
+                        </span>
+
+
+                        <!-- ACTION -->
+
+                        <div class="product-page-actions">
+
                             <a
                                 href="${productUrl}"
                                 class="product-view-link"
                             >
-                                Lihat Produk →
+
+                                Lihat Produk
+                                <span>→</span>
+
                             </a>
+
+
                             <button
                                 type="button"
-                                
-                                
-                            <a
-                                href="${productUrl}"
-                                class="product-view-link"
+                                class="product-add-cart-btn"
+                                aria-label="Tambah ${product.name} ke keranjang"
                             >
-            
-                            </a>
-                                +Tambah Keranjang 
-                                <i class=" Pink Bag </i>
-                                <i class-" setelah di klik +Tambah Keranjang kemudian tulisan berubah jadi Checklist </i>
-                                   </button>
+
+                                <i class="fa-solid fa-bag-shopping"></i>
+
+                                <span>
+                                    Tambah Keranjang
+                                </span>
+
+                            </button>
 
                         </div>
 
@@ -580,9 +807,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                /*
-                   Tombol ADD TO BAG
-                */
+                /* =================================================
+                   ADD TO CART BUTTON
+                ================================================= */
 
                 const addButton =
                     article.querySelector(
@@ -602,16 +829,37 @@ document.addEventListener("DOMContentLoaded", function () {
                             );
 
 
+                            /*
+                               SIMPAN TEKS ASLI
+                            */
+
                             const originalText =
                                 addButton.innerHTML;
 
 
-                            addButton.innerHTML =
-                                `
-                                <i class="fa-solid fa-check"></i>
-                                ADDED
-                                `;
+                            /*
+                               UBAH MENJADI CHECKLIST
+                            */
 
+                            addButton.innerHTML = `
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Ditambahkan
+                                </span>
+
+                            `;
+
+
+                            addButton.classList.add(
+                                "added"
+                            );
+
+
+                            /*
+                               Kembalikan setelah 1.5 detik
+                            */
 
                             setTimeout(
                                 function () {
@@ -619,8 +867,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     addButton.innerHTML =
                                         originalText;
 
+                                    addButton.classList.remove(
+                                        "added"
+                                    );
+
                                 },
-                                1200
+                                1500
                             );
 
                         }
@@ -643,7 +895,9 @@ document.addEventListener("DOMContentLoaded", function () {
        PAGINATION
     ===================================================== */
 
-    function renderPagination(totalPages) {
+    function renderPagination(
+        totalPages
+    ) {
 
         const pagination =
             document.getElementById(
@@ -857,7 +1111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       MODAL
+       PRODUCT MODAL
     ===================================================== */
 
     const modal =
@@ -865,60 +1119,50 @@ document.addEventListener("DOMContentLoaded", function () {
             "productModal"
         );
 
-
     const modalImage =
         document.getElementById(
             "modalProductImage"
         );
-
 
     const modalName =
         document.getElementById(
             "modalProductName"
         );
 
-
     const modalCategory =
         document.getElementById(
             "modalProductCategory"
         );
-
 
     const modalPrice =
         document.getElementById(
             "modalProductPrice"
         );
 
-
     const modalDescription =
         document.getElementById(
             "modalProductDescription"
         );
-
 
     const modalQuantityElement =
         document.getElementById(
             "modalQuantity"
         );
 
-
     const modalAddCart =
         document.getElementById(
             "modalAddCart"
         );
-
 
     const qtyMinus =
         document.getElementById(
             "qtyMinus"
         );
 
-
     const qtyPlus =
         document.getElementById(
             "qtyPlus"
         );
-
 
     const modalClose =
         document.getElementById(
@@ -926,7 +1170,13 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    function openProductModal(product) {
+    /* =====================================================
+       OPEN MODAL
+    ===================================================== */
+
+    function openProductModal(
+        product
+    ) {
 
         if (!modal) {
             return;
@@ -972,7 +1222,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             modalPrice.textContent =
                 formatRupiah(
-                    product.price
+                    getCurrentPrice(product)
                 );
 
         }
@@ -1007,6 +1257,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
     function closeProductModal() {
 
         if (!modal) {
@@ -1031,9 +1285,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /*
-       Klik area gambar / produk
-    */
+    /* =====================================================
+       IMAGE CLICK
+    ===================================================== */
 
     productsGrid.addEventListener(
         "click",
@@ -1051,70 +1305,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             /*
-               Jangan membuka modal jika
-               pengguna sedang klik elemen lain.
+               Jangan modal jika pengguna
+               menekan link gambar.
             */
 
-            const article =
-                imageArea.closest(
-                    ".product-page-card"
-                );
+            if (
+                event.target.closest(
+                    "a"
+                )
+            ) {
 
-
-            if (!article) {
                 return;
+
             }
-
-
-            const productId =
-                article
-                    .querySelector(
-                        "[data-product-id]"
-                    )
-                    ?.dataset.productId;
-
-
-            if (!productId) {
-                return;
-            }
-
-
-            const product =
-                DRW_PRODUCTS.find(
-                    function (item) {
-
-                        return String(
-                            item.id
-                        ) === String(
-                            productId
-                        );
-
-                    }
-                );
-
-
-            if (!product) {
-                return;
-            }
-
-
-            /*
-               Kita tidak membuka modal
-               jika link gambar memang ingin
-               menuju halaman detail.
-            */
-
-            /*
-               Untuk sekarang biarkan link
-               menuju product-detail.html.
-            */
 
         }
     );
 
 
     /* =====================================================
-       MODAL QUANTITY
+       MODAL QUANTITY MINUS
     ===================================================== */
 
     if (qtyMinus) {
@@ -1143,6 +1353,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =====================================================
+       MODAL QUANTITY PLUS
+    ===================================================== */
+
     if (qtyPlus) {
 
         qtyPlus.addEventListener(
@@ -1165,6 +1379,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =====================================================
+       MODAL ADD CART
+    ===================================================== */
+
     if (modalAddCart) {
 
         modalAddCart.addEventListener(
@@ -1172,9 +1390,7 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
                 if (!selectedProduct) {
-
                     return;
-
                 }
 
 
@@ -1192,6 +1408,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =====================================================
+       CLOSE BUTTON
+    ===================================================== */
+
     if (modalClose) {
 
         modalClose.addEventListener(
@@ -1201,6 +1421,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+
+    /* =====================================================
+       MODAL OVERLAY
+    ===================================================== */
 
     if (modal) {
 
@@ -1223,6 +1447,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       UPDATE PRICE WHEN AUTH / LEVEL CHANGES
+    ===================================================== */
+
+    window.addEventListener(
+        "drwAuthChanged",
+        function () {
+
+            renderProducts();
+
+        }
+    );
+
+
+    window.addEventListener(
+        "priceLevelChanged",
+        function () {
+
+            renderProducts();
+
+        }
+    );
+
+
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (
+                event.key === "drwUser" ||
+                event.key === "drwAuth" ||
+                event.key === "drwRole"
+            ) {
+
+                renderProducts();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
        INITIAL RENDER
     ===================================================== */
 
@@ -1237,6 +1503,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(
         "Total products:",
         DRW_PRODUCTS.length
+    );
+
+
+    console.log(
+        "Price Level:",
+        getCurrentLevel()
     );
 
 });
