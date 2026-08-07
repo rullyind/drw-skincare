@@ -1,0 +1,752 @@
+/* =========================================================
+   RARA DRW SKINCARE
+   LOGIN PAGE — PREMIUM PINK
+========================================================= */
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+
+body {
+
+    font-family: "DM Sans", sans-serif;
+
+    color: #21151d;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(242, 86, 151, .15),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255, 205, 226, .35),
+            transparent 40%
+        ),
+        #fff9fc;
+
+    overflow-x: hidden;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.login-background {
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 0;
+
+}
+
+
+.login-glow {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+}
+
+
+.glow-one {
+
+    width: 350px;
+
+    height: 350px;
+
+    background: rgba(239, 72, 145, .14);
+
+    top: -100px;
+
+    left: -100px;
+
+}
+
+
+.glow-two {
+
+    width: 400px;
+
+    height: 400px;
+
+    background: rgba(255, 180, 215, .22);
+
+    right: -150px;
+
+    bottom: -120px;
+
+}
+
+
+.glow-three {
+
+    width: 250px;
+
+    height: 250px;
+
+    background: rgba(255, 225, 239, .45);
+
+    left: 45%;
+
+    top: 45%;
+
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.login-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 40px 20px;
+
+    position: relative;
+
+    z-index: 1;
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 470px;
+
+    background: rgba(255, 255, 255, .92);
+
+    border: 1px solid rgba(239, 82, 147, .18);
+
+    border-radius: 30px;
+
+    padding: 42px 42px 34px;
+
+    box-shadow:
+        0 30px 80px rgba(43, 15, 30, .14),
+        0 10px 30px rgba(230, 71, 139, .08);
+
+    backdrop-filter: blur(18px);
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.login-logo {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 28px;
+
+}
+
+
+.login-logo img {
+
+    width: 185px;
+
+    max-width: 70%;
+
+    height: auto;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.login-heading {
+
+    text-align: center;
+
+    margin-bottom: 28px;
+
+}
+
+
+.login-heading span {
+
+    display: inline-block;
+
+    color: #ec4e91;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.login-heading h1 {
+
+    margin: 0 0 10px;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 36px;
+
+    line-height: 1.15;
+
+    color: #21151d;
+
+}
+
+
+.login-heading p {
+
+    margin: 0 auto;
+
+    max-width: 350px;
+
+    color: #76666e;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.login-message {
+
+    border-radius: 12px;
+
+    padding: 12px 14px;
+
+    margin-bottom: 18px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.login-message.error {
+
+    color: #9b214f;
+
+    background: #fff0f5;
+
+    border: 1px solid #f4bfd4;
+
+}
+
+
+.login-message.success {
+
+    color: #216c4a;
+
+    background: #effbf5;
+
+    border: 1px solid #bce5d0;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.form-group label {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #33252c;
+
+}
+
+
+.input-wrap {
+
+    position: relative;
+
+}
+
+
+.input-wrap > i {
+
+    position: absolute;
+
+    left: 16px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #df5890;
+
+    font-size: 14px;
+
+    pointer-events: none;
+
+}
+
+
+.input-wrap input {
+
+    width: 100%;
+
+    height: 52px;
+
+    border: 1px solid #edd5df;
+
+    border-radius: 14px;
+
+    background: #fff;
+
+    padding: 0 46px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    color: #281a21;
+
+    outline: none;
+
+    transition: .25s ease;
+
+}
+
+
+.input-wrap input::placeholder {
+
+    color: #aaa0a5;
+
+}
+
+
+.input-wrap input:focus {
+
+    border-color: #ec5792;
+
+    box-shadow:
+        0 0 0 4px rgba(236, 87, 146, .10);
+
+}
+
+
+/* =========================================================
+   PASSWORD BUTTON
+========================================================= */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 8px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 38px;
+
+    height: 38px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #9d8b94;
+
+    cursor: pointer;
+
+}
+
+
+.password-toggle:hover {
+
+    background: #fff0f6;
+
+    color: #e94f90;
+
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.login-options {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    font-size: 12px;
+
+}
+
+
+.remember {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #70616a;
+
+    cursor: pointer;
+
+}
+
+
+.remember input {
+
+    accent-color: #e84e8e;
+
+}
+
+
+.secure-login {
+
+    color: #9b8992;
+
+}
+
+
+.secure-login i {
+
+    color: #e95090;
+
+    margin-right: 4px;
+
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-button {
+
+    width: 100%;
+
+    height: 55px;
+
+    border: 0;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ed5a98,
+            #d93678
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    box-shadow:
+        0 12px 28px rgba(218, 55, 119, .25);
+
+    transition: .25s ease;
+
+}
+
+
+.login-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 34px rgba(218, 55, 119, .32);
+
+}
+
+
+.login-button:active {
+
+    transform: translateY(0);
+
+}
+
+
+.login-button.loading {
+
+    opacity: .75;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   PRICE INFO
+========================================================= */
+
+.price-info {
+
+    margin-top: 25px;
+
+    padding: 17px;
+
+    border-radius: 17px;
+
+    background: #fff7fa;
+
+    border: 1px solid #f4dce6;
+
+}
+
+
+.price-info-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    color: #d63c7b;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+
+}
+
+
+.price-info-title i {
+
+    color: #d8a13d;
+
+}
+
+
+.price-levels {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 7px;
+
+}
+
+
+.price-levels span {
+
+    padding: 6px 10px;
+
+    border-radius: 50px;
+
+    background: #fff;
+
+    border: 1px solid #efd5e0;
+
+    color: #6d5d65;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+.back-home {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 23px;
+
+    color: #8c7881;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: .2s ease;
+
+}
+
+
+.back-home:hover {
+
+    color: #e44889;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .login-page {
+
+        padding: 22px 14px;
+
+    }
+
+
+    .login-card {
+
+        padding: 32px 22px 27px;
+
+        border-radius: 24px;
+
+    }
+
+
+    .login-heading h1 {
+
+        font-size: 31px;
+
+    }
+
+
+    .login-logo img {
+
+        width: 160px;
+
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .login-card {
+
+        padding: 28px 17px 24px;
+
+    }
+
+
+    .login-heading h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    .login-options {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}

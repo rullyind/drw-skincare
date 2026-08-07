@@ -7366,4 +7366,41 @@ ADD TO BAG
 
     }
 
+}/* =========================================
+   TOP BAR - LOGIN & DAFTAR
+========================================= */
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-link {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 2px;
+    transition: all .25s ease;
+}
+
+.auth-link:hover {
+    color: #f45b9a;
+    text-shadow: 0 0 8px rgba(244, 91, 154, .6);
+}
+
+.register-link {
+    color: #ffd1e3;
+}
+
+.register-link:hover {
+    color: #ffffff;
+}
+
+.top-divider {
+    color: rgba(255,255,255,.45);
 }

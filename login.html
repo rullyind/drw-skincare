@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | RARA DRW Skincare</title>
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- LOGIN CSS -->
+    <link
+        rel="stylesheet"
+        href="assets/css/login.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="login-background">
+
+        <div class="login-glow glow-one"></div>
+
+        <div class="login-glow glow-two"></div>
+
+        <div class="login-glow glow-three"></div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         LOGIN PAGE
+    ====================================================== -->
+
+    <main class="login-page">
+
+
+        <section class="login-card">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="login-logo"
+            >
+
+                <img
+                    src="assets/images/logo/logo.png"
+                    alt="RARA DRW Skincare"
+                >
+
+            </a>
+
+
+
+            <!-- TITLE -->
+
+            <div class="login-heading">
+
+                <span>
+                    MEMBER AREA
+                </span>
+
+                <h1>
+                    Selamat Datang
+                </h1>
+
+                <p>
+                    Login untuk mendapatkan harga khusus
+                    sesuai level member Anda.
+                </p>
+
+            </div>
+
+
+
+            <!-- ERROR -->
+
+            <div
+                id="loginMessage"
+                class="login-message"
+                hidden
+            ></div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                id="loginForm"
+                class="login-form"
+                autocomplete="off"
+            >
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Masukkan username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Masukkan password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="password-toggle"
+                            aria-label="Tampilkan password"
+                        >
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REMEMBER -->
+
+                <div class="login-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        <span>
+                            Ingat saya
+                        </span>
+
+                    </label>
+
+                    <span class="secure-login">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        Secure Area
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+
+                    <span>
+                        Login
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- LEVEL INFO -->
+
+            <div class="price-info">
+
+                <div class="price-info-title">
+
+                    <i class="fa-solid fa-crown"></i>
+
+                    Harga Member
+
+                </div>
+
+                <div class="price-levels">
+
+                    <span>Director</span>
+                    <span>Manager</span>
+                    <span>Supervisor</span>
+                    <span>Reseller</span>
+                    <span>Umum</span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BACK -->
+
+            <a
+                href="index.html"
+                class="back-home"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Kembali ke Website
+
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="assets/js/price-level.js"></script>
+
+    <script src="assets/js/login.js"></script>
+
+
+</body>
+
+</html>

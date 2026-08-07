@@ -504,4 +504,21 @@ document.addEventListener("DOMContentLoaded", function () {
         "RARA DRW SKINCARE — Navbar JS FINAL V2 ✓"
     );
 
+});document.addEventListener("DOMContentLoaded", () => {
+
+    const loginButton = document.getElementById("loginButton");
+    const registerButton = document.getElementById("registerButton");
+
+    if (loginButton) {
+        loginButton.addEventListener("click", () => {
+            window.location.href = "login.html";
+        });
+    }
+
+    if (registerButton) {
+        registerButton.addEventListener("click", () => {
+            window.location.href = "register.html";
+        });
+    }
+
 });
