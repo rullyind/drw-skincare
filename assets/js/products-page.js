@@ -1,138 +1,133 @@
 /* =========================================================
    RARA DRW SKINCARE
-   PRODUCTS-PAGE.JS FINAL
-   =========================================================
-   FEATURES:
-   ✓ Product database
-   ✓ Harga otomatis berdasarkan level login
-   ✓ Director
-   ✓ Manager
-   ✓ Supervisor
-   ✓ Reseller
-   ✓ Umum
-   ✓ Search
-   ✓ Category filter
-   ✓ Pagination
-   ✓ Add to cart
-   ✓ Multi product cart
-   ✓ Product detail link
-   ✓ Premium product card
-   ✓ Button berubah menjadi CHECKLIST setelah klik
-   ✓ Product modal
-   ✓ Quantity modal
+   PRODUCTS PAGE — FINAL
+   98 PRODUCTS
+   SEARCH + FILTER + PAGINATION
+   PRICE LEVEL SUPPORT
 ========================================================= */
 
-console.log("RARA DRW - PRODUCTS PAGE FINAL");
+(function () {
 
+    function initProductsPage() {
 
-document.addEventListener("DOMContentLoaded", function () {
+        console.log("✓ products-page.js aktif");
 
-    /* =====================================================
-       CHECK PRODUCT DATABASE
-    ===================================================== */
+        /* =====================================================
+           CHECK DATABASE
+        ===================================================== */
 
-    if (
-        typeof DRW_PRODUCTS === "undefined" ||
-        !Array.isArray(DRW_PRODUCTS)
-    ) {
+        if (
+            typeof DRW_PRODUCTS === "undefined" ||
+            !Array.isArray(DRW_PRODUCTS)
+        ) {
+            console.error("❌ DRW_PRODUCTS tidak ditemukan.");
+            return;
+        }
 
-        console.error("DRW_PRODUCTS tidak ditemukan.");
-        return;
-
-    }
-
-
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const productsGrid =
-        document.getElementById("productsGrid");
-
-    const searchInput =
-        document.getElementById("productSearch");
-
-    const filterButtons =
-        document.querySelectorAll(
-            ".product-filter-btn"
+        console.log(
+            "✓ Database produk:",
+            DRW_PRODUCTS.length
         );
 
 
-    if (!productsGrid) {
+        /* =====================================================
+           FIND ELEMENTS
+        ===================================================== */
 
-        console.error(
-            "#productsGrid tidak ditemukan."
+        const productsGrid =
+            document.getElementById("productsGrid");
+
+        const searchInput =
+            document.getElementById("productSearch");
+
+        const filterButtons =
+            document.querySelectorAll(
+                ".product-filter-btn"
+            );
+
+
+        /* =====================================================
+           GRID CHECK
+        ===================================================== */
+
+        if (!productsGrid) {
+
+            console.error(
+                "❌ #productsGrid tidak ditemukan."
+            );
+
+            return;
+        }
+
+        console.log(
+            "✓ #productsGrid ditemukan"
         );
 
-        return;
 
-    }
+        /* =====================================================
+           SETTINGS
+        ===================================================== */
 
+        const productsPerPage = 12;
 
-    /* =====================================================
-       SETTINGS
-    ===================================================== */
+        let currentPage = 1;
 
-    const productsPerPage = 12;
+        let currentCategory = "all";
 
-    let currentPage = 1;
-
-    let currentCategory = "all";
-
-    let currentSearch = "";
-
-    let selectedProduct = null;
-
-    let modalQuantity = 1;
+        let currentSearch = "";
 
 
-    /* =====================================================
-       FORMAT RUPIAH
-    ===================================================== */
+        /* =====================================================
+           FORMAT RUPIAH
+        ===================================================== */
 
-    function formatRupiah(number) {
+        function formatRupiah(number) {
 
-        return "Rp " +
-            Number(number || 0)
-                .toLocaleString("id-ID");
+            return (
+                "Rp " +
+                Number(number || 0)
+                    .toLocaleString("id-ID")
+            );
 
-    }
-
-
-    /* =====================================================
-       GET CURRENT PRICE
-       DIRECTOR / MANAGER / SUPERVISOR /
-       RESELLER / UMUM
-    ===================================================== */
-
-    function getCurrentPrice(product) {
-
-        if (!product) {
-            return 0;
         }
 
 
-        /*
-           Gunakan sistem DRW_PRICE jika tersedia.
-        */
+        /* =====================================================
+           PRODUCT URL
+        ===================================================== */
 
-        if (
-            window.DRW_PRICE &&
-            typeof window.DRW_PRICE.getPrice === "function"
-        ) {
+        function getProductUrl(product) {
 
-            try {
+            return (
+                "product-detail.html?id=" +
+                encodeURIComponent(product.id)
+            );
+
+        }
+
+
+        /* =====================================================
+           GET PRICE
+        ===================================================== */
+
+        function getProductPrice(product) {
+
+            /*
+               PRIORITAS:
+               1. DRW_PRICE
+               2. product.price
+            */
+
+            if (
+                typeof DRW_PRICE !== "undefined" &&
+                typeof DRW_PRICE.getPrice === "function"
+            ) {
 
                 const price =
-                    Number(
-                        window.DRW_PRICE.getPrice(
-                            String(product.id)
-                        )
-                    );
-
+                    DRW_PRICE.getPrice(product.id);
 
                 if (
-                    Number.isFinite(price) &&
+                    typeof price === "number" &&
                     price > 0
                 ) {
 
@@ -140,991 +135,617 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
-            } catch (error) {
-
-                console.warn(
-                    "Gagal mengambil harga level:",
-                    error
-                );
-
             }
+
+            return Number(product.price || 0);
 
         }
 
 
-        /*
-           Fallback ke harga dasar produk.
-        */
+        /* =====================================================
+           FILTER
+        ===================================================== */
 
-        return Number(product.price) || 0;
+        function getFilteredProducts() {
 
-    }
+            return DRW_PRODUCTS.filter(
+                function (product) {
 
+                    const category =
+                        String(
+                            product.category || ""
+                        ).toLowerCase();
 
-    /* =====================================================
-       GET CURRENT USER LEVEL
-    ===================================================== */
+                    const name =
+                        String(
+                            product.name || ""
+                        ).toLowerCase();
 
-    function getCurrentLevel() {
+                    const description =
+                        String(
+                            product.description || ""
+                        ).toLowerCase();
 
-        if (
-            window.DRW_PRICE &&
-            typeof window.DRW_PRICE.getLevel === "function"
-        ) {
 
-            try {
+                    const categoryMatch =
+                        currentCategory === "all" ||
+                        category ===
+                        currentCategory.toLowerCase();
 
-                return String(
-                    window.DRW_PRICE.getLevel()
-                ).toLowerCase();
 
-            } catch (error) {
+                    const searchMatch =
+                        currentSearch === "" ||
+                        name.includes(currentSearch) ||
+                        category.includes(currentSearch) ||
+                        description.includes(currentSearch);
 
-                console.warn(
-                    "Gagal membaca level harga.",
-                    error
-                );
 
-            }
-
-        }
-
-
-        return "umum";
-
-    }
-
-
-    /* =====================================================
-       PRODUCT URL
-    ===================================================== */
-
-    function getProductUrl(product) {
-
-        return (
-            "product-detail.html?id=" +
-            encodeURIComponent(product.id)
-        );
-
-    }
-
-
-    /* =====================================================
-       FILTER PRODUCT
-    ===================================================== */
-
-    function getFilteredProducts() {
-
-        return DRW_PRODUCTS.filter(
-            function (product) {
-
-                const category =
-                    String(
-                        product.category || ""
-                    ).toLowerCase();
-
-
-                const name =
-                    String(
-                        product.name || ""
-                    ).toLowerCase();
-
-
-                const description =
-                    String(
-                        product.description || ""
-                    ).toLowerCase();
-
-
-                const categoryMatch =
-                    currentCategory === "all" ||
-                    category ===
-                    currentCategory.toLowerCase();
-
-
-                const searchMatch =
-                    currentSearch === "" ||
-                    name.includes(currentSearch) ||
-                    category.includes(currentSearch) ||
-                    description.includes(currentSearch);
-
-
-                return (
-                    categoryMatch &&
-                    searchMatch
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       ADD PRODUCT TO CART
-    ===================================================== */
-
-    function addProduct(
-        product,
-        quantity = 1
-    ) {
-
-        if (!product) {
-
-            console.error(
-                "Produk tidak valid."
-            );
-
-            return;
-
-        }
-
-
-        /*
-           PENTING:
-           Harga yang masuk ke cart adalah
-           harga sesuai level pengguna.
-        */
-
-        const currentPrice =
-            getCurrentPrice(product);
-
-
-        const cartProduct = {
-
-            ...product,
-
-            price: currentPrice,
-
-            priceLevel:
-                getCurrentLevel()
-
-        };
-
-
-        /* =================================================
-           DRW CART API
-        ================================================= */
-
-        if (
-            window.DRWCart &&
-            typeof window.DRWCart.add === "function"
-        ) {
-
-            window.DRWCart.add(
-                cartProduct,
-                quantity
-            );
-
-        }
-
-
-        /* =================================================
-           FALLBACK LOCAL STORAGE
-        ================================================= */
-
-        else {
-
-            let cart = [];
-
-
-            try {
-
-                cart =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "drwCart"
-                        )
-                    ) || [];
-
-            } catch (error) {
-
-                cart = [];
-
-            }
-
-
-            const productId =
-                String(cartProduct.id);
-
-
-            const existingIndex =
-                cart.findIndex(
-                    function (item) {
-
-                        return String(
-                            item.id
-                        ) === productId;
-
-                    }
-                );
-
-
-            if (existingIndex !== -1) {
-
-                const oldQty =
-                    Number(
-                        cart[existingIndex].quantity ||
-                        cart[existingIndex].qty ||
-                        1
+                    return (
+                        categoryMatch &&
+                        searchMatch
                     );
 
-
-                cart[existingIndex].quantity =
-                    oldQty + quantity;
-
-
-                cart[existingIndex].qty =
-                    oldQty + quantity;
-
-
-                /*
-                   Update harga sesuai level terbaru.
-                */
-
-                cart[existingIndex].price =
-                    currentPrice;
-
-                cart[existingIndex].priceLevel =
-                    getCurrentLevel();
-
-            }
-
-
-            else {
-
-                cart.push({
-
-                    id:
-                        String(cartProduct.id),
-
-                    name:
-                        cartProduct.name,
-
-                    category:
-                        cartProduct.category,
-
-                    price:
-                        currentPrice,
-
-                    priceLevel:
-                        getCurrentLevel(),
-
-                    image:
-                        cartProduct.image || "",
-
-                    qty:
-                        quantity,
-
-                    quantity:
-                        quantity
-
-                });
-
-            }
-
-
-            localStorage.setItem(
-                "drwCart",
-                JSON.stringify(cart)
+                }
             );
 
         }
 
 
-        /*
-           Beritahu sistem cart.
-        */
+        /* =====================================================
+           RENDER PRODUCTS
+        ===================================================== */
 
-        window.dispatchEvent(
-            new CustomEvent(
-                "drwCartUpdated"
-            )
-        );
+        function renderProducts() {
 
-
-        showCartMessage(
-            product.name,
-            quantity
-        );
-
-    }
+            const filteredProducts =
+                getFilteredProducts();
 
 
-    /* =====================================================
-       CART MESSAGE
-    ===================================================== */
-
-    function showCartMessage(
-        productName,
-        quantity
-    ) {
-
-        let message =
-            document.getElementById(
-                "drwCartMessage"
-            );
-
-
-        if (!message) {
-
-            message =
-                document.createElement(
-                    "div"
+            const totalPages =
+                Math.max(
+                    1,
+                    Math.ceil(
+                        filteredProducts.length /
+                        productsPerPage
+                    )
                 );
 
 
-            message.id =
-                "drwCartMessage";
+            if (
+                currentPage >
+                totalPages
+            ) {
+
+                currentPage =
+                    totalPages;
+
+            }
 
 
-            message.style.position =
-                "fixed";
-
-            message.style.right =
-                "25px";
-
-            message.style.bottom =
-                "25px";
-
-            message.style.zIndex =
-                "99999";
-
-            message.style.padding =
-                "16px 22px";
-
-            message.style.borderRadius =
-                "16px";
-
-            message.style.background =
-                "linear-gradient(135deg,#e94f91,#f47bab)";
-
-            message.style.color =
-                "#ffffff";
-
-            message.style.fontSize =
-                "14px";
-
-            message.style.fontWeight =
-                "600";
-
-            message.style.boxShadow =
-                "0 12px 35px rgba(0,0,0,.20)";
-
-            message.style.transition =
-                "opacity .3s ease, transform .3s ease";
-
-            message.style.transform =
-                "translateY(10px)";
+            const startIndex =
+                (currentPage - 1) *
+                productsPerPage;
 
 
-            document.body.appendChild(
-                message
-            );
-
-        }
-
-
-        message.textContent =
-            "✓ " +
-            productName +
-            " × " +
-            quantity +
-            " ditambahkan ke keranjang";
-
-
-        message.style.opacity =
-            "1";
-
-        message.style.transform =
-            "translateY(0)";
-
-
-        clearTimeout(
-            message._timer
-        );
-
-
-        message._timer =
-            setTimeout(
-                function () {
-
-                    message.style.opacity =
-                        "0";
-
-                    message.style.transform =
-                        "translateY(10px)";
-
-                },
-                1800
-            );
-
-    }
-
-
-    /* =====================================================
-       RENDER PRODUCTS
-    ===================================================== */
-
-    function renderProducts() {
-
-        const filteredProducts =
-            getFilteredProducts();
-
-
-        const totalPages =
-            Math.max(
-                1,
-                Math.ceil(
-                    filteredProducts.length /
+            const visibleProducts =
+                filteredProducts.slice(
+                    startIndex,
+                    startIndex +
                     productsPerPage
-                )
-            );
+                );
 
 
-        if (currentPage > totalPages) {
-
-            currentPage =
-                totalPages;
-
-        }
+            productsGrid.innerHTML = "";
 
 
-        const startIndex =
-            (currentPage - 1) *
-            productsPerPage;
+            /* =================================================
+               EMPTY
+            ================================================= */
 
+            if (!visibleProducts.length) {
 
-        const visibleProducts =
-            filteredProducts.slice(
-                startIndex,
-                startIndex + productsPerPage
-            );
+                productsGrid.innerHTML = `
 
-
-        productsGrid.innerHTML =
-            "";
-
-
-        if (!visibleProducts.length) {
-
-            productsGrid.innerHTML = `
-
-                <div class="products-empty">
-
-                    <h3>
-                        Produk tidak ditemukan
-                    </h3>
-
-                    <p>
-                        Coba gunakan kata pencarian
-                        atau kategori lainnya.
-                    </p>
-
-                </div>
-
-            `;
-
-
-            renderPagination(0);
-
-            return;
-
-        }
-
-
-        visibleProducts.forEach(
-            function (product) {
-
-                const article =
-                    document.createElement(
-                        "article"
-                    );
-
-
-                article.className =
-                    "product-page-card";
-
-
-                /*
-                   PENTING:
-                   ID produk disimpan agar
-                   sistem mudah mencari produk.
-                */
-
-                article.dataset.productId =
-                    String(product.id);
-
-
-                const image =
-                    product.image ||
-                    "assets/images/products/default-product.jpg";
-
-
-                const category =
-                    product.category ||
-                    "SKINCARE";
-
-
-                const description =
-                    product.description ||
-                    "Produk DRW Skincare untuk melengkapi rutinitas perawatan Anda.";
-
-
-                const productUrl =
-                    getProductUrl(product);
-
-
-                /*
-                   HARGA SESUAI LEVEL LOGIN
-                */
-
-                const currentPrice =
-                    getCurrentPrice(product);
-
-
-                const currentLevel =
-                    getCurrentLevel();
-
-
-                article.innerHTML = `
-
-                    <!-- PRODUCT IMAGE -->
-
-                    <div class="product-page-image">
-
-                        ${
-                            product.badge
-                            ? `
-                                <span class="product-badge">
-                                    ${product.badge}
-                                </span>
-                            `
-                            : ""
-                        }
-
-                        <a
-                            href="${productUrl}"
-                            class="product-image-link"
-                            aria-label="Lihat ${product.name}"
-                        >
-
-                            <img
-                                src="${image}"
-                                alt="${product.name}"
-                                loading="lazy"
-                            >
-
-                        </a>
-
-                    </div>
-
-
-                    <!-- PRODUCT INFO -->
-
-                    <div class="product-page-info">
-
-                        <span class="product-page-category">
-                            ${category}
-                        </span>
-
+                    <div class="products-empty">
 
                         <h3>
-                            ${product.name}
+                            Produk tidak ditemukan
                         </h3>
 
-
-                        <p class="product-page-description">
-                            ${description}
+                        <p>
+                            Coba gunakan kata pencarian
+                            atau kategori lainnya.
                         </p>
-
-
-                        <!-- PRICE -->
-
-                        <<div class="product-page-bottom">
-    <strong class="drw-product-price">
-        ${formatRupiah(getDisplayPrice(product))}
-    </strong>
-    /* =========================================================
-   DRW PRICE LEVEL
-   Harga otomatis berdasarkan level user
-========================================================= */
-
-function getDisplayPrice(product) {
-
-    if (!product) {
-        return 0;
-    }
-
-    /*
-       PRIORITAS 1
-       Sistem DRW_PRICE jika tersedia
-    */
-    if (
-        typeof DRW_PRICE !== "undefined" &&
-        typeof DRW_PRICE.getPrice === "function"
-    ) {
-        const price = DRW_PRICE.getPrice(product.id);
-
-        if (
-            price !== null &&
-            price !== undefined &&
-            Number(price) > 0
-        ) {
-            return Number(price);
-        }
-    }
-
-    /*
-       PRIORITAS 2
-       Sistem getProductPrice dari price-level.js
-    */
-    if (
-        typeof getProductPrice === "function"
-    ) {
-        const price = getProductPrice(product.id);
-
-        if (
-            price !== null &&
-            price !== undefined &&
-            Number(price) > 0
-        ) {
-            return Number(price);
-        }
-    }
-
-    /*
-       FALLBACK
-       Harga umum dari database produk
-    */
-    return Number(product.price) || 0;
-}
-
-
-                        <!-- LEVEL PRICE -->
-
-                        <span
-                            class="product-price-level"
-                            style="
-                                display:block;
-                                margin-top:5px;
-                                font-size:11px;
-                                color:#b85a7d;
-                                text-transform:uppercase;
-                                letter-spacing:.08em;
-                            "
-                        >
-
-                            Harga ${currentLevel}
-
-                        </span>
-
-
-                        <!-- ACTION -->
-
-                        <div class="product-page-actions">
-
-                            <a
-                                href="${productUrl}"
-                                class="product-view-link"
-                            >
-
-                                Lihat Produk
-                                <span>→</span>
-
-                            </a>
-
-
-                            <button
-                                type="button"
-                                class="product-add-cart-btn"
-                                aria-label="Tambah ${product.name} ke keranjang"
-                            >
-
-                                <i class="fa-solid fa-bag-shopping"></i>
-
-                                <span>
-                                    Tambah Keranjang
-                                </span>
-
-                            </button>
-
-                        </div>
 
                     </div>
 
                 `;
 
+                renderPagination(0);
 
-                productsGrid.appendChild(
-                    article
+                return;
+
+            }
+
+
+            /* =================================================
+               CREATE CARDS
+            ================================================= */
+
+            visibleProducts.forEach(
+                function (product) {
+
+                    const article =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    article.className =
+                        "product-page-card";
+
+
+                    const image =
+                        product.image ||
+                        "assets/images/products/default-product.jpg";
+
+
+                    const category =
+                        product.category ||
+                        "SKINCARE";
+
+
+                    const description =
+                        product.description ||
+                        "Produk DRW Skincare untuk melengkapi rutinitas perawatan Anda.";
+
+
+                    const productUrl =
+                        getProductUrl(product);
+
+
+                    const finalPrice =
+                        getProductPrice(product);
+
+
+                    /* =================================================
+                       BADGE
+                    ================================================= */
+
+                    let badge = "";
+
+                    if (product.badge) {
+
+                        badge = `
+
+                            <span class="product-badge">
+
+                                ${product.badge}
+
+                            </span>
+
+                        `;
+
+                    }
+
+
+                    /* =================================================
+                       CARD
+                    ================================================= */
+
+                    article.innerHTML = `
+
+                        <a
+                            href="${productUrl}"
+                            class="product-page-image"
+                        >
+
+                            ${badge}
+
+                            <img
+                                src="${image}"
+                                alt="${product.name || "DRW Skincare Product"}"
+                                loading="lazy"
+                                onerror="
+                                    this.onerror=null;
+                                    this.src='assets/images/products/default-product.jpg';
+                                "
+                            >
+
+                        </a>
+
+
+                        <div class="product-page-info">
+
+                            <span class="product-page-category">
+
+                                ${category}
+
+                            </span>
+
+
+                            <h3>
+
+                                ${product.name || "DRW Skincare"}
+
+                            </h3>
+
+
+                            <p class="product-page-description">
+
+                                ${description}
+
+                            </p>
+
+
+                            <div class="product-page-price">
+
+                                ${formatRupiah(finalPrice)}
+
+                            </div>
+
+
+                            <div class="product-page-bottom">
+
+                                <a
+                                    href="${productUrl}"
+                                    class="product-view-link"
+                                >
+
+                                    Lihat Produk
+                                    <span>→</span>
+
+                                </a>
+
+
+                                <button
+                                    type="button"
+                                    class="product-cart-btn"
+                                    data-product-id="${product.id}"
+                                >
+
+                                    🛍 Tambah Keranjang
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    productsGrid.appendChild(
+                        article
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               CART BUTTON
+            ================================================= */
+
+            const cartButtons =
+                productsGrid.querySelectorAll(
+                    ".product-cart-btn"
                 );
 
 
-                /* =================================================
-                   ADD TO CART BUTTON
-                ================================================= */
+            cartButtons.forEach(
+                function (button) {
 
-                const addButton =
-                    article.querySelector(
-                        ".product-add-cart-btn"
-                    );
-
-
-                if (addButton) {
-
-                    addButton.addEventListener(
+                    button.addEventListener(
                         "click",
                         function () {
 
-                            addProduct(
-                                product,
-                                1
-                            );
+                            const productId =
+                                this.dataset.productId;
 
 
-                            /*
-                               SIMPAN TEKS ASLI
-                            */
+                            const product =
+                                DRW_PRODUCTS.find(
+                                    function (item) {
 
-                            const originalText =
-                                addButton.innerHTML;
+                                        return (
+                                            String(item.id) ===
+                                            String(productId)
+                                        );
 
-
-                            /*
-                               UBAH MENJADI CHECKLIST
-                            */
-
-                            addButton.innerHTML = `
-
-                                <i class="fa-solid fa-check"></i>
-
-                                <span>
-                                    Ditambahkan
-                                </span>
-
-                            `;
+                                    }
+                                );
 
 
-                            addButton.classList.add(
-                                "added"
-                            );
+                            if (!product) {
+
+                                console.error(
+                                    "Produk tidak ditemukan:",
+                                    productId
+                                );
+
+                                return;
+
+                            }
 
 
-                            /*
-                               Kembalikan setelah 1.5 detik
-                            */
+                            /* =================================================
+                               CART SYSTEM
+                            ================================================= */
 
-                            setTimeout(
-                                function () {
+                            if (
+                                typeof addToCart ===
+                                "function"
+                            ) {
 
-                                    addButton.innerHTML =
-                                        originalText;
+                                addToCart(
+                                    product,
+                                    1
+                                );
 
-                                    addButton.classList.remove(
-                                        "added"
-                                    );
+                            }
 
-                                },
-                                1500
-                            );
+                            else if (
+                                typeof DRW_CART !==
+                                "undefined" &&
+                                typeof DRW_CART.add ===
+                                "function"
+                            ) {
+
+                                DRW_CART.add(
+                                    product,
+                                    1
+                                );
+
+                            }
+
+                            else {
+
+                                console.warn(
+                                    "Fungsi cart belum tersedia."
+                                );
+
+                            }
 
                         }
                     );
 
                 }
-
-            }
-        );
-
-
-        renderPagination(
-            totalPages
-        );
-
-    }
-
-
-    /* =====================================================
-       PAGINATION
-    ===================================================== */
-
-    function renderPagination(
-        totalPages
-    ) {
-
-        const pagination =
-            document.getElementById(
-                "productsPagination"
             );
 
 
-        if (!pagination) {
-            return;
+            renderPagination(
+                totalPages
+            );
+
         }
 
 
-        pagination.innerHTML =
-            "";
+        /* =====================================================
+           PAGINATION
+        ===================================================== */
 
-
-        if (totalPages <= 1) {
-            return;
-        }
-
-
-        for (
-            let page = 1;
-            page <= totalPages;
-            page++
+        function renderPagination(
+            totalPages
         ) {
 
-            const button =
-                document.createElement(
-                    "button"
+            let pagination =
+                document.querySelector(
+                    ".products-pagination"
                 );
 
 
-            button.type =
-                "button";
+            if (!pagination) {
+
+                pagination =
+                    document.createElement(
+                        "div"
+                    );
+
+                pagination.className =
+                    "products-pagination";
 
 
-            button.textContent =
-                page;
+                productsGrid.parentElement.appendChild(
+                    pagination
+                );
+
+            }
 
 
-            if (
-                page === currentPage
+            pagination.innerHTML = "";
+
+
+            if (totalPages <= 1) {
+
+                return;
+
+            }
+
+
+            for (
+                let page = 1;
+                page <= totalPages;
+                page++
             ) {
 
-                button.classList.add(
-                    "pagination-active"
-                );
-
-            }
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    currentPage =
-                        page;
-
-
-                    renderProducts();
-
-
-                    window.scrollTo({
-
-                        top:
-                            document.querySelector(
-                                ".products-section"
-                            )?.offsetTop || 0,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                }
-            );
-
-
-            pagination.appendChild(
-                button
-            );
-
-        }
-
-
-        if (
-            currentPage < totalPages
-        ) {
-
-            const nextButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            nextButton.type =
-                "button";
-
-
-            nextButton.textContent =
-                "→";
-
-
-            nextButton.addEventListener(
-                "click",
-                function () {
-
-                    currentPage++;
-
-
-                    renderProducts();
-
-
-                    window.scrollTo({
-
-                        top:
-                            document.querySelector(
-                                ".products-section"
-                            )?.offsetTop || 0,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                }
-            );
-
-
-            pagination.appendChild(
-                nextButton
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       CATEGORY FILTER
-    ===================================================== */
-
-    filterButtons.forEach(
-        function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    filterButtons.forEach(
-                        function (btn) {
-
-                            btn.classList.remove(
-                                "active"
-                            );
-
-                        }
+                const button =
+                    document.createElement(
+                        "button"
                     );
 
+
+                button.type =
+                    "button";
+
+
+                button.textContent =
+                    page;
+
+
+                if (
+                    page ===
+                    currentPage
+                ) {
 
                     button.classList.add(
-                        "active"
+                        "pagination-active"
+                    );
+
+                }
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        currentPage =
+                            page;
+
+
+                        renderProducts();
+
+
+                        window.scrollTo({
+
+                            top:
+                                document.querySelector(
+                                    ".products-section"
+                                )?.offsetTop || 0,
+
+                            behavior:
+                                "smooth"
+
+                        });
+
+                    }
+                );
+
+
+                pagination.appendChild(
+                    button
+                );
+
+            }
+
+
+            /* NEXT */
+
+            if (
+                currentPage <
+                totalPages
+            ) {
+
+                const nextButton =
+                    document.createElement(
+                        "button"
                     );
 
 
-                    currentCategory =
-                        button.dataset.category ||
-                        "all";
+                nextButton.type =
+                    "button";
 
 
-                    currentPage =
-                        1;
+                nextButton.textContent =
+                    "→";
+
+
+                nextButton.addEventListener(
+                    "click",
+                    function () {
+
+                        currentPage++;
+
+
+                        renderProducts();
+
+
+                        window.scrollTo({
+
+                            top:
+                                document.querySelector(
+                                    ".products-section"
+                                )?.offsetTop || 0,
+
+                            behavior:
+                                "smooth"
+
+                        });
+
+                    }
+                );
+
+
+                pagination.appendChild(
+                    nextButton
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FILTER BUTTON
+        ===================================================== */
+
+        filterButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        filterButtons.forEach(
+                            function (btn) {
+
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        currentCategory =
+                            button.dataset.category ||
+                            "all";
+
+
+                        currentPage = 1;
+
+
+                        renderProducts();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                function () {
+
+                    currentSearch =
+                        searchInput.value
+                            .trim()
+                            .toLowerCase();
+
+
+                    currentPage = 1;
 
 
                     renderProducts();
@@ -1133,436 +754,53 @@ function getDisplayPrice(product) {
             );
 
         }
-    );
 
 
-    /* =====================================================
-       SEARCH
-    ===================================================== */
+        /* =====================================================
+           INITIAL RENDER
+        ===================================================== */
 
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                currentSearch =
-                    searchInput.value
-                        .trim()
-                        .toLowerCase();
+        renderProducts();
 
 
-                currentPage =
-                    1;
+        console.log(
+            "✓ DRW Products Page Loaded"
+        );
 
-
-                renderProducts();
-
-            }
+        console.log(
+            "✓ Total products:",
+            DRW_PRODUCTS.length
         );
 
     }
 
 
-    /* =====================================================
-       PRODUCT MODAL
-    ===================================================== */
+    /* =========================================================
+       START SYSTEM
+    ========================================================= */
 
-    const modal =
-        document.getElementById(
-            "productModal"
-        );
-
-    const modalImage =
-        document.getElementById(
-            "modalProductImage"
-        );
-
-    const modalName =
-        document.getElementById(
-            "modalProductName"
-        );
-
-    const modalCategory =
-        document.getElementById(
-            "modalProductCategory"
-        );
-
-    const modalPrice =
-        document.getElementById(
-            "modalProductPrice"
-        );
-
-    const modalDescription =
-        document.getElementById(
-            "modalProductDescription"
-        );
-
-    const modalQuantityElement =
-        document.getElementById(
-            "modalQuantity"
-        );
-
-    const modalAddCart =
-        document.getElementById(
-            "modalAddCart"
-        );
-
-    const qtyMinus =
-        document.getElementById(
-            "qtyMinus"
-        );
-
-    const qtyPlus =
-        document.getElementById(
-            "qtyPlus"
-        );
-
-    const modalClose =
-        document.getElementById(
-            "productModalClose"
-        );
-
-
-    /* =====================================================
-       OPEN MODAL
-    ===================================================== */
-
-    function openProductModal(
-        product
+    if (
+        document.readyState ===
+        "loading"
     ) {
 
-        if (!modal) {
-            return;
-        }
-
-
-        selectedProduct =
-            product;
-
-
-        modalQuantity =
-            1;
-
-
-        if (modalImage) {
-
-            modalImage.src =
-                product.image || "";
-
-            modalImage.alt =
-                product.name || "";
-
-        }
-
-
-        if (modalName) {
-
-            modalName.textContent =
-                product.name || "";
-
-        }
-
-
-        if (modalCategory) {
-
-            modalCategory.textContent =
-                product.category || "";
-
-        }
-
-
-        if (modalPrice) {
-
-            modalPrice.textContent =
-                formatRupiah(
-                    getCurrentPrice(product)
-                );
-
-        }
-
-
-        if (modalDescription) {
-
-            modalDescription.textContent =
-                product.description || "";
-
-        }
-
-
-        if (modalQuantityElement) {
-
-            modalQuantityElement.textContent =
-                modalQuantity;
-
-        }
-
-
-        modal.classList.add(
-            "active"
-        );
-
-
-        modal.setAttribute(
-            "aria-hidden",
-            "false"
+        document.addEventListener(
+            "DOMContentLoaded",
+            initProductsPage
         );
 
     }
 
+    else {
 
-    /* =====================================================
-       CLOSE MODAL
-    ===================================================== */
+        /*
+           PENTING:
+           Kalau script dipanggil setelah
+           DOM sudah selesai, langsung jalan.
+        */
 
-    function closeProductModal() {
-
-        if (!modal) {
-            return;
-        }
-
-
-        modal.classList.remove(
-            "active"
-        );
-
-
-        modal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-
-        selectedProduct =
-            null;
+        initProductsPage();
 
     }
 
-
-    /* =====================================================
-       IMAGE CLICK
-    ===================================================== */
-
-    productsGrid.addEventListener(
-        "click",
-        function (event) {
-
-            const imageArea =
-                event.target.closest(
-                    ".product-page-image"
-                );
-
-
-            if (!imageArea) {
-                return;
-            }
-
-
-            /*
-               Jangan modal jika pengguna
-               menekan link gambar.
-            */
-
-            if (
-                event.target.closest(
-                    "a"
-                )
-            ) {
-
-                return;
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       MODAL QUANTITY MINUS
-    ===================================================== */
-
-    if (qtyMinus) {
-
-        qtyMinus.addEventListener(
-            "click",
-            function () {
-
-                modalQuantity =
-                    Math.max(
-                        1,
-                        modalQuantity - 1
-                    );
-
-
-                if (modalQuantityElement) {
-
-                    modalQuantityElement.textContent =
-                        modalQuantity;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       MODAL QUANTITY PLUS
-    ===================================================== */
-
-    if (qtyPlus) {
-
-        qtyPlus.addEventListener(
-            "click",
-            function () {
-
-                modalQuantity++;
-
-
-                if (modalQuantityElement) {
-
-                    modalQuantityElement.textContent =
-                        modalQuantity;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       MODAL ADD CART
-    ===================================================== */
-
-    if (modalAddCart) {
-
-        modalAddCart.addEventListener(
-            "click",
-            function () {
-
-                if (!selectedProduct) {
-                    return;
-                }
-
-
-                addProduct(
-                    selectedProduct,
-                    modalQuantity
-                );
-
-
-                closeProductModal();
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CLOSE BUTTON
-    ===================================================== */
-
-    if (modalClose) {
-
-        modalClose.addEventListener(
-            "click",
-            closeProductModal
-        );
-
-    }
-
-
-    /* =====================================================
-       MODAL OVERLAY
-    ===================================================== */
-
-    if (modal) {
-
-        const overlay =
-            modal.querySelector(
-                ".product-modal-overlay"
-            );
-
-
-        if (overlay) {
-
-            overlay.addEventListener(
-                "click",
-                closeProductModal
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       UPDATE PRICE WHEN AUTH / LEVEL CHANGES
-    ===================================================== */
-
-    window.addEventListener(
-        "drwAuthChanged",
-        function () {
-
-            renderProducts();
-
-        }
-    );
-
-
-    window.addEventListener(
-        "priceLevelChanged",
-        function () {
-
-            renderProducts();
-
-        }
-    );
-
-
-    window.addEventListener(
-        "storage",
-        function (event) {
-
-            if (
-                event.key === "drwUser" ||
-                event.key === "drwAuth" ||
-                event.key === "drwRole"
-            ) {
-
-                renderProducts();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIAL RENDER
-    ===================================================== */
-
-    renderProducts();
-
-
-    console.log(
-        "DRW Products Page FINAL Loaded"
-    );
-
-
-    console.log(
-        "Total products:",
-        DRW_PRODUCTS.length
-    );
-
-
-    console.log(
-        "Price Level:",
-        getCurrentLevel()
-    );
-
-});
+})();

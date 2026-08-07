@@ -7404,3 +7404,100 @@ ADD TO BAG
 .top-divider {
     color: rgba(255,255,255,.45);
 }
+/* =========================================================
+   PREMIUM PRICE LEVEL SELECTOR
+========================================================= */
+
+.price-level-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 9px 14px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid rgba(232, 78, 145, 0.25);
+
+    border-radius: 999px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08),
+        0 3px 12px rgba(232, 78, 145, 0.08);
+
+    transition: 0.3s ease;
+}
+
+
+.price-level-selector:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.12),
+        0 5px 18px rgba(232, 78, 145, 0.16);
+}
+
+
+.price-level-label {
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #555;
+
+    letter-spacing: 0.4px;
+}
+
+
+#priceLevelSelect {
+
+    appearance: none;
+
+    border: none;
+
+    outline: none;
+
+    background: linear-gradient(
+        135deg,
+        #e84e91,
+        #f36ba7
+    );
+
+    color: #fff;
+
+    font-weight: 700;
+
+    font-size: 12px;
+
+    padding: 9px 32px 9px 15px;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px rgba(232, 78, 145, 0.25);
+
+    transition: 0.25s ease;
+}
+
+
+#priceLevelSelect:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 20px rgba(232, 78, 145, 0.35);
+}
+
+
+#priceLevelSelect option {
+
+    background: #fff;
+
+    color: #333;
+
+    font-weight: 600;
+}
