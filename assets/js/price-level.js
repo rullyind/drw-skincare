@@ -226,3 +226,170 @@
     );
 
 })();
+/* =========================================================
+   RARA DRW SKINCARE
+   PRICE LEVEL VIEW SELECTOR
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const selector =
+        document.getElementById("priceLevelSelector");
+
+    const select =
+        document.getElementById("priceLevelSelect");
+
+    if (!selector || !select) {
+        console.log("Price Level Selector tidak ditemukan.");
+        return;
+    }
+
+
+    /* =====================================================
+       LEVEL HIERARCHY
+
+       1 = Director
+       2 = Manager
+       3 = Supervisor
+       4 = Reseller
+       5 = Umum
+    ===================================================== */
+
+    const levelOrder = {
+        director: 1,
+        manager: 2,
+        supervisor: 3,
+        reseller: 4,
+        umum: 5
+    };
+
+
+    /* =====================================================
+       AMBIL LEVEL USER
+
+       Menggunakan DRW_PRICE jika tersedia
+    ===================================================== */
+
+    let currentLevel = "umum";
+
+    if (
+        typeof DRW_PRICE !== "undefined" &&
+        typeof DRW_PRICE.getLevel === "function"
+    ) {
+
+        currentLevel =
+            String(DRW_PRICE.getLevel()).toLowerCase();
+
+    }
+
+
+    console.log(
+        "PRICE SELECTOR USER:",
+        currentLevel
+    );
+
+
+    /* =====================================================
+       FILTER OPTION
+    ===================================================== */
+
+    const currentRank =
+        levelOrder[currentLevel] || 5;
+
+
+    Array.from(select.options).forEach(function (option) {
+
+        const optionLevel =
+            String(option.value).toLowerCase();
+
+        const optionRank =
+            levelOrder[optionLevel];
+
+
+        /*
+         * User hanya boleh melihat:
+         *
+         * level dirinya sendiri
+         * level di bawahnya
+         */
+
+        if (
+            optionRank &&
+            optionRank < currentRank
+        ) {
+
+            option.remove();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       DEFAULT LEVEL
+    ===================================================== */
+
+    select.value = currentLevel;
+
+
+    /*
+     * Jika tidak ditemukan,
+     * gunakan level pertama yang tersedia
+     */
+
+    if (!select.value) {
+
+        select.selectedIndex = 0;
+
+    }
+
+
+    /* =====================================================
+       PERUBAHAN HARGA
+    ===================================================== */
+
+    select.addEventListener(
+        "change",
+        function () {
+
+            const selectedLevel =
+                this.value;
+
+            console.log(
+                "Harga yang dipilih:",
+                selectedLevel
+            );
+
+
+            /*
+             * Simpan pilihan sementara
+             */
+
+            sessionStorage.setItem(
+                "drwSelectedPriceLevel",
+                selectedLevel
+            );
+
+
+            /*
+             * Render ulang produk
+             *
+             * products-page.js akan membaca
+             * pilihan harga tersebut.
+             */
+
+            window.dispatchEvent(
+                new CustomEvent(
+                    "drwPriceLevelChanged",
+                    {
+                        detail: {
+                            level: selectedLevel
+                        }
+                    }
+                )
+            );
+
+        }
+    );
+
+});

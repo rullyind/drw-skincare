@@ -7501,3 +7501,130 @@ ADD TO BAG
 
     font-weight: 600;
 }
+/* =========================================================
+   PRICE LEVEL SELECTOR
+   RARA DRW SKINCARE
+========================================================= */
+
+.price-level-selector {
+    width: 100%;
+    max-width: 420px;
+    margin: 25px auto 35px;
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border: 1px solid rgba(232, 78, 145, 0.20);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08),
+        0 4px 15px rgba(232, 78, 145, 0.08);
+
+    backdrop-filter: blur(12px);
+
+    transition: all 0.3s ease;
+}
+
+.price-level-selector:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(232, 78, 145, 0.45);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.10),
+        0 8px 25px rgba(232, 78, 145, 0.18);
+}
+
+
+/* TITLE */
+
+.price-level-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #e94f91;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.price-level-title i {
+    font-size: 15px;
+}
+
+
+/* SELECT */
+
+#priceLevelSelect {
+    min-width: 190px;
+
+    padding: 11px 15px;
+
+    border: 1px solid rgba(232, 78, 145, 0.25);
+
+    border-radius: 12px;
+
+    background: #fff;
+
+    color: #222;
+
+    font-family: inherit;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition: all 0.25s ease;
+}
+
+#priceLevelSelect:hover {
+    border-color: #e94f91;
+
+    box-shadow:
+        0 5px 15px rgba(232, 78, 145, 0.12);
+}
+
+#priceLevelSelect:focus {
+    border-color: #e94f91;
+
+    box-shadow:
+        0 0 0 3px rgba(232, 78, 145, 0.12);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .price-level-selector {
+        flex-direction: column;
+        align-items: stretch;
+
+        max-width: 100%;
+
+        margin: 20px auto 25px;
+    }
+
+    .price-level-title {
+        justify-content: center;
+    }
+
+    #priceLevelSelect {
+        width: 100%;
+    }
+
+}
