@@ -745,6 +745,60 @@ document.addEventListener("DOMContentLoaded", function () {
     <strong class="drw-product-price">
         ${formatRupiah(getDisplayPrice(product))}
     </strong>
+    /* =========================================================
+   DRW PRICE LEVEL
+   Harga otomatis berdasarkan level user
+========================================================= */
+
+function getDisplayPrice(product) {
+
+    if (!product) {
+        return 0;
+    }
+
+    /*
+       PRIORITAS 1
+       Sistem DRW_PRICE jika tersedia
+    */
+    if (
+        typeof DRW_PRICE !== "undefined" &&
+        typeof DRW_PRICE.getPrice === "function"
+    ) {
+        const price = DRW_PRICE.getPrice(product.id);
+
+        if (
+            price !== null &&
+            price !== undefined &&
+            Number(price) > 0
+        ) {
+            return Number(price);
+        }
+    }
+
+    /*
+       PRIORITAS 2
+       Sistem getProductPrice dari price-level.js
+    */
+    if (
+        typeof getProductPrice === "function"
+    ) {
+        const price = getProductPrice(product.id);
+
+        if (
+            price !== null &&
+            price !== undefined &&
+            Number(price) > 0
+        ) {
+            return Number(price);
+        }
+    }
+
+    /*
+       FALLBACK
+       Harga umum dari database produk
+    */
+    return Number(product.price) || 0;
+}
 
 
                         <!-- LEVEL PRICE -->
