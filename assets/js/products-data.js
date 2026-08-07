@@ -108,3 +108,15 @@ const DRW_PRODUCTS = PRODUCT_DATA.map(([name, category, price, image]) => ({
   image: `assets/images/${image}`,
   description: "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
 }));
+/* =========================================================
+   EXPORT PRODUCT DATA
+========================================================= */
+
+window.DRW_PRODUCTS = DRW_PRODUCTS;
+
+console.log(
+    "RARA DRW — DRW_PRODUCTS tersedia:",
+    Array.isArray(window.DRW_PRODUCTS)
+        ? window.DRW_PRODUCTS.length
+        : "ERROR"
+);

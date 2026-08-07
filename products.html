@@ -49,7 +49,7 @@
 </head>
 
 
-<body>
+<>
 
 
 <!-- =====================================================
@@ -385,6 +385,22 @@
     </select>
 
 </div>
+<div class="price-level-selector" id="priceLevelSelector">
+
+    <div class="price-level-title">
+        <span>Harga Anda</span>
+
+        <strong id="currentPriceLevel">
+            Umum
+        </strong>
+    </div>
+
+    <div
+        class="price-level-buttons"
+        id="priceLevelButtons"
+    ></div>
+
+</div>
 
 
     <!-- =================================================
@@ -395,12 +411,6 @@
         class="product-page-grid"
         id="productsGrid"
     >
-
-        <!--
-            PRODUK AKAN DIISI OTOMATIS
-            OLEH products-page.js
-        -->
-
     </section>
 
 <!-- =====================================================
@@ -483,14 +493,17 @@
 ====================================================== -->
 
 <script src="assets/js/price-level.js"></script>
+
 <script src="assets/js/auth.js"></script>
+
 <script src="assets/js/price-auth-sync.js"></script>
 
 <script src="assets/js/products-data.js"></script>
+
 <script src="assets/js/products-page.js"></script>
 
 <script src="assets/js/cart.js"></script>
-<script src="assets/js/navbar.js"></script>
+
 <script src="assets/js/search.js"></script>
 
 </body>

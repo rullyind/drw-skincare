@@ -7627,4 +7627,550 @@ ADD TO BAG
         width: 100%;
     }
 
+}/* =========================================================
+   RARA DRW SKINCARE
+   PREMIUM PRICE LEVEL
+========================================================= */
+
+.product-prices {
+    margin-top: 22px;
+    padding: 12px;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.95),
+            rgba(255,230,242,.75)
+        );
+
+    border: 1px solid rgba(232,78,145,.16);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06),
+        inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+
+.product-price-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 8px 10px;
+
+    margin-bottom: 5px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+
+    color: #6e5260;
+
+    transition: .25s ease;
+
+}
+
+
+.product-price-row:last-child {
+    margin-bottom: 0;
+}
+
+
+.product-price-row:hover {
+
+    background: #fff;
+
+    transform: translateX(3px);
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.07);
+
+}
+
+
+.price-level-name {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    color: #a36a82;
+
+}
+
+
+.price-level-value {
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    color: #171017;
+
+    white-space: nowrap;
+
+}
+
+
+/* LEVEL LOGIN SAAT INI */
+
+.product-price-row.current-price {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ed4d91,
+            #d9367e
+        );
+
+    box-shadow:
+        0 8px 18px rgba(217,54,126,.22);
+
+}
+
+
+.product-price-row.current-price
+.price-level-name {
+
+    color: #fff;
+
+}
+
+
+.product-price-row.current-price
+.price-level-value {
+
+    color: #fff;
+
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.premium-product-card {
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fff7fb
+        );
+
+    border: 1px solid rgba(232,78,145,.18);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.07);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+}
+
+
+.premium-product-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(232,78,145,.45);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.13),
+        0 0 35px rgba(232,78,145,.10);
+
+}
+
+
+/* =========================================================
+   ACTION BUTTON
+========================================================= */
+
+.product-card-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 18px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.view-product-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 10px 14px;
+
+    border-radius: 30px;
+
+    text-decoration: none;
+
+    color: #e6468b;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    transition: .25s ease;
+
+}
+
+
+.view-product-btn span {
+
+    transition: .25s ease;
+
+}
+
+
+.view-product-btn:hover {
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ed4d91,
+            #c82f70
+        );
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.20);
+
+}
+
+
+.view-product-btn:hover span {
+
+    transform: translateX(4px);
+
+}
+
+
+.add-cart-btn {
+
+    border: none;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 11px 17px;
+
+    border-radius: 30px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e94789,
+            #c92e70
+        );
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.18);
+
+    transition: .25s ease;
+
+}
+
+
+.add-cart-btn:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6ba8,
+            #df397c
+        );
+
+    box-shadow:
+        0 12px 25px rgba(0,0,0,.25);
+
+}
+
+
+.add-cart-btn.added {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #ffe8f2
+        );
+
+    color: #df397c;
+
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.products-empty {
+
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+}
+
+
+.empty-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    color: #fff;
+
+    font-size: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ed4d91,
+            #c82f70
+        );
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.15);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .product-card-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .view-product-btn,
+    .add-cart-btn {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+
+    .product-price-row {
+
+        padding: 9px;
+
+    }
+
+
+    .price-level-name {
+
+        font-size: 10px;
+
+    }
+
+
+    .price-level-value {
+
+        font-size: 13px;
+
+    }
+
+}/* =========================================================
+   PRICE LEVEL
+========================================================= */
+
+.price-level-label {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 8px;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    background: linear-gradient(
+        135deg,
+        #fff,
+        #ffe4f0
+    );
+
+    border: 1px solid rgba(232, 78, 143, 0.25);
+
+    color: #e34b8d;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+.product-price {
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #1d1720;
+
+    margin: 8px 0;
+}
+
+
+.product-price::first-letter {
+    color: #e84f91;
+}
+/* =========================================================
+   PRICE LEVEL SELECTOR
+========================================================= */
+
+.price-level-selector {
+    width: min(100%, 1100px);
+
+    margin: 25px auto;
+
+    padding: 18px 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.98),
+            rgba(255,235,245,.9)
+        );
+
+    border: 1px solid rgba(232, 78, 143, .18);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.price-level-title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+.price-level-title strong {
+    color: #e5488b;
+
+    font-size: 16px;
+
+    letter-spacing: .5px;
+}
+
+.price-level-buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.price-level-button {
+    border: 1px solid #f2bfd5;
+
+    background: #fff;
+
+    color: #8c526c;
+
+    border-radius: 999px;
+
+    padding: 8px 15px;
+
+    font-size: 12px;
+
+    cursor: default;
+
+    transition: .25s ease;
+}
+
+.price-level-button.active {
+    background:
+        linear-gradient(
+            135deg,
+            #e84f91,
+            #f276ad
+        );
+
+    color: white;
+
+    border-color: #e84f91;
+
+    box-shadow:
+        0 6px 18px rgba(232,79,145,.25);
 }
