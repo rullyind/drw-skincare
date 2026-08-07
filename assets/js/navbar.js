@@ -1,15 +1,22 @@
 /* =========================================================
    RARA DRW SKINCARE
-   NAVBAR.JS — FINAL
+   NAVBAR.JS — FINAL V2
    ---------------------------------------------------------
-   FEATURES:
-   1. Cart Count
-   2. Search Button
-   3. Active Navigation
-   4. Navbar Scroll Effect
-   5. Mobile Menu Support
-   6. LocalStorage drwCart Support
-   7. Compatible with app.js / cart.js
+   FUNGSI:
+   1. Update jumlah keranjang
+   2. Active navigation
+   3. Navbar scroll effect
+   4. Mobile menu
+   5. Tutup mobile menu setelah klik
+   6. ESC untuk tutup mobile menu
+
+   PENTING:
+   SEARCH TIDAK DIATUR DI SINI.
+
+   Search sepenuhnya ditangani oleh:
+   assets/js/search.js
+
+   Jangan arahkan searchButton ke product.html.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -18,8 +25,11 @@ document.addEventListener("DOMContentLoaded", function () {
        ELEMENTS
     ===================================================== */
 
-    const header = document.querySelector(".site-header");
-    const navbar = document.querySelector(".main-navbar");
+    const header =
+        document.querySelector(".site-header");
+
+    const navbar =
+        document.querySelector(".main-navbar");
 
     const searchButton =
         document.getElementById("searchButton");
@@ -27,9 +37,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartCount =
         document.getElementById("cartCount");
 
+    const navItems =
+        document.querySelectorAll(
+            ".nav-menu .nav-item"
+        );
+
+    const mobileToggle =
+        document.querySelector(
+            ".mobile-menu-toggle"
+        );
+
 
     /* =====================================================
-       1. UPDATE CART COUNT
+       1. CART COUNT
     ===================================================== */
 
     function updateCartCount() {
@@ -50,20 +70,13 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
 
             console.warn(
-                "DRW Navbar: gagal membaca drwCart",
+                "RARA DRW Navbar: gagal membaca drwCart",
                 error
             );
 
             cart = [];
         }
 
-
-        /*
-         * SUPPORT:
-         * qty
-         * quantity
-         * fallback 1
-         */
 
         let totalItems = 0;
 
@@ -93,20 +106,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        cartCount.textContent = totalItems;
+        cartCount.textContent =
+            totalItems;
 
 
-        /* -------------------------------------------------
-           HIDE COUNT IF EMPTY
-        ------------------------------------------------- */
+        if (totalItems > 0) {
 
-        if (totalItems <= 0) {
-
-            cartCount.classList.remove("has-items");
+            cartCount.classList.add(
+                "has-items"
+            );
 
         } else {
 
-            cartCount.classList.add("has-items");
+            cartCount.classList.remove(
+                "has-items"
+            );
 
         }
 
@@ -118,14 +132,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       2. LISTEN LOCAL STORAGE
+       2. CART UPDATE LISTENER
     ===================================================== */
 
     window.addEventListener(
         "storage",
         function (event) {
 
-            if (event.key === "drwCart") {
+            if (
+                event.key === "drwCart"
+            ) {
 
                 updateCartCount();
 
@@ -134,16 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
-
-    /* =====================================================
-       3. CUSTOM CART EVENT
-       -----------------------------------------------------
-       Bisa dipanggil oleh cart.js / app.js:
-       
-       window.dispatchEvent(
-           new Event("cartUpdated")
-       );
-    ===================================================== */
 
     window.addEventListener(
         "cartUpdated",
@@ -156,83 +162,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       4. SEARCH BUTTON
+       3. SEARCH
+       -----------------------------------------------------
+       TIDAK ADA REDIRECT KE product.html DI SINI.
+
+       Search ditangani oleh:
+       search.js
+
+       Jangan tambahkan:
+       window.location.href = "product.html";
     ===================================================== */
 
     if (searchButton) {
 
-        searchButton.addEventListener(
-            "click",
-            function () {
-
-                /*
-                 * Jika sudah ada halaman products.html,
-                 * langsung arahkan ke sana.
-                 */
-
-                const currentPage =
-                    window.location.pathname
-                        .split("/")
-                        .pop()
-                        .toLowerCase();
-
-
-                if (
-                    currentPage === "product.html" ||
-                    currentPage === "products.html"
-                ) {
-
-                    /*
-                     * Cari input search yang sudah ada
-                     */
-
-                    const searchInput =
-                        document.querySelector(
-                            "#productSearch, " +
-                            "#searchInput, " +
-                            ".product-search input, " +
-                            "input[type='search']"
-                        );
-
-
-                    if (searchInput) {
-
-                        searchInput.focus();
-
-                        searchInput.scrollIntoView({
-                            behavior: "smooth",
-                            block: "center"
-                        });
-
-                    }
-
-                } else {
-
-                    /*
-                     * Jika bukan halaman produk,
-                     * buka product.html
-                     */
-
-                    window.location.href =
-                        "product.html";
-
-                }
-
-            }
+        console.log(
+            "RARA DRW: tombol search siap digunakan."
         );
 
     }
 
 
     /* =====================================================
-       5. ACTIVE NAVIGATION
+       4. ACTIVE NAVIGATION
     ===================================================== */
-
-    const navItems =
-        document.querySelectorAll(
-            ".nav-menu .nav-item"
-        );
-
 
     function setActiveNavigation() {
 
@@ -244,25 +196,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const currentHash =
-            window.location.hash.toLowerCase();
+            window.location.hash
+                .toLowerCase();
 
 
         navItems.forEach(function (item) {
 
-            item.classList.remove("active");
+            item.classList.remove(
+                "active"
+            );
+
 
             const href =
                 item.getAttribute("href");
 
+
             if (!href) return;
 
 
-            /*
-             * Pisahkan halaman + hash
-             */
-
             const parts =
                 href.split("#");
+
 
             const linkPage =
                 (
@@ -273,43 +227,57 @@ document.addEventListener("DOMContentLoaded", function () {
                     .pop()
                     .toLowerCase();
 
+
             const linkHash =
                 parts[1]
-                    ? "#" + parts[1].toLowerCase()
+                    ? "#" +
+                      parts[1].toLowerCase()
                     : "";
 
 
-            /* ------------------------------------------------
-               HOME
-            ------------------------------------------------ */
+            /* HOME */
 
             if (
-                (currentPath === "" ||
-                 currentPath === "index.html") &&
-                linkPage === "index.html" &&
+
+                (
+                    currentPath === "" ||
+                    currentPath === "index.html"
+                )
+
+                &&
+
+                linkPage === "index.html"
+
+                &&
+
                 !linkHash
+
             ) {
 
-                item.classList.add("active");
+                item.classList.add(
+                    "active"
+                );
 
             }
 
 
-            /* ------------------------------------------------
-               PRODUCT PAGE
-            ------------------------------------------------ */
+            /* PRODUCT / PRODUCTS */
 
             else if (
 
                 (
                     currentPath === "product.html" ||
                     currentPath === "products.html"
-                ) &&
+                )
+
+                &&
 
                 (
                     linkPage === "product.html" ||
                     linkPage === "products.html"
-                ) &&
+                )
+
+                &&
 
                 (
                     !linkHash ||
@@ -318,36 +286,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             ) {
 
-                /*
-                 * Jangan otomatis membuat semua link
-                 * product page aktif.
-                 */
-
                 if (
                     !currentHash &&
                     !linkHash
                 ) {
 
-                    item.classList.add("active");
+                    item.classList.add(
+                        "active"
+                    );
 
                 }
 
             }
 
 
-            /* ------------------------------------------------
-               OTHER PAGES
-            ------------------------------------------------ */
+            /* HALAMAN LAIN */
 
             else if (
 
-                linkPage &&
-                linkPage === currentPath &&
+                linkPage === currentPath
+
+                &&
+
                 !linkHash
 
             ) {
 
-                item.classList.add("active");
+                item.classList.add(
+                    "active"
+                );
 
             }
 
@@ -360,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       6. HASH NAVIGATION
+       5. HASH CHANGE
     ===================================================== */
 
     window.addEventListener(
@@ -374,22 +341,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       7. NAVBAR SCROLL EFFECT
+       6. NAVBAR SCROLL
     ===================================================== */
-
-    let lastScroll = 0;
-
 
     function handleNavbarScroll() {
 
         if (!header) return;
 
 
-        const scrollY =
-            window.scrollY;
-
-
-        if (scrollY > 30) {
+        if (
+            window.scrollY > 30
+        ) {
 
             header.classList.add(
                 "navbar-scrolled"
@@ -403,16 +365,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-
-        lastScroll = scrollY;
-
     }
 
 
     window.addEventListener(
         "scroll",
         handleNavbarScroll,
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
 
@@ -420,20 +381,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       8. MOBILE MENU
-       -----------------------------------------------------
-       Mendukung HTML tambahan:
-       
-       <button class="mobile-menu-toggle">
-       
-       <div class="nav-menu">
+       7. MOBILE MENU
     ===================================================== */
-
-    const mobileToggle =
-        document.querySelector(
-            ".mobile-menu-toggle"
-        );
-
 
     if (mobileToggle) {
 
@@ -443,14 +392,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!navbar) return;
 
+
                 navbar.classList.toggle(
                     "mobile-menu-open"
                 );
+
 
                 const isOpen =
                     navbar.classList.contains(
                         "mobile-menu-open"
                     );
+
 
                 mobileToggle.setAttribute(
                     "aria-expanded",
@@ -466,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       9. CLOSE MOBILE MENU AFTER CLICK
+       8. CLOSE MOBILE MENU
     ===================================================== */
 
     navItems.forEach(function (item) {
@@ -477,9 +429,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!navbar) return;
 
+
                 navbar.classList.remove(
                     "mobile-menu-open"
                 );
+
 
                 if (mobileToggle) {
 
@@ -497,20 +451,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       10. ESCAPE KEY
+       9. ESCAPE
     ===================================================== */
 
     document.addEventListener(
         "keydown",
         function (event) {
 
-            if (event.key !== "Escape") return;
+            if (
+                event.key !== "Escape"
+            ) {
+                return;
+            }
+
 
             if (!navbar) return;
+
 
             navbar.classList.remove(
                 "mobile-menu-open"
             );
+
 
             if (mobileToggle) {
 
@@ -526,10 +487,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       11. CART COUNT SAFETY REFRESH
-       -----------------------------------------------------
-       Berguna jika app.js/cart.js mengubah localStorage
-       di halaman yang sama.
+       10. CART SAFETY REFRESH
     ===================================================== */
 
     setInterval(
@@ -539,11 +497,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       12. DEBUG
+       DEBUG
     ===================================================== */
 
     console.log(
-        "RARA DRW SKINCARE — Navbar JS Loaded ✓"
+        "RARA DRW SKINCARE — Navbar JS FINAL V2 ✓"
     );
 
 });

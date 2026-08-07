@@ -551,18 +551,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                 href="${productUrl}"
                                 class="product-view-link"
                             >
-                                View →
+                                Lihat Produk →
                             </a>
-
-
                             <button
                                 type="button"
-                                class="product-add-cart-btn-btn"
-                                data-product-id="${product.id}"
+                                
+                                
+                            <a
+                                href="${productUrl}"
+                                class="product-view-link"
                             >
-                                <i class="fa-solid fa-bag-shopping"></i>
-                                Tambah Keranjang
-                            </button>
+            
+                            </a>
+                                +Tambah Keranjang 
+                                <i class=" Pink Bag </i>
+                                <i class-" setelah di klik +Tambah Keranjang kemudian tulisan berubah jadi Checklist </i>
+                                   </button>
 
                         </div>
 
