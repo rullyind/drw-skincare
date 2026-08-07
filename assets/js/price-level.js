@@ -1,7 +1,8 @@
 /* =========================================================
    RARA DRW SKINCARE
-   PRICE LEVEL SYSTEM
-   ---------------------------------------------------------
+   PRICE LEVEL SYSTEM — FINAL
+   =========================================================
+
    LEVEL:
    1. Director
    2. Manager
@@ -9,8 +10,17 @@
    4. Reseller
    5. Umum
 
-   File:
-   assets/js/price-level.js
+   FITUR:
+   - Terhubung dengan DRW_PRODUCTS
+   - Tidak perlu memasukkan 98 produk satu per satu
+   - Harga Umum otomatis mengambil product.price
+   - Bisa memberikan harga khusus produk tertentu
+   - Bisa digunakan products-page.js
+   - Bisa digunakan product-detail.js
+   - Bisa digunakan cart.js
+   - Bisa digunakan checkout.js
+   - Tersimpan di localStorage
+
 ========================================================= */
 
 (function () {
@@ -19,23 +29,48 @@
 
 
     /* =====================================================
-       KONFIGURASI HARGA PRODUK
-       -----------------------------------------------------
-       MASUKKAN HARGA MASING-MASING LEVEL DI SINI.
-
-       Contoh:
-
-       "facial-wash-oily-acne-110-ml": {
-           director: 65000,
-           manager: 70000,
-           supervisor: 75000,
-           reseller: 85000,
-           umum: 105000
-       }
-
+       LEVEL HARGA
     ===================================================== */
 
-    const DRW_PRICE_LIST = {
+    const DRW_PRICE_LEVELS = {
+
+        director: "Director",
+
+        manager: "Manager",
+
+        supervisor: "Supervisor",
+
+        reseller: "Reseller",
+
+        umum: "Umum"
+
+    };
+
+
+    /* =====================================================
+       DEFAULT LEVEL
+    ===================================================== */
+
+    const DEFAULT_LEVEL = "umum";
+
+
+    /* =====================================================
+       HARGA KHUSUS
+       
+       HANYA PRODUK YANG SUDAH MEMILIKI
+       HARGA KHUSUS DIMASUKKAN DI SINI.
+
+       Produk lain otomatis mengambil:
+       
+       product.price = HARGA UMUM
+       
+    ===================================================== */
+
+    const DRW_SPECIAL_PRICES = {
+
+        /* =================================================
+           FACIAL WASH OILY ACNE 110 ML
+        ================================================= */
 
         "facial-wash-oily-acne-110-ml": {
 
@@ -52,7 +87,11 @@
         },
 
 
-        "day-cream-pink": {
+        /* =================================================
+           DAY PINK CREAM
+        ================================================= */
+
+        "day-pink-cream": {
 
             director: 65000,
 
@@ -66,6 +105,10 @@
 
         },
 
+
+        /* =================================================
+           BRIGHTENING CREAM
+        ================================================= */
 
         "brightening-cream": {
 
@@ -81,6 +124,10 @@
 
         },
 
+
+        /* =================================================
+           GLOWING BODY LOTION
+        ================================================= */
 
         "glowing-body-lotion": {
 
@@ -100,42 +147,40 @@
 
 
     /* =====================================================
-       NAMA LEVEL
+       AMBIL LEVEL LOGIN
     ===================================================== */
 
-    const DRW_PRICE_LEVELS = {
+    function getLevel() {
 
-        director: "Director",
-
-        manager: "Manager",
-
-        supervisor: "Supervisor",
-
-        reseller: "Reseller",
-
-        umum: "Umum"
-
-    };
-
-
-    /* =====================================================
-       LEVEL DEFAULT
-    ===================================================== */
-
-    const DEFAULT_LEVEL = "umum";
-
-
-    /* =====================================================
-       AMBIL LEVEL AKTIF
-    ===================================================== */
-
-    function getPriceLevel() {
-
-        return (
+        let level =
             localStorage.getItem(
                 "drwPriceLevel"
-            ) || DEFAULT_LEVEL
-        );
+            );
+
+
+        if (!level) {
+
+            level = DEFAULT_LEVEL;
+
+        }
+
+
+        level =
+            String(level)
+                .toLowerCase()
+                .trim();
+
+
+        if (
+            !DRW_PRICE_LEVELS[level]
+        ) {
+
+            level = DEFAULT_LEVEL;
+
+        }
+
+
+        return level;
 
     }
 
@@ -144,7 +189,7 @@
        SET LEVEL
     ===================================================== */
 
-    function setPriceLevel(level) {
+    function setLevel(level) {
 
         level =
             String(level)
@@ -157,7 +202,7 @@
         ) {
 
             console.warn(
-                "Level harga tidak ditemukan:",
+                "❌ Level harga tidak valid:",
                 level
             );
 
@@ -169,6 +214,20 @@
         localStorage.setItem(
             "drwPriceLevel",
             level
+        );
+
+
+        /* EVENT */
+
+        window.dispatchEvent(
+            new CustomEvent(
+                "drwPriceChanged",
+                {
+                    detail: {
+                        level: level
+                    }
+                }
+            )
         );
 
 
@@ -184,40 +243,218 @@
         );
 
 
+        console.log(
+            "💰 Level harga:",
+            DRW_PRICE_LEVELS[level]
+        );
+
+
         return true;
 
     }
 
 
     /* =====================================================
-       AMBIL HARGA PRODUK
+       CARI PRODUK
     ===================================================== */
 
-    function getProductPrice(
-        productId,
-        level = getPriceLevel()
-    ) {
+    function findProduct(productId) {
 
-        const product =
-            DRW_PRICE_LIST[productId];
-
-
-        if (!product) {
-
-            console.warn(
-                "Harga produk belum tersedia:",
-                productId
-            );
+        if (
+            !window.DRW_PRODUCTS ||
+            !Array.isArray(
+                window.DRW_PRODUCTS
+            )
+        ) {
 
             return null;
 
         }
 
 
-        return (
-            product[level] ??
-            product.umum ??
-            null
+        return window.DRW_PRODUCTS.find(
+            function (product) {
+
+                return String(
+                    product.id
+                ) ===
+                String(productId);
+
+            }
+        ) || null;
+
+    }
+
+
+    /* =====================================================
+       AMBIL DAFTAR HARGA PRODUK
+       
+       JIKA ADA HARGA KHUSUS:
+           gunakan harga khusus
+
+       JIKA TIDAK:
+           semua level sementara menggunakan
+           harga Umum dari product.price
+       
+    ===================================================== */
+
+    function getPriceList(productId) {
+
+        const product =
+            findProduct(productId);
+
+
+        const special =
+            DRW_SPECIAL_PRICES[
+                productId
+            ];
+
+
+        /* -----------------------------------------------
+           HARGA UMUM DARI PRODUCTS DATA
+        ------------------------------------------------ */
+
+        let umumPrice = 0;
+
+
+        if (product) {
+
+            umumPrice =
+                Number(
+                    product.price ||
+                    product.harga ||
+                    product.priceUmum ||
+                    0
+                );
+
+        }
+
+
+        /* -----------------------------------------------
+           JIKA ADA HARGA KHUSUS
+        ------------------------------------------------ */
+
+        if (special) {
+
+            return {
+
+                director:
+                    Number(
+                        special.director ??
+                        umumPrice
+                    ),
+
+                manager:
+                    Number(
+                        special.manager ??
+                        umumPrice
+                    ),
+
+                supervisor:
+                    Number(
+                        special.supervisor ??
+                        umumPrice
+                    ),
+
+                reseller:
+                    Number(
+                        special.reseller ??
+                        umumPrice
+                    ),
+
+                umum:
+                    Number(
+                        special.umum ??
+                        umumPrice
+                    )
+
+            };
+
+        }
+
+
+        /* -----------------------------------------------
+           PRODUK BELUM ADA HARGA KHUSUS
+
+           Untuk sementara semua memakai harga Umum.
+        ------------------------------------------------ */
+
+        return {
+
+            director: umumPrice,
+
+            manager: umumPrice,
+
+            supervisor: umumPrice,
+
+            reseller: umumPrice,
+
+            umum: umumPrice
+
+        };
+
+    }
+
+
+    /* =====================================================
+       GET MAIN PRICE
+       
+       INI YANG DIPAKAI products-page.js
+       
+       window.DRW_PRICE.getMainPrice(product.id)
+    ===================================================== */
+
+    function getMainPrice(productId) {
+
+        const level =
+            getLevel();
+
+
+        const prices =
+            getPriceList(
+                productId
+            );
+
+
+        return Number(
+            prices[level] ??
+            prices.umum ??
+            0
+        );
+
+    }
+
+
+    /* =====================================================
+       GET PRODUCT PRICE
+    ===================================================== */
+
+    function getProductPrice(
+        productId,
+        level
+    ) {
+
+        level =
+            level ||
+            getLevel();
+
+
+        level =
+            String(level)
+                .toLowerCase()
+                .trim();
+
+
+        const prices =
+            getPriceList(
+                productId
+            );
+
+
+        return Number(
+            prices[level] ??
+            prices.umum ??
+            0
         );
 
     }
@@ -227,9 +464,7 @@
        FORMAT RUPIAH
     ===================================================== */
 
-    function formatRupiah(
-        price
-    ) {
+    function formatRupiah(price) {
 
         if (
             price === null ||
@@ -237,7 +472,7 @@
             isNaN(price)
         ) {
 
-            return "-";
+            return "Rp 0";
 
         }
 
@@ -252,12 +487,23 @@
 
 
     /* =====================================================
-       AMBIL NAMA LEVEL
+       GET NAMA LEVEL
     ===================================================== */
 
-    function getPriceLevelName(
-        level = getPriceLevel()
+    function getLevelName(
+        level
     ) {
+
+        level =
+            level ||
+            getLevel();
+
+
+        level =
+            String(level)
+                .toLowerCase()
+                .trim();
+
 
         return (
             DRW_PRICE_LEVELS[level] ||
@@ -268,15 +514,42 @@
 
 
     /* =====================================================
-       TAMPILKAN HARGA OTOMATIS
-       -----------------------------------------------------
+       ALIAS
+       
+       Supaya kompatibel dengan kode lama.
+    ===================================================== */
+
+    function getPriceLevel() {
+
+        return getLevel();
+
+    }
+
+
+    function setPriceLevel(level) {
+
+        return setLevel(level);
+
+    }
+
+
+    function getPriceLevelName(level) {
+
+        return getLevelName(level);
+
+    }
+
+
+    /* =====================================================
+       RENDER HARGA HTML
+       
        HTML:
-
+       
        <span
-           class="drw-price"
-           data-product-id="facial-wash-oily-acne-110-ml">
-       </span>
-
+          class="drw-price"
+          data-product-id="..."
+       ></span>
+       
     ===================================================== */
 
     function renderPrices() {
@@ -295,27 +568,23 @@
 
 
                 const price =
-                    getProductPrice(
+                    getMainPrice(
                         productId
                     );
 
 
-                if (
-                    price !== null
-                ) {
-
-                    element.textContent =
-                        formatRupiah(
-                            price
-                        );
-
-                }
+                element.textContent =
+                    formatRupiah(
+                        price
+                    );
 
             }
         );
 
 
-        /* UPDATE NAMA LEVEL */
+        /* -----------------------------------------------
+           NAMA LEVEL
+        ------------------------------------------------ */
 
         const levelElements =
             document.querySelectorAll(
@@ -327,19 +596,31 @@
             function (element) {
 
                 element.textContent =
-                    getPriceLevelName();
+                    getLevelName();
 
             }
         );
+
+
+        /* -----------------------------------------------
+           DATA ATTRIBUTE
+        ------------------------------------------------ */
+
+        document
+            .documentElement
+            .setAttribute(
+                "data-price-level",
+                getLevel()
+            );
 
     }
 
 
     /* =====================================================
-       DROPDOWN LEVEL HARGA
+       DROPDOWN PRICE LEVEL
     ===================================================== */
 
-    function createPriceLevelSelector() {
+    function initSelectors() {
 
         const selectors =
             document.querySelectorAll(
@@ -351,14 +632,14 @@
             function (selector) {
 
                 selector.value =
-                    getPriceLevel();
+                    getLevel();
 
 
                 selector.addEventListener(
                     "change",
                     function () {
 
-                        setPriceLevel(
+                        setLevel(
                             this.value
                         );
 
@@ -375,24 +656,107 @@
 
 
     /* =====================================================
+       UPDATE UI LEVEL
+    ===================================================== */
+
+    function updateLevelUI() {
+
+        const level =
+            getLevel();
+
+
+        const name =
+            getLevelName(
+                level
+            );
+
+
+        /* currentPriceLevel */
+
+        const elements =
+            document.querySelectorAll(
+                "#currentPriceLevel"
+            );
+
+
+        elements.forEach(
+            function (element) {
+
+                element.textContent =
+                    name;
+
+            }
+        );
+
+
+        /* semua class level */
+
+        const levelElements =
+            document.querySelectorAll(
+                ".drw-price-level"
+            );
+
+
+        levelElements.forEach(
+            function (element) {
+
+                element.textContent =
+                    name;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
        INIT
     ===================================================== */
 
-    document.addEventListener(
-        "DOMContentLoaded",
+    function initPriceSystem() {
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "RARA DRW — PRICE SYSTEM FINAL"
+        );
+
+        console.log(
+            "Level:",
+            getLevelName()
+        );
+
+        console.log(
+            "================================="
+        );
+
+
+        renderPrices();
+
+        updateLevelUI();
+
+        initSelectors();
+
+    }
+
+
+    /* =====================================================
+       EVENT LEVEL BERUBAH
+    ===================================================== */
+
+    window.addEventListener(
+        "drwPriceChanged",
         function () {
 
             renderPrices();
 
-            createPriceLevelSelector();
+            updateLevelUI();
 
         }
     );
 
-
-    /* =====================================================
-       JIKA LEVEL BERUBAH
-    ===================================================== */
 
     window.addEventListener(
         "drwPriceLevelChanged",
@@ -400,22 +764,54 @@
 
             renderPrices();
 
+            updateLevelUI();
+
         }
     );
 
 
     /* =====================================================
-       EXPORT KE WINDOW
-       -----------------------------------------------------
-       Bisa dipakai oleh:
-       app.js
-       cart.js
-       checkout.js
-       product-detail.js
+       EXPORT
+    ===================================================== */
+
+    window.DRW_PRICE = {
+
+        getLevel:
+            getLevel,
+
+        setLevel:
+            setLevel,
+
+        getLevelName:
+            getLevelName,
+
+        getMainPrice:
+            getMainPrice,
+
+        getProductPrice:
+            getProductPrice,
+
+        getPriceList:
+            getPriceList,
+
+        formatRupiah:
+            formatRupiah,
+
+        renderPrices:
+            renderPrices,
+
+        updateLevelUI:
+            updateLevelUI
+
+    };
+
+
+    /* =====================================================
+       COMPATIBILITY GLOBAL
     ===================================================== */
 
     window.DRW_PRICE_LIST =
-        DRW_PRICE_LIST;
+        DRW_SPECIAL_PRICES;
 
 
     window.DRW_PRICE_LEVELS =
@@ -442,8 +838,25 @@
         getPriceLevelName;
 
 
-    console.log(
-        "RARA DRW — Price Level System Loaded ✓"
-    );
+    /* =====================================================
+       DOM READY
+    ===================================================== */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initPriceSystem
+        );
+
+    } else {
+
+        initPriceSystem();
+
+    }
+
 
 })();
