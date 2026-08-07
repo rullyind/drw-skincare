@@ -10,18 +10,15 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Login | RARA DRW Skincare</title>
+    <title>Daftar | RARA DRW Skincare</title>
 
-    <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <!-- FONT AWESOME -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -32,10 +29,11 @@
         href="assets/css/style.css"
     >
 
+
     <style>
 
         /* =========================================
-           LOGIN PAGE
+           REGISTER PAGE
         ========================================= */
 
         .auth-page {
@@ -48,17 +46,17 @@
 
             align-items: center;
 
-            padding: 70px 20px;
+            padding: 60px 20px;
 
             background:
                 radial-gradient(
                     circle at 20% 20%,
-                    rgba(255, 105, 170, .15),
+                    rgba(255,105,170,.15),
                     transparent 35%
                 ),
                 radial-gradient(
                     circle at 80% 80%,
-                    rgba(255, 214, 232, .45),
+                    rgba(255,214,232,.45),
                     transparent 35%
                 ),
                 #fffafd;
@@ -70,15 +68,15 @@
 
             width: 100%;
 
-            max-width: 460px;
+            max-width: 500px;
 
-            background: rgba(255,255,255,.96);
+            background: rgba(255,255,255,.97);
 
-            border: 1px solid rgba(238, 79, 145, .18);
+            border: 1px solid rgba(238,79,145,.18);
 
             border-radius: 28px;
 
-            padding: 42px;
+            padding: 40px;
 
             box-shadow:
                 0 20px 60px rgba(0,0,0,.10),
@@ -91,18 +89,16 @@
 
             text-align: center;
 
-            margin-bottom: 25px;
+            margin-bottom: 22px;
 
         }
 
 
         .auth-logo img {
 
-            width: 190px;
+            width: 180px;
 
             max-width: 80%;
-
-            height: auto;
 
         }
 
@@ -113,9 +109,7 @@
 
             font-family: "Playfair Display", serif;
 
-            font-size: 34px;
-
-            color: #171018;
+            font-size: 32px;
 
             margin: 0 0 8px;
 
@@ -130,14 +124,14 @@
 
             font-size: 14px;
 
-            margin-bottom: 30px;
+            margin-bottom: 28px;
 
         }
 
 
         .auth-field {
 
-            margin-bottom: 18px;
+            margin-bottom: 16px;
 
         }
 
@@ -146,13 +140,13 @@
 
             display: block;
 
-            margin-bottom: 8px;
-
-            color: #241923;
+            margin-bottom: 7px;
 
             font-size: 13px;
 
             font-weight: 700;
+
+            color: #241923;
 
         }
 
@@ -161,21 +155,17 @@
 
             width: 100%;
 
+            height: 48px;
+
             box-sizing: border-box;
 
-            height: 50px;
-
-            border-radius: 14px;
+            border-radius: 13px;
 
             border: 1px solid #ead9e2;
 
-            background: #fff;
-
-            padding: 0 16px;
+            padding: 0 15px;
 
             font-family: "DM Sans", sans-serif;
-
-            font-size: 14px;
 
             outline: none;
 
@@ -194,62 +184,26 @@
         }
 
 
-        .password-wrap {
-
-            position: relative;
-
-        }
-
-
-        .password-wrap .auth-input {
-
-            padding-right: 50px;
-
-        }
-
-
-        .password-toggle {
-
-            position: absolute;
-
-            right: 14px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            border: none;
-
-            background: transparent;
-
-            color: #b56a8c;
-
-            cursor: pointer;
-
-        }
-
-
         .auth-button {
 
             width: 100%;
 
             height: 52px;
 
+            margin-top: 8px;
+
             border: none;
 
             border-radius: 15px;
 
-            background: linear-gradient(
-                135deg,
-                #ec4f91,
-                #d9367b
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    #ec4f91,
+                    #d9367b
+                );
 
-            color: #fff;
-
-            font-family: "DM Sans", sans-serif;
-
-            font-size: 14px;
+            color: white;
 
             font-weight: 700;
 
@@ -277,7 +231,7 @@
 
             display: none;
 
-            margin-bottom: 18px;
+            margin-bottom: 16px;
 
             padding: 12px 14px;
 
@@ -296,8 +250,6 @@
 
             color: #c72f68;
 
-            border: 1px solid #f5c4d7;
-
         }
 
 
@@ -309,16 +261,14 @@
 
             color: #25805b;
 
-            border: 1px solid #bcebd5;
-
         }
 
 
-        .auth-register {
+        .auth-login {
 
             text-align: center;
 
-            margin-top: 25px;
+            margin-top: 23px;
 
             color: #777;
 
@@ -327,7 +277,7 @@
         }
 
 
-        .auth-register a {
+        .auth-login a {
 
             color: #e84f91;
 
@@ -338,26 +288,11 @@
         }
 
 
-        .auth-register a:hover {
-
-            text-decoration: underline;
-
-        }
-
-
-        @media (max-width: 600px) {
+        @media(max-width:600px) {
 
             .auth-card {
 
-                padding: 30px 22px;
-
-                border-radius: 22px;
-
-            }
-
-            .auth-title {
-
-                font-size: 29px;
+                padding: 28px 20px;
 
             }
 
@@ -369,10 +304,6 @@
 
 
 <body>
-
-    <!-- =========================================
-         LOGIN
-    ========================================== -->
 
     <main class="auth-page">
 
@@ -393,12 +324,12 @@
 
 
             <h1 class="auth-title">
-                Selamat Datang
+                Buat Akun
             </h1>
 
 
             <p class="auth-subtitle">
-                Masuk ke akun RARA DRW Skincare Anda
+                Daftar untuk mendapatkan pengalaman belanja terbaik
             </p>
 
 
@@ -408,19 +339,36 @@
             ></div>
 
 
-            <form id="loginForm">
+            <form id="registerForm">
 
                 <div class="auth-field">
 
-                    <label for="loginEmail">
+                    <label for="registerName">
+                        Nama Lengkap
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        class="auth-input"
+                        placeholder="Nama lengkap"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="registerEmail">
                         Email
                     </label>
 
                     <input
                         type="email"
-                        id="loginEmail"
+                        id="registerEmail"
                         class="auth-input"
-                        placeholder="Masukkan email"
+                        placeholder="Email aktif"
                         autocomplete="email"
                         required
                     >
@@ -430,33 +378,53 @@
 
                 <div class="auth-field">
 
-                    <label for="loginPassword">
+                    <label for="registerPhone">
+                        Nomor WhatsApp
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="registerPhone"
+                        class="auth-input"
+                        placeholder="08xxxxxxxxxx"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="auth-field">
+
+                    <label for="registerPassword">
                         Password
                     </label>
 
-                    <div class="password-wrap">
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        class="auth-input"
+                        placeholder="Minimal 6 karakter"
+                        minlength="6"
+                        required
+                    >
 
-                        <input
-                            type="password"
-                            id="loginPassword"
-                            class="auth-input"
-                            placeholder="Masukkan password"
-                            autocomplete="current-password"
-                            required
-                        >
+                </div>
 
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            id="toggleLoginPassword"
-                            aria-label="Tampilkan password"
-                        >
 
-                            <i class="fa-solid fa-eye"></i>
+                <div class="auth-field">
 
-                        </button>
+                    <label for="registerPasswordConfirm">
+                        Konfirmasi Password
+                    </label>
 
-                    </div>
+                    <input
+                        type="password"
+                        id="registerPasswordConfirm"
+                        class="auth-input"
+                        placeholder="Ulangi password"
+                        minlength="6"
+                        required
+                    >
 
                 </div>
 
@@ -466,21 +434,21 @@
                     class="auth-button"
                 >
 
-                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <i class="fa-solid fa-user-plus"></i>
 
-                    &nbsp; Login
+                    &nbsp; Daftar Sekarang
 
                 </button>
 
             </form>
 
 
-            <div class="auth-register">
+            <div class="auth-login">
 
-                Belum punya akun?
+                Sudah punya akun?
 
-                <a href="register.html">
-                    Daftar sekarang
+                <a href="login.html">
+                    Login
                 </a>
 
             </div>
@@ -492,6 +460,8 @@
 
     <script src="assets/js/auth.js"></script>
 
+
+    
 </body>
 
 </html>

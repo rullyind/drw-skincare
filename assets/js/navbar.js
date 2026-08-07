@@ -521,4 +521,130 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-});
+});/* =========================================================
+   RARA DRW SKINCARE
+   NAVBAR AUTH STATUS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const loginButton =
+            document.getElementById(
+                "loginButton"
+            );
+
+        const registerButton =
+            document.getElementById(
+                "registerButton"
+            );
+
+
+        /* =========================================
+           BELUM LOGIN
+        ========================================= */
+
+        if (loginButton) {
+
+            loginButton.addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+
+        }
+
+
+        if (registerButton) {
+
+            registerButton.addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "register.html";
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           CEK USER
+        ========================================= */
+
+        if (
+            !window.DRW_AUTH
+        ) {
+
+            return;
+
+        }
+
+
+        const user =
+            window.DRW_AUTH.getCurrentUser();
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+        /* =========================================
+           LOGIN SUDAH AKTIF
+        ========================================= */
+
+        if (loginButton) {
+
+            loginButton.textContent =
+                user.name;
+
+            loginButton.title =
+                "Level harga: " +
+                user.role;
+
+
+            loginButton.onclick =
+                function () {
+
+                    alert(
+                        "Nama: " +
+                        user.name +
+                        "\n" +
+                        "Email: " +
+                        user.email +
+                        "\n" +
+                        "Level Harga: " +
+                        user.role
+                    );
+
+                };
+
+        }
+
+
+        if (registerButton) {
+
+            registerButton.textContent =
+                "Logout";
+
+            registerButton.onclick =
+                function () {
+
+                    window.DRW_AUTH.logout();
+
+                };
+
+        }
+
+    }
+);
