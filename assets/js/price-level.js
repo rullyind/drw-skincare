@@ -1,55 +1,42 @@
 /* =========================================================
    RARA DRW SKINCARE
-   PRICE LEVEL SYSTEM — FINAL
+   PRICE LEVEL SYSTEM — SAFE VERSION
    =========================================================
 
    LEVEL:
-   1. Director
-   2. Manager
-   3. Supervisor
-   4. Reseller
-   5. Umum
+   Director
+   Manager
+   Supervisor
+   Reseller
+   Umum
 
    FITUR:
    - Terhubung dengan DRW_PRODUCTS
-   - Tidak perlu memasukkan 98 produk satu per satu
-   - Harga Umum otomatis mengambil product.price
-   - Bisa memberikan harga khusus produk tertentu
-   - Bisa digunakan products-page.js
-   - Bisa digunakan product-detail.js
-   - Bisa digunakan cart.js
-   - Bisa digunakan checkout.js
-   - Tersimpan di localStorage
-
+   - Tidak perlu input 98 produk
+   - Harga Umum otomatis dari product.price
+   - Bisa harga khusus produk tertentu
+   - localStorage
+   - Bisa dipakai products-page.js
+   - Bisa dipakai product-detail.js
+   - Bisa dipakai cart.js
+   - Bisa dipakai checkout.js
 ========================================================= */
 
 (function () {
 
     "use strict";
 
-
     /* =====================================================
-       LEVEL HARGA
+       LEVEL
     ===================================================== */
 
-    const DRW_PRICE_LEVELS = {
-
+    const LEVELS = {
         director: "Director",
-
         manager: "Manager",
-
         supervisor: "Supervisor",
-
         reseller: "Reseller",
-
         umum: "Umum"
-
     };
-
-
-    /* =====================================================
-       DEFAULT LEVEL
-    ===================================================== */
 
     const DEFAULT_LEVEL = "umum";
 
@@ -57,130 +44,75 @@
     /* =====================================================
        HARGA KHUSUS
        
-       HANYA PRODUK YANG SUDAH MEMILIKI
-       HARGA KHUSUS DIMASUKKAN DI SINI.
+       HANYA produk tertentu yang perlu harga berbeda
+       dimasukkan di sini.
 
-       Produk lain otomatis mengambil:
-       
-       product.price = HARGA UMUM
-       
+       Produk lain otomatis:
+       semua level = product.price
     ===================================================== */
 
-    const DRW_SPECIAL_PRICES = {
-
-        /* =================================================
-           FACIAL WASH OILY ACNE 110 ML
-        ================================================= */
+    const SPECIAL_PRICES = {
 
         "facial-wash-oily-acne-110-ml": {
-
             director: 65000,
-
             manager: 70000,
-
             supervisor: 75000,
-
             reseller: 85000,
-
             umum: 105000
-
         },
-
-
-        /* =================================================
-           DAY PINK CREAM
-        ================================================= */
 
         "day-pink-cream": {
-
             director: 65000,
-
             manager: 70000,
-
             supervisor: 75000,
-
             reseller: 85000,
-
             umum: 100000
-
         },
-
-
-        /* =================================================
-           BRIGHTENING CREAM
-        ================================================= */
 
         "brightening-cream": {
-
             director: 65000,
-
             manager: 70000,
-
             supervisor: 75000,
-
             reseller: 85000,
-
             umum: 100000
-
         },
 
-
-        /* =================================================
-           GLOWING BODY LOTION
-        ================================================= */
-
         "glowing-body-lotion": {
-
             director: 55000,
-
             manager: 60000,
-
             supervisor: 65000,
-
             reseller: 70000,
-
             umum: 80000
-
         }
 
     };
 
 
     /* =====================================================
-       AMBIL LEVEL LOGIN
+       NORMALIZE LEVEL
+    ===================================================== */
+
+    function normalizeLevel(level) {
+
+        level = String(level || "")
+            .toLowerCase()
+            .trim();
+
+        return LEVELS[level]
+            ? level
+            : DEFAULT_LEVEL;
+    }
+
+
+    /* =====================================================
+       GET LEVEL
     ===================================================== */
 
     function getLevel() {
 
-        let level =
-            localStorage.getItem(
-                "drwPriceLevel"
-            );
-
-
-        if (!level) {
-
-            level = DEFAULT_LEVEL;
-
-        }
-
-
-        level =
-            String(level)
-                .toLowerCase()
-                .trim();
-
-
-        if (
-            !DRW_PRICE_LEVELS[level]
-        ) {
-
-            level = DEFAULT_LEVEL;
-
-        }
-
-
-        return level;
+        return normalizeLevel(
+            localStorage.getItem("drwPriceLevel")
+        );
 
     }
 
@@ -191,111 +123,120 @@
 
     function setLevel(level) {
 
-        level =
-            String(level)
-                .toLowerCase()
-                .trim();
-
-
-        if (
-            !DRW_PRICE_LEVELS[level]
-        ) {
-
-            console.warn(
-                "❌ Level harga tidak valid:",
-                level
-            );
-
-            return false;
-
-        }
-
+        level = normalizeLevel(level);
 
         localStorage.setItem(
             "drwPriceLevel",
             level
         );
 
-
-        /* EVENT */
-
         window.dispatchEvent(
-            new CustomEvent(
-                "drwPriceChanged",
-                {
-                    detail: {
-                        level: level
-                    }
+            new CustomEvent("drwPriceChanged", {
+                detail: {
+                    level: level
                 }
-            )
+            })
         );
-
-
-        window.dispatchEvent(
-            new CustomEvent(
-                "drwPriceLevelChanged",
-                {
-                    detail: {
-                        level: level
-                    }
-                }
-            )
-        );
-
-
-        console.log(
-            "💰 Level harga:",
-            DRW_PRICE_LEVELS[level]
-        );
-
 
         return true;
+    }
+
+
+    /* =====================================================
+       LEVEL NAME
+    ===================================================== */
+
+    function getLevelName(level) {
+
+        level = normalizeLevel(
+            level || getLevel()
+        );
+
+        return LEVELS[level];
 
     }
 
 
     /* =====================================================
-       CARI PRODUK
+       CARI DRW_PRODUCTS
+       
+       SUPPORT:
+       window.DRW_PRODUCTS
+       DRW_PRODUCTS
+    ===================================================== */
+
+    function getProducts() {
+
+        if (
+            window.DRW_PRODUCTS &&
+            Array.isArray(window.DRW_PRODUCTS)
+        ) {
+            return window.DRW_PRODUCTS;
+        }
+
+        return [];
+
+    }
+
+
+    /* =====================================================
+       FIND PRODUCT
     ===================================================== */
 
     function findProduct(productId) {
 
-        if (
-            !window.DRW_PRODUCTS ||
-            !Array.isArray(
-                window.DRW_PRODUCTS
-            )
-        ) {
+        const products = getProducts();
 
+        if (!products.length) {
             return null;
-
         }
 
+        return products.find(function (product) {
 
-        return window.DRW_PRODUCTS.find(
-            function (product) {
+            return String(product.id) ===
+                   String(productId);
 
-                return String(
-                    product.id
-                ) ===
-                String(productId);
-
-            }
-        ) || null;
+        }) || null;
 
     }
 
 
     /* =====================================================
-       AMBIL DAFTAR HARGA PRODUK
-       
-       JIKA ADA HARGA KHUSUS:
-           gunakan harga khusus
+       GET PRODUCT PRICE UMUM
+    ===================================================== */
 
-       JIKA TIDAK:
-           semua level sementara menggunakan
-           harga Umum dari product.price
+    function getBasePrice(product) {
+
+        if (!product) {
+            return 0;
+        }
+
+        const price =
+            product.price ??
+            product.harga ??
+            product.priceUmum ??
+            0;
+
+        const numberPrice =
+            Number(price);
+
+        return Number.isFinite(numberPrice)
+            ? numberPrice
+            : 0;
+
+    }
+
+
+    /* =====================================================
+       GET PRICE LIST
        
+       Jika tidak ada harga khusus:
+       
+       Director   = product.price
+       Manager    = product.price
+       Supervisor = product.price
+       Reseller   = product.price
+       Umum       = product.price
     ===================================================== */
 
     function getPriceList(productId) {
@@ -303,93 +244,57 @@
         const product =
             findProduct(productId);
 
+        const basePrice =
+            getBasePrice(product);
 
         const special =
-            DRW_SPECIAL_PRICES[
-                productId
+            SPECIAL_PRICES[
+                String(productId)
             ];
 
-
-        /* -----------------------------------------------
-           HARGA UMUM DARI PRODUCTS DATA
-        ------------------------------------------------ */
-
-        let umumPrice = 0;
-
-
-        if (product) {
-
-            umumPrice =
-                Number(
-                    product.price ||
-                    product.harga ||
-                    product.priceUmum ||
-                    0
-                );
-
-        }
-
-
-        /* -----------------------------------------------
-           JIKA ADA HARGA KHUSUS
-        ------------------------------------------------ */
-
-        if (special) {
+        if (!special) {
 
             return {
-
-                director:
-                    Number(
-                        special.director ??
-                        umumPrice
-                    ),
-
-                manager:
-                    Number(
-                        special.manager ??
-                        umumPrice
-                    ),
-
-                supervisor:
-                    Number(
-                        special.supervisor ??
-                        umumPrice
-                    ),
-
-                reseller:
-                    Number(
-                        special.reseller ??
-                        umumPrice
-                    ),
-
-                umum:
-                    Number(
-                        special.umum ??
-                        umumPrice
-                    )
-
+                director: basePrice,
+                manager: basePrice,
+                supervisor: basePrice,
+                reseller: basePrice,
+                umum: basePrice
             };
 
         }
 
-
-        /* -----------------------------------------------
-           PRODUK BELUM ADA HARGA KHUSUS
-
-           Untuk sementara semua memakai harga Umum.
-        ------------------------------------------------ */
-
         return {
 
-            director: umumPrice,
+            director:
+                Number(
+                    special.director ??
+                    basePrice
+                ),
 
-            manager: umumPrice,
+            manager:
+                Number(
+                    special.manager ??
+                    basePrice
+                ),
 
-            supervisor: umumPrice,
+            supervisor:
+                Number(
+                    special.supervisor ??
+                    basePrice
+                ),
 
-            reseller: umumPrice,
+            reseller:
+                Number(
+                    special.reseller ??
+                    basePrice
+                ),
 
-            umum: umumPrice
+            umum:
+                Number(
+                    special.umum ??
+                    basePrice
+                )
 
         };
 
@@ -399,9 +304,7 @@
     /* =====================================================
        GET MAIN PRICE
        
-       INI YANG DIPAKAI products-page.js
-       
-       window.DRW_PRICE.getMainPrice(product.id)
+       Dipakai products-page.js
     ===================================================== */
 
     function getMainPrice(productId) {
@@ -409,12 +312,8 @@
         const level =
             getLevel();
 
-
         const prices =
-            getPriceList(
-                productId
-            );
-
+            getPriceList(productId);
 
         return Number(
             prices[level] ??
@@ -427,6 +326,8 @@
 
     /* =====================================================
        GET PRODUCT PRICE
+       
+       Bisa menentukan level secara manual
     ===================================================== */
 
     function getProductPrice(
@@ -435,21 +336,12 @@
     ) {
 
         level =
-            level ||
-            getLevel();
-
-
-        level =
-            String(level)
-                .toLowerCase()
-                .trim();
-
-
-        const prices =
-            getPriceList(
-                productId
+            normalizeLevel(
+                level || getLevel()
             );
 
+        const prices =
+            getPriceList(productId);
 
         return Number(
             prices[level] ??
@@ -466,90 +358,27 @@
 
     function formatRupiah(price) {
 
-        if (
-            price === null ||
-            price === undefined ||
-            isNaN(price)
-        ) {
+        price = Number(price);
 
-            return "Rp 0";
-
+        if (!Number.isFinite(price)) {
+            price = 0;
         }
 
-
         return "Rp " +
-            Number(price)
-                .toLocaleString(
-                    "id-ID"
-                );
+            price.toLocaleString("id-ID");
 
     }
 
 
     /* =====================================================
-       GET NAMA LEVEL
-    ===================================================== */
-
-    function getLevelName(
-        level
-    ) {
-
-        level =
-            level ||
-            getLevel();
-
-
-        level =
-            String(level)
-                .toLowerCase()
-                .trim();
-
-
-        return (
-            DRW_PRICE_LEVELS[level] ||
-            DRW_PRICE_LEVELS.umum
-        );
-
-    }
-
-
-    /* =====================================================
-       ALIAS
+       RENDER PRICE
        
-       Supaya kompatibel dengan kode lama.
-    ===================================================== */
-
-    function getPriceLevel() {
-
-        return getLevel();
-
-    }
-
-
-    function setPriceLevel(level) {
-
-        return setLevel(level);
-
-    }
-
-
-    function getPriceLevelName(level) {
-
-        return getLevelName(level);
-
-    }
-
-
-    /* =====================================================
-       RENDER HARGA HTML
-       
-       HTML:
+       Support:
        
        <span
           class="drw-price"
-          data-product-id="..."
+          data-product-id="ID"
        ></span>
-       
     ===================================================== */
 
     function renderPrices() {
@@ -559,55 +388,47 @@
                 ".drw-price[data-product-id]"
             );
 
+        elements.forEach(function (element) {
 
-        elements.forEach(
-            function (element) {
+            const productId =
+                element.dataset.productId;
 
-                const productId =
-                    element.dataset.productId;
+            const price =
+                getMainPrice(productId);
 
+            element.textContent =
+                formatRupiah(price);
 
-                const price =
-                    getMainPrice(
-                        productId
-                    );
-
-
-                element.textContent =
-                    formatRupiah(
-                        price
-                    );
-
-            }
-        );
+        });
 
 
-        /* -----------------------------------------------
-           NAMA LEVEL
-        ------------------------------------------------ */
+        /* LEVEL NAME */
 
-        const levelElements =
-            document.querySelectorAll(
-                ".drw-price-level"
-            );
-
-
-        levelElements.forEach(
-            function (element) {
+        document
+            .querySelectorAll(".drw-price-level")
+            .forEach(function (element) {
 
                 element.textContent =
                     getLevelName();
 
-            }
-        );
+            });
 
 
-        /* -----------------------------------------------
-           DATA ATTRIBUTE
-        ------------------------------------------------ */
+        /* CURRENT LEVEL */
 
         document
-            .documentElement
+            .querySelectorAll("#currentPriceLevel")
+            .forEach(function (element) {
+
+                element.textContent =
+                    getLevelName();
+
+            });
+
+
+        /* HTML ATTRIBUTE */
+
+        document.documentElement
             .setAttribute(
                 "data-price-level",
                 getLevel()
@@ -617,19 +438,16 @@
 
 
     /* =====================================================
-       DROPDOWN PRICE LEVEL
+       UPDATE SELECTOR
     ===================================================== */
 
     function initSelectors() {
 
-        const selectors =
-            document.querySelectorAll(
+        document
+            .querySelectorAll(
                 ".drw-price-selector"
-            );
-
-
-        selectors.forEach(
-            function (selector) {
+            )
+            .forEach(function (selector) {
 
                 selector.value =
                     getLevel();
@@ -643,131 +461,25 @@
                             this.value
                         );
 
-
                         renderPrices();
 
                     }
                 );
 
-            }
-        );
+            });
 
     }
 
 
     /* =====================================================
-       UPDATE UI LEVEL
+       REFRESH
     ===================================================== */
 
-    function updateLevelUI() {
-
-        const level =
-            getLevel();
-
-
-        const name =
-            getLevelName(
-                level
-            );
-
-
-        /* currentPriceLevel */
-
-        const elements =
-            document.querySelectorAll(
-                "#currentPriceLevel"
-            );
-
-
-        elements.forEach(
-            function (element) {
-
-                element.textContent =
-                    name;
-
-            }
-        );
-
-
-        /* semua class level */
-
-        const levelElements =
-            document.querySelectorAll(
-                ".drw-price-level"
-            );
-
-
-        levelElements.forEach(
-            function (element) {
-
-                element.textContent =
-                    name;
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       INIT
-    ===================================================== */
-
-    function initPriceSystem() {
-
-        console.log(
-            "================================="
-        );
-
-        console.log(
-            "RARA DRW — PRICE SYSTEM FINAL"
-        );
-
-        console.log(
-            "Level:",
-            getLevelName()
-        );
-
-        console.log(
-            "================================="
-        );
-
+    function refresh() {
 
         renderPrices();
 
-        updateLevelUI();
-
-        initSelectors();
-
     }
-
-
-    /* =====================================================
-       EVENT LEVEL BERUBAH
-    ===================================================== */
-
-    window.addEventListener(
-        "drwPriceChanged",
-        function () {
-
-            renderPrices();
-
-            updateLevelUI();
-
-        }
-    );
-
-
-    window.addEventListener(
-        "drwPriceLevelChanged",
-        function () {
-
-            renderPrices();
-
-            updateLevelUI();
-
-        }
-    );
 
 
     /* =====================================================
@@ -785,14 +497,17 @@
         getLevelName:
             getLevelName,
 
+        findProduct:
+            findProduct,
+
+        getPriceList:
+            getPriceList,
+
         getMainPrice:
             getMainPrice,
 
         getProductPrice:
             getProductPrice,
-
-        getPriceList:
-            getPriceList,
 
         formatRupiah:
             formatRupiah,
@@ -800,47 +515,68 @@
         renderPrices:
             renderPrices,
 
-        updateLevelUI:
-            updateLevelUI
+        refresh:
+            refresh
 
     };
 
 
     /* =====================================================
-       COMPATIBILITY GLOBAL
+       COMPATIBILITY
     ===================================================== */
 
-    window.DRW_PRICE_LIST =
-        DRW_SPECIAL_PRICES;
-
-
     window.DRW_PRICE_LEVELS =
-        DRW_PRICE_LEVELS;
+        LEVELS;
 
+    window.DRW_PRICE_LIST =
+        SPECIAL_PRICES;
 
     window.getPriceLevel =
-        getPriceLevel;
-
+        getLevel;
 
     window.setPriceLevel =
-        setPriceLevel;
-
+        setLevel;
 
     window.getProductPrice =
         getProductPrice;
 
-
     window.formatRupiah =
         formatRupiah;
 
-
     window.getPriceLevelName =
-        getPriceLevelName;
+        getLevelName;
+
+
+    /* =====================================================
+       EVENTS
+    ===================================================== */
+
+    window.addEventListener(
+        "drwPriceChanged",
+        function () {
+
+            renderPrices();
+
+        }
+    );
 
 
     /* =====================================================
        DOM READY
     ===================================================== */
+
+    function init() {
+
+        initSelectors();
+        renderPrices();
+
+        console.log(
+            "RARA DRW — PRICE LEVEL READY:",
+            getLevelName()
+        );
+
+    }
+
 
     if (
         document.readyState ===
@@ -849,14 +585,13 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            initPriceSystem
+            init
         );
 
     } else {
 
-        initPriceSystem();
+        init();
 
     }
-
 
 })();
