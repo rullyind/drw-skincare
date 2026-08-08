@@ -1,122 +1,884 @@
-const PRODUCT_DATA = [
-  ["3 in 1 Exfoliating Gel 100 ml", "Perawatan Wajah", 100000, "products/Exfoliating/exfoliating 1.jpg"],
-  ["Acne Cream 3", "Cream Malam", 100000, "products/Cream Malam/Acne Cream 3/Acne Cream 3 New.png"],
-  ["Bamboo Charcoal Soap Premium", "Body Care", 55000, "products/Perawatan Badan/Bamboo Carcoal fb.jpg"],
-  ["BB Cream Air Cushion Shade Ivory", "Make Up & Riasan", 65000, "products/Bedak/BB Cream Air Cushion Shade Ivory TO.png"],
-  ["Beauty DNA Salmon Spray", "Perawatan Wajah", 90000, "products/Paket Radiant Bright Ultimate DNA Salmon/Paket RBU DNA Salmon.png"],
-  ["Breast Cream", "Body Care", 130000, "products/Perawatan Badan/BEAST-CREAM-2.jpg"],
-  ["Brightening Cream", "Cream Malam", 100000, "products/Cream Malam/Brightening Cream/Brightening Cream.png"],
-  ["Brightening Peel Off Mask with Charcoal 60 ml", "Perawatan Wajah", 110000, "products/Brightening Peel Off/brightening peel Off.jpg"],
-  ["Cleansing Milk With Green Tea 110 ml", "Perawatan Wajah", 80000, "products/Masker/Masker Green Tea.jpg"],
-  ["Cleansing Milk With Green Tea 63 ml", "Perawatan Wajah", 65000, "products/Masker/Masker Green Tea.jpg"],
-  ["Compact Powder Natural Whitening", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
-  ["Coolbright Deo Herba", "Body Care", 85000, "products/deodorant/Coolbright Deo Herba.jpg"],
-  ["Coolbright Deo Herba Strong", "Body Care", 90000, "products/deodorant/Coolbright Deo Herba trong.jpg"],
-  ["Daily Ceramoist Hydra Gel", "Perawatan Wajah", 120000, "products/Daily Ceramoist/Daily Ceramoist.jpg"],
-  ["Daily Compact Powder Beige", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
-  ["Daily Compact Powder Natural", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
-  ["Daily Compact Powder Pink", "Make Up & Riasan", 100000, "products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png"],
-  ["Day Acne Cream 1", "Cream Siang", 100000, "products/Cream Siang/Day Cream Acne 1/Day Cream Acne 1 TO.png"],
-  ["Day Acne Cream 2", "Cream Siang", 100000, "products/Cream Siang/Day Cream Acne 2/Day Cream Acne 2 TO.png"],
-  ["Day Body Foundation Premium", "Body Care", 80000, "products/Lotion/Day Body Foundation Premium Rara Drw Skincare.png"],
-  ["Day Body Lotion Premium 110 ml", "Body Care", 80000, "products/Lotion/day body lotion Premium Rara Drw Skincare.png"],
-  ["Day Pink Cream", "Cream Siang", 100000, "products/Cream Siang/Day Cream Pink/Day Cream Pink TO.png"],
-  ["Day White Cream", "Cream Siang", 100000, "products/Cream Siang/Day Cream White/day cream white new.png"],
-  ["DNA Salmon Extra Marine Collagen and Hyaluronic Acid 30 ml", "Serum", 155000, "products/Serum/serum DNA Salmond/drwskincare_drwskincare_serum_wajah_dna_salmon_with_extra_marine_collagen_-_hyaluronic_acid_full05_3a60c0df.jpg"],
-  ["DRW Kapsul Gemuk Badan isi 60", "Body Care", 225000, "products/Suplemen/Drw Kapsul Gemuk Badan Rara Drw Skincare.png"],
-  ["DRW Slimming Capsule isi 60", "Body Care", 225000, "products/Suplemen/DRW Slimming Capsule Rara Drw Skincare.png"],
-  ["Exfoliating Apple Gel", "Perawatan Wajah", 100000, "products/Exfoliating/Peeling Gel Apel.jpg"],
-  ["Exfoliating Strawberry Gel", "Perawatan Wajah", 100000, "products/Exfoliating/Peeling Gel Strawberry.jpg"],
-  ["Face Mist Centella Asiatica", "Perawatan Wajah", 75000, "products/Facemist/face mist centella asiatica.jpg"],
-  ["Facial Wash For Normal Skin 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 110 ml 2.jpg"],
-  ["Facial Wash For Normal Skin 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 60 ml.jpg"],
-  ["Facial Wash Oily Acne 110 ml", "Facial Wash", 105000, "products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png"],
-  ["Facial Wash Oily Acne 63 ml", "Facial Wash", 85000, "products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png"],
-  ["Facial Wash Pink Brightening 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg"],
-  ["Facial Wash Pink Brightening 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg"],
-  ["Facial Wash Tea Tree Oil 110 ml", "Facial Wash", 100000, "products/Facial wash/Facial Wash Tea Tree Oil/facial wash tea tree oil 100 ml  new.jpg"],
-  ["Facial Wash Tea Tree Oil 63 ml", "Facial Wash", 80000, "products/Facial wash/Facial Wash Tea Tree Oil/Facial Wash Tea Tree Oil 60 ml.jpg"],
-  ["Firming Body Cream Pink", "Body Care", 100000, "products/Perawatan Badan/57.-Firming-Body-Cream-Green-scaled.jpg"],
-  ["Flawless BB Cushion", "Make Up & Riasan", 125000, "products/Bedak/Flawless BB Cushion Rara Drw Skincare.png"],
-  ["Green Tea Face Mask Premium", "Perawatan Wajah", 75000, "products/Masker/Masker Green Tea.jpg"],
-  ["Hair Serum Premium", "Hair Care", 120000, "products/Serum/Serum Bulu Mata/hair serum.jfif"],
-  ["Hair Tonic Normal 220 ml", "Hair Care", 120000, "products/Perawatan Rambut/Hair Tonic Normal.png"],
-  ["HB Dosting 75 gram", "Body Care", 120000, "products/HB Dosting/hb dosting rara drw skincare.jpg"],
-  ["Kojic Acid Milk Soap", "Body Care", 80000, "products/Perawatan Badan/kojic/kojic acid milk soap.jpg"],
-  ["Lipgloss Beauty Gold", "Make Up & Riasan", 100000, "products/Lips/Lipgloss Beauty Gold.jpg"],
-  ["Lipgloss Beauty Gold + Vit E", "Make Up & Riasan", 110000, "products/Lips/Lipgloss Beauty Gold.jpg"],
-  ["Lipgloss Beauty Pink", "Make Up & Riasan", 100000, "products/Lips/Lipgloss Beauty Pink.jpg"],
-  ["Lipgloss Beauty Pink + Vit E", "Make Up & Riasan", 110000, "products/Lips/Lipgloss Beauty Pink.jpg"],
-  ["Lipscare", "Make Up & Riasan", 135000, "products/Lips/lipscare new.png"],
-  ["Lulur Brightening Premium", "Body Care", 100000, "products/Serum/Serum Brightening Glow/Serum Brightening Glow Rara Drw Skincare.png"],
-  ["Luminous Brightening Vitamin C plus Collagen Serum", "Serum", 120000, "products/Serum/Serum Brightening VIt CE/37.-Serum-Brightening-With-Vit-C-E-scaled.jpg"],
-  ["Moisturizer Gel Aloe Vera", "Perawatan Wajah", 85000, "products/Paket Shampoo Drw skincare/Shampoo Aloe Vera.jpg"],
-  ["Moisturizer Gel Avocado", "Perawatan Wajah", 85000, "products/Masker/Moisture Gel Avocado.jpg"],
-  ["Moisturizer Gel Cucumber Vit E", "Perawatan Wajah", 85000, "products/Masker/Moisture Gel Cucumber.jpg"],
-  ["Rice Face Mask Limpasu", "Perawatan Wajah", 75000, "products/Facemist/face mist centella asiatica.jpg"],
-  ["Serum AHA BHA", "Serum", 110000, "products/Serum/Serum AHA BHA/serum aha bha new.jpg"],
-  ["Serum Brightening Glowing", "Serum", 100000, "products/Serum/Serum Brightening Glow/Serum Brightening Glow Rara Drw Skincare.png"],
-  ["Serum Brightening With Vit C & E", "Serum", 90000, "products/Serum/Serum Brightening VIt CE/37.-Serum-Brightening-With-Vit-C-E-scaled.jpg"],
-  ["Serum For Acne Skin", "Serum", 100000, "products/Serum/Serum For Acne Skin/1779248778210-1779248778207-foto-0-764e5ea3-497e-4210-ac5c-6a84678b5439.jpg"],
-  ["Serum Retinol", "Serum", 120000, "products/Serum/Retinol/Serum Retinol;.jfif"],
-  ["Silky Soft Face Powder Beige", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Beige Rara Drw Skincare.png"],
-  ["Silky Soft Face Powder Ivory", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Ivory Rara Drw Skincare.png"],
-  ["Silky Soft Face Powder Natural", "Make Up & Riasan", 100000, "products/Bedak/Silky Soft Powder Natural Rara Drw Skincare.png"],
-  ["Snail Cream Anti Aging", "Cream Malam", 120000, "products/Cream Malam/Brightening Cream/Brightening Cream.png"],
-  ["Strawberry Micellar Water 100 ml", "Perawatan Wajah", 60000, "products/Micellar Water/Micellar water 100 ml 2.jpg"],
-  ["Strawberry Micellar Water 63 ml", "Perawatan Wajah", 50000, "products/Micellar Water/Micellar water 100 ml 2.jpg"],
-  ["Stretchmark Cream With Olive Oil", "Body Care", 130000, "products/Perawatan Badan/Stretchmark Cream With Olive Oil.jpg"],
-  ["Sulfur Soap Plus Milk", "Body Care", 80000, "products/Perawatan Badan/kojic/84.-Sulfur-Soap-Plus-Milk-1-2048x2047.jpg"],
-  ["Sunscreen Glowing", "Cream Siang", 100000, "products/Cream Siang/sunscreen glowing/sunscreen glowing new.jpg"],
-  ["Sunscreen For Oily and Acne New", "Cream Siang", 105000, "products/Cream Siang/Sunscreen Oily & Acne/Sunscreen-For-Oily-Acne. 3jpg.jpg"],
+const DRW_PRICE_LIST = {
+    "3-in-1-exfoliating-gel-100-ml": {
+        name: "3 in 1 Exfoliating Gel 100 ml",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
 
-  ["Toner Honey Premium 110 ml New", "Toner", 90000, "products/Toner/Toner Honey/Toner Honey 110 ml.jpg"],
-  ["Toner Honey Premium 63 ml", "Toner", 65000, "products/Toner/Toner Honey/Toner Honey 110 ml.jpg"],
-  ["Toner Lime Premium 110 ml", "Toner", 80000, "products/Toner/Toner Lime/Toner lime 110 ml Rara .jpg"],
-  ["Toner Lime Premium 63 ml", "Toner", 65000, "products/Toner/Toner Lime/Toner Lime Premium 63 ml .png"],
-  ["Paket Radiant Acne Repair", "Paket Perawatan Wajah", 271000, "products/Paket Radiant Acne Repair/Paket Basic RAR 2.jpg"],
-  ["Paket Radiant Bright Ultimate", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Radiant Glow Booster", "Paket Perawatan Wajah", 280000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Normal.png"],
-  ["Paket Brightening 2", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
-  ["Paket Brightening 3", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU kering 3 raara drw skincare.png"],
-  ["Paket Brightening Custom", "Paket Perawatan Wajah", 260000, "products/Paket Radiant Brigh Ultimate/Paket RBU Kulit Kering 2.png"],
-  ["Paket Brightening Glow 100ml", "Paket Perawatan Wajah", 300000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
-  ["Paket Brightening Glow 60 ml", "Paket Perawatan Wajah", 290000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
-  ["Paket Brightening Oily Custom", "Paket Perawatan Wajah", 260000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
-  ["Paket Ceramoist Acne", "Paket Perawatan Wajah", 280000, "products/Paket Ceramois/paket Ceramois Acne.jpg"],
-  ["Paket Ceramoist Glowing", "Paket Perawatan Wajah", 280000, "products/Paket Ceramois/paket ceramois glowing.jpg"],
-  ["Paket Custom For Men", "Paket Perawatan Wajah", 250000, "products/Cream Siang/Sunscreen For Men/Sunscreen Oily n Acne for Men.jpg"],
-  ["Paket Glow For Men", "Paket Perawatan Wajah", 250000, "products/Paket Radiant Glow Booster/Paket Radiant Glow Booster Kulit Kering.png"],
-  ["Paket Hemat Radiant Acne Brightening Milk Cleanser", "Paket Perawatan Wajah", 350000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Hemat Radiant Acne Micellar", "Paket Perawatan Wajah", 285000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Lotion Rejuvenation", "Paket Perawatan Wajah", 255000, "products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png"],
-  ["Paket Normal For Men", "Paket Perawatan Wajah", 250000, "products/Paket Radiant Brigh Ultimate/Paket RBU Normal Glowing.png"],
-  ["Paket Normal Micellar For Men", "Paket Perawatan Wajah", 300000, "products/Paket Radiant Brigh Ultimate/Paket RBU Normal Glowing.png"],
-  ["Paket Oily Acne Abha 100 ml", "Paket Perawatan Wajah", 300000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
-  ["Paket Oily Acne Abha 3", "Paket Perawatan Wajah", 275000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
-  ["Paket Oily Acne Abha 60ml", "Paket Perawatan Wajah", 290000, "products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif"],
-  ["Paket Radiant Acne", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Radiant Brightening", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"],
-  ["Paket Radiant Brightening Flek", "Paket Perawatan Wajah", 270000, "products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png"]
-];
+    "acne-cream-3": {
+        name: "Acne Cream 3",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
 
-const DRW_PRODUCTS = PRODUCT_DATA.map(([name, category, price, image]) => ({
-  id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-  name,
-  category,
-  price,
-  image: `assets/images/${image}`,
-  description: "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-}));
-/* =========================================================
-   EXPORT PRODUCT DATA
-========================================================= */
+    "bamboo-charcoal-soap-premium": {
+        name: "Bamboo Charcoal Soap Premium",
+        director: 25000,
+        manager: 30000,
+        supervisor: 35000,
+        reseller: 45000,
+        umum: 55000
+    },
 
-window.DRW_PRODUCTS = DRW_PRODUCTS;
+    "bb-cream-air-cushion-shade-ivory": {
+        name: "BB Cream Air Cushion Shade Ivory",
+        director: 65000,
+        manager: 75000,
+        supervisor: 85000,
+        reseller: 105000,
+        umum: 125000
+    },
 
-console.log(
-    "RARA DRW — DRW_PRODUCTS tersedia:",
-    Array.isArray(window.DRW_PRODUCTS)
-        ? window.DRW_PRODUCTS.length
-        : "ERROR"
-);
+    "beauty-dna-salmon-spray": {
+        name: "Beauty DNA Salmon Spray",
+        director: 40000,
+        manager: 55000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 90000
+    },
+
+    "breast-cream": {
+        name: "Breast Cream",
+        director: 70000,
+        manager: 80000,
+        supervisor: 90000,
+        reseller: 110000,
+        umum: 130000
+    },
+
+    "brightening-cream": {
+        name: "Brightening Cream",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "brightening-peel-off-mask-with-charcoal-60-ml": {
+        name: "Brightening Peel Off Mask with Charcoal 60 ml",
+        director: 70000,
+        manager: 80000,
+        supervisor: 90000,
+        reseller: 100000,
+        umum: 110000
+    },
+
+    "cleansing-milk-with-green-tea-110-ml": {
+        name: "Cleansing Milk With Green Tea 110 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "cleansing-milk-with-green-tea-63-ml": {
+        name: "Cleansing Milk With Green Tea 63 ml",
+        director: 25000,
+        manager: 35000,
+        supervisor: 45000,
+        reseller: 55000,
+        umum: 65000
+    },
+
+    "compact-powder-natural-whitening": {
+        name: "Compact Powder Natural Whitening",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "coolbright-deo-herba": {
+        name: "Coolbright Deo Herba",
+        director: 45000,
+        manager: 55000,
+        supervisor: 65000,
+        reseller: 75000,
+        umum: 85000
+    },
+
+    "coolbright-deo-herba-strong": {
+        name: "Coolbright Deo Herba Strong",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 90000
+    },
+
+    "daily-ceramoist-hydra-gel": {
+        name: "Daily Ceramoist Hydra Gel",
+        director: 70000,
+        manager: 85000,
+        supervisor: 100000,
+        reseller: 110000,
+        umum: 120000
+    },
+
+    "daily-compact-powder-beige": {
+        name: "Daily Compact Powder Beige",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "daily-compact-powder-natural": {
+        name: "Daily Compact Powder Natural",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "daily-compact-powder-pink": {
+        name: "Daily Compact Powder Pink",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "day-acne-cream-1": {
+        name: "Day Acne Cream 1",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "day-acne-cream-2": {
+        name: "Day Acne Cream 2",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "day-body-foundation-premium": {
+        name: "Day Body Foundation Premium",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "day-body-lotion-premium-110-ml": {
+        name: "Day Body Lotion Premium 110 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "day-pink-cream": {
+        name: "Day Pink Cream",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "day-white-cream": {
+        name: "Day White Cream",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "dna-salmon-extra-marine-collagen-and-hyaluronic-acid-30-ml": {
+        name: "DNA Salmon Extra Marine Collagen and Hyaluronic Acid 30 ml",
+        director: 90000,
+        manager: 110000,
+        supervisor: 130000,
+        reseller: 145000,
+        umum: 155000
+    },
+
+    "drw-kapsul-gemuk-badan-isi-60": {
+        name: "DRW Kapsul Gemuk Badan isi 60",
+        director: 125000,
+        manager: 150000,
+        supervisor: 175000,
+        reseller: 200000,
+        umum: 225000
+    },
+
+    "drw-slimming-capsule-isi-60": {
+        name: "DRW Slimming Capsule isi 60",
+        director: 125000,
+        manager: 150000,
+        supervisor: 175000,
+        reseller: 200000,
+        umum: 225000
+    },
+
+    "exfoliating-apple-gel": {
+        name: "Exfoliating Apple Gel",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "exfoliating-strawberry-gel": {
+        name: "Exfoliating Strawberry Gel",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "face-mist-centella-asiatica": {
+        name: "Face Mist Centella Asiatica",
+        director: 30000,
+        manager: 40000,
+        supervisor: 50000,
+        reseller: 60000,
+        umum: 75000
+    },
+
+    "facial-wash-for-normal-skin-110-ml": {
+        name: "Facial Wash For Normal Skin 110 ml",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "facial-wash-for-normal-skin-63-ml": {
+        name: "Facial Wash For Normal Skin 63 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "facial-wash-oily-acne-110-ml": {
+        name: "Facial Wash Oily Acne 110 ml",
+        director: 65000,
+        manager: 75000,
+        supervisor: 85000,
+        reseller: 95000,
+        umum: 105000
+    },
+
+    "facial-wash-oily-acne-63-ml": {
+        name: "Facial Wash Oily Acne 63 ml",
+        director: 45000,
+        manager: 55000,
+        supervisor: 65000,
+        reseller: 75000,
+        umum: 85000
+    },
+
+    "facial-wash-pink-brightening-110-ml": {
+        name: "Facial Wash Pink Brightening 110 ml",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "facial-wash-pink-brightening-63-ml": {
+        name: "Facial Wash Pink Brightening 63 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "facial-wash-tea-tree-oil-110-ml": {
+        name: "Facial Wash Tea Tree Oil 110 ml",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "facial-wash-tea-tree-oil-63-ml": {
+        name: "Facial Wash Tea Tree Oil 63 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "firming-body-cream-pink": {
+        name: "Firming Body Cream Pink",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "flawless-bb-cushion": {
+        name: "Flawless BB Cushion",
+        director: 65000,
+        manager: 75000,
+        supervisor: 85000,
+        reseller: 105000,
+        umum: 125000
+    },
+
+    "green-tea-face-mask-premium": {
+        name: "Green Tea Face Mask Premium",
+        director: 30000,
+        manager: 37500,
+        supervisor: 45000,
+        reseller: 60000,
+        umum: 75000
+    },
+
+    "hair-serum-premium": {
+        name: "Hair Serum Premium",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 100000,
+        umum: 120000
+    },
+
+    "hair-tonic-normal-220-ml": {
+        name: "Hair Tonic Normal 220 ml",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 100000,
+        umum: 120000
+    },
+
+    "hb-dosting-75-gram": {
+        name: "HB Dosting 75 gram",
+        director: 80000,
+        manager: 90000,
+        supervisor: 100000,
+        reseller: 110000,
+        umum: 120000
+    },
+
+    "kojic-acid-milk-soap": {
+        name: "Kojic Acid Milk Soap",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "lipgloss-beauty-gold": {
+        name: "Lipgloss Beauty Gold",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 100000
+    },
+
+    "lipgloss-beauty-gold-vit-e": {
+        name: "Lipgloss Beauty Gold + Vit E",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 110000
+    },
+
+    "lipgloss-beauty-pink": {
+        name: "Lipgloss Beauty Pink",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 100000
+    },
+
+    "lipgloss-beauty-pink-vit-e": {
+        name: "Lipgloss Beauty Pink + Vit E",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 110000
+    },
+
+    "lipscare": {
+        name: "Lipscare",
+        director: 80000,
+        manager: 90000,
+        supervisor: 100000,
+        reseller: 120000,
+        umum: 135000
+    },
+
+    "lulur-brightening-premium": {
+        name: "Lulur Brightening Premium",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "luminous-brightening-vitamin-c-plus-collagen-serum": {
+        name: "Luminous Brightening Vitamin C plus Collagen Serum",
+        director: 70000,
+        manager: 85000,
+        supervisor: 100000,
+        reseller: 110000,
+        umum: 120000
+    },
+
+    "moisturizer-gel-aloe-vera": {
+        name: "Moisturizer Gel Aloe Vera",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 85000
+    },
+
+    "moisturizer-gel-avocado": {
+        name: "Moisturizer Gel Avocado",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 85000
+    },
+
+    "moisturizer-gel-cucumber-vit-e": {
+        name: "Moisturizer Gel Cucumber Vit E",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 85000
+    },
+
+    "rice-face-mask-limpasu": {
+        name: "Rice Face Mask Limpasu",
+        director: 30000,
+        manager: 37500,
+        supervisor: 45000,
+        reseller: 60000,
+        umum: 75000
+    },
+
+    "serum-aha-bha": {
+        name: "Serum AHA BHA",
+        director: 70000,
+        manager: 80000,
+        supervisor: 90000,
+        reseller: 100000,
+        umum: 110000
+    },
+
+    "serum-brightening-glowing": {
+        name: "Serum Brightening Glowing",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "serum-brightening-with-vit-c-e": {
+        name: "Serum Brightening With Vit C & E",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 90000
+    },
+
+    "serum-for-acne-skin": {
+        name: "Serum For Acne Skin",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "serum-retinol": {
+        name: "Serum Retinol",
+        director: 70000,
+        manager: 90000,
+        supervisor: 100000,
+        reseller: 110000,
+        umum: 120000
+    },
+
+    "silky-soft-face-powder-beige": {
+        name: "Silky Soft Face Powder Beige",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "silky-soft-face-powder-ivory": {
+        name: "Silky Soft Face Powder Ivory",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "silky-soft-face-powder-natural": {
+        name: "Silky Soft Face Powder Natural",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 85000,
+        umum: 100000
+    },
+
+    "snail-cream-anti-aging": {
+        name: "Snail Cream Anti Aging",
+        director: 70000,
+        manager: 80000,
+        supervisor: 90000,
+        reseller: 100000,
+        umum: 120000
+    },
+
+    "strawberry-micellar-water-100-ml": {
+        name: "Strawberry Micellar Water 100 ml",
+        director: 40000,
+        manager: 45000,
+        supervisor: 50000,
+        reseller: 55000,
+        umum: 60000
+    },
+
+    "strawberry-micellar-water-63-ml": {
+        name: "Strawberry Micellar Water 63 ml",
+        director: 30000,
+        manager: 35000,
+        supervisor: 40000,
+        reseller: 45000,
+        umum: 50000
+    },
+
+    "stretchmark-cream-with-olive-oil": {
+        name: "Stretchmark Cream With Olive Oil",
+        director: 70000,
+        manager: 80000,
+        supervisor: 90000,
+        reseller: 110000,
+        umum: 130000
+    },
+
+    "sulfur-soap-plus-milk": {
+        name: "Sulfur Soap Plus Milk",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "sunscreen-glowing": {
+        name: "Sunscreen Glowing",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
+    },
+
+    "sunscreen-for-oily-and-acne-new": {
+        name: "Sunscreen For Oily and Acne New",
+        director: 65000,
+        manager: 75000,
+        supervisor: 85000,
+        reseller: 95000,
+        umum: 105000
+    },
+
+    "toner-honey-premium-110-ml-new": {
+        name: "Toner Honey Premium 110 ml New",
+        director: 50000,
+        manager: 60000,
+        supervisor: 70000,
+        reseller: 80000,
+        umum: 90000
+    },
+
+    "toner-honey-premium-63-ml": {
+        name: "Toner Honey Premium 63 ml",
+        director: 25000,
+        manager: 35000,
+        supervisor: 45000,
+        reseller: 55000,
+        umum: 65000
+    },
+
+    "toner-lime-premium-110-ml": {
+        name: "Toner Lime Premium 110 ml",
+        director: 40000,
+        manager: 50000,
+        supervisor: 60000,
+        reseller: 70000,
+        umum: 80000
+    },
+
+    "toner-lime-premium-63-ml": {
+        name: "Toner Lime Premium 63 ml",
+        director: 25000,
+        manager: 35000,
+        supervisor: 45000,
+        reseller: 55000,
+        umum: 65000
+    },
+
+    "paket-radiant-acne-repair": {
+        name: "Paket Radiant Acne Repair",
+        director: null,
+        manager: null,
+        supervisor: null,
+        reseller: null,
+        umum: null
+    },
+
+    "paket-radiant-bright-ultimate": {
+        name: "Paket Radiant Bright Ultimate",
+        director: null,
+        manager: null,
+        supervisor: null,
+        reseller: null,
+        umum: null
+    },
+
+    "paket-radiant-glow-booster": {
+        name: "Paket Radiant Glow Booster",
+        director: null,
+        manager: null,
+        supervisor: null,
+        reseller: null,
+        umum: null
+    },
+
+    "paket-brightening-2": {
+        name: "Paket Brightening 2",
+        director: 160000,
+        manager: 185000,
+        supervisor: 210000,
+        reseller: 235000,
+        umum: 260000
+    },
+
+    "paket-brightening-3": {
+        name: "Paket Brightening 3",
+        director: 160000,
+        manager: 185000,
+        supervisor: 210000,
+        reseller: 235000,
+        umum: 260000
+    },
+
+    "paket-brightening-custom": {
+        name: "Paket Brightening Custom",
+        director: 160000,
+        manager: 185000,
+        supervisor: 210000,
+        reseller: 235000,
+        umum: 260000
+    },
+
+    "paket-brightening-glow-100ml": {
+        name: "Paket Brightening Glow 100ml",
+        director: 200000,
+        manager: 220000,
+        supervisor: 240000,
+        reseller: 260000,
+        umum: 300000
+    },
+
+    "paket-brightening-glow-60-ml": {
+        name: "Paket Brightening Glow 60 ml",
+        director: 190000,
+        manager: 210000,
+        supervisor: 230000,
+        reseller: 250000,
+        umum: 290000
+    },
+
+    "paket-brightening-oily-custom": {
+        name: "Paket Brightening Oily Custom",
+        director: 160000,
+        manager: 185000,
+        supervisor: 210000,
+        reseller: 235000,
+        umum: 260000
+    },
+
+    "paket-ceramoist-acne": {
+        name: "Paket Ceramoist Acne",
+        director: 180000,
+        manager: 205000,
+        supervisor: 230000,
+        reseller: 255000,
+        umum: 280000
+    },
+
+    "paket-ceramoist-glowing": {
+        name: "Paket Ceramoist Glowing",
+        director: 180000,
+        manager: 205000,
+        supervisor: 230000,
+        reseller: 255000,
+        umum: 280000
+    },
+
+    "paket-custom-for-men": {
+        name: "Paket Custom For Men",
+        director: 170000,
+        manager: 175000,
+        supervisor: 200000,
+        reseller: 225000,
+        umum: 250000
+    },
+
+    "paket-glow-for-men": {
+        name: "Paket Glow For Men",
+        director: 170000,
+        manager: 175000,
+        supervisor: 200000,
+        reseller: 225000,
+        umum: 250000
+    },
+
+    "paket-hemat-radiant-acne-brightening-milk-cleanser": {
+        name: "Paket Hemat Radiant Acne Brightening Milk Cleanser",
+        director: 215000,
+        manager: 250000,
+        supervisor: 285000,
+        reseller: 320000,
+        umum: 350000
+    },
+
+    "paket-hemat-radiant-acne-micellar": {
+        name: "Paket Hemat Radiant Acne Micellar",
+        director: 190000,
+        manager: 215000,
+        supervisor: 240000,
+        reseller: 265000,
+        umum: 285000
+    },
+
+    "paket-lotion-rejuvenation": {
+        name: "Paket Lotion Rejuvenation",
+        director: 175000,
+        manager: 195000,
+        supervisor: 215000,
+        reseller: 235000,
+        umum: 255000
+    },
+
+    "paket-normal-for-men": {
+        name: "Paket Normal For Men",
+        director: 170000,
+        manager: 175000,
+        supervisor: 200000,
+        reseller: 225000,
+        umum: 250000
+    },
+
+    "paket-normal-micellar-for-men": {
+        name: "Paket Normal Micellar For Men",
+        director: 215000,
+        manager: 215000,
+        supervisor: 240000,
+        reseller: 265000,
+        umum: 300000
+    },
+
+    "paket-oily-acne-abha-100-ml": {
+        name: "Paket Oily Acne Abha 100 ml",
+        director: 200000,
+        manager: 220000,
+        supervisor: 240000,
+        reseller: 260000,
+        umum: 300000
+    },
+
+    "paket-oily-acne-abha-3": {
+        name: "Paket Oily Acne Abha 3",
+        director: 180000,
+        manager: 205000,
+        supervisor: 230000,
+        reseller: 255000,
+        umum: 275000
+    },
+
+    "paket-oily-acne-abha-60ml": {
+        name: "Paket Oily Acne Abha 60ml",
+        director: 190000,
+        manager: 210000,
+        supervisor: 230000,
+        reseller: 250000,
+        umum: 290000
+    },
+
+    "paket-radiant-acne": {
+        name: "Paket Radiant Acne",
+        director: 170000,
+        manager: 195000,
+        supervisor: 220000,
+        reseller: 245000,
+        umum: 270000
+    },
+
+    "paket-radiant-brightening": {
+        name: "Paket Radiant Brightening",
+        director: 170000,
+        manager: 195000,
+        supervisor: 220000,
+        reseller: 245000,
+        umum: 270000
+    },
+
+    "paket-radiant-brightening-flek": {
+        name: "Paket Radiant Brightening Flek",
+        director: 170000,
+        manager: 195000,
+        supervisor: 220000,
+        reseller: 245000,
+        umum: 270000
+    }
+
+};
