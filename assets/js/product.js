@@ -1,4 +1,14 @@
-const DRW_PRICE_LIST = {
+/* =========================================================
+   DRW PRODUCTS — GLOBAL SAFE
+========================================================= */
+/* =========================================================
+   RARA DRW SKINCARE
+   PRODUCT DATABASE — GLOBAL SAFE FINAL
+========================================================= */
+"use strict";
+
+window.DRW_PRICE_LIST = {
+
     "3-in-1-exfoliating-gel-100-ml": {
         name: "3 in 1 Exfoliating Gel 100 ml",
         director: 60000,
@@ -8,14 +18,22 @@ const DRW_PRICE_LIST = {
         umum: 100000
     },
 
-    "acne-cream-3": { 
+    "acne-cream-3": {
         name: "Acne Cream 3",
         director: 60000,
         manager: 70000,
         supervisor: 80000,
         reseller: 90000,
         umum: 100000
-        
+    },
+
+    "acne-cream-3": {
+        name: "Acne Cream 3",
+        director: 60000,
+        manager: 70000,
+        supervisor: 80000,
+        reseller: 90000,
+        umum: 100000
     },
 
     "bamboo-charcoal-soap-premium": {
@@ -883,3 +901,332 @@ const DRW_PRICE_LIST = {
     }
 
 };
+
+/* =========================================================
+   PRODUCT CATEGORY
+========================================================= */
+
+function getProductCategory(slug, name) {
+
+    const text =
+        `${slug} ${name}`.toLowerCase();
+
+
+    if (text.includes("paket")) {
+        return "Paket Perawatan";
+    }
+
+    if (
+        text.includes("facial-wash") ||
+        text.includes("facial wash")
+    ) {
+        return "Facial Wash";
+    }
+
+    if (
+        text.includes("serum")
+    ) {
+        return "Serum";
+    }
+
+    if (
+        text.includes("toner")
+    ) {
+        return "Toner";
+    }
+
+    if (
+        text.includes("sunscreen")
+    ) {
+        return "Cream Siang";
+    }
+
+    if (
+        text.includes("day-") ||
+        text.includes("day ")
+    ) {
+        return "Cream Siang";
+    }
+
+    if (
+        text.includes("night") ||
+        text.includes("malam") ||
+        text.includes("acne-cream") ||
+        text.includes("pink-cream") ||
+        text.includes("white-cream") ||
+        text.includes("brightening-cream") ||
+        text.includes("snail-cream")
+    ) {
+        return "Cream Malam";
+    }
+
+    if (
+        text.includes("hair") ||
+        text.includes("hair-")
+    ) {
+        return "Hair Care";
+    }
+
+    if (
+        text.includes("lip") ||
+        text.includes("lipgloss")
+    ) {
+        return "Make Up";
+    }
+
+    if (
+        text.includes("powder") ||
+        text.includes("bb-cream") ||
+        text.includes("bb-cushion")
+    ) {
+        return "Make Up";
+    }
+
+    if (
+        text.includes("body") ||
+        text.includes("breast") ||
+        text.includes("stretchmark") ||
+        text.includes("lulur") ||
+        text.includes("deo")
+    ) {
+        return "Body Care";
+    }
+
+    return "Perawatan Wajah";
+}
+
+
+/* =========================================================
+   PRODUCT DESCRIPTION
+========================================================= */
+
+function getProductDescription(name, category) {
+
+    if (category === "Facial Wash") {
+        return `Pembersih wajah ${name} untuk membantu membersihkan kulit dan menjaga kesegaran wajah.`;
+    }
+
+    if (category === "Serum") {
+        return `Serum ${name} untuk melengkapi perawatan kulit dan membantu menjaga kulit tampak sehat dan bercahaya.`;
+    }
+
+    if (category === "Toner") {
+        return `Toner ${name} untuk membantu menyegarkan dan mempersiapkan kulit sebelum rangkaian skincare berikutnya.`;
+    }
+
+    if (category === "Paket Perawatan") {
+        return `${name}, rangkaian perawatan DRW Skincare yang praktis untuk melengkapi rutinitas kecantikan.`;
+    }
+
+    if (category === "Make Up") {
+        return `${name} untuk membantu memberikan tampilan cantik dan maksimal dalam aktivitas sehari-hari.`;
+    }
+
+    if (category === "Body Care") {
+        return `${name} untuk membantu merawat dan menjaga kulit tubuh agar tetap terasa nyaman dan terawat.`;
+    }
+
+    if (category === "Hair Care") {
+        return `${name} untuk melengkapi perawatan rambut agar tetap sehat dan terawat.`;
+    }
+
+    return `${name} dari RARA DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari.`;
+}
+/* =========================================================
+   BUILD DRW PRODUCTS
+========================================================= */
+
+/* =========================================================
+   DRW IMAGE MAP — FINAL
+   PATH SESUAI FOLDER GAMBAR ASLI
+========================================================= */
+
+window.DRW_IMAGE_MAP = {
+
+/* =========================================================
+   CREAM MALAM
+========================================================= */
+
+"acne-cream3":
+    "assets/images/products/Cream Malam/Acne Cream 3/Acne Cream 3 New.png",
+    
+"paket-radiant-acne-repair":
+    "assets/images/products/Cream Malam/Radiant Acne Repair/Radiant Acne Repair TO.png",
+
+"paket-radiant-bright-ultimate":
+    "assets/images/products/Cream Malam/Radiant Bright Ultimate/Radiant Bright Ultimate TO.png",
+
+"paket-radiant-glow-booster":
+    "assets/images/products/Cream Malam/Radiant Glow Booster/Radiant Glow Booster TO.png",
+
+    /* =========================
+       FACIAL WASH
+    ========================= */
+
+    "facial-wash-oily-acne-110-ml":
+        "assets/images/products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png",
+
+    "facial-wash-normal-skin-110-ml":
+        "assets/images/products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 110 ml 2.jpg",
+
+    "facial-wash-normal-skin-63-ml":
+        "assets/images/products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 60 ml.jpg",
+
+    /* =========================
+       FALLBACK
+    ========================= */
+
+    "3-in-1-exfoliating-gel-100-ml":
+        "assets/images/products/Exfoliating/exfoliating 1.jpg"
+
+};
+
+
+/* =========================================================
+   DEFAULT IMAGE
+========================================================= */
+
+window.DRW_DEFAULT_IMAGE =
+    "assets/images/logo/logo.png";
+
+window.DRW_PRODUCTS = Object.entries(
+    window.DRW_PRICE_LIST
+).map(([slug, price]) => {
+
+    const category =
+        getProductCategory(
+            slug,
+            price.name
+        );
+
+
+    /* IMAGE MAP AMAN */
+
+    const imageMap =
+        window.DRW_IMAGE_MAP || {};
+
+
+    const image =
+        imageMap[slug] ||
+        window.DRW_DEFAULT_IMAGE ||
+        "assets/images/products/Exfoliating/exfoliating 3.jpg";
+
+
+    const description =
+        getProductDescription(
+            price.name,
+            category
+        );
+
+
+    return {
+
+        id: slug,
+
+        slug: slug,
+
+        name: price.name,
+
+        title: price.name,
+
+        category: category,
+
+        image: image,
+
+        gambar: image,
+
+        description: description,
+
+        deskripsi: description,
+
+
+        /* =========================================
+           HARGA UMUM
+        ========================================= */
+
+        price:
+            price.umum !== null
+                ? price.umum
+                : null,
+
+        harga:
+            price.umum !== null
+                ? price.umum
+                : null,
+
+
+        /* =========================================
+           SEMUA LEVEL HARGA
+        ========================================= */
+
+        prices: {
+
+            director: price.director,
+
+            manager: price.manager,
+
+            supervisor: price.supervisor,
+
+            reseller: price.reseller,
+
+            umum: price.umum
+
+        },
+
+
+        director: price.director,
+
+        manager: price.manager,
+
+        supervisor: price.supervisor,
+
+        reseller: price.reseller,
+
+        umum: price.umum,
+
+
+        /* =========================================
+           EXTRA DATA
+        ========================================= */
+
+        rating: 4.9,
+
+        reviews: 128,
+
+        badge:
+            slug.includes("paket")
+                ? "PACKAGE"
+                : "BEST SELLER"
+
+    };
+
+});
+
+
+/* =========================================================
+   GLOBAL ALIASES
+========================================================= */
+
+window.DRW_PRODUCTS =
+    Array.isArray(window.DRW_PRODUCTS)
+        ? window.DRW_PRODUCTS
+        : [];
+
+
+/* =========================================================
+   DEBUG
+========================================================= */
+
+console.log(
+    "DRW PRODUCT DATABASE LOADED"
+);
+
+console.log(
+    "Jumlah produk:",
+    window.DRW_PRODUCTS.length
+);
+
+console.log(
+    "DRW_PRODUCTS:",
+    window.DRW_PRODUCTS
+);

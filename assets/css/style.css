@@ -8174,3 +8174,427 @@ ADD TO BAG
     box-shadow:
         0 6px 18px rgba(232,79,145,.25);
 }
+/* =========================================================
+   DRW PRODUCTS PAGE
+========================================================= */
+
+.products-section {
+    width: min(1400px, 92%);
+    margin: 0 auto;
+    padding: 70px 0 100px;
+}
+
+.products-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-kicker {
+    display: inline-block;
+    color: #e83e8c;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.products-header h2 {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(30px, 4vw, 52px);
+    color: #251a20;
+}
+
+.products-header p {
+    margin-top: 10px;
+    color: #8b727d;
+}
+
+
+/* GRID */
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+}
+
+
+/* CARD */
+
+.product-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,.96);
+    border: 1px solid rgba(232,62,140,.13);
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(110,40,70,.08);
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-9px);
+    border-color: rgba(232,62,140,.5);
+    box-shadow:
+        0 20px 55px rgba(232,62,140,.18),
+        0 0 25px rgba(255,197,225,.45);
+}
+
+
+/* IMAGE */
+
+.product-image-wrap {
+    position: relative;
+    height: 330px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at center,
+            #fff 20%,
+            #fff5fa 100%
+        );
+}
+
+.product-image-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 24px;
+    transition: transform .5s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.07);
+}
+
+
+/* BADGES */
+
+.product-number {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 700;
+    color: #c12e72;
+    background: rgba(255,255,255,.9);
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.product-category {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    padding: 7px 11px;
+    border-radius: 20px;
+    color: white;
+    background: #ed4b94;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.product-wishlist {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(232,62,140,.25);
+    border-radius: 50%;
+    background: rgba(255,255,255,.95);
+    color: #e83e8c;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.product-wishlist:hover,
+.product-wishlist.active {
+    background: #e83e8c;
+    color: #fff;
+    transform: scale(1.08);
+}
+
+
+/* INFO */
+
+.product-info {
+    padding: 22px;
+}
+
+.product-small-category {
+    font-size: 10px;
+    font-weight: 800;
+    color: #e83e8c;
+    letter-spacing: 1.5px;
+}
+
+.product-title {
+    margin: 7px 0 8px;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.product-title a {
+    color: #291c22;
+    text-decoration: none;
+    transition: color .3s ease;
+}
+
+.product-title a:hover {
+    color: #e83e8c;
+}
+
+.product-description {
+    min-height: 42px;
+    margin: 0 0 18px;
+    color: #8b727d;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.product-price {
+    color: #d7357e;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.add-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    border-radius: 30px;
+    padding: 11px 15px;
+    background: #e83e8c;
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(232,62,140,.2);
+    transition: .3s ease;
+}
+
+.add-cart-btn:hover {
+    background: #c92f76;
+    transform: translateY(-2px);
+}
+
+.add-cart-btn.added {
+    background: #d19a3a;
+}
+
+
+/* EMPTY */
+
+.empty-products {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-icon {
+    font-size: 60px;
+    color: #e83e8c;
+}
+
+.empty-products h3 {
+    margin: 15px 0 5px;
+    color: #291c22;
+}
+
+.empty-products p {
+    color: #8b727d;
+}
+
+
+/* ERROR */
+
+.product-error {
+    grid-column: 1 / -1;
+    padding: 50px;
+    text-align: center;
+    background: #fff5f9;
+    border: 1px solid #ffd4e7;
+    border-radius: 20px;
+    color: #a62f64;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .product-image-wrap {
+        height: 250px;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .products-section {
+        width: 94%;
+        padding-top: 45px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .product-image-wrap {
+        height: 190px;
+    }
+
+    .product-info {
+        padding: 14px;
+    }
+
+    .product-title {
+        font-size: 14px;
+    }
+
+    .product-description {
+        display: none;
+    }
+
+    .product-bottom {
+        display: block;
+    }
+
+    .product-price {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .add-cart-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+}/* =====================================================
+   FIX PRODUCTS CARD — FINAL
+===================================================== */
+
+.products-page .product-card {
+    position: relative !important;
+}
+
+.products-page .product-card-image {
+    position: relative !important;
+    height: 300px !important;
+    overflow: hidden !important;
+}
+
+.products-page .product-card-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    padding: 25px !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* BADGE */
+.products-page .product-badge {
+    position: absolute !important;
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 5 !important;
+}
+
+/* CATEGORY HARUS DI CONTENT, BUKAN DI ATAS FOTO */
+.products-page .product-card-content .product-category {
+    position: static !important;
+    display: inline-block !important;
+
+    margin:
+        0 0 10px !important;
+
+    padding:
+        5px 10px !important;
+
+    border-radius:
+        20px !important;
+
+    background:
+        #fff0f6 !important;
+
+    color:
+        #e83e87 !important;
+
+    font-size:
+        10px !important;
+
+    line-height:
+        1.2 !important;
+
+    font-weight:
+        800 !important;
+
+    text-transform:
+        uppercase !important;
+
+    letter-spacing:
+        .6px !important;
+}
+
+/* NAMA PRODUK */
+.products-page .product-card-content h3 {
+    position: static !important;
+
+    margin:
+        0 0 12px !important;
+
+    min-height:
+        50px !important;
+
+    color:
+        #2b2025 !important;
+
+    font-family:
+        "DM Sans",
+        sans-serif !important;
+
+    font-size:
+        17px !important;
+
+    line-height:
+        1.45 !important;
+}
