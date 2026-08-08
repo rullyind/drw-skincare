@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DRW SKINCARE | Premium Beauty Experience</title>
-    <meta name="description" content="DRW SKINCARE - Temukan rangkaian skincare dan beauty essentials untuk rutinitas kecantikan Anda.">
+    
+        <meta name="description" content="DRW SKINCARE - Temukan rangkaian skincare dan beauty essentials untuk rutinitas kecantikan Anda.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,19 +21,19 @@
     <style>
         /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: "DM Sans", sans-serif; background: #fff; color: #38212d; }
+        body { margin: 0; font-family: "DM Sans", sans-serif; background: hsl(0, 0%, 100%); color: #363434; }
         a { text-decoration: none; color: inherit; }
         button, input { font: inherit; }
-        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#fff1f8; font-size:12px; }
+        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#d4478d; font-size:12px; }
         .top-bar-left,.top-bar-right { display:flex; align-items:center; gap:10px; }
-        .top-highlight { color:#e83d9b; }
-        .auth-link { border:0; background:none; cursor:pointer; color:#7e315d; font-weight:600; }
+        .top-highlight { color:#8bfc0a; }
+        .auth-link { border:0; background:none; cursor:pointer; color:#d2ff0c; font-weight:800; }
         .top-divider { opacity:.35; }
-        .main-navbar { min-height:78px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#fff; border-bottom:1px solid #f5dce9; position:sticky; top:0; z-index:1000; }
-        .brand-logo img { width:145px; max-height:58px; object-fit:contain; display:block; }
+        .main-navbar { min-height:78px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#fffeff; border-bottom:1px solid #d12e75; position:sticky; top:0; z-index:1000; }
+        .brand-logo img { width:2145px; max-height:58px; object-fit:contain; display:block; }
         .nav-menu { display:flex; align-items:center; justify-content:center; gap:22px; flex:1; }
-        .nav-item { font-size:14px; font-weight:600; color:#543747; }
-        .nav-item:hover,.nav-item.active { color:#e83d9b; }
+        .nav-item { font-size:14px; font-weight:600; color: #000000; } warna tulisan menu 
+        .nav-item:hover,.nav-item.active { color:#3e09dc; } warna tulisan menu home
         .nav-actions { display:flex; align-items:center; gap:10px; }
         .nav-icon { width:42px; height:42px; border:1px solid #f1d3e1; border-radius:50%; display:grid; place-items:center; background:#fff; color:#6d3a52; cursor:pointer; position:relative; }
         .cart-count { position:absolute; top:-4px; right:-3px; min-width:18px; height:18px; padding:0 4px; border-radius:99px; display:grid; place-items:center; background:#e83d9b; color:#fff; font-size:10px; font-weight:700; }
@@ -52,8 +53,8 @@
         .hero-mini-trust i { color:#e83d9b; }
         .hero-visual { position:relative; min-height:450px; display:grid; place-items:center; }
         .hero-glow { position:absolute; width:390px; height:390px; border-radius:50%; background:rgba(255,183,220,.35); filter:blur(30px); }
-        .hero-image-card { position:relative; width:min(390px,85%); aspect-ratio:1; border-radius:38px; background:rgba(255,255,255,.82); box-shadow:0 30px 80px rgba(168,72,119,.16); display:grid; place-items:center; overflow:hidden; }
-        .hero-image-card img { width:82%; max-height:82%; object-fit:contain; }
+        .hero-image-card { position:relative; width:min(490px,85%); aspect-ratio:1; border-radius:38px; background:rgba(255,255,255,.82); box-shadow:0 30px 80px rgba(168,72,119,.16); display:grid; place-items:center; overflow:hidden; }
+        .hero-image-card img { width:100%; max-height:180%; object-fit:contain; }
         .hero-feature { position:absolute; display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid rgba(255,255,255,.9); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 15px 35px rgba(135,59,96,.13); }
         .hero-feature i { color:#e83d9b; font-size:20px; }
         .hero-feature strong,.hero-feature small { display:block; }
@@ -72,7 +73,7 @@
         .section-soft { background:#fff7fb; }
         .section-heading { max-width:1250px; margin:0 auto 35px; }
         .section-heading h2 { margin:10px 0; font-family:"Playfair Display",serif; font-size:42px; }
-        .section-heading p { color:#806071; max-width:650px; line-height:1.7; }
+        .section-heading p { color:#b14c82; max-width:650px; line-height:1.7; }
         .product-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
         .product-card { background:#fff; border:1px solid #f1dce7; border-radius:22px; overflow:hidden; box-shadow:0 10px 30px rgba(109,55,84,.06); }
         .product-card-content { padding:17px; }
@@ -112,23 +113,23 @@
         .cta { padding:70px 7%; background:linear-gradient(135deg,#e83d9b,#c92d80); color:#fff; text-align:center; }
         .cta h2 { font-family:"Playfair Display",serif; font-size:42px; margin:0 0 12px; }
         .cta p { opacity:.9; margin-bottom:25px; }
-        .footer { padding:60px 7% 20px; background:#321d29; color:#fff; }
+        .footer { padding:60px 7% 20px; background:#d34e99; color:#fff; }
         .footer-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:40px; }
         .footer-logo img { width:150px; background:#fff; border-radius:12px; padding:5px; }
         .footer-brand p,.footer-column p { color:#d9bdca; line-height:1.7; font-size:13px; }
         .footer-social { display:flex; gap:10px; margin-top:20px; }
         .footer-social a { width:36px; height:36px; border:1px solid #70485a; border-radius:50%; display:grid; place-items:center; }
         .footer-column h3 { font-size:15px; }
-        .footer-column a { display:block; margin:10px 0; color:#d9bdca; font-size:13px; }
-        .footer-bottom { max-width:1250px; margin:40px auto 0; padding-top:18px; border-top:1px solid #573541; display:flex; justify-content:space-between; gap:20px; color:#b998a8; font-size:11px; }
+        .footer-column a { display:block; margin:10px 0; color:#8c1d50; font-size:13px; }
+        .footer-bottom { max-width:1250px; margin:40px auto 0; padding-top:18px; border-top:1px solid #880030; display:flex; justify-content:space-between; gap:20px; color:#b998a8; font-size:11px; }
         .search-overlay { position:fixed; inset:0; z-index:3000; background:rgba(35,18,28,.58); backdrop-filter:blur(8px); display:none; align-items:flex-start; justify-content:center; padding:100px 20px 30px; }
         .search-overlay.active { display:flex; }
-        .search-box { width:min(760px,100%); background:#fff; border-radius:28px; padding:30px; box-shadow:0 30px 80px rgba(0,0,0,.22); }
-        .search-close { float:right; border:0; background:#fff1f8; width:36px; height:36px; border-radius:50%; cursor:pointer; color:#c72d80; }
+        .search-box { width:min(760px,100%); background:#000000; border-radius:28px; padding:30px; box-shadow:0 30px 80px rgba(70, 250, 4, 0.22); }
+        .search-close { float:right; border:0; background:#fff1f8; width:36px; height:36px; border-radius:50%; cursor:pointer; color:rgb(150, 27, 118); }
         .search-heading span { color:#d93491; font-size:11px; font-weight:700; letter-spacing:2px; }
         .search-heading h2 { font-family:"Playfair Display",serif; font-size:32px; margin:8px 0 20px; }
         .search-input-wrap { display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid #edcddd; border-radius:16px; }
-        .search-input-wrap i { color:#e83d9b; }
+        .search-input-wrap i { color:#e83d9b; } 
         .search-input-wrap input { width:100%; border:0; outline:0; }
         .search-results { margin-top:15px; max-height:380px; overflow:auto; }
         @media (max-width: 950px) {
@@ -168,9 +169,23 @@
     </div>
 
     <div class="top-bar-right">
-        <button type="button" class="auth-link login-link" id="loginButton">Login</button>
-        <span class="top-divider">|</span>
-        <button type="button" class="auth-link register-link" id="registerButton">Daftar</button>
+<div class="top-bar-right">
+
+    <a href="login.html" class="auth-link" id="loginButton">
+        Login
+    </a>
+
+    <span class="top-divider">|</span>
+
+    <a href="register.html" class="auth-link" id="registerButton">
+        Daftar
+    </a>
+
+    <span class="top-divider">|</span>
+
+    <span>Indonesia</span>
+
+</div>
         <span class="top-divider">|</span>
         <span>Indonesia</span>
     </div>
@@ -209,7 +224,7 @@
 
 <!-- LEVEL HARGA AKTIF -->
 <div class="price-level-bar">
-    Harga untuk:
+    
     <strong id="currentPriceLevel">Umum</strong>
 </div>
 
@@ -223,7 +238,7 @@
         </button>
 
         <div class="search-heading">
-            <span>RARA DRW SKINCARE</span>
+            <span>DRW SKINCARE</span>
             <h2>Cari Produk Favoritmu</h2>
         </div>
 
@@ -281,7 +296,7 @@
             <div class="hero-glow"></div>
 
             <div class="hero-image-card">
-                <img src="assets/images/logo/logo.png" alt="RARA DRW SKINCARE">
+                <img src="assets/images/icons/model-1.png" alt="RARA DRW SKINCARE">
             </div>
 
             <div class="hero-feature hero-feature-one">
@@ -451,12 +466,12 @@
         </div>
 
         <div class="about-content">
-            <span class="section-eyebrow">ABOUT RARA DRW SKINCARE</span>
+            <span class="section-eyebrow">ABOUT DRW SKINCARE</span>
 
             <h2>Beauty is a ritual, <span>not a rush.</span></h2>
 
             <p>
-                RARA DRW SKINCARE hadir untuk menemani perjalanan
+                DRW SKINCARE hadir untuk menemani perjalanan
                 perawatan dan kecantikan Anda dengan pilihan produk
                 yang praktis untuk digunakan dalam rutinitas sehari-hari.
             </p>
@@ -521,9 +536,9 @@
 ===================================================== -->
 <section class="cta" id="contact">
     <h2>Butuh Bantuan Memilih Produk?</h2>
-    <p>Konsultasikan kebutuhan produk Anda bersama RARA DRW SKINCARE.</p>
+    <p>Konsultasikan kebutuhan produk Anda bersama DRW SKINCARE.</p>
 
-    <a href="https://wa.me/6280000000000?text=Halo%20RARA%20DRW%20SKINCARE%2C%20saya%20ingin%20konsultasi%20produk."
+    <a href="https://wa.me/6282381432222?text=Halo%20RARA%20DRW%20SKINCARE%2C%20saya%20ingin%20konsultasi%20produk."
        class="btn btn-white"
        target="_blank"
        rel="noopener">
@@ -543,7 +558,7 @@
                 <img src="assets/images/logo/logo.png" alt="RARA DRW Skincare">
             </a>
 
-            <p>RARA DRW SKINCARE — menemani rutinitas kecantikan Anda setiap hari.</p>
+            <p> — menemani rutinitas kecantikan Anda setiap hari.</p>
 
             <div class="footer-social">
                 <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -577,11 +592,12 @@
     </div>
 
     <div class="footer-bottom">
-        <span>© <span id="currentYear"></span> RARA DRW SKINCARE. All Rights Reserved.</span>
+        <span>© <span id="currentYear"></span> Rara/Director/DRW/SKINCARE. All Rights Reserved.</span>
         <span>Premium Beauty Experience</span>
     </div>
 </footer>
 
+<script src="assets/js/products-data.js"></script>
 <script src="assets/js/product.js"></script>
 <script src="assets/js/product-detail.js"></script>
 <script src="assets/js/cart.js"></script>
