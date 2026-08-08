@@ -7,61 +7,45 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
-    <title>Login | RARA DRW Skincare</title>
-
-    <!-- GOOGLE FONT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Login | DRW Skincare</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- FONT AWESOME -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="assets/css/style.css"
-    >
+        rel="icon"
+        href="assets/images/favicon.png">
 
     <style>
 
-        /* =========================================
-           LOGIN PAGE
-        ========================================= */
+        * {
+            box-sizing: border-box;
+        }
 
-        .auth-page {
+        body {
 
-            min-height: calc(100vh - 120px);
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff7fb,
+                    #ffe8f4,
+                    #fff
+                );
 
             display: flex;
 
-            justify-content: center;
-
             align-items: center;
 
-            padding: 70px 20px;
+            justify-content: center;
 
-            background:
-                radial-gradient(
-                    circle at 20% 20%,
-                    rgba(255, 105, 170, .15),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at 80% 80%,
-                    rgba(255, 214, 232, .45),
-                    transparent 35%
-                ),
-                #fffafd;
+            padding: 20px;
 
         }
 
@@ -70,205 +54,162 @@
 
             width: 100%;
 
-            max-width: 460px;
+            max-width: 430px;
 
-            background: rgba(255,255,255,.96);
-
-            border: 1px solid rgba(238, 79, 145, .18);
+            background: rgba(
+                255,
+                255,
+                255,
+                0.96
+            );
 
             border-radius: 28px;
 
-            padding: 42px;
+            padding: 40px 32px;
 
             box-shadow:
-                0 20px 60px rgba(0,0,0,.10),
-                0 0 35px rgba(238,79,145,.08);
+                0 20px 60px
+                rgba(230, 55, 140, 0.18);
+
+            border:
+                1px solid
+                rgba(230, 55, 140, 0.12);
 
         }
 
 
-        .auth-logo {
+        .brand {
 
             text-align: center;
 
-            margin-bottom: 25px;
+            color: #e73591;
 
-        }
+            font-weight: 700;
 
-
-        .auth-logo img {
-
-            width: 190px;
-
-            max-width: 80%;
-
-            height: auto;
-
-        }
-
-
-        .auth-title {
-
-            text-align: center;
-
-            font-family: "Playfair Display", serif;
-
-            font-size: 34px;
-
-            color: #171018;
-
-            margin: 0 0 8px;
-
-        }
-
-
-        .auth-subtitle {
-
-            text-align: center;
-
-            color: #777;
+            letter-spacing: 3px;
 
             font-size: 14px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            margin:
+                0 0 8px;
+
+            color: #422033;
+
+            font-family:
+                Georgia,
+                serif;
+
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #8b6878;
 
             margin-bottom: 30px;
 
         }
 
 
-        .auth-field {
+        .form-group {
 
             margin-bottom: 18px;
 
         }
 
 
-        .auth-field label {
+        label {
 
             display: block;
 
-            margin-bottom: 8px;
+            margin-bottom: 7px;
 
-            color: #241923;
+            color: #54283f;
 
-            font-size: 13px;
+            font-weight: 600;
 
-            font-weight: 700;
+            font-size: 14px;
 
         }
 
 
-        .auth-input {
+        input {
 
             width: 100%;
 
-            box-sizing: border-box;
-
-            height: 50px;
+            padding: 14px 16px;
 
             border-radius: 14px;
 
-            border: 1px solid #ead9e2;
-
-            background: #fff;
-
-            padding: 0 16px;
-
-            font-family: "DM Sans", sans-serif;
-
-            font-size: 14px;
+            border:
+                1px solid
+                #ecc8d9;
 
             outline: none;
 
-            transition: .25s ease;
+            font-size: 15px;
 
         }
 
 
-        .auth-input:focus {
+        input:focus {
 
-            border-color: #e84f91;
+            border-color:
+                #e73591;
 
             box-shadow:
-                0 0 0 4px rgba(232,79,145,.10);
+                0 0 0 4px
+                rgba(231, 53, 145, 0.10);
 
         }
 
 
-        .password-wrap {
-
-            position: relative;
-
-        }
-
-
-        .password-wrap .auth-input {
-
-            padding-right: 50px;
-
-        }
-
-
-        .password-toggle {
-
-            position: absolute;
-
-            right: 14px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            border: none;
-
-            background: transparent;
-
-            color: #b56a8c;
-
-            cursor: pointer;
-
-        }
-
-
-        .auth-button {
+        button {
 
             width: 100%;
 
-            height: 52px;
+            border: 0;
 
-            border: none;
+            padding: 15px;
 
             border-radius: 15px;
 
-            background: linear-gradient(
-                135deg,
-                #ec4f91,
-                #d9367b
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    #e73591,
+                    #d92b80
+                );
 
-            color: #fff;
+            color: white;
 
-            font-family: "DM Sans", sans-serif;
-
-            font-size: 14px;
+            font-size: 16px;
 
             font-weight: 700;
 
             cursor: pointer;
 
             box-shadow:
-                0 10px 25px rgba(217,54,123,.25);
-
-            transition: .25s ease;
+                0 10px 25px
+                rgba(231, 53, 145, 0.25);
 
         }
 
 
-        .auth-button:hover {
+        button:hover {
 
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 14px 32px rgba(217,54,123,.35);
+            transform: translateY(-1px);
 
         }
 
@@ -283,7 +224,9 @@
 
             border-radius: 12px;
 
-            font-size: 13px;
+            font-size: 14px;
+
+            text-align: center;
 
         }
 
@@ -292,11 +235,9 @@
 
             display: block;
 
-            background: #fff0f4;
+            background: #fff0f3;
 
-            color: #c72f68;
-
-            border: 1px solid #f5c4d7;
+            color: #b42345;
 
         }
 
@@ -305,61 +246,33 @@
 
             display: block;
 
-            background: #f1fff8;
+            background: #edfff5;
 
-            color: #25805b;
-
-            border: 1px solid #bcebd5;
+            color: #087443;
 
         }
 
 
-        .auth-register {
+        .switch {
 
             text-align: center;
 
             margin-top: 25px;
 
-            color: #777;
+            color: #795a69;
 
             font-size: 14px;
 
         }
 
 
-        .auth-register a {
+        .switch a {
 
-            color: #e84f91;
+            color: #e73591;
 
             font-weight: 700;
 
             text-decoration: none;
-
-        }
-
-
-        .auth-register a:hover {
-
-            text-decoration: underline;
-
-        }
-
-
-        @media (max-width: 600px) {
-
-            .auth-card {
-
-                padding: 30px 22px;
-
-                border-radius: 22px;
-
-            }
-
-            .auth-title {
-
-                font-size: 29px;
-
-            }
 
         }
 
@@ -370,127 +283,91 @@
 
 <body>
 
-    <!-- =========================================
-         LOGIN
-    ========================================== -->
 
-    <main class="auth-page">
+    <main class="auth-card">
 
-        <section class="auth-card">
+        <div class="brand">
+            ✦ DRW SKINCARE ✦
+        </div>
 
-            <div class="auth-logo">
 
-                <a href="index.html">
+        <h1>
+            Selamat Datang
+        </h1>
 
-                    <img
-                        src="assets/images/logo/logo.png"
-                        alt="RARA DRW Skincare"
-                    >
 
-                </a>
+        <div class="subtitle">
+            Masuk ke akun DRW Skincare Anda
+        </div>
+
+
+        <div
+            id="auth-message"
+            class="auth-message">
+        </div>
+
+
+        <form id="login-form">
+
+            <div class="form-group">
+
+                <label for="login-email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="login-email"
+                    placeholder="Masukkan email"
+                    autocomplete="email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="login-password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Masukkan password"
+                    autocomplete="current-password"
+                    required>
 
             </div>
 
 
-            <h1 class="auth-title">
-                Selamat Datang
-            </h1>
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
 
 
-            <p class="auth-subtitle">
-                Masuk ke akun RARA DRW Skincare Anda
-            </p>
+        <div class="switch">
 
+            Belum punya akun?
 
-            <div
-                id="authMessage"
-                class="auth-message"
-            ></div>
+            <a href="register.html">
+                Daftar sekarang
+            </a>
 
+        </div>
 
-            <form id="loginForm">
-
-                <div class="auth-field">
-
-                    <label for="loginEmail">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        class="auth-input"
-                        placeholder="Masukkan email"
-                        autocomplete="email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="auth-field">
-
-                    <label for="loginPassword">
-                        Password
-                    </label>
-
-                    <div class="password-wrap">
-
-                        <input
-                            type="password"
-                            id="loginPassword"
-                            class="auth-input"
-                            placeholder="Masukkan password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            id="toggleLoginPassword"
-                            aria-label="Tampilkan password"
-                        >
-
-                            <i class="fa-solid fa-eye"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="auth-button"
-                >
-
-                    <i class="fa-solid fa-right-to-bracket"></i>
-
-                    &nbsp; Login
-
-                </button>
-
-            </form>
-
-
-            <div class="auth-register">
-
-                Belum punya akun?
-
-                <a href="register.html">
-                    Daftar sekarang
-                </a>
-
-            </div>
-
-        </section>
 
     </main>
 
 
-    <script src="assets/js/auth.js"></script>
+    <script
+        type="module"
+        src="assets/js/auth.js">
+    </script>
+
+<script src="products-data.js"></script>
 
 </body>
 
