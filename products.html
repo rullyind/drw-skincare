@@ -30,8 +30,6 @@
 
     <style>
 
-
-
         /* =========================================
            PRODUCTS PAGE
         ========================================= */
@@ -97,6 +95,8 @@
             line-height: 1.8;
         }
 
+
+        
         /* =========================================
            TOOLBAR
         ========================================= */
@@ -172,6 +172,9 @@
                 rgba(236,79,147,.16);
         }
 
+
+
+        
         /* =========================================
            CATEGORY
         ========================================= */
@@ -703,36 +706,11 @@
     </style>
 
 </head>
-<!-- =====================================================
-     MAIN NAVBAR
-===================================================== -->
-<nav class="main-navbar">
 
-    <a href="index.html" class="brand-logo" aria-label="RARA DRW Skincare">
-        <img src="assets/images/logo/logo.png" alt="RARA DRW Skincare">
-    </a>
 
-    <div class="nav-menu">
-        <a href="index.html" class="nav-item active">Home</a>
-        <a href="products.html" class="nav-item">Produk</a>
-        <a href="index.html#best-seller" class="nav-item">Best Seller</a>
-        <a href="index.html#kategori-produk" class="nav-item">Kategori Produk</a>
-        <a href="index.html#about" class="nav-item">Tentang Kami</a>
-        <a href="index.html#beauty-tips" class="nav-item">Beauty Tips</a>
-        <a href="index.html#contact" class="nav-item">Konsultasi</a>
-    </div>
+<body>
 
-    <div class="nav-actions">
-        <button type="button" class="nav-icon" id="searchButton" aria-label="Cari produk">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-
-        <a href="cart.html" class="nav-icon cart-icon" aria-label="Keranjang">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span class="cart-count" id="cartCount">0</span>
-        </a>
-    </div>
-</nav>
+<div class="products-page">
 
     <!-- =========================================
          HERO
@@ -1114,13 +1092,11 @@ document.addEventListener(
                             <div class="product-actions">
 
                                 <a
-                                    class="product-detail-btn"
-                                    href="product-detail.html?id=${encodeURIComponent(product.id)}">
+                                   class ="product-detail.html-btn"
+                                  href="product-detail.html?id=${encodeURIComponent(product.id)}">
 
                                     <i class="fa-regular fa-eye"></i>
-
                                     Detail
-
                                 </a>
 
 
@@ -1439,6 +1415,9 @@ document.addEventListener(
 <script src="assets/js/product-detail.js"></script>
 <script src="assets/js/cart.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/product-page.js"></script>
+<script src="assets/js/navbar.js"></script>
+
 </body>
 
 </html>
