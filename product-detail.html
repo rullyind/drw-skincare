@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Detail Produk RARA DRW SKINCARE">
+
+    <title>Detail Produk | RARA DRW SKINCARE</title>
+
+    <link
+        rel="icon"
+        href="assets/images/favicon.png">
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family: "DM Sans", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 105, 180, 0.13),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(255, 215, 130, 0.12),
+                    transparent 30%
+                ),
+
+                #fff8fc;
+
+            color: #3b2331;
+
+            min-height: 100vh;
+
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background:
+                rgba(255,255,255,.86);
+
+            backdrop-filter:
+                blur(20px);
+
+            border-bottom:
+                1px solid rgba(230,75,157,.12);
+
+            box-shadow:
+                0 10px 35px rgba(210,70,140,.08);
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 44px;
+
+            height: 44px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff5caf,
+                    #e52d91
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 25px rgba(230,45,145,.25);
+
+        }
+
+
+        .brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .brand-name {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            color: #d82b8b;
+
+        }
+
+
+        .brand-sub {
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            color: #a97891;
+
+        }
+
+
+        .nav {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+
+        }
+
+
+        .nav a {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #654556;
+
+            transition: .25s;
+
+        }
+
+
+        .nav a:hover {
+
+            color: #ed3f9b;
+
+        }
+
+
+        .cart-button {
+
+            position: relative;
+
+            width: 45px;
+
+            height: 45px;
+
+            border: 0;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            color: #d72e8c;
+
+            background: #fff0f8;
+
+            transition: .25s;
+
+        }
+
+
+        .cart-button:hover {
+
+            background: #ef3c9c;
+
+            color: white;
+
+            transform: translateY(-2px);
+
+        }
+
+
+        .cart-count {
+
+            position: absolute;
+
+            top: -3px;
+
+            right: -2px;
+
+            min-width: 20px;
+
+            height: 20px;
+
+            padding: 0 5px;
+
+            border-radius: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #e72c8f;
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            border: 2px solid white;
+
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+
+            width: min(1180px, 92%);
+
+            margin: auto;
+
+        }
+
+
+        .breadcrumb {
+
+            padding: 35px 0 15px;
+
+            font-size: 13px;
+
+            color: #9c7589;
+
+        }
+
+
+        .breadcrumb a {
+
+            color: #df398f;
+
+            font-weight: 600;
+
+        }
+
+
+        .product-detail {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                minmax(0, 1fr);
+
+            gap: 65px;
+
+            padding: 20px 0 80px;
+
+        }
+
+
+        /* =====================================================
+           PRODUCT IMAGE
+        ===================================================== */
+
+        .product-visual {
+
+            position: relative;
+
+        }
+
+
+        .image-box {
+
+            position: relative;
+
+            width: 100%;
+
+            min-height: 560px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 40px;
+
+            overflow: hidden;
+
+            border-radius: 32px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #fff1f8
+                );
+
+            border:
+                1px solid rgba(232,55,145,.13);
+
+            box-shadow:
+                0 30px 70px rgba(210,70,140,.13);
+
+        }
+
+
+        .image-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 330px;
+
+            height: 330px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,90,175,.18),
+                    transparent 70%
+                );
+
+            filter: blur(8px);
+
+        }
+
+
+        #productImage {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: block;
+
+            width: 100%;
+
+            max-width: 480px;
+
+            height: 480px;
+
+            object-fit: contain;
+
+            border-radius: 20px;
+
+            transition: .4s ease;
+
+            filter:
+                drop-shadow(
+                    0 25px 25px
+                    rgba(160,70,110,.16)
+                );
+
+        }
+
+
+        #productImage:hover {
+
+            transform:
+                scale(1.035)
+                translateY(-5px);
+
+        }
+
+
+        .image-status {
+
+            position: absolute;
+
+            left: 20px;
+
+            bottom: 20px;
+
+            z-index: 5;
+
+            display: none;
+
+            padding: 8px 13px;
+
+            border-radius: 30px;
+
+            background: rgba(255,255,255,.92);
+
+            color: #d62e89;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.08);
+
+        }
+
+
+        /* =====================================================
+           PRODUCT INFO
+        ===================================================== */
+
+        .product-info {
+
+            padding-top: 20px;
+
+        }
+
+
+        .category {
+
+            display: inline-flex;
+
+            padding: 8px 15px;
+
+            border-radius: 30px;
+
+            background: #ffe8f4;
+
+            color: #db2f8e;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: .4px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        #productName {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(32px, 4vw, 50px);
+
+            line-height: 1.12;
+
+            color: #452536;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .product-id {
+
+            color: #a98798;
+
+            font-size: 12px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .price-label {
+
+            font-size: 12px;
+
+            color: #9b788b;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        #productPrice {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #e22f91;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .divider {
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(230,45,145,.18),
+                    transparent
+                );
+
+            margin: 25px 0;
+
+        }
+
+
+        .description-title {
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+
+            color: #5b3748;
+
+        }
+
+
+        #productDescription {
+
+            color: #7e6270;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        /* =====================================================
+           STOCK
+        ===================================================== */
+
+        .stock {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 13px;
+
+            color: #638d75;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stock i {
+
+            font-size: 9px;
+
+        }
+
+
+        /* =====================================================
+           QUANTITY
+        ===================================================== */
+
+        .purchase-area {
+
+            display: flex;
+
+            gap: 14px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .quantity {
+
+            height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            border:
+                1px solid rgba(222,54,139,.22);
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            background: white;
+
+        }
+
+
+        .quantity button {
+
+            width: 48px;
+
+            height: 100%;
+
+            border: 0;
+
+            cursor: pointer;
+
+            background: transparent;
+
+            color: #dd328d;
+
+            font-size: 17px;
+
+        }
+
+
+        .quantity button:hover {
+
+            background: #ffe7f3;
+
+        }
+
+
+        #quantity {
+
+            width: 45px;
+
+            text-align: center;
+
+            border: 0;
+
+            outline: none;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #523344;
+
+            background: white;
+
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .btn {
+
+            height: 52px;
+
+            padding: 0 24px;
+
+            border: 0;
+
+            border-radius: 15px;
+
+            cursor: pointer;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            font-weight: 700;
+
+            font-size: 13px;
+
+            transition: .25s;
+
+        }
+
+
+        .btn-cart {
+
+            color: #d92d8d;
+
+            background: white;
+
+            border:
+                1px solid rgba(222,54,139,.22);
+
+        }
+
+
+        .btn-cart:hover {
+
+            color: white;
+
+            background: #e93494;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(225,45,140,.22);
+
+        }
+
+
+        .btn-buy {
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff5db0,
+                    #df2b8d
+                );
+
+            box-shadow:
+                0 12px 25px rgba(224,45,140,.20);
+
+        }
+
+
+        .btn-buy:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 18px 35px rgba(224,45,140,.28);
+
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .features {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 35px;
+
+        }
+
+
+        .feature {
+
+            padding: 18px 10px;
+
+            text-align: center;
+
+            border-radius: 17px;
+
+            background: rgba(255,255,255,.7);
+
+            border:
+                1px solid rgba(226,50,140,.10);
+
+        }
+
+
+        .feature i {
+
+            color: #e53593;
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .feature strong {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #654354;
+
+        }
+
+
+        .feature span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 9px;
+
+            color: #9c7b8b;
+
+        }
+
+
+        /* =====================================================
+           NOT FOUND
+        ===================================================== */
+
+        .not-found {
+
+            display: none;
+
+            min-height: 65vh;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+        }
+
+
+        .not-found-box {
+
+            padding: 50px;
+
+            background: white;
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 25px 70px rgba(200,60,130,.12);
+
+        }
+
+
+        .not-found i {
+
+            font-size: 50px;
+
+            color: #e83896;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .not-found h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            padding: 35px 20px;
+
+            text-align: center;
+
+            background: #fff;
+
+            border-top:
+                1px solid rgba(225,50,140,.10);
+
+            color: #967487;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom: 30px;
+
+            z-index: 5000;
+
+            transform:
+                translate(-50%, 120px);
+
+            opacity: 0;
+
+            padding: 14px 22px;
+
+            border-radius: 50px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff5db0,
+                    #df2b8d
+                );
+
+            box-shadow:
+                0 15px 40px rgba(215,40,130,.3);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: .35s;
+
+        }
+
+
+        .toast.show {
+
+            transform:
+                translate(-50%, 0);
+
+            opacity: 1;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .header {
+
+                padding: 0 4%;
+
+            }
+
+
+            .nav a {
+
+                display: none;
+
+            }
+
+
+            .product-detail {
+
+                grid-template-columns: 1fr;
+
+                gap: 30px;
+
+            }
+
+
+            .image-box {
+
+                min-height: 430px;
+
+            }
+
+
+            #productImage {
+
+                height: 380px;
+
+            }
+
+
+            .product-info {
+
+                padding-top: 0;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .brand-sub {
+
+                display: none;
+
+            }
+
+
+            .brand-name {
+
+                font-size: 17px;
+
+            }
+
+
+            .image-box {
+
+                min-height: 350px;
+
+                padding: 20px;
+
+                border-radius: 24px;
+
+            }
+
+
+            #productImage {
+
+                height: 300px;
+
+            }
+
+
+            #productName {
+
+                font-size: 32px;
+
+            }
+
+
+            .purchase-area {
+
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+
+            .quantity {
+
+                grid-column:
+                    1 / -1;
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+
+
+            .btn {
+
+                width: 100%;
+
+                padding: 0 10px;
+
+            }
+
+
+            .features {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <header class="header">
+
+        <a
+            href="index.html"
+            class="brand">
+
+            <div class="brand-icon">
+
+                <i class="fa-solid fa-spa"></i>
+
+            </div>
+
+            <div class="brand-text">
+
+                <span class="brand-name">
+                    RARA DRW SKINCARE
+                </span>
+
+                <span class="brand-sub">
+                    BEAUTY • CARE • CONFIDENCE
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="product.html">
+                Produk
+            </a>
+
+            <button
+                class="cart-button"
+                onclick="goToCart()"
+                aria-label="Keranjang">
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span
+                    id="cartCount"
+                    class="cart-count">
+                    0
+                </span>
+
+            </button>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENT
+    ===================================================== -->
+
+    <main>
+
+        <div class="container">
+
+            <div class="breadcrumb">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <span> / </span>
+
+                <a href="product.html">
+                    Produk
+                </a>
+
+                <span> / Detail</span>
+
+            </div>
+
+
+            <!-- PRODUCT -->
+
+            <section
+                id="productSection"
+                class="product-detail">
+
+
+                <!-- IMAGE -->
+
+                <div class="product-visual">
+
+                    <div class="image-box">
+
+                        <img
+                            id="productImage"
+                            src="assets/images/products/product-placeholder.png"
+                            alt="Produk DRW Skincare">
+
+                        <div
+                            id="imageStatus"
+                            class="image-status">
+                            Foto Produk
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- INFO -->
+
+                <div class="product-info">
+
+                    <span
+                        id="productCategory"
+                        class="category">
+                        Perawatan Wajah
+                    </span>
+
+
+                    <h1 id="productName">
+                        Memuat produk...
+                    </h1>
+
+
+                    <div
+                        id="productId"
+                        class="product-id">
+                    </div>
+
+
+                    <div class="price-label">
+                        Harga Produk
+                    </div>
+
+
+                    <div id="productPrice">
+                        Rp 0
+                    </div>
+
+
+                    <div class="divider"></div>
+
+
+                    <div class="description-title">
+                        Deskripsi Produk
+                    </div>
+
+
+                    <p id="productDescription">
+                        Memuat informasi produk...
+                    </p>
+
+
+                    <div class="stock">
+
+                        <i class="fa-solid fa-circle"></i>
+
+                        <span>
+                            Stok tersedia
+                        </span>
+
+                    </div>
+
+
+                    <!-- PURCHASE -->
+
+                    <div class="purchase-area">
+
+
+                        <div class="quantity">
+
+                            <button
+                                type="button"
+                                onclick="changeQuantity(-1)">
+
+                                <i class="fa-solid fa-minus"></i>
+
+                            </button>
+
+
+                            <input
+                                id="quantity"
+                                type="number"
+                                value="1"
+                                min="1"
+                                max="99">
+
+
+                            <button
+                                type="button"
+                                onclick="changeQuantity(1)">
+
+                                <i class="fa-solid fa-plus"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            class="btn btn-cart"
+                            type="button"
+                            onclick="addToCart()">
+
+                            <i class="fa-solid fa-bag-shopping"></i>
+
+                            Tambah Keranjang
+
+                        </button>
+
+<button
+    class="btn btn-buy"
+    type="button"
+    onclick="window.location.href='cart.html'">
+
+    <i class="fa-solid fa-bolt"></i>
+
+    Beli Sekarang
+
+</button>
+
+
+                    </div>
+
+
+                    <!-- FEATURES -->
+
+                    <div class="features">
+
+                        <div class="feature">
+
+                            <i class="fa-solid fa-shield-heart"></i>
+
+                            <strong>
+                                Produk Original
+                            </strong>
+
+                            <span>
+                                RARA DRW SKINCARE
+                            </span>
+
+                        </div>
+
+
+                        <div class="feature">
+
+                            <i class="fa-solid fa-truck-fast"></i>
+
+                            <strong>
+                                Pengiriman
+                            </strong>
+
+                            <span>
+                                Aman & cepat
+                            </span>
+
+                        </div>
+
+
+                        <div class="feature">
+
+                            <i class="fa-solid fa-headset"></i>
+
+                            <strong>
+                                Konsultasi
+                            </strong>
+
+                            <span>
+                                Customer Care
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- NOT FOUND -->
+
+            <section
+                id="notFound"
+                class="not-found">
+
+                <div class="not-found-box">
+
+                    <i class="fa-regular fa-face-sad-tear"></i>
+
+                    <h2>
+                        Produk Tidak Ditemukan
+                    </h2>
+
+                    <p>
+                        Produk yang Anda pilih belum tersedia.
+                    </p>
+
+                    <br>
+
+                    <a
+                        href="product.html"
+                        class="btn btn-buy">
+
+                        Kembali ke Produk
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer>
+
+        © 2026
+        <strong>
+            RARA DRW SKINCARE
+        </strong>
+        — Beauty • Care • Confidence
+
+    </footer>
+
+
+    <!-- TOAST -->
+
+    <div
+        id="toast"
+        class="toast">
+    </div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         PENTING:
+         products-data.js HARUS SEBELUM SCRIPT DI BAWAH
+    ===================================================== -->
+
+    <script src="assets/js/products-data.js"></script>
+
+
+    <script>
+
+        /* =====================================================
+           PRODUCT DETAIL — STANDALONE
+        ===================================================== */
+
+        "use strict";
+
+
+        let currentProduct = null;
+
+
+        /* =====================================================
+           FORMAT RUPIAH
+        ===================================================== */
+
+        function formatRupiah(value) {
+
+            return new Intl.NumberFormat(
+                "id-ID",
+                {
+                    style: "currency",
+                    currency: "IDR",
+                    maximumFractionDigits: 0
+                }
+            ).format(
+                Number(value || 0)
+            );
+
+        }
+
+
+        /* =====================================================
+           GET PRODUCT ID
+        ===================================================== */
+
+        function getProductId() {
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            return (
+                params.get("id") ||
+                params.get("product") ||
+                params.get("slug")
+            );
+
+        }
+
+
+        /* =====================================================
+           GET PRODUCT
+        ===================================================== */
+
+        function findProduct(id) {
+
+            if (!id) {
+
+                return null;
+
+            }
+
+
+            /* Cara 1 */
+
+            if (
+                window.DRW_PRODUCTS &&
+                Array.isArray(window.DRW_PRODUCTS)
+            ) {
+
+                const product =
+                    window.DRW_PRODUCTS.find(
+                        function (item) {
+
+                            return (
+                                String(item.id) ===
+                                String(id)
+                            );
+
+                        }
+                    );
+
+
+                if (product) {
+
+                    return product;
+
+                }
+
+            }
+
+
+            /* Cara 2 */
+
+            if (
+                window.PRODUCT_DATA &&
+                Array.isArray(window.PRODUCT_DATA)
+            ) {
+
+                return window.PRODUCT_DATA.find(
+                    function (item) {
+
+                        return (
+                            String(item.id) ===
+                            String(id)
+                        );
+
+                    }
+                ) || null;
+
+            }
+
+
+            return null;
+
+        }
+
+
+        /* =====================================================
+           LOAD PRODUCT
+        ===================================================== */
+
+        function loadProduct() {
+
+            const id =
+                getProductId();
+
+
+            console.log(
+                "🔎 Product ID:",
+                id
+            );
+
+
+            console.log(
+                "📦 DRW_PRODUCTS:",
+                window.DRW_PRODUCTS
+            );
+
+
+            currentProduct =
+                findProduct(id);
+
+
+            if (!currentProduct) {
+
+                document
+                    .getElementById(
+                        "productSection"
+                    )
+                    .style.display = "none";
+
+
+                document
+                    .getElementById(
+                        "notFound"
+                    )
+                    .style.display = "flex";
+
+
+                return;
+
+            }
+
+
+            console.log(
+                "✅ Produk ditemukan:",
+                currentProduct
+            );
+
+
+            /* =================================================
+               NAME
+            ================================================= */
+
+            document
+                .getElementById(
+                    "productName"
+                )
+                .textContent =
+                currentProduct.name ||
+                "Produk DRW Skincare";
+
+
+            /* =================================================
+               CATEGORY
+            ================================================= */
+
+            document
+                .getElementById(
+                    "productCategory"
+                )
+                .textContent =
+                currentProduct.category ||
+                "Perawatan Wajah";
+
+
+            /* =================================================
+               ID
+            ================================================= */
+
+            document
+                .getElementById(
+                    "productId"
+                )
+                .textContent =
+                "Kode Produk: " +
+                currentProduct.id;
+
+
+            /* =================================================
+               PRICE
+            ================================================= */
+
+            const price =
+                Number(
+                    currentProduct.price ||
+                    currentProduct.umum ||
+                    0
+                );
+
+
+            document
+                .getElementById(
+                    "productPrice"
+                )
+                .textContent =
+                formatRupiah(price);
+
+
+            /* =================================================
+               DESCRIPTION
+            ================================================= */
+
+            document
+                .getElementById(
+                    "productDescription"
+                )
+                .textContent =
+                currentProduct.description ||
+                (
+                    currentProduct.name +
+                    " merupakan produk DRW Skincare untuk membantu melengkapi rutinitas perawatan kecantikan sehari-hari."
+                );
+
+
+            /* =================================================
+               IMAGE
+            ================================================= */
+
+            loadProductImage(
+                currentProduct
+            );
+
+
+            /* =================================================
+               TITLE
+            ================================================= */
+
+            document.title =
+                currentProduct.name +
+                " | RARA DRW SKINCARE";
+
+        }
+
+
+        /* =====================================================
+           LOAD IMAGE
+        ===================================================== */
+
+        function loadProductImage(product) {
+
+            const image =
+                document.getElementById(
+                    "productImage"
+                );
+
+
+            const status =
+                document.getElementById(
+                    "imageStatus"
+                );
+
+
+            const imagePath =
+                product.image;
+
+
+            console.log(
+                "🖼️ Foto produk:",
+                imagePath
+            );
+
+
+            if (!imagePath) {
+
+                image.src =
+                    "assets/images/products/product-placeholder.png";
+
+                return;
+
+            }
+
+
+            image.onload =
+                function () {
+
+                    status.style.display =
+                        "none";
+
+                    console.log(
+                        "✅ FOTO BERHASIL:",
+                        image.src
+                    );
+
+                };
+
+
+            image.onerror =
+                function () {
+
+                    console.error(
+                        "❌ FOTO TIDAK DITEMUKAN:",
+                        image.src
+                    );
+
+
+                    status.textContent =
+                        "Foto tidak ditemukan";
+
+                    status.style.display =
+                        "block";
+
+
+                    image.src =
+                        "assets/images/products/product-placeholder.png";
+
+                };
+
+
+            /*
+             * CACHE BUSTER
+             * supaya browser tidak menggunakan foto lama
+             */
+
+            const separator =
+                imagePath.includes("?")
+                    ? "&"
+                    : "?";
+
+
+            image.src =
+                imagePath +
+                separator +
+                "v=" +
+                Date.now();
+
+        }
+
+
+        /* =====================================================
+           QUANTITY
+        ===================================================== */
+
+        function changeQuantity(amount) {
+
+            const input =
+                document.getElementById(
+                    "quantity"
+                );
+
+
+            let value =
+                Number(input.value || 1);
+
+
+            value += amount;
+
+
+            if (value < 1) {
+
+                value = 1;
+
+            }
+
+
+            if (value > 99) {
+
+                value = 99;
+
+            }
+
+
+            input.value =
+                value;
+
+        }
+
+
+        /* =====================================================
+           CART STORAGE
+        ===================================================== */
+
+        function getCart() {
+
+            try {
+
+                const cart =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "drwCart"
+                        )
+                    );
+
+
+                return Array.isArray(cart)
+                    ? cart
+                    : [];
+
+            } catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        function saveCart(cart) {
+
+            localStorage.setItem(
+                "drwCart",
+                JSON.stringify(cart)
+            );
+
+
+            updateCartCount();
+
+        }
+
+
+        /* =====================================================
+           ADD CART
+        ===================================================== */
+
+        function addToCart() {
+
+            if (!currentProduct) {
+
+                return;
+
+            }
+
+
+            const quantity =
+                Number(
+                    document.getElementById(
+                        "quantity"
+                    ).value || 1
+                );
+
+
+            const cart =
+                getCart();
+
+
+            const existing =
+                cart.find(
+                    function (item) {
+
+                        return (
+                            String(item.id) ===
+                            String(currentProduct.id)
+                        );
+
+                    }
+                );
+
+
+            if (existing) {
+
+                existing.quantity =
+                    Number(
+                        existing.quantity || 0
+                    ) +
+                    quantity;
+
+            } else {
+
+                cart.push({
+
+                    id:
+                        currentProduct.id,
+
+                    name:
+                        currentProduct.name,
+
+                    image:
+                        currentProduct.image,
+
+                    price:
+                        Number(
+                            currentProduct.price ||
+                            currentProduct.umum ||
+                            0
+                        ),
+
+                    quantity:
+                        quantity
+
+                });
+
+            }
+
+
+            saveCart(cart);
+
+
+            showToast(
+                "✓ Produk berhasil ditambahkan ke keranjang"
+            );
+
+        }
+
+
+        /* =====================================================
+           BUY NOW
+        ===================================================== */
+
+        function buyNow() {
+
+            if (!currentProduct) {
+
+                return;
+
+            }
+
+
+            const quantity =
+                Number(
+                    document.getElementById(
+                        "quantity"
+                    ).value || 1
+                );
+
+
+            const cart = [
+
+                {
+
+                    id:
+                        currentProduct.id,
+
+                    name:
+                        currentProduct.name,
+
+                    image:
+                        currentProduct.image,
+
+                    price:
+                        Number(
+                            currentProduct.price ||
+                            currentProduct.umum ||
+                            0
+                        ),
+
+                    quantity:
+                        quantity
+
+                }
+
+            ];
+
+
+            localStorage.setItem(
+                "drwCart",
+                JSON.stringify(cart)
+            );
+
+
+            window.location.href =
+                "checkout.html";
+
+        }
+
+
+        /* =====================================================
+           CART COUNT
+        ===================================================== */
+
+        function updateCartCount() {
+
+            const cart =
+                getCart();
+
+
+            const count =
+                cart.reduce(
+                    function (total, item) {
+
+                        return (
+                            total +
+                            Number(
+                                item.quantity ||
+                                item.qty ||
+                                1
+                            )
+                        );
+
+                    },
+                    0
+                );
+
+
+            document
+                .getElementById(
+                    "cartCount"
+                )
+                .textContent =
+                count;
+
+        }
+
+
+        /* =====================================================
+           GO CART
+        ===================================================== */
+
+        function goToCart() {
+
+            window.location.href =
+                "cart.html";
+
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        function showToast(message) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+
+            toast.textContent =
+                message;
+
+
+            toast.classList.add(
+                "show"
+            );
+
+
+            clearTimeout(
+                window.__toastTimer
+            );
+
+
+            window.__toastTimer =
+                setTimeout(
+                    function () {
+
+                        toast.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2500
+                );
+
+        }
+
+
+        /* =====================================================
+           START
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadProduct();
+
+                updateCartCount();
+
+            }
+        );
+
+    </script>
+
+<script src="assets/js/products-data.js"></script>
+</body>
+
+</html>

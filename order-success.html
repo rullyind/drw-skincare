@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Pesanan Berhasil | DRW Skincare</title>
+
+    <meta
+        name="description"
+        content="Pesanan DRW Skincare berhasil dibuat.">
+
+    <link
+        rel="icon"
+        href="favicondrw.png">
+
+    <!-- GOOGLE FONT -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+
+    background: #fff9fc;
+
+    color: #38242e;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font: inherit;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --pink:
+        #e95792;
+
+    --pink-dark:
+        #c83d78;
+
+    --pink-light:
+        #fff1f7;
+
+    --text:
+        #38242e;
+
+    --muted:
+        #806c76;
+
+    --border:
+        #eadde4;
+
+    --dark:
+        #2d1b24;
+
+    --success:
+        #39a56d;
+
+    --success-light:
+        #eaf8f1;
+
+    --shadow:
+        0 20px 55px
+        rgba(80, 30, 55, .09);
+
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.top-bar {
+
+    min-height: 38px;
+
+    padding:
+        0 5%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            90deg,
+            #d98aad 0%,
+            #f04f90 45%,
+            #8d1749 75%,
+            #f50062 100%
+        );
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+
+}
+
+.top-left,
+.top-right {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+}
+
+.top-divider {
+
+    width:
+        1px;
+
+    height:
+        15px;
+
+    background:
+        rgba(255,255,255,.5);
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.main-navbar {
+
+    width:
+        min(1200px,92%);
+
+    min-height:
+        86px;
+
+    margin:
+        0 auto;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        25px;
+
+    background:
+        #fff;
+
+}
+
+.logo {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+}
+
+.logo img {
+
+    width:
+        205px;
+
+    max-height:
+        64px;
+
+    object-fit:
+        contain;
+
+}
+
+.nav-menu {
+
+    flex:
+        1;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        24px;
+
+}
+
+.nav-menu a {
+
+    position:
+        relative;
+
+    padding:
+        28px 0;
+
+    color:
+        #4d3641;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+    white-space:
+        nowrap;
+
+}
+
+.nav-menu a:hover {
+
+    color:
+        var(--pink-dark);
+
+}
+
+.nav-menu a::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    bottom:
+        17px;
+
+    height:
+        2px;
+
+    border-radius:
+        99px;
+
+    background:
+        var(--pink);
+
+    transform:
+        scaleX(0);
+
+    transition:
+        .2s;
+
+}
+
+.nav-menu a:hover::after {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+.nav-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+}
+
+.nav-icon {
+
+    position:
+        relative;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--pink-light);
+
+    color:
+        var(--pink-dark);
+
+}
+
+.nav-icon:hover {
+
+    background:
+        var(--pink);
+
+    color:
+        #fff;
+
+}
+
+.cart-count {
+
+    position:
+        absolute;
+
+    top:
+        -3px;
+
+    right:
+        -3px;
+
+    min-width:
+        18px;
+
+    height:
+        18px;
+
+    padding:
+        0 4px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--dark);
+
+    color:
+        #fff;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.success-page {
+
+    min-height:
+        calc(100vh - 124px);
+
+    padding:
+        70px 20px 90px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(233,87,146,.13),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(233,87,146,.10),
+            transparent 28%
+        ),
+
+        linear-gradient(
+            180deg,
+            #fff,
+            #fff7fb
+        );
+
+}
+
+.success-container {
+
+    width:
+        min(850px,100%);
+
+    margin:
+        0 auto;
+
+}
+
+
+/* =========================================================
+   SUCCESS CARD
+========================================================= */
+
+.success-card {
+
+    padding:
+        52px 50px 48px;
+
+    text-align:
+        center;
+
+    background:
+        #fff;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        24px;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+========================================================= */
+
+.success-icon {
+
+    width:
+        90px;
+
+    height:
+        90px;
+
+    margin:
+        0 auto 25px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--success-light);
+
+    color:
+        var(--success);
+
+    font-size:
+        39px;
+
+    box-shadow:
+        0 0 0 10px #f5fcf8;
+
+    animation:
+        successPop .5s ease;
+
+}
+
+@keyframes successPop {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            scale(.6);
+
+    }
+
+    70% {
+
+        transform:
+            scale(1.08);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.success-label {
+
+    display:
+        inline-block;
+
+    margin-bottom:
+        9px;
+
+    color:
+        var(--pink-dark);
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .18em;
+
+}
+
+.success-card h1 {
+
+    margin:
+        0 0 13px;
+
+    color:
+        #39232f;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(36px,5vw,52px);
+
+    font-weight:
+        600;
+
+    line-height:
+        1.15;
+
+}
+
+.success-card h1 em {
+
+    color:
+        var(--pink);
+
+    font-style:
+        italic;
+
+}
+
+.success-description {
+
+    max-width:
+        600px;
+
+    margin:
+        0 auto;
+
+    color:
+        var(--muted);
+
+    font-size:
+        15px;
+
+}
+
+
+/* =========================================================
+   ORDER NUMBER
+========================================================= */
+
+.order-number-box {
+
+    width:
+        min(470px,100%);
+
+    margin:
+        30px auto;
+
+    padding:
+        18px 22px;
+
+    border:
+        1px dashed #dfb4c8;
+
+    border-radius:
+        13px;
+
+    background:
+        var(--pink-light);
+
+}
+
+.order-number-label {
+
+    display:
+        block;
+
+    margin-bottom:
+        4px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .15em;
+
+}
+
+.order-number {
+
+    display:
+        block;
+
+    color:
+        var(--pink-dark);
+
+    font-size:
+        21px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.success-summary {
+
+    width:
+        min(650px,100%);
+
+    margin:
+        0 auto;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        15px;
+
+    overflow:
+        hidden;
+
+    text-align:
+        left;
+
+    background:
+        #fff;
+
+}
+
+.summary-title {
+
+    padding:
+        17px 20px;
+
+    background:
+        #fff9fc;
+
+    border-bottom:
+        1px solid var(--border);
+
+    color:
+        #4a303b;
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+}
+
+.summary-row {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    padding:
+        13px 20px;
+
+    border-bottom:
+        1px solid #f1e8ed;
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+}
+
+.summary-row:last-child {
+
+    border-bottom:
+        0;
+
+}
+
+.summary-row strong {
+
+    color:
+        var(--text);
+
+    text-align:
+        right;
+
+}
+
+.summary-row.total {
+
+    background:
+        var(--pink-light);
+
+    color:
+        var(--text);
+
+    font-weight:
+        700;
+
+}
+
+.summary-row.total strong {
+
+    color:
+        var(--pink-dark);
+
+    font-size:
+        20px;
+
+}
+
+
+/* =========================================================
+   NEXT STEPS
+========================================================= */
+
+.next-title {
+
+    margin:
+        34px 0 17px;
+
+    font-size:
+        15px;
+
+    font-weight:
+        800;
+
+}
+
+.next-steps {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:
+        13px;
+
+}
+
+.next-step {
+
+    padding:
+        18px 14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        13px;
+
+    background:
+        #fff;
+
+}
+
+.next-icon {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    margin:
+        0 auto 10px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--pink-light);
+
+    color:
+        var(--pink-dark);
+
+}
+
+.next-step strong {
+
+    display:
+        block;
+
+    margin-bottom:
+        3px;
+
+    font-size:
+        12px;
+
+}
+
+.next-step span {
+
+    display:
+        block;
+
+    color:
+        var(--muted);
+
+    font-size:
+        10px;
+
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.success-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        12px;
+
+    margin-top:
+        32px;
+
+}
+
+.success-btn {
+
+    min-height:
+        48px;
+
+    padding:
+        0 25px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        9px;
+
+    border-radius:
+        10px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    transition:
+        .2s;
+
+}
+
+.btn-primary {
+
+    background:
+        var(--pink);
+
+    border:
+        1px solid var(--pink);
+
+    color:
+        #fff;
+
+}
+
+.btn-primary:hover {
+
+    background:
+        var(--pink-dark);
+
+    border-color:
+        var(--pink-dark);
+
+    transform:
+        translateY(-1px);
+
+}
+
+.btn-secondary {
+
+    background:
+        #fff;
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--pink-dark);
+
+}
+
+.btn-secondary:hover {
+
+    background:
+        var(--pink-light);
+
+    border-color:
+        var(--pink);
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.whatsapp-help {
+
+    margin:
+        25px auto 0;
+
+    color:
+        var(--muted);
+
+    font-size:
+        11px;
+
+}
+
+.whatsapp-help a {
+
+    color:
+        #229b60;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding:
+        45px 20px 30px;
+
+    background:
+        var(--dark);
+
+    color:
+        #fff;
+
+    text-align:
+        center;
+
+}
+
+.footer-logo {
+
+    font-size:
+        27px;
+
+    font-weight:
+        800;
+
+}
+
+.footer-logo span {
+
+    font-weight:
+        400;
+
+}
+
+.footer-tagline {
+
+    margin:
+        5px 0 22px;
+
+    color:
+        #d9c8d0;
+
+    font-size:
+        13px;
+
+}
+
+.footer-social {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    gap:
+        9px;
+
+    margin-bottom:
+        25px;
+
+}
+
+.footer-social a {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    border-radius:
+        50%;
+
+}
+
+.footer-social a:hover {
+
+    background:
+        var(--pink);
+
+    border-color:
+        var(--pink);
+
+}
+
+.footer-bottom {
+
+    padding-top:
+        20px;
+
+    border-top:
+        1px solid rgba(255,255,255,.12);
+
+    color:
+        #bcaab3;
+
+    font-size:
+        11px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .nav-menu {
+        display: none;
+    }
+
+    .main-navbar {
+        min-height: 75px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .top-bar {
+
+        min-height:
+            34px;
+
+        justify-content:
+            center;
+
+        padding:
+            0 10px;
+
+        font-size:
+            9px;
+
+        text-align:
+            center;
+
+    }
+
+    .top-right {
+        display: none;
+    }
+
+    .main-navbar {
+
+        width:
+            92%;
+
+        min-height:
+            70px;
+
+    }
+
+    .logo img {
+
+        width:
+            145px;
+
+        max-height:
+            48px;
+
+    }
+
+    .success-page {
+
+        padding:
+            42px 14px 60px;
+
+    }
+
+    .success-card {
+
+        padding:
+            38px 20px 30px;
+
+        border-radius:
+            18px;
+
+    }
+
+    .success-icon {
+
+        width:
+            75px;
+
+        height:
+            75px;
+
+        font-size:
+            31px;
+
+    }
+
+    .success-card h1 {
+
+        font-size:
+            35px;
+
+    }
+
+    .success-description {
+
+        font-size:
+            13px;
+
+    }
+
+    .next-steps {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .next-step {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            42px 1fr;
+
+        align-items:
+            center;
+
+        gap:
+            12px;
+
+        text-align:
+            left;
+
+    }
+
+    .next-icon {
+
+        margin:
+            0;
+
+    }
+
+    .success-actions {
+
+        flex-direction:
+            column;
+
+    }
+
+    .success-btn {
+
+        width:
+            100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="top-bar">
+
+        <div class="top-left">
+
+            <span>✦</span>
+
+            <span>
+                FREE SHIPPING UNTUK PEMBELIAN DI ATAS Rp500.000
+            </span>
+
+            <span>✦</span>
+
+        </div>
+
+        <div class="top-right">
+
+            <span class="top-divider"></span>
+
+            <span>INDONESIA</span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="main-navbar">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <img
+                src="assets/images/logo/logo.png"
+                alt="DRW Skincare">
+
+        </a>
+
+
+        <div class="nav-menu">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="products.html">
+                Produk
+            </a>
+
+            <a href="index.html#best-seller">
+                Best Seller
+            </a>
+
+            <a href="index.html#kategori-produk">
+                Kategori Produk
+            </a>
+
+            <a href="index.html#about">
+                Tentang Kami
+            </a>
+
+            <a href="index.html#beauty-tips">
+                Beauty Tips
+            </a>
+
+            <a href="index.html#contact">
+                Konsultasi
+            </a>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <a
+                href="products.html"
+                class="nav-icon"
+                aria-label="Cari produk">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </a>
+
+
+            <a
+                href="cart.html"
+                class="nav-icon"
+                aria-label="Keranjang">
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span
+                    id="cartCount"
+                    class="cart-count">
+
+                    0
+
+                </span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================================================
+     CONTENT
+========================================================= -->
+
+<main>
+
+<section class="success-page">
+
+<div class="success-container">
+
+<div class="success-card">
+
+
+    <!-- ICON -->
+
+    <div class="success-icon">
+
+        <i class="fa-solid fa-check"></i>
+
+    </div>
+
+
+    <!-- TITLE -->
+
+    <span class="success-label">
+
+        ORDER CONFIRMED
+
+    </span>
+
+
+    <h1>
+
+        Pesanan
+        <em>Berhasil!</em>
+
+    </h1>
+
+
+    <p class="success-description">
+
+        Terima kasih telah berbelanja di
+        <strong>DRW Skincare</strong>.
+        Pesanan kamu sudah berhasil dibuat
+        dan akan segera kami proses.
+
+    </p>
+
+
+    <!-- ORDER NUMBER -->
+
+    <div class="order-number-box">
+
+        <span class="order-number-label">
+
+            NOMOR PESANAN
+
+        </span>
+
+
+        <strong
+            id="orderNumber"
+            class="order-number">
+
+            Memuat...
+
+        </strong>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="success-summary">
+
+
+        <div class="summary-title">
+
+            Ringkasan Pesanan
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Status Pesanan
+            </span>
+
+            <strong
+                style="color:#39a56d;">
+
+                Pesanan Berhasil
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Nama Pemesan
+            </span>
+
+            <strong
+                id="customerName">
+
+                Memuat...
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Metode Pembayaran
+            </span>
+
+            <strong
+                id="paymentMethod">
+
+                Bank Transfer
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Subtotal Produk
+            </span>
+
+            <strong
+                id="orderSubtotal">
+
+                Rp 0
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Pengiriman
+            </span>
+
+            <strong
+                id="orderShipping">
+
+                Rp 0
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row total">
+
+            <span>
+                Total Pembayaran
+            </span>
+
+            <strong
+                id="orderTotal">
+
+                Rp 0
+
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- NEXT STEPS -->
+
+    <h2 class="next-title">
+
+        Selanjutnya
+
+    </h2>
+
+
+    <div class="next-steps">
+
+
+        <div class="next-step">
+
+            <div class="next-icon">
+
+                <i class="fa-solid fa-receipt"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Pesanan Diproses
+                </strong>
+
+                <span>
+                    Kami akan memproses pesanan kamu.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="next-step">
+
+            <div class="next-icon">
+
+                <i class="fa-solid fa-box"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Pesanan Disiapkan
+                </strong>
+
+                <span>
+                    Produk akan dipersiapkan untuk dikirim.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="next-step">
+
+            <div class="next-icon">
+
+                <i class="fa-solid fa-truck"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Pesanan Dikirim
+                </strong>
+
+                <span>
+                    Pesanan akan dikirim ke alamat kamu.
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- BUTTON -->
+
+    <div class="success-actions">
+
+
+        <a
+            href="products.html"
+            class="success-btn btn-primary">
+
+            <i class="fa-solid fa-bag-shopping"></i>
+
+            BELANJA LAGI
+
+        </a>
+
+
+        <a
+            href="index.html"
+            class="success-btn btn-secondary">
+
+            <i class="fa-solid fa-house"></i>
+
+            KEMBALI KE HOME
+
+        </a>
+
+
+    </div>
+
+
+    <!-- WHATSAPP -->
+
+    <p class="whatsapp-help">
+
+        Butuh bantuan dengan pesanan?
+
+        <a
+            href="https://wa.me/6282381432222"
+            target="_blank"
+            rel="noopener">
+
+            Hubungi Customer Service WhatsApp
+
+        </a>
+
+    </p>
+
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+    <div class="footer-logo">
+
+        DRW
+        <span>
+            SKINCARE
+        </span>
+
+    </div>
+
+
+    <p class="footer-tagline">
+
+        Beauty That Speaks.
+
+    </p>
+
+
+    <div class="footer-social">
+
+
+        <a
+            href="#"
+            aria-label="Instagram">
+
+            <i class="fa-brands fa-instagram"></i>
+
+        </a>
+
+
+        <a
+            href="#"
+            aria-label="Facebook">
+
+            <i class="fa-brands fa-facebook-f"></i>
+
+        </a>
+
+
+        <a
+            href="#"
+            aria-label="TikTok">
+
+            <i class="fa-brands fa-tiktok"></i>
+
+        </a>
+
+
+        <a
+            href="#"
+            aria-label="WhatsApp">
+
+            <i class="fa-brands fa-whatsapp"></i>
+
+        </a>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 DRW Skincare.
+        All Rights Reserved.
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT FINAL
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =====================================================
+           FORMAT RUPIAH
+        ===================================================== */
+
+        function formatRupiah(value) {
+
+            const number =
+                Number(value) || 0;
+
+            return (
+                "Rp " +
+                number.toLocaleString(
+                    "id-ID"
+                )
+            );
+
+        }
+
+
+
+        /* =====================================================
+           AMBIL DATA ORDER
+           
+           checkout.js Anda menyimpan:
+           
+           localStorage.setItem(
+               "drwOrder",
+               JSON.stringify(orderData)
+           );
+        ===================================================== */
+
+        let orderData = null;
+
+
+        try {
+
+            const savedOrder =
+                localStorage.getItem(
+                    "drwOrder"
+                );
+
+
+            if (savedOrder) {
+
+                orderData =
+                    JSON.parse(
+                        savedOrder
+                    );
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Gagal membaca drwOrder:",
+                error
+            );
+
+        }
+
+
+
+        /* =====================================================
+           FALLBACK
+        ===================================================== */
+
+        if (!orderData) {
+
+            try {
+
+                const oldData =
+                    localStorage.getItem(
+                        "drwCheckoutData"
+                    );
+
+
+                if (oldData) {
+
+                    orderData =
+                        JSON.parse(
+                            oldData
+                        );
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Gagal membaca drwCheckoutData:",
+                    error
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           DATA TIDAK DITEMUKAN
+        ===================================================== */
+
+        if (!orderData) {
+
+            document.getElementById(
+                "orderNumber"
+            ).textContent =
+                "Data Tidak Ditemukan";
+
+
+            document.getElementById(
+                "customerName"
+            ).textContent =
+                "-";
+
+
+            document.getElementById(
+                "orderSubtotal"
+            ).textContent =
+                "Rp 0";
+
+
+            document.getElementById(
+                "orderShipping"
+            ).textContent =
+                "Rp 0";
+
+
+            document.getElementById(
+                "orderTotal"
+            ).textContent =
+                "Rp 0";
+
+
+            console.warn(
+                "Data pesanan drwOrder tidak ditemukan."
+            );
+
+
+            return;
+
+        }
+
+
+
+        /* =====================================================
+           NOMOR ORDER
+        ===================================================== */
+
+        const orderNumber =
+            orderData.orderNumber ||
+            localStorage.getItem(
+                "drwOrderNumber"
+            );
+
+
+        if (orderNumber) {
+
+            document.getElementById(
+                "orderNumber"
+            ).textContent =
+                orderNumber;
+
+        }
+
+
+
+        /* =====================================================
+           NAMA CUSTOMER
+        ===================================================== */
+
+        let customerName =
+            "";
+
+
+        if (
+            orderData.customer &&
+            orderData.customer.name
+        ) {
+
+            customerName =
+                orderData.customer.name;
+
+        }
+
+        else if (
+            orderData.name
+        ) {
+
+            customerName =
+                orderData.name;
+
+        }
+
+
+        if (!customerName) {
+
+            customerName =
+                "Pelanggan DRW";
+
+        }
+
+
+        document.getElementById(
+            "customerName"
+        ).textContent =
+            customerName;
+
+
+
+        /* =====================================================
+           PAYMENT METHOD
+        ===================================================== */
+
+        let payment =
+            orderData.paymentMethod ||
+            orderData.payment ||
+            "Bank Transfer";
+
+
+        const paymentLower =
+            String(
+                payment
+            ).toLowerCase();
+
+
+        if (
+            paymentLower === "bank" ||
+            paymentLower.includes("bank")
+        ) {
+
+            payment =
+                "Bank Transfer";
+
+        }
+
+        else if (
+            paymentLower === "cod" ||
+            paymentLower.includes("cash")
+        ) {
+
+            payment =
+                "Cash On Delivery";
+
+        }
+
+        else if (
+            paymentLower.includes("wallet") ||
+            paymentLower.includes("ewallet")
+        ) {
+
+            payment =
+                "E-Wallet";
+
+        }
+
+
+        document.getElementById(
+            "paymentMethod"
+        ).textContent =
+            payment;
+
+
+
+        /* =====================================================
+           SUBTOTAL
+           
+           checkout.js:
+           
+           subtotal: subtotal
+        ===================================================== */
+
+        const subtotal =
+            Number(
+                orderData.subtotal
+            ) || 0;
+
+
+        document.getElementById(
+            "orderSubtotal"
+        ).textContent =
+            formatRupiah(
+                subtotal
+            );
+
+
+
+        /* =====================================================
+           SHIPPING
+           
+           checkout.js:
+           
+           shipping: shippingCost
+        ===================================================== */
+
+        let shipping =
+            0;
+
+
+        if (
+            typeof orderData.shipping ===
+            "number"
+        ) {
+
+            shipping =
+                Number(
+                    orderData.shipping
+                ) || 0;
+
+        }
+
+        else if (
+            orderData.shipping &&
+            typeof orderData.shipping ===
+            "object"
+        ) {
+
+            shipping =
+                Number(
+                    orderData.shipping.amount
+                ) || 0;
+
+        }
+
+
+        document.getElementById(
+            "orderShipping"
+        ).textContent =
+            formatRupiah(
+                shipping
+            );
+
+
+
+        /* =====================================================
+           TOTAL PEMBAYARAN
+           
+           checkout.js:
+           
+           total: total
+           
+           Kita gunakan total langsung.
+           Jika tidak ada, hitung subtotal + shipping.
+        ===================================================== */
+
+        let total =
+            Number(
+                orderData.total
+            ) || 0;
+
+
+        if (total <= 0) {
+
+            total =
+                subtotal +
+                shipping;
+
+        }
+
+
+        document.getElementById(
+            "orderTotal"
+        ).textContent =
+            formatRupiah(
+                total
+            );
+
+
+
+        /* =====================================================
+           SIMPAN NOMOR ORDER
+        ===================================================== */
+
+        if (orderNumber) {
+
+            localStorage.setItem(
+                "drwOrderNumber",
+                orderNumber
+            );
+
+        }
+
+
+
+        /* =====================================================
+           CART COUNT
+           
+           Setelah checkout cart memang dikosongkan.
+        ===================================================== */
+
+        const cartCount =
+            document.getElementById(
+                "cartCount"
+            );
+
+
+        if (cartCount) {
+
+            cartCount.textContent =
+                "0";
+
+        }
+
+
+
+        /* =====================================================
+           DEBUG
+        ===================================================== */
+
+        console.log(
+            "================================"
+        );
+
+        console.log(
+            "DRW ORDER SUCCESS"
+        );
+
+        console.log(
+            "Order:",
+            orderData
+        );
+
+        console.log(
+            "Subtotal:",
+            subtotal
+        );
+
+        console.log(
+            "Shipping:",
+            shipping
+        );
+
+        console.log(
+            "Total:",
+            total
+        );
+
+        console.log(
+            "================================"
+        );
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
