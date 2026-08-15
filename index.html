@@ -19,14 +19,14 @@
     <style>
         /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: "DM Sans", sans-serif; background: #f6f3f4; color: #c80000; }
+        body { margin: 0; font-family: "DM Sans", sans-serif; background: #f6f3f4; color: #ce0f7e; }
         a { text-decoration: none; color: inherit; }
         button, input { font: inherit; }
-        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#c10566; font-size:12px; }
+        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#c10566; font-size:6px; }
         .top-bar-left,.top-bar-right { display:flex; align-items:center; gap:10px; }
         .auth-link { border:0; background:none; cursor:pointer; color:#7e315d; font-weight:600; }
         .top-divider { opacity:.55; }
-        .main-navbar { min-height:78px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#ffffff; border-bottom:5px solid #f5dce9; position:sticky; top:0; z-index:1000; }
+        .main-navbar { min-height:50px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#ffffff; border-bottom:5px solid #c6307dbb; position:sticky; top:0; z-index:1000; }
         .brand-logo img { object-fit: cover; width:1    60px; max-height:58px; object-fit:contain; display:block; }
         .nav-menu { display:flex; align-items:center; justify-content:center; gap:22px; flex:1; }
         .nav-item { font-size:14px; font-weight:600; color:#543747; }
@@ -36,24 +36,24 @@
         .cart-count { position:absolute; top:-4px; right:-3px; min-width:18px; height:18px; padding:0 4px; border-radius:99px; display:grid; place-items:center; background:#e83d9b; color:#fff; font-size:10px; font-weight:700; }
         .hero { padding:90px 7%; background:linear-gradient(135deg,#fff 0%,#fff3f9 55%,#fde6f2 100%); }
         .hero-container { max-width:1250px; margin:auto; display:grid; grid-template-columns:1.05fr .95fr; align-items:none center; gap:1px; }
-        .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:12px; font-weight:700; letter-spacing:2px; }
-        .hero h1 { margin:14px 0 20px; font-family:"Playfair Display",serif; font-size:clamp(48px,6vw,82px); line-height:1.02; color:#422434; }
+        .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:10px; font-weight:500; letter-spacing:2px; }
+        .hero h1 { margin:0px 0 1px; font-family:"Playfair Display",serif; font-size:clamp(48px,6vw,82px); line-height:1.02; color:#422434; }
         .hero h1 span { display:block; color:#df3b96; }
-        .hero p { max-width:620px; line-height:1.8; color:#765466; font-size:17px; }
-        .hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin:28px 0; }
-        .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; border-radius:999px; padding:14px 22px; font-weight:700; border:1px solid transparent; }
-        .btn-primary { background:#e83d9b; color:#fff; box-shadow:0 10px 30px rgba(232,61,155,.22); }
-        .btn-secondary { border-color:#e9b9d2; color:#9b356d; background:#fff; }
+        .hero p { max-width:620px; line-height: 10px; color:#765466; font-size:10px; }
+        .hero-actions { display:ruby-text; gap:12px; flex-wrap:wrap; margin:2px 0; }
+        .btn { display:list-item; align-items:center; justify-content:center; gap:9px; border-radius:999px; padding:10px 2px; font-weight:200; border:1px solid transparent; }
+        .btn-primary { font-size:13px; background:#e83d9b; color:#fff; box-shadow:0 10px 30px rgba(232,61,155,.22); }
+        .btn-secondary { font-size: 13px; border-color:#e9b9d2; color:#9b356d; background:#0ccd0171; }
         .btn-white { background:#fff; color:#c72d80; }
         .hero-image-card img { width:78%; max-height:58%; object-fit:fill; }
-        .hero-mini-trust { display:flex; flex-wrap:wrap; gap:18px; color:#70495d; font-size:13px; }
+        .hero-mini-trust { display:block; flex-wrap:wrap; gap:18px; color:#70495d; font-size:13px; }
         .hero-mini-trust i { color:#e83d9b; }
         .hero-visual { position:relative; min-height:50px; display:grid; place-items:center; }
         .hero-glow { position:absolute; width:90px; height:390px; border-radius:50%; background:rgba(233, 224, 229, 0.35); filter:blur(30px); }
-        .hero-feature { position:absolute; display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid rgba(255,255,255,.9); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 15px 35px rgba(135,59,96,.13); }
-        .hero-feature i { color:#e83d9b; font-size:20px; }
+        .hero-feature { position:absolute; display:inline-block; align-items:center; gap:12px; padding:5px 5px; border:1px solid rgba(255,255,255,.9); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 15px 35px rgba(135,59,96,.13); }
+        .hero-feature i { color:#e83d9b; font-size:13px; }
         .hero-feature strong,.hero-feature small { display:block; }
-        .hero-feature strong { font-size:13px; }
+        .hero-feature strong { font-size:10px; }
         .hero-feature small { margin-top:3px; color:#927084; font-size:11px; }
         .hero-feature-one { top:1%; left:0%; }
         .hero-feature-two { bottom:1%; right:5; }
@@ -133,13 +133,14 @@
         }
         @media (max-width: 600px) {
             .top-bar { justify-content:center; }
-            .top-bar-left { display:none; }
-            .main-navbar { padding:0 4%; }
-            .brand-logo img { width:115px; }
-            .hero { padding:55px 5%; }
-            .hero h1 { font-size:48px; }
-            .hero-feature { position:relative; inset:auto; margin:10px; }
-            .hero-visual { display:flex; flex-direction:column; min-height:0; }
+            .top-bar-left { display:grid; }
+            .main-navbar { padding:0 24%; }
+            .brand-logo img { width:15px; }
+            .hero { padding:5px 1%; }
+            .hero h1 { font-size:20px; }
+            .hero p {font-size: 12px;}
+            .hero-feature { position:relative; inset:auto; margin:5px; }
+            .hero-visual { display:block; flex-direction:column; min-height:0; }
             .product-grid,.category-grid,.footer-grid { grid-template-columns:1fr; }
             .section { padding:60px 5%; }
             .footer-bottom { flex-direction:column; }
@@ -233,7 +234,7 @@
     <div class="hero-container">
 
         <div class="hero-content">
-            <div class="hero-eyebrow">✦ DRW SKINCARE ✦</div>
+            <div class="hero-eyebrow">DRW SKINCARE</div>
 
             <h1>
                 Your Skin,
@@ -272,10 +273,9 @@
             </div>
 
             <div class="hero-feature hero-feature-one">
-                <i class="fa-solid fa-sparkles"></i>
+                 <i class="fa-solid fa-star"></i>
                 <div>
                     <strong>Premium Care</strong>
-                    <i class="fa-solid fa-star"></i>
                     <small>Daily skincare ritual</small>
                 </div>
             </div>
