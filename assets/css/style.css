@@ -45,7 +45,7 @@ body {
     color: var(--text);
     line-height: 1.25;
     overflow-x: hidden;
-    font-size: medium;
+    font-size: small;
 }
 /* =========================================================
    CATEGORY CARD — PINK FANTA TOUCH EFFECT
@@ -1502,4 +1502,3 @@ footer > p {
         transition-duration: .01ms !important;
     }
 }
- 
