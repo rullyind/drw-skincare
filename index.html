@@ -1,6 +1,145 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- =========================================================
+     DRW SKINCARE - BACKGROUND MUSIC
+     Tempatkan bagian <audio> dan <style> di dalam <head>,
+     lalu bagian <button> + <script> sebelum </body>.
+     File MP3: assets/audio/drw-music.mp3
+     ========================================================= -->
+
+<!-- ===== LETAKKAN DI DALAM <head> ===== -->
+
+<audio id="drwBackgroundMusic" loop preload="auto">
+    <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
+</audio>
+
+<style>
+    #drwMusicButton {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 52px;
+        height: 52px;
+        border: 1px solid #d4af37;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4fa3, #d4af37);
+        color: #ffffff;
+        font-size: 21px;
+        line-height: 52px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        z-index: 99999;
+        box-shadow: 0 5px 20px rgba(0,0,0,.20);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    #drwMusicButton:hover {
+        transform: scale(1.08);
+    }
+
+    #drwMusicButton.playing {
+        box-shadow:
+            0 0 0 5px rgba(255,79,163,.15),
+            0 5px 20px rgba(0,0,0,.20);
+    }
+
+    @media (max-width: 600px) {
+        #drwMusicButton {
+            right: 15px;
+            bottom: 15px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 19px;
+        }
+    }
+</style>
+
+
+<!-- ===== LETAKKAN SEBELUM </body> ===== -->
+
+<button
+    id="drwMusicButton"
+    type="button"
+    aria-label="Putar musik"
+    title="Putar musik DRW Skincare">
+    🎵
+</button>
+
+<script>
+(function () {
+    "use strict";
+
+    const music = document.getElementById("drwBackgroundMusic");
+    const button = document.getElementById("drwMusicButton");
+
+    if (!music || !button) return;
+
+    // Volume awal 25% agar musik tidak terlalu keras.
+    music.volume = 0.25;
+
+    function updateButton() {
+        if (music.paused) {
+            button.textContent = "🎵";
+            button.classList.remove("playing");
+            button.setAttribute("aria-label", "Putar musik");
+            button.title = "Putar musik DRW Skincare";
+        } else {
+            button.textContent = "🔊";
+            button.classList.add("playing");
+            button.setAttribute("aria-label", "Matikan musik");
+            button.title = "Matikan musik DRW Skincare";
+        }
+    }
+
+    function playMusic() {
+        const promise = music.play();
+
+        if (promise !== undefined) {
+            promise
+                .then(updateButton)
+                .catch(updateButton);
+        } else {
+            updateButton();
+        }
+    }
+
+    function toggleMusic() {
+        if (music.paused) {
+            playMusic();
+        } else {
+            music.pause();
+            updateButton();
+        }
+    }
+
+    button.addEventListener("click", toggleMusic);
+
+    // Coba autoplay saat halaman selesai dimuat.
+    // Browser boleh memblokir autoplay dengan suara.
+    window.addEventListener("load", function () {
+        playMusic();
+    });
+
+    // Jika autoplay diblokir, satu interaksi pengunjung
+    // akan mencoba menjalankan musik.
+    function firstInteraction() {
+        if (music.paused) {
+            playMusic();
+        }
+    }
+
+    document.addEventListener("pointerdown", firstInteraction, {
+        once: true,
+        passive: true
+    });
+
+    updateButton();
+})();
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,6 +155,7 @@
 
     <link rel="stylesheet" href="assets/css/style.css">
 
+ 
     <style>
         /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
         html { scroll-behavior: smooth; }
@@ -150,6 +290,7 @@
 </head>
 
 <body>
+m
 
 <!-- =====================================================
      TOP BAR
@@ -511,6 +652,8 @@
 
 <!-- SEARCH -->
 <script src="assets/js/search.js"></script>
+
+<script src="assets/js/rara drw skincare mp3."></script>
 
 </body>
 </html>
