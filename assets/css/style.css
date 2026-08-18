@@ -1502,3 +1502,98 @@ footer > p {
         transition-duration: .01ms !important;
     }
 }
+#drwMusicLabel {
+    position: fixed;
+
+    right: 15px;
+    bottom: 88px;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.95);
+
+    color: #d72f89;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 8px 25px rgba(100,40,70,.15);
+
+    border:
+        1px solid #f3c4da;
+
+    z-index: 999998;
+
+    transition:
+        .3s ease;
+
+    animation:
+        musicLabelFloat 2.5s ease-in-out infinite;
+}
+
+
+#drwMusicLabel::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: 18px;
+
+    bottom: -6px;
+
+    width: 11px;
+    height: 11px;
+
+    background: #fff;
+
+    border-right:
+        1px solid #f3c4da;
+
+    border-bottom:
+        1px solid #f3c4da;
+
+    transform:
+        rotate(45deg);
+}
+
+
+@keyframes musicLabelFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-4px);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    #drwMusicLabel {
+
+        right: 12px;
+
+        bottom: 78px;
+
+        font-size: 11px;
+
+        padding:
+            7px 11px;
+    }
+
+}
