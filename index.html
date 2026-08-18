@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- =========================================================
-     DRW SKINCARE - BACKGROUND MUSIC
-     Tempatkan bagian <audio> dan <style> di dalam <head>,
-     lalu bagian <button> + <script> sebelum </body>.
-     File MP3: assets/audio/drw-music.mp3
-     ========================================================= -->
-
-
 <audio id="drwBackgroundMusic" loop preload="auto">
     <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
 </audio>
-
 <style>
     #drwMusicButton {
         position: fixed;
@@ -56,8 +47,9 @@
     }
 </style>
 
-
-<!-- ===== LETAKKAN SEBELUM </body> ===== -->
+<div id="drwMusicLabel">
+    🎵 Putar Musik
+</div>
 
 <button
     id="drwMusicButton"
@@ -116,14 +108,10 @@
 
     button.addEventListener("click", toggleMusic);
 
-    // Coba autoplay saat halaman selesai dimuat.
-    // Browser boleh memblokir autoplay dengan suara.
     window.addEventListener("load", function () {
-        playMusic();
+    playMusic();
     });
 
-    // Jika autoplay diblokir, satu interaksi pengunjung
-    // akan mencoba menjalankan musik.
     function firstInteraction() {
         if (music.paused) {
             playMusic();
@@ -148,9 +136,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -286,6 +271,8 @@
             .footer-bottom { flex-direction:column; }
         }
     </style>
+
+    
 </head>
 
 <body>
@@ -651,7 +638,6 @@
 <!-- SEARCH -->
 <script src="assets/js/search.js"></script>
 
-<script src="assets/js/rara drw skincare mp3."></script>
 
 </body>
 </html>
