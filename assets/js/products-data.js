@@ -1,17 +1,17 @@
 /* =========================================================
    RARA DRW SKINCARE
-   PRODUCTS-DATA.JS — FINAL STANDALONE
+   PRODUCTS-DATA.JS — FINAL BADGE FIX
    =========================================================
-   TIDAK MEMAKAI:
-   - price-level.js
-   - product-price.js
-   - DRW_PRICE_LIST
-
    DIPAKAI LANGSUNG OLEH:
-   - product.html
+   - products.html
    - product-detail.html
    - cart.html
    - checkout.html
+
+   FIX:
+   - badge produk tidak lagi dihapus
+   - badge berbeda setiap produk
+   - tetap mempertahankan 83 produk
    ========================================================= */
 
 (function () {
@@ -34,7 +34,7 @@
 
     /* =====================================================
        DATA PRODUK
-       ===================================================== */
+    ===================================================== */
 
     const PRODUCTS = [
 
@@ -42,8 +42,9 @@
             id: "3-in-1-exfoliating-gel-100-ml",
             name: "3 in 1 Exfoliating Gel 100 ml",
             category: "Perawatan Wajah",
-            image: IMAGE_FOLDER + "3 in 1 Exfoliating Gel 100 ml.jpg",
-            price: 130000
+            image: IMAGE_FOLDER + "3 in 1 Exfoliating Gel 100 ml 2.png",
+            price: 130000,
+            badge: "Komedo"
         },
 
 
@@ -52,7 +53,8 @@
             name: "Acne Cream 3",
             category: "Cream Malam",
             image: IMAGE_FOLDER + "Acne Cream 3.png",
-            price: 100000
+            price: 100000,
+            badge: "Jerawat"
         },
 
 
@@ -60,8 +62,9 @@
             id: "bamboo-charcoal-soap-premium",
             name: "Bamboo Charcoal Soap Premium",
             category: "Body Care",
-            image: IMAGE_FOLDER + "Bamboo Charcoal Soap Premium.jpg",
-            price: 55000
+            image: IMAGE_FOLDER + "Bamboo Charcoal Soap Premium.png",
+            price: 55000,
+            badge: "Oily & Acne Skin"
         },
 
 
@@ -70,7 +73,8 @@
             name: "BB Cream Air Cushion Shade Ivory",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "BB Cream Air Cushion Shade Ivory TO.png",
-            price: 65000
+            price: 65000,
+            badge: "Foundation Cair"
         },
 
 
@@ -79,7 +83,8 @@
             name: "Brightening Cream",
             category: "Cream Malam",
             image: IMAGE_FOLDER + "Brightening Cream.png",
-            price: 100000
+            price: 100000,
+            badge: "Wajah Sedikit Kusam"
         },
 
 
@@ -87,8 +92,9 @@
             id: "brightening-peel-off-mask-with-charcoal-60-ml",
             name: "Brightening Peel Off Mask with Charcoal 60 ml",
             category: "Masker",
-            image: IMAGE_FOLDER + "Brightening Peel Off Mask with Charcoal 60 ml.jpg",
-            price: 110000
+            image: IMAGE_FOLDER + "Brightening Peel Off Mask with Charcoal 60 ml.png",
+            price: 110000,
+            badge: "Angkat Komedo & Mencerahkan"
         },
 
 
@@ -96,8 +102,9 @@
             id: "cleansing-milk-with-green-tea-110-ml",
             name: "Cleansing Milk With Green Tea 110 ml",
             category: "Perawatan Wajah",
-            image: IMAGE_FOLDER + "face mist centella asiatica.jpg",
-            price: 80000
+            image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
+            price: 80000,
+            badge: "Cleansing"
         },
 
 
@@ -105,8 +112,9 @@
             id: "cleansing-milk-with-green-tea-63-ml",
             name: "Cleansing Milk With Green Tea 63 ml",
             category: "Perawatan Wajah",
-            image: IMAGE_FOLDER + "assets/images/logo/logo.png",
-            price: 60000
+            image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
+            price: 60000,
+            badge : "Cleansing"
         },
 
 
@@ -115,7 +123,8 @@
             name: "Compact Powder Natural Whitening",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
-            price: 100000
+            price: 100000,
+            badge: "Bedak Padat"
         },
 
 
@@ -124,7 +133,8 @@
             name: "Daily Compact Powder Natural",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
-            price: 100000
+            price: 100000,
+            badge: "Bedak Padat "
         },
 
 
@@ -133,7 +143,8 @@
             name: "Day Acne Cream 1",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Acne 1.png",
-            price: 100000
+            price: 100000,
+            badge: "Foundation"
         },
 
 
@@ -142,7 +153,8 @@
             name: "Day Acne Cream 2",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Acne 2.png",
-            price: 100000
+            price: 100000,
+            badge: "Foundation"
         },
 
 
@@ -151,7 +163,8 @@
             name: "Day Pink Cream",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Pink.png",
-            price: 100000
+            price: 100000,
+            badge: "Foundation"
         },
 
 
@@ -160,7 +173,8 @@
             name: "Day White Cream",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream White.png",
-            price: 100000
+            price: 100000,
+            badge: "Foundation"
         },
 
 
@@ -169,7 +183,8 @@
             name: "Flawless BB Cushion",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Flawless BB Cushion.png",
-            price: 65000
+            price: 65000,
+            badge: "Bedak Cair"
         },
 
 
@@ -178,7 +193,8 @@
             name: "Exfoliating Apple Gel",
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Peeling Gel Apel.jpg",
-            price: 100000
+            price: 100000,
+            badge: "Komedo"
         },
 
 
@@ -187,7 +203,8 @@
             name: "Exfoliating Strawberry Gel",
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Peeling Gel Strawberry.jpg",
-            price: 100000
+            price: 100000,
+            badge: "Komedo"
         },
 
 
@@ -195,8 +212,9 @@
             id: "paket-radiant-acne-repair",
             name: "Paket Radiant Acne Repair",
             category: "Paket Perawatan",
-            image: IMAGE_FOLDER + "Radiant Acne Repair.png",
-            price: 110000
+            image: IMAGE_FOLDER + "Paket Basic RAR.jpg",
+            price: 270000,
+            badge: "Jerawat & Beruntusan"
         },
 
 
@@ -204,8 +222,9 @@
             id: "paket-radiant-bright-ultimate",
             name: "Paket Radiant Bright Ultimate",
             category: "Paket Perawatan",
-            image: IMAGE_FOLDER + "Radiant Bright Ultimate.png",
-            price: 270000
+            image: IMAGE_FOLDER + "Paket RBU Kulit Kering 2.png",
+            price: 270000,
+            badge: "Kusam & Flek Ringan"
         },
 
 
@@ -213,8 +232,9 @@
             id: "paket-radiant-glow-booster",
             name: "Paket Radiant Glow Booster",
             category: "Paket Perawatan",
-            image: IMAGE_FOLDER + "Radiant Glow Booster.png",
-            price: 280000
+            image: IMAGE_FOLDER + "Paket Radiant Glow Booster Kulit Normal.png",
+            price: 280000,
+            badge: "Flek Berat/Ringan & Kusam,"
         },
 
 
@@ -223,7 +243,8 @@
             name: "Silky Soft Face Powder Beige",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Silky Soft Powder Beige.png",
-            price: 100000
+            price: 100000,
+            badge: "Bedak Tabur"
         },
 
 
@@ -232,7 +253,8 @@
             name: "Silky Soft Face Powder Natural",
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Silky Soft Powder Natural.png",
-            price: 100000
+            price: 100000,
+            badge: "Bedak Tabur"
         },
 
 
@@ -241,7 +263,8 @@
             name: "Sunscreen Glowing",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Sunscreen Glowing.png",
-            price: 100000
+            price: 100000,
+            badge: "Best Seller"
         },
 
 
@@ -250,7 +273,8 @@
             name: "Sunscreen For Oily And Acne",
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Sunscreen Oily & Acne.png",
-            price: 105000
+            price: 105000,
+            badge: "Best Seller"
         },
 
 
@@ -258,13 +282,13 @@
            FACIAL WASH
         ================================================= */
 
-
         {
             id: "facial-wash-for-normal-skin-110-ml",
             name: "Facial Wash For Normal Skin 110 ml",
             category: "Facial Wash",
             image: IMAGE_FOLDER + "Facial Wash for Normal Skin Rara Drw Skincare.png",
-            price: 100000
+            price: 100000,
+            badge: "Best Seller"
         },
 
 
@@ -272,8 +296,9 @@
             id: "facial-wash-for-normal-skin-63-ml",
             name: "Facial Wash For Normal Skin 63 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash For Normal Skin 63 ml.png",
-            price: 80000
+            image: IMAGE_FOLDER + "Facial Wash Normal Skin 60 ml.jpg",
+            price: 80000,
+            badge: "Kulit Normal"
         },
 
 
@@ -281,8 +306,9 @@
             id: "facial-wash-oily-acne-110-ml",
             name: "Facial Wash Oily Acne 110 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Oily Acne 110 ml.png",
-            price: 105000
+            image: IMAGE_FOLDER + "Facial Wash Oily & Acne 110 ml TO.png",
+            price: 105000,
+            badge: "Best Seller Wajah Berminyak & Berjerawat"
         },
 
 
@@ -290,8 +316,9 @@
             id: "facial-wash-oily-acne-63-ml",
             name: "Facial Wash Oily Acne 63 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Oily Acne 63 ml.png",
-            price: 85000
+            image: IMAGE_FOLDER + "Facial Wash Oily & Acne 63 ml.png",
+            price: 85000,
+            badge: "Kulit Berminyak"
         },
 
 
@@ -299,8 +326,9 @@
             id: "facial-wash-pink-brightening-110-ml",
             name: "Facial Wash Pink Brightening 110 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Pink Brightening 110 ml.png",
-            price: 100000
+            image: IMAGE_FOLDER + "Facial Wash Brightening Pink 110 ml.jpg",
+            price: 100000,
+            badge: "Kulit Sensitif"
         },
 
 
@@ -308,8 +336,9 @@
             id: "facial-wash-pink-brightening-63-ml",
             name: "Facial Wash Pink Brightening 63 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Pink Brightening 63 ml.png",
-            price: 80000
+            image: IMAGE_FOLDER + "Facial Wash Brightening Pink 63 ml.jpg",
+            price: 80000,
+            badge: "Kulit Sensitif"
         },
 
 
@@ -317,8 +346,9 @@
             id: "facial-wash-tea-tree-oil-110-ml",
             name: "Facial Wash Tea Tree Oil 110 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Tea Tree Oil 110 ml.png",
-            price: 100000
+            image: IMAGE_FOLDER + "facial wash tea tree oil 100 ml  new.jpg",
+            price: 100000,
+            badge: "Kulit Kombinasi"
         },
 
 
@@ -326,8 +356,9 @@
             id: "facial-wash-tea-tree-oil-63-ml",
             name: "Facial Wash Tea Tree Oil 63 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "Facial Wash Tea Tree Oil 63 ml.png",
-            price: 80000
+            image: IMAGE_FOLDER + "Facial Wash Tea Tree Oil 60 ml.jpg",
+            price: 80000,
+            badge: "Kulit Kombinasi"
         },
 
 
@@ -335,13 +366,13 @@
            PRODUK LAIN
         ================================================= */
 
-
         {
             id: "beauty-dna-salmon-spray",
             name: "Beauty DNA Salmon Spray",
-            category: "Serum",
-            image: IMAGE_FOLDER + "face mist centella asiatica.jpg",
-            price: 90000
+            category: "Spray",
+            image: IMAGE_FOLDER + "Beauty DNA Salmond.jpg",
+            price: 90000,
+            badge: "Melembabkan & Mencerahkan"
         },
 
 
@@ -349,26 +380,9 @@
             id: "breast-cream",
             name: "Breast Cream",
             category: "Body Care",
-            image: IMAGE_FOLDER + "face mist centella asiatica.jpg",
-            price: 100000
-        },
-
-
-        {
-            id: "coolbright-deo-herba",
-            name: "Coolbright Deo Herba",
-            category: "Body Care",
-            image: PLACEHOLDER,
-            price: 0
-        },
-
-
-        {
-            id: "coolbright-deo-herba-strong",
-            name: "Coolbright Deo Herba Strong",
-            category: "Body Care",
-            image: PLACEHOLDER,
-            price: 0
+            image: IMAGE_FOLDER + "Breast Cream.png",
+            price: 100000,
+            badge:"Payudara"
         },
 
 
@@ -376,8 +390,9 @@
             id: "daily-ceramoist-hydra-gel",
             name: "Daily Ceramoist Hydra Gel",
             category: "Perawatan Wajah",
-            image: PLACEHOLDER,
-            price: 0
+            image:IMAGE_FOLDER + "Daily Ceramoist.jpg",
+            price: 120000,
+            badge:"Skin Barrier"
         },
 
 
@@ -799,24 +814,29 @@
 
     /* =====================================================
        NORMALISASI PRODUK
-    ===================================================== */
+       ===================================================== */
 
     PRODUCTS.forEach(function (product) {
 
         product.price =
             Number(product.price || 0);
 
+
         product.umum =
             Number(product.price || 0);
+
 
         product.director =
             Number(product.price || 0);
 
+
         product.manager =
             Number(product.price || 0);
 
+
         product.supervisor =
             Number(product.price || 0);
+
 
         product.reseller =
             Number(product.price || 0);
@@ -840,12 +860,29 @@
         product.description =
             product.description ||
             product.name +
-            " merupakan produk RARA DRW SKINCARE untuk membantu melengkapi rutinitas perawatan kecantikan sehari-hari.";
+            " merupakan produk DRW SKINCARE untuk membantu melengkapi rutinitas perawatan kecantikan sehari-hari.";
 
 
         product.stock = true;
 
-        product.badge = "";
+
+        /*
+         * =================================================
+         * BADGE
+         *
+         * JANGAN gunakan:
+         *
+         * product.badge = "";
+         *
+         * Karena itu akan menghapus badge yang
+         * sudah ditulis di data produk.
+         *
+         * =================================================
+         */
+
+        product.badge =
+            String(product.badge || "").trim();
+
 
         product.featured = false;
 
@@ -980,7 +1017,7 @@
     ===================================================== */
 
     console.log(
-        "%c RARA DRW SKINCARE ",
+        "%c DRW SKINCARE ",
         "background:#e52d91;color:white;font-weight:bold;padding:6px 12px;border-radius:6px;"
     );
 
@@ -993,6 +1030,14 @@
     console.log(
         "✅ Jumlah produk:",
         PRODUCTS.length
+    );
+
+
+    console.log(
+        "✅ Test Badge:",
+        window.getDRWProduct(
+            "3-in-1-exfoliating-gel-100-ml"
+        ).badge
     );
 
 
