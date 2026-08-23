@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produk | RARA DRW Skincare</title>
+<title>Produk | DRW Skincare</title>
 <meta name="description" content="Temukan rangkaian skincare dan beauty essentials RARA DRW Skincare.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -651,15 +651,17 @@
             #productGrid {
 
                 grid-template-columns:
-                    1fr;
+                    3f,1fr;
             }
 
             .products-hero {
 
                 padding:
-                    80px 18px 40px;
+                    8px 18px 40px;
             }
-
+           .product-card-content {
+    padding: 2px;
+           }
             .category-filter {
 
                 justify-content:
@@ -686,9 +688,6 @@
 
     
 </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
-     crossorigin="anonymous"></script>
-        
 </head>
 
 <body>
@@ -827,7 +826,7 @@ window.DRW_PRODUCTS = [
         "id": "3-in-1-exfoliating-gel-100-ml",
         "name": "3 in 1 Exfoliating Gel 100 ml",
         "category": "Paket Perawatan Wajah",
-        "price": 100000,
+        "price": 130000,
         "image": "assets/images/products/placeholder.png",
         "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
     },
@@ -1875,7 +1874,7 @@ document.addEventListener(
                             <div class="product-badge">
                                 ${escapeHTML(
                                     product.badge ||
-                                    "DRW SKINCARE"
+                                    "Best Seller"
                                 )}
                             </div>
 
@@ -2252,8 +2251,10 @@ document.addEventListener(
     <!-- =========================================================
          DRW SKINCARE â€” FINAL SCRIPT ORDER
     ========================================================== -->
+
    <script src="assets/js/products-data.js"></script>
-    <script src="assets/js/navbar.js"></script>
+  
+    
 
 </body>
 
