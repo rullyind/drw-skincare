@@ -1597,3 +1597,244 @@ footer > p {
     }
 
 }
+
+/* =========================================================
+   RARA DRW SKINCARE
+   FLOATING WHATSAPP PREMIUM
+   ========================================================= */
+
+.rara-whatsapp {
+    position: fixed !important;
+    right: 22px !important;
+    bottom: 22px !important;
+
+    width: auto;
+    min-height: 60px;
+
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+
+    padding: 7px 18px 7px 7px;
+
+    background: linear-gradient(
+        135deg,
+        #25D366,
+        #18B957
+    );
+
+    color: #fff !important;
+
+    border-radius: 50px;
+
+    text-decoration: none !important;
+
+    z-index: 999999 !important;
+
+    box-shadow:
+        0 10px 30px rgba(37,211,102,.35),
+        0 0 20px rgba(37,211,102,.20);
+
+    transition: all .3s ease;
+
+    animation: raraWhatsAppFloat 3s ease-in-out infinite;
+}
+
+.rara-whatsapp:hover {
+    transform: translateY(-5px) scale(1.04);
+
+    color: #fff !important;
+
+    box-shadow:
+        0 15px 40px rgba(37,211,102,.50),
+        0 0 30px rgba(37,211,102,.30);
+}
+
+.rara-wa-icon {
+    width: 48px;
+    height: 48px;
+
+    flex: 0 0 48px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+
+    color: #25D366;
+
+    border-radius: 50%;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.12);
+}
+
+.rara-wa-text {
+    display: flex !important;
+    flex-direction: column;
+
+    text-align: left !important;
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.rara-wa-text strong {
+    color: #fff !important;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.rara-wa-text small {
+    margin-top: 3px;
+
+    color: rgba(255,255,255,.9) !important;
+
+    font-size: 10px;
+}
+
+/* ANIMASI */
+
+@keyframes raraWhatsAppFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rara-whatsapp {
+        right: 15px !important;
+        bottom: 115px !important;
+
+        min-height: 55px;
+
+        padding: 6px 13px 6px 6px;
+    }
+
+    .rara-wa-icon {
+        width: 43px;
+        height: 43px;
+
+        flex-basis: 43px;
+
+        font-size: 25px;
+    }
+
+    .rara-wa-text strong {
+        font-size: 12px;
+    }
+
+    .rara-wa-text small {
+        font-size: 9px;
+    }
+}
+
+/* HP SANGAT KECIL */
+
+@media (max-width: 380px) {
+
+    .rara-wa-text {
+        display: none !important;
+    }
+
+    .rara-whatsapp {
+        width: 57px;
+        height: 57px;
+
+        padding: 6px;
+
+        justify-content: center;
+    }
+
+    .rara-wa-icon {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* ANIMATION */
+
+@keyframes raraWhatsAppFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rara-whatsapp {
+        right: 16px;
+        bottom: 16px;
+
+        padding: 8px 13px 8px 8px;
+
+        gap: 8px;
+    }
+
+    .rara-wa-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 25px;
+    }
+
+    .rara-wa-text strong {
+        font-size: 12px;
+    }
+
+    .rara-wa-text small {
+        font-size: 10px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .rara-wa-text {
+        display: none;
+    }
+
+    .rara-whatsapp {
+        width: 56px;
+        height: 56px;
+
+        padding: 6px;
+
+        justify-content: center;
+    }
+
+    .rara-wa-icon {
+        width: 44px;
+        height: 44px;
+    }
+}
