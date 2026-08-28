@@ -1,2342 +1,1045 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produk | DRW Skincare</title>
-<meta name="description" content="Temukan rangkaian skincare dan beauty essentials RARA DRW Skincare.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
+/* =========================================================
+   RARA DRW SKINCARE
+   PRODUCTS-DATA.JS — FINAL BADGE FIX
+   =========================================================
+   DIPAKAI LANGSUNG OLEH:
+   - products.html
+   - product-detail.html
+   - cart.html
+   - checkout.html
 
-        /* =========================================
-           PRODUCTS PAGE
-        ========================================= */
+   FIX:
+   - badge produk tidak lagi dihapus
+   - badge berbeda setiap produk
+   - tetap mempertahankan 83 produk
+   ========================================================= */
 
-        .products-page {
-            min-height: 100vh;
-            background:
-                radial-gradient(
-                    circle at 20% 30%,
-                    rgba(255, 95, 166, .08),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at 85% 50%,
-                    rgba(255, 210, 120, .08),
-                    transparent 35%
-                ),
-                #fff;
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       FOLDER FOTO
+    ===================================================== */
+
+    const IMAGE_FOLDER =
+        "assets/images/products/";
+
+
+    const PLACEHOLDER =
+        IMAGE_FOLDER +
+        "product-placeholder.png";
+
+
+    /* =====================================================
+       DATA PRODUK
+    ===================================================== */
+
+    const PRODUCTS = [
+
+        {
+            id: "3-in-1-exfoliating-gel-100-ml",
+            name: "3 in 1 Exfoliating Gel 100 ml",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "3 in 1 Exfoliating Gel 100 ml 2.png",
+            price: 130000,
+            badge: "Komedo"
+        },
+
+
+        {
+            id: "acne-cream-3",
+            name: "Acne Cream 3",
+            category: "Cream Malam",
+            image: IMAGE_FOLDER + "Acne Cream 3.png",
+            price: 100000,
+            badge: "Jerawat"
+        },
+
+
+        {
+            id: "bamboo-charcoal-soap-premium",
+            name: "Bamboo Charcoal Soap Premium",
+            category: "Body Care",
+            image: IMAGE_FOLDER + "Bamboo Charcoal Soap Premium.png",
+            price: 55000,
+            badge: "Oily & Acne Skin"
+        },
+
+
+        {
+            id: "bb-cream-air-cushion-shade-ivory",
+            name: "BB Cream Air Cushion Shade Ivory",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "BB Cream Air Cushion Shade Ivory TO.png",
+            price: 65000,
+            badge: "Foundation Cair"
+        },
+
+
+        {
+            id: "brightening-cream",
+            name: "Brightening Cream",
+            category: "Cream Malam",
+            image: IMAGE_FOLDER + "Brightening Cream.png",
+            price: 100000,
+            badge: "Wajah Sedikit Kusam"
+        },
+
+
+        {
+            id: "brightening-peel-off-mask-with-charcoal-60-ml",
+            name: "Brightening Peel Off Mask with Charcoal 60 ml",
+            category: "Masker",
+            image: IMAGE_FOLDER + "Brightening Peel Off Mask with Charcoal 60 ml.png",
+            price: 110000,
+            badge: "Angkat Komedo & Mencerahkan"
+        },
+
+
+        {
+            id: "cleansing-milk-with-green-tea-110-ml",
+            name: "Cleansing Milk With Green Tea 110 ml",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
+            price: 80000,
+            badge: "Cleansing"
+        },
+
+
+        {
+            id: "cleansing-milk-with-green-tea-63-ml",
+            name: "Cleansing Milk With Green Tea 63 ml",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
+            price: 60000,
+            badge : "Cleansing"
+        },
+
+
+        {
+            id: "compact-powder-natural-whitening",
+            name: "Compact Powder Natural Whitening",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
+            price: 100000,
+            badge: "Bedak Padat"
+        },
+
+
+        {
+            id: "daily-compact-powder-natural",
+            name: "Daily Compact Powder Natural",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
+            price: 100000,
+            badge: "Bedak Padat "
+        },
+
+
+        {
+            id: "day-acne-cream-1",
+            name: "Day Acne Cream 1",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Day Cream Acne 1.png",
+            price: 100000,
+            badge: "Foundation"
+        },
+
+
+        {
+            id: "day-acne-cream-2",
+            name: "Day Acne Cream 2",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Day Cream Acne 2.png",
+            price: 100000,
+            badge: "Foundation"
+        },
+
+
+        {
+            id: "day-pink-cream",
+            name: "Day Pink Cream",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Day Cream Pink.png",
+            price: 100000,
+            badge: "Foundation"
+        },
+
+
+        {
+            id: "day-white-cream",
+            name: "Day White Cream",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Day Cream White.png",
+            price: 100000,
+            badge: "Foundation"
+        },
+
+
+        {
+            id: "flawless-bb-cushion",
+            name: "Flawless BB Cushion",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "Flawless BB Cushion.png",
+            price: 65000,
+            badge: "Bedak Cair"
+        },
+
+
+        {
+            id: "exfoliating-apple-gel",
+            name: "Exfoliating Apple Gel",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "Peeling Gel Apel.jpg",
+            price: 100000,
+            badge: "Komedo"
+        },
+
+
+        {
+            id: "exfoliating-strawberry-gel",
+            name: "Exfoliating Strawberry Gel",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "Peeling Gel Strawberry.jpg",
+            price: 100000,
+            badge: "Komedo"
+        },
+
+
+        {
+            id: "paket-radiant-acne-repair",
+            name: "Paket Radiant Acne Repair",
+            category: "Paket Perawatan",
+            image: IMAGE_FOLDER + "Paket Basic RAR.jpg",
+            price: 270000,
+            badge: "Jerawat & Beruntusan"
+        },
+
+
+        {
+            id: "paket-radiant-bright-ultimate",
+            name: "Paket Radiant Bright Ultimate",
+            category: "Paket Perawatan",
+            image: IMAGE_FOLDER + "Paket RBU Kulit Kering 2.png",
+            price: 270000,
+            badge: "Kusam & Flek Ringan"
+        },
+
+
+        {
+            id: "paket-radiant-glow-booster",
+            name: "Paket Radiant Glow Booster",
+            category: "Paket Perawatan",
+            image: IMAGE_FOLDER + "Paket Radiant Glow Booster Kulit Normal.png",
+            price: 280000,
+            badge: "Flek Berat/Ringan & Kusam,"
+        },
+
+
+        {
+            id: "silky-soft-face-powder-beige",
+            name: "Silky Soft Face Powder Beige",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "Silky Soft Powder Beige.png",
+            price: 100000,
+            badge: "Bedak Tabur"
+        },
+
+
+        {
+            id: "silky-soft-face-powder-natural",
+            name: "Silky Soft Face Powder Natural",
+            category: "Make up & Riasan",
+            image: IMAGE_FOLDER + "Silky Soft Powder Natural.png",
+            price: 100000,
+            badge: "Bedak Tabur"
+        },
+
+
+        {
+            id: "sunscreen-glowing",
+            name: "Sunscreen Glowing",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Sunscreen Glowing.png",
+            price: 100000,
+            badge: "Best Seller"
+        },
+
+
+        {
+            id: "sunscreen-for-oily-and-acne-new",
+            name: "Sunscreen For Oily And Acne",
+            category: "Cream Siang",
+            image: IMAGE_FOLDER + "Sunscreen Oily & Acne.png",
+            price: 105000,
+            badge: "Best Seller"
+        },
+
+
+        /* =================================================
+           FACIAL WASH
+        ================================================= */
+
+        {
+            id: "facial-wash-for-normal-skin-110-ml",
+            name: "Facial Wash For Normal Skin 110 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash for Normal Skin Rara Drw Skincare.png",
+            price: 100000,
+            badge: "Best Seller"
+        },
+
+
+        {
+            id: "facial-wash-for-normal-skin-63-ml",
+            name: "Facial Wash For Normal Skin 63 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Normal Skin 60 ml.jpg",
+            price: 80000,
+            badge: "Kulit Normal"
+        },
+
+
+        {
+            id: "facial-wash-oily-acne-110-ml",
+            name: "Facial Wash Oily Acne 110 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Oily & Acne 110 ml TO.png",
+            price: 105000,
+            badge: "Best Seller Wajah Berminyak & Berjerawat"
+        },
+
+
+        {
+            id: "facial-wash-oily-acne-63-ml",
+            name: "Facial Wash Oily Acne 63 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Oily & Acne 63 ml.png",
+            price: 85000,
+            badge: "Kulit Berminyak"
+        },
+
+
+        {
+            id: "facial-wash-pink-brightening-110-ml",
+            name: "Facial Wash Pink Brightening 110 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Brightening Pink 110 ml.jpg",
+            price: 100000,
+            badge: "Kulit Sensitif"
+        },
+
+
+        {
+            id: "facial-wash-pink-brightening-63-ml",
+            name: "Facial Wash Pink Brightening 63 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Brightening Pink 63 ml.jpg",
+            price: 80000,
+            badge: "Kulit Sensitif"
+        },
+
+
+        {
+            id: "facial-wash-tea-tree-oil-110-ml",
+            name: "Facial Wash Tea Tree Oil 110 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "facial wash tea tree oil 100 ml  new.jpg",
+            price: 100000,
+            badge: "Kulit Kombinasi"
+        },
+
+
+        {
+            id: "facial-wash-tea-tree-oil-63-ml",
+            name: "Facial Wash Tea Tree Oil 63 ml",
+            category: "Facial Wash",
+            image: IMAGE_FOLDER + "Facial Wash Tea Tree Oil 60 ml.jpg",
+            price: 80000,
+            badge: "Kulit Kombinasi"
+        },
+
+
+        /* =================================================
+           PRODUK LAIN
+        ================================================= */
+
+        {
+            id: "beauty-dna-salmon-spray",
+            name: "Beauty DNA Salmon Spray",
+            category: "Spray",
+            image: IMAGE_FOLDER + "Beauty DNA Salmond.jpg",
+            price: 90000,
+            badge: "Melembabkan & Mencerahkan"
+        },
+
+
+        {
+            id: "breast-cream",
+            name: "Breast Cream",
+            category: "Body Care",
+            image: IMAGE_FOLDER + "Breast Cream.png",
+            price: 100000,
+            badge:"Payudara"
+        },
+
+
+        {
+            id: "daily-ceramoist-hydra-gel",
+            name: "Daily Ceramoist Hydra Gel",
+            category: "Perawatan Wajah",
+            image:IMAGE_FOLDER + "Daily Ceramoist.jpg",
+            price: 120000,
+            badge:"Skin Barrier"
+        },
+
+
+
+
+        {
+            id: "day-body-foundation-premium",
+            name: "Day Body Foundation Premium",
+            category: "Body Care",
+            image: IMAGE_FOLDER + "Day Body Foundation Premium Rara Drw Skincare.png",
+            price: 80000,
+            badge : "Handbody"
+        },
+
+
+        {
+            id: "day-body-lotion-premium-110-ml",
+            name: "Day Body Lotion Premium 110 ml",
+            category: "Body Care",
+            image: IMAGE_FOLDER + "day body lotion Premium Rara Drw Skincare.png",
+            price: 80000,
+            badge : "Handbody"
+        },
+
+
+        {
+            id: "dna-salmon-extra-marine-collagen-and-hyaluronic-acid-30-ml",
+            name: "DNA Salmon Extra Marine Collagen and Hyaluronic Acid 30 ml",
+            category: "Serum",
+            image: IMAGE_FOLDER + "drwskincare_drwskincare_serum_wajah_dna_salmon_with_extra_marine_collagen_-_hyaluronic_acid_full03_31dcbd7d.jpg",
+            price: 155000,
+            badge: "Serum" 
+        },
+
+
+        {
+            id: "drw-kapsul-gemuk-badan-isi-60",
+            name: "DRW Kapsul Gemuk Badan Isi 60",
+            category: "Supplement",
+            image: IMAGE_FOLDER + "Drw Kapsul Gemuk Badan Rara Drw Skincare.png",
+            price: 225000,
+            badge: "Suplemen"
+        },
+
+
+        {
+            id: "drw-slimming-capsule-isi-60",
+            name: "DRW Slimming Capsule Isi 60",
+            category: "Supplement",
+            image: IMAGE_FOLDER + "DRW Slimming Capsule Rara Drw Skincare.png",
+            price: 225000,
+            badge : "Suplemen"
+        },
+
+
+        {
+            id: "face-mist-centella-asiatica",
+            name: "Face Mist Centella Asiatica",
+            category: "Perawatan Wajah",
+            image: IMAGE_FOLDER + "face mist centella asiatica.jpg",
+            price: 75000,
+            badge: "Spray" 
+        },
+
+
+        {
+            id: "firming-body-cream-green",
+            name: "Firming Body Cream Green",
+            category: "Body Care",
+            image: IMAGE_FOLDER + "Body Firming Green.jpg",
+            price: 100000,
+            badge: "Program Diet" 
+        },
+
+
+        {
+            id: "green-tea-face-mask-premium",
+            name: "Green Tea Face Mask Premium",
+            category: "Masker",
+            image: IMAGE_FOLDER + "Masker Green Tea.jpg",
+            price: 75000,
+            badge: "Masker"
+        },
+
+
+        {
+            id: "hair-serum-premium",
+            name: "Hair Serum Premium",
+            category: "Hair Care",
+            image: IMAGE_FOLDER + "hair serum.jpg",
+            price: 120000,
+            badge: "Serum Bulu Mata"
+        },
+
+
+        {
+            id: "hair-tonic-normal-220-ml",
+            name: "Hair Tonic Normal 220 ml",
+            category: "Hair Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "hb-dosting-75-gram",
+            name: "HB Dosting 75 Gram",
+            category: "Body Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "kojic-acid-milk-soap",
+            name: "Kojic Acid Milk Soap",
+            category: "Body Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lipgloss-beauty-gold",
+            name: "Lipgloss Beauty Gold",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lipgloss-beauty-gold-vit-e",
+            name: "Lipgloss Beauty Gold Vit E",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lipgloss-beauty-pink",
+            name: "Lipgloss Beauty Pink",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lipgloss-beauty-pink-vit-e",
+            name: "Lipgloss Beauty Pink Vit E",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lipscare",
+            name: "Lipscare",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "lulur-brightening-premium",
+            name: "Lulur Brightening Premium",
+            category: "Body Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "luminous-brightening-vitamin-c-plus-collagen-serum",
+            name: "Luminous Brightening Vitamin C Plus Collagen Serum",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "moisturizer-gel-aloe-vera",
+            name: "Moisturizer Gel Aloe Vera",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "moisturizer-gel-avocado",
+            name: "Moisturizer Gel Avocado",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "moisturizer-gel-cucumber-vit-e",
+            name: "Moisturizer Gel Cucumber Vit E",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "rice-face-mask-limpasu",
+            name: "Rice Face Mask Limpasu",
+            category: "Masker",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "serum-aha-bha",
+            name: "Serum AHA BHA",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "serum-brightening-glowing",
+            name: "Serum Brightening Glowing",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "serum-brightening-with-vit-c-e",
+            name: "Serum Brightening With Vit C E",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "serum-for-acne-skin",
+            name: "Serum For Acne Skin",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "serum-retinol",
+            name: "Serum Retinol",
+            category: "Serum",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "silky-soft-face-powder-ivory",
+            name: "Silky Soft Face Powder Ivory",
+            category: "Make up & Riasan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "snail-cream-anti-aging",
+            name: "Snail Cream Anti Aging",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "strawberry-micellar-water-100-ml",
+            name: "Strawberry Micellar Water 100 ml",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "strawberry-micellar-water-63-ml",
+            name: "Strawberry Micellar Water 63 ml",
+            category: "Perawatan Wajah",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "stretchmark-cream-with-olive-oil",
+            name: "Stretchmark Cream With Olive Oil",
+            category: "Body Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "sulfur-soap-plus-milk",
+            name: "Sulfur Soap Plus Milk",
+            category: "Body Care",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "toner-honey-premium-110-ml-new",
+            name: "Toner Honey Premium 110 ml",
+            category: "Toner",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "toner-honey-premium-63-ml",
+            name: "Toner Honey Premium 63 ml",
+            category: "Toner",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "toner-lime-premium-110-ml",
+            name: "Toner Lime Premium 110 ml",
+            category: "Toner",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "toner-lime-premium-63-ml",
+            name: "Toner Lime Premium 63 ml",
+            category: "Toner",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-ceramoist-acne",
+            name: "Paket Ceramoist Acne",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-ceramoist-glowing",
+            name: "Paket Ceramoist Glowing",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-lotion-rejuvenation",
+            name: "Paket Lotion Rejuvenation",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-oily-acne-abha-100-ml",
+            name: "Paket Oily Acne ABHA 100 ml",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-oily-acne-abha-3",
+            name: "Paket Oily Acne ABHA 3",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
+        },
+
+
+        {
+            id: "paket-oily-acne-abha-60ml",
+            name: "Paket Oily Acne ABHA 60 ml",
+            category: "Paket Perawatan",
+            image: PLACEHOLDER,
+            price: 0
         }
 
-        /* =========================================
-           HERO
-        ========================================= */
+    ];
 
-        .products-hero {
-            padding: 105px 20px 55px;
-            text-align: center;
-        }
 
-        .products-eyebrow {
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: #a44b72;
-            margin-bottom: 15px;
-        }
+    /* =====================================================
+       NORMALISASI PRODUK
+       ===================================================== */
 
-        .products-title {
-            margin: 0;
+    PRODUCTS.forEach(function (product) {
 
-            font-family:
-                "Playfair Display",
-                serif;
+        product.price =
+            Number(product.price || 0);
 
-            font-size:
-                clamp(42px, 5vw, 72px);
 
-            line-height: 1.1;
-            color: #21191e;
-        }
+        product.umum =
+            Number(product.price || 0);
 
-        .products-title span {
-            color: #ec4f93;
-        }
 
-        .products-subtitle {
-            max-width: 760px;
-            margin: 22px auto 0;
+        product.director =
+            Number(product.price || 0);
 
-            color: #846d78;
 
-            font-size: 16px;
-            line-height: 1.8;
-        }
+        product.manager =
+            Number(product.price || 0);
 
 
-        
-        /* =========================================
-           TOOLBAR
-        ========================================= */
+        product.supervisor =
+            Number(product.price || 0);
 
-        .products-toolbar {
-            max-width: 1200px;
-            margin: 0 auto;
 
-            padding:
-                0 20px 35px;
-        }
+        product.reseller =
+            Number(product.price || 0);
 
-        .products-search {
-            max-width: 600px;
-            margin: 0 auto 28px;
 
-            position: relative;
-        }
+        product.prices = {
 
-        .products-search i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
+            director: product.director,
 
-            transform:
-                translateY(-50%);
+            manager: product.manager,
 
-            color: #ec4f93;
-        }
+            supervisor: product.supervisor,
 
-        .products-search input {
+            reseller: product.reseller,
 
-            width: 100%;
+            umum: product.umum
 
-            box-sizing: border-box;
+        };
 
-            padding:
-                17px 20px 17px 52px;
 
-            border:
-                1px solid
-                rgba(236, 79, 147, .22);
+        product.description =
+            product.description ||
+            product.name +
+            " merupakan produk DRW SKINCARE untuk membantu melengkapi rutinitas perawatan kecantikan sehari-hari.";
 
-            border-radius: 50px;
 
-            outline: none;
+        product.stock = true;
 
-            background:
-                rgba(255,255,255,.9);
 
-            color: #33262d;
+        /*
+         * =================================================
+         * BADGE
+         *
+         * JANGAN gunakan:
+         *
+         * product.badge = "";
+         *
+         * Karena itu akan menghapus badge yang
+         * sudah ditulis di data produk.
+         *
+         * =================================================
+         */
 
-            font-family:
-                "DM Sans",
-                sans-serif;
+        product.badge =
+            String(product.badge || "").trim();
 
-            font-size: 14px;
 
-            box-shadow:
-                0 10px 35px
-                rgba(236,79,147,.08);
+        product.featured = false;
 
-            transition: .3s ease;
-        }
+    });
 
-        .products-search input:focus {
 
-            border-color:
-                #ec4f93;
+    /* =====================================================
+       GLOBAL DATA
+    ===================================================== */
 
-            box-shadow:
-                0 10px 35px
-                rgba(236,79,147,.16);
-        }
+    window.DRW_PRODUCTS =
+        PRODUCTS;
 
 
-        
-        /* =========================================
-           CATEGORY
-        ========================================= */
+    window.PRODUCT_DATA =
+        PRODUCTS;
 
-        .category-filter {
 
-            display: flex;
+    window.DRW_PRODUCT_DATA =
+        PRODUCTS;
 
-            justify-content:
-                center;
 
-            align-items: center;
+    window.produk =
+        PRODUCTS;
 
-            flex-wrap: wrap;
 
-            gap: 10px;
-        }
+    /* =====================================================
+       GET PRODUCT
+    ===================================================== */
 
-        .category-btn {
+    window.getDRWProduct =
+        function (id) {
 
-            border: none;
+            if (!id) {
 
-            padding:
-                12px 20px;
+                return null;
 
-            border-radius: 30px;
-
-            background:
-                #fff;
-
-            color:
-                #6e5360;
-
-            border:
-                1px solid
-                rgba(236,79,147,.20);
-
-            cursor: pointer;
-
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            font-size: 13px;
-            font-weight: 700;
-
-            transition: .3s ease;
-        }
-
-        .category-btn:hover,
-        .category-btn.active {
-
-            color: #fff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ef4f96,
-                    #d92d78
-                );
-
-            border-color:
-                transparent;
-
-            box-shadow:
-                0 10px 25px
-                rgba(236,79,147,.25);
-
-            transform:
-                translateY(-2px);
-        }
-
-        /* =========================================
-           PRODUCT AREA
-        ========================================= */
-
-        .products-section {
-
-            max-width: 1400px;
-
-            margin: 0 auto;
-
-            padding:
-                20px 30px 100px;
-        }
-
-        .products-info {
-
-            display: flex;
-
-            justify-content:
-                space-between;
-
-            align-items: center;
-
-            margin-bottom: 25px;
-
-            color: #806b75;
-
-            font-size: 14px;
-        }
-
-        #productCount {
-
-            font-weight: 700;
-
-            color: #ec4f93;
-        }
-
-        /* =========================================
-           PRODUCT GRID
-        ========================================= */
-
-        #productGrid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    4,
-                    minmax(0, 1fr)
-                );
-
-            gap: 26px;
-        }
-
-        /* =========================================
-           PRODUCT CARD
-        ========================================= */
-
-        .product-card {
-
-            position: relative;
-
-            overflow: hidden;
-
-            background:
-                rgba(255,255,255,.96);
-
-            border:
-                1px solid
-                rgba(236,79,147,.12);
-
-            border-radius: 24px;
-
-            box-shadow:
-                0 12px 40px
-                rgba(54,26,40,.07);
-
-            transition:
-                transform .35s ease,
-                box-shadow .35s ease,
-                border-color .35s ease;
-        }
-
-        .product-card:hover {
-
-            transform:
-                translateY(-8px);
-
-            border-color:
-                rgba(236,79,147,.38);
-
-            box-shadow:
-                0 20px 55px
-                rgba(236,79,147,.18);
-        }
-
-        /* =========================================
-           IMAGE
-        ========================================= */
-
-        .product-card-image {
-
-            position: relative;
-
-            height: 290px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #fff7fa,
-                    #fff
-                );
-
-            overflow: hidden;
-        }
-
-        .product-card-image img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-
-            padding: 22px;
-
-            box-sizing: border-box;
-
-            transition:
-                transform .5s ease;
-        }
-
-        .product-card:hover
-        .product-card-image img {
-
-            transform:
-                scale(1.07);
-        }
-
-        /* =========================================
-           BADGE
-        ========================================= */
-
-        .product-badge {
-
-            position: absolute;
-
-            top: 16px;
-            left: 16px;
-
-            z-index: 2;
-
-            padding:
-                7px 12px;
-
-            border-radius: 20px;
-
-            color: #fff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ef4f96,
-                    #d92d78
-                );
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            letter-spacing:
-                .7px;
-        }
-
-        /* =========================================
-           CONTENT
-        ========================================= */
-
-        .product-card-content {
-
-            padding:
-                22px;
-        }
-
-        .product-category {
-
-            margin-bottom: 8px;
-
-            color:
-                #e84b8f;
-
-            font-size: 11px;
-
-            font-weight: 800;
-
-            text-transform:
-                uppercase;
-
-            letter-spacing:
-                1px;
-        }
-
-        .product-card h3 {
-
-            margin:
-                0 0 10px;
-
-            color:
-                #2b2025;
-
-            font-size: 17px;
-
-            line-height: 1.45;
-
-            min-height: 49px;
-        }
-
-        .product-rating {
-
-            margin-bottom: 15px;
-
-            color: #e9a72c;
-
-            font-size: 12px;
-        }
-
-        .product-rating span {
-
-            margin-left: 5px;
-
-            color:
-                #927c86;
-        }
-
-        .product-price {
-
-            margin-bottom: 18px;
-
-            color:
-                #e53e87;
-
-            font-size: 21px;
-
-            font-weight: 800;
-        }
-
-        .product-actions {
-
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 9px;
-        }
-
-        .product-detail-btn,
-        .product-cart-btn {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 7px;
-
-            padding:
-                12px 10px;
-
-            border-radius: 12px;
-
-            cursor: pointer;
-
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            text-decoration:
-                none;
-
-            transition: .3s ease;
-        }
-
-        .product-detail-btn {
-
-            color:
-                #e33f87;
-
-            background:
-                #fff4f8;
-
-            border:
-                1px solid
-                rgba(236,79,147,.20);
-        }
-
-        .product-detail-btn:hover {
-
-            background:
-                #ec4f93;
-
-            color: #fff;
-        }
-
-        .product-cart-btn {
-
-            border: none;
-
-            color: #fff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ef4f96,
-                    #d92d78
-                );
-        }
-
-        .product-cart-btn:hover {
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 8px 20px
-                rgba(236,79,147,.25);
-        }
-
-        /* =========================================
-           EMPTY
-        ========================================= */
-
-        .products-empty {
-
-            grid-column:
-                1 / -1;
-
-            text-align: center;
-
-            padding: 80px 20px;
-
-            color: #806b75;
-        }
-
-        .products-empty i {
-
-            display: block;
-
-            margin-bottom: 15px;
-
-            color: #ec4f93;
-
-            font-size: 40px;
-        }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
-
-        .products-footer {
-
-            padding: 35px 20px;
-
-            text-align: center;
-
-            color: #fff;
-
-            background:
-                #261c21;
-
-            font-size: 14px;
-        }
-
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
-
-        @media (max-width: 1100px) {
-
-            #productGrid {
-
-                grid-template-columns:
-                    repeat(3, minmax(0,1fr));
-            }
-        }
-
-        @media (max-width: 800px) {
-
-            #productGrid {
-
-                grid-template-columns:
-                    repeat(2, minmax(0,1fr));
-
-                gap: 16px;
-            }
-
-            .products-section {
-
-                padding:
-                    20px 15px 70px;
-            }
-
-            .product-card-image {
-
-                height: 240px;
-            }
-        }
-
-        @media (max-width: 520px) {
-
-            #productGrid {
-
-                grid-template-columns:
-                    3f,1fr;
-            }
-
-            .products-hero {
-
-                padding:
-                    8px 18px 40px;
-            }
-           .product-card-content {
-    padding: 2px;
-           }
-            .category-filter {
-
-                justify-content:
-                    flex-start;
-
-                overflow-x: auto;
-
-                flex-wrap: nowrap;
-
-                padding-bottom: 8px;
-            }
-
-            .category-btn {
-
-                flex:
-                    0 0 auto;
-            }
-.product-detail-btn,
-        .product-cart-btn {
-
-            display: grid;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 1px;
-
-            padding:
-                1px 1px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            font-size: 8px;
-
-            font-weight: 500;
-
-            text-decoration:
-                none;
-
-            transition: .3s ease;
-        }
-
-        .product-detail-btn {
-
-            color:
-                #e33f87;
-
-            background:
-                #8bef001c;
-
-            border:
-                1px solid
-                rgba(236,79,147,.20);
-        }
-
-        .product-detail-btn:hover {
-
-            background:
-                #ec4f93;
-
-            color: #fff;
-        }
-
-        .product-cart-btn {
-
-            border: solid;
-
-            color: #fff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ef4f96,
-                    #d92d78
-                );
-        }
-
-        .product-cart-btn:hover {
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 8px 20px
-                rgba(236,79,147,.25);
-        }
-.product-card h3 {
-    margin: 0 0 1px;
-    color: #2b2025;
-    font-size: 13px;
-    line-height: 1.45;
-    min-height: 49px;
-            .products-info {
-
-                display: block;
-            }
-        }
-    }
-    
-</style>
-</head>
-
-<body>
-
-<div class="products-page">
-
-    <!-- =========================================
-         HERO
-    ========================================== -->
-
-    <section class="products-hero">
-
-        <div class="products-eyebrow">
-            DRW SKINCARE COLLECTION
-        </div>
-
-        <h1 class="products-title">
-            Temukan Produk
-            <span>Favoritmu</span>
-        </h1>
-
-        <p class="products-subtitle">
-            Pilih rangkaian perawatan wajah,
-            tubuh, rambut, dan kebutuhan
-            kecantikan pilihan RARA DRW Skincare.
-        </p>
-
-    </section>
-
-
-    <!-- =========================================
-         SEARCH + CATEGORY
-    ========================================== -->
-
-    <section class="products-toolbar">
-
-        <div class="products-search">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input
-                type="search"
-                id="productSearch"
-                placeholder="Cari produk favoritmu..."
-                autocomplete="off">
-
-        </div>
-
-
-        <div
-            class="category-filter"
-            id="categoryFilter">
-
-            <button
-                class="category-btn active"
-                data-category="all">
-
-                Semua Produk
-
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================
-         PRODUCTS
-    ========================================== -->
-
-    <section class="products-section">
-
-        <div class="products-info">
-
-            <div>
-                Menampilkan
-                <strong id="productCount">
-                    0
-                </strong>
-                produk
-            </div>
-
-        </div>
-
-
-        <div id="productGrid">
-
-            <!-- Produk akan dibuat oleh JavaScript -->
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
-
-    <footer class="products-footer">
-
-        Â© 2026 RARA DRW Skincare.
-        All Rights Reserved.
-
-    </footer>
-
-</div>
-
-
-<!-- =================================================
-     SCRIPT ORDER â€” SANGAT PENTING
-================================================= -->
-
-<!-- 1. DATABASE PRODUK -->
-
-
-<!-- 2. CART -->
-
-
-<!-- 3. APP -->
-
-
-<!-- =================================================
-     PRODUCTS PAGE RENDERER
-================================================= -->
-<script src="assets/js/products-data.js"></script>
-
-
-<script>
-/* =========================================
-   DRW SKINCARE â€” PRODUCT DATABASE 2026
-   Nama & harga: daftar harga 2026 (kolom Umum)
-   Foto: dicocokkan berdasarkan nama produk/asset yang tersedia
-========================================= */
-window.DRW_PRODUCTS = [
-    {
-        "id": "3-in-1-exfoliating-gel-100-ml",
-        "name": "3 in 1 Exfoliating Gel 100 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 130000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "acne-cream-3",
-        "name": "Acne Cream 3",
-        "category": "Cream Malam",
-        "price": 100000,
-        "image": "assets/images/products/Cream Malam/Acne Cream 3/Acne Cream 3.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "bamboo-charcoal-soap-premium",
-        "name": "Bamboo Charcoal Soap Premium",
-        "category": "Facial Wash",
-        "price": 55000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "bb-cream-air-cushion-shade-ivory",
-        "name": "BB Cream Air Cushion Shade Ivory",
-        "category": "Cream Malam",
-        "price": 125000,
-        "image": "assets/images/products/Bedak/BB Cream Air Cushion Shade Ivory TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "beauty-dna-salmon-spray",
-        "name": "Beauty DNA Salmon Spray",
-        "category": "Serum",
-        "price": 90000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "breast-cream",
-        "name": "Breast Cream",
-        "category": "Cream Malam",
-        "price": 130000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "brightening-cream",
-        "name": "Brightening Cream",
-        "category": "Cream Malam",
-        "price": 100000,
-        "image": "assets/images/products/Cream Malam/Brightening Cream/Brightening Cream.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "brightening-peel-off-mask-with-charcoal-60-ml",
-        "name": "Brightening Peel Off Mask with Charcoal 60 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 110000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "cleansing-milk-with-green-tea-110-ml",
-        "name": "Cleansing Milk With Green Tea 110 ml",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "cleansing-milk-with-green-tea-63-ml",
-        "name": "Cleansing Milk With Green Tea 63 ml",
-        "category": "Facial Wash",
-        "price": 65000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "compact-powder-natural-whitening",
-        "name": "Compact Powder Natural Whitening",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "coolbright-deo-herba",
-        "name": "Coolbright Deo Herba",
-        "category": "Body Care",
-        "price": 85000,
-        "image": "assets/images/products/deodorant/Coolbright Deo Herba.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "coolbright-deo-herba-strong",
-        "name": "Coolbright Deo Herba Strong",
-        "category": "Body Care",
-        "price": 90000,
-        "image": "assets/images/products/deodorant/Coolbright Deo Herba trong.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "daily-ceramoist-hydra-gel",
-        "name": "Daily Ceramoist Hydra Gel",
-        "category": "Paket Perawatan Wajah",
-        "price": 120000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "daily-compact-powder-beige",
-        "name": "Daily Compact Powder Beige",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "daily-compact-powder-natural",
-        "name": "Daily Compact Powder Natural",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "daily-compact-powder-pink",
-        "name": "Daily Compact Powder Pink",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Daily Compact Powder Natural Whitening Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-acne-cream-1",
-        "name": "Day Acne Cream 1",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/Cream Siang/Day Cream Acne 1/Day Cream Acne 1 TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-acne-cream-2",
-        "name": "Day Acne Cream 2",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/Cream Siang/Day Cream Acne 1/Day Cream Acne 1 TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-body-foundation-premium",
-        "name": "Day Body Foundation Premium",
-        "category": "Body Care",
-        "price": 80000,
-        "image": "assets/images/products/Lotion/day body foundation premium.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-body-lotion-premium-110-ml",
-        "name": "Day Body Lotion Premium 110 ml",
-        "category": "Body Care",
-        "price": 80000,
-        "image": "assets/images/products/Lotion/day body lotion Premium Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-pink-cream",
-        "name": "Day Pink Cream",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/Cream Siang/Day Cream Pink/Day Cream Pink TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "day-white-cream",
-        "name": "Day White Cream",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/Cream Siang/Day Cream White/11.-Day-White-Cream-scaled.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "dna-salmon-extra-marine-collagen-and-hyaluronic-acid-30-ml",
-        "name": "DNA Salmon Extra Marine Collagen and Hyaluronic Acid 30 ml",
-        "category": "Serum",
-        "price": 155000,
-        "image": "assets/images/products/Serum/serum DNA Salmond/drwskincare_drwskincare_serum_wajah_dna_salmon_with_extra_marine_collagen_-_hyaluronic_acid_full03_31dcbd7d.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "drw-kapsul-gemuk-badan-isi-60",
-        "name": "DRW Kapsul Gemuk Badan isi 60",
-        "category": "Paket Perawatan Wajah",
-        "price": 225000,
-        "image": "assets/images/products/Suplemen/Drw Kapsul Gemuk Badan Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "drw-slimming-capsule-isi-60",
-        "name": "DRW Slimming Capsule isi 60",
-        "category": "Paket Perawatan Wajah",
-        "price": 225000,
-        "image": "assets/images/products/Suplemen/DRW Slimming Capsule Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "exfoliating-apple-gel",
-        "name": "Exfoliating Apple Gel",
-        "category": "Paket Perawatan Wajah",
-        "price": 100000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "exfoliating-strawberry-gel",
-        "name": "Exfoliating Strawberry Gel",
-        "category": "Paket Perawatan Wajah",
-        "price": 100000,
-        "image": "assets/images/products/Exfoliating/Peeling Gel Strawberry.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "face-mist-centella-asiatica",
-        "name": "Face Mist Centella Asiatica",
-        "category": "Toner",
-        "price": 75000,
-        "image": "assets/images/products/Facemist/face mist centella asiatica.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-for-normal-skin-110-ml",
-        "name": "Facial Wash For Normal Skin 110 ml",
-        "category": "Facial Wash",
-        "price": 100000,
-        "image": "assets/images/products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 110 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-for-normal-skin-63-ml",
-        "name": "Facial Wash For Normal Skin 63 ml",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/Facial wash/Facial Wash Normal Skin/Facial Wash Normal Skin 110 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-oily-acne-110-ml",
-        "name": "Facial Wash Oily Acne 110 ml",
-        "category": "Facial Wash",
-        "price": 105000,
-        "image": "assets/images/products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-oily-acne-63-ml",
-        "name": "Facial Wash Oily Acne 63 ml",
-        "category": "Facial Wash",
-        "price": 85000,
-        "image": "assets/images/products/Facial wash/Facial Wash Oily & Acne/Facial Wash Oily & Acne 110 ml TO.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-pink-brightening-110-ml",
-        "name": "Facial Wash Pink Brightening 110 ml",
-        "category": "Facial Wash",
-        "price": 100000,
-        "image": "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-pink-brightening-63-ml",
-        "name": "Facial Wash Pink Brightening 63 ml",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/Facial wash/Facial Wash Brightening Pink/Facial Wash Brightening Pink 110 ml.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-tea-tree-oil-110-ml",
-        "name": "Facial Wash Tea Tree Oil 110 ml",
-        "category": "Facial Wash",
-        "price": 100000,
-        "image": "assets/images/products/Facial wash/Facial Wash For Men/facial wash tea tree oil men 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "facial-wash-tea-tree-oil-63-ml",
-        "name": "Facial Wash Tea Tree Oil 63 ml",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/Facial wash/Facial Wash For Men/facial wash tea tree oil men 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "firming-body-cream-pink",
-        "name": "Firming Body Cream Pink",
-        "category": "Cream Malam",
-        "price": 100000,
-        "image": "assets/images/products/Perawatan Badan/57.-Firming-Body-Cream-Green-scaled.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "flawless-bb-cushion",
-        "name": "Flawless BB Cushion",
-        "category": "Make Up & Riasan",
-        "price": 125000,
-        "image": "assets/images/products/Bedak/Flawless BB Cushion Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "green-tea-face-mask-premium",
-        "name": "Green Tea Face Mask Premium",
-        "category": "Paket Perawatan Wajah",
-        "price": 75000,
-        "image": "assets/images/products/Masker/Masker Green Tea.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "hair-serum-premium",
-        "name": "Hair Serum Premium",
-        "category": "Serum",
-        "price": 120000,
-        "image": "assets/images/products/Serum/Serum Bulu Mata/hair serum.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "hair-tonic-normal-220-ml",
-        "name": "Hair Tonic Normal 220 ml",
-        "category": "Hair Care",
-        "price": 120000,
-        "image": "assets/images/products/Perawatan Rambut/Hair Tonic Normal.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "hb-dosting-75-gram",
-        "name": "HB Dosting 75 gram",
-        "category": "Paket Perawatan Wajah",
-        "price": 120000,
-        "image": "assets/images/products/HB Dosting/hb dosting Rara Drw skincare 2.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "kojic-acid-milk-soap",
-        "name": "Kojic Acid Milk Soap",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/Perawatan Badan/kojic/kojic acid milk soap.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lipgloss-beauty-gold",
-        "name": "Lipgloss Beauty Gold",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Lips/Lipgloss Beauty Gold.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lipgloss-beauty-gold-vit-e",
-        "name": "Lipgloss Beauty Gold + Vit E",
-        "category": "Make Up & Riasan",
-        "price": 110000,
-        "image": "assets/images/products/Lips/Lipgloss Beauty Gold.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lipgloss-beauty-pink",
-        "name": "Lipgloss Beauty Pink",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Lips/Lipgloss Beauty Pink.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lipgloss-beauty-pink-vit-e",
-        "name": "Lipgloss Beauty Pink + Vit E",
-        "category": "Make Up & Riasan",
-        "price": 110000,
-        "image": "assets/images/products/Lips/Lipgloss Beauty Pink.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lipscare",
-        "name": "Lipscare",
-        "category": "Make Up & Riasan",
-        "price": 135000,
-        "image": "assets/images/products/Lips/lipscare new.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "lulur-brightening-premium",
-        "name": "Lulur Brightening Premium",
-        "category": "Body Care",
-        "price": 100000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "luminous-brightening-vitamin-c-plus-collagen-serum",
-        "name": "Luminous Brightening Vitamin C plus Collagen Serum",
-        "category": "Serum",
-        "price": 120000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "moisturizer-gel-aloe-vera",
-        "name": "Moisturizer Gel Aloe Vera",
-        "category": "Paket Perawatan Wajah",
-        "price": 85000,
-        "image": "assets/images/products/Masker/Moisture Gel Aloevera.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "moisturizer-gel-avocado",
-        "name": "Moisturizer Gel Avocado",
-        "category": "Paket Perawatan Wajah",
-        "price": 85000,
-        "image": "assets/images/products/Masker/Moisture Gel Avocado.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "moisturizer-gel-cucumber-vit-e",
-        "name": "Moisturizer Gel Cucumber Vit E",
-        "category": "Paket Perawatan Wajah",
-        "price": 85000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "rice-face-mask-limpasu",
-        "name": "Rice Face Mask Limpasu",
-        "category": "Paket Perawatan Wajah",
-        "price": 75000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "serum-aha-bha",
-        "name": "Serum AHA BHA",
-        "category": "Serum",
-        "price": 110000,
-        "image": "assets/images/products/Serum/Serum AHA BHA/Serum AHA BHA.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "serum-brightening-glowing",
-        "name": "Serum Brightening Glowing",
-        "category": "Serum",
-        "price": 100000,
-        "image": "assets/images/products/Serum/Serum Brightening Glow/serum brightening glow rara drw skincare 2.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "serum-brightening-with-vit-c-e",
-        "name": "Serum Brightening With Vit C & E",
-        "category": "Serum",
-        "price": 90000,
-        "image": "assets/images/products/Serum/Serum Brightening VIt CE/37.-Serum-Brightening-With-Vit-C-E-2-scaled.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "serum-for-acne-skin",
-        "name": "Serum For Acne Skin",
-        "category": "Serum",
-        "price": 100000,
-        "image": "assets/images/products/Serum/Serum For Acne Skin/1779248778210-1779248778207-foto-0-764e5ea3-497e-4210-ac5c-6a84678b5439.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "serum-retinol",
-        "name": "Serum Retinol",
-        "category": "Serum",
-        "price": 120000,
-        "image": "assets/images/products/Serum/Retinol/Serum Retinol;.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "silky-soft-face-powder-beige",
-        "name": "Silky Soft Face Powder Beige",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Silky Soft Powder Beige Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "silky-soft-face-powder-ivory",
-        "name": "Silky Soft Face Powder Ivory",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Silky Soft Powder Ivory Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "silky-soft-face-powder-natural",
-        "name": "Silky Soft Face Powder Natural",
-        "category": "Make Up & Riasan",
-        "price": 100000,
-        "image": "assets/images/products/Bedak/Silky Soft Powder Natural Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "snail-cream-anti-aging",
-        "name": "Snail Cream Anti Aging",
-        "category": "Cream Malam",
-        "price": 120000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "strawberry-micellar-water-100-ml",
-        "name": "Strawberry Micellar Water 100 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 60000,
-        "image": "assets/images/products/Micellar Water/Micellar water 100 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "strawberry-micellar-water-63-ml",
-        "name": "Strawberry Micellar Water 63 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 50000,
-        "image": "assets/images/products/Micellar Water/Micellar water 100 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "stretchmark-cream-with-olive-oil",
-        "name": "Stretchmark Cream With Olive Oil",
-        "category": "Cream Malam",
-        "price": 130000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "sulfur-soap-plus-milk",
-        "name": "Sulfur Soap Plus Milk",
-        "category": "Facial Wash",
-        "price": 80000,
-        "image": "assets/images/products/Perawatan Badan/kojic/84.-Sulfur-Soap-Plus-Milk-1-2048x2047.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "sunscreen-glowing",
-        "name": "Sunscreen Glowing",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/Cream Siang/sunscreen glowing/Sunscreen Glowing.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "sunscreen-for-oily-and-acne-new",
-        "name": "Sunscreen For Oily and Acne New",
-        "category": "Cream Siang",
-        "price": 105000,
-        "image": "assets/images/products/Cream Siang/Sunscreen For Men/Sunscreen Oily n Acne for Men.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "sunscreen-natural-glow-for-normal-skin-new-sunscreen-normal-skin-for-men",
-        "name": "Sunscreen Natural Glow For Normal Skin New Sunscreen Normal Skin for Men",
-        "category": "Cream Siang",
-        "price": 100000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "sunscreen-oily-acne-for-men",
-        "name": "Sunscreen Oily Acne For Men",
-        "category": "Cream Siang",
-        "price": 90000,
-        "image": "assets/images/products/Cream Siang/Sunscreen For Men/Sunscreen Oily n Acne for Men.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-honey-premium-110-ml-new",
-        "name": "Toner Honey Premium 110 ml New",
-        "category": "Toner",
-        "price": 90000,
-        "image": "assets/images/products/Toner/Toner Honey/Toner Honey 110 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-honey-premium-63-ml",
-        "name": "Toner Honey Premium 63 ml",
-        "category": "Toner",
-        "price": 65000,
-        "image": "assets/images/products/Toner/Toner Honey/Toner Honey 110 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-honey-premium-63-ml-new",
-        "name": "Toner Honey Premium 63 ml New",
-        "category": "Toner",
-        "price": 70000,
-        "image": "assets/images/products/Toner/Toner Honey/Toner Honey 110 ml 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-lime-premium-110-ml",
-        "name": "Toner Lime Premium 110 ml",
-        "category": "Toner",
-        "price": 80000,
-        "image": "assets/images/products/Toner/Toner Lime/Toner lime 110 ml Rara .jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-lime-premium-110-ml-new",
-        "name": "Toner Lime Premium 110 ml New",
-        "category": "Toner",
-        "price": 90000,
-        "image": "assets/images/products/Toner/Toner Lime/Toner lime 110 ml Rara .jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "toner-lime-premium-63-ml",
-        "name": "Toner Lime Premium 63 ml",
-        "category": "Toner",
-        "price": 65000,
-        "image": "assets/images/products/Toner/Toner Lime/Toner Lime Premium 63 ml .png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-acne-for-men",
-        "name": "Paket Acne For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 250000,
-        "image": "assets/images/products/Cream Siang/Sunscreen For Men/Sunscreen Oily n Acne for Men.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-acne-micellar-for-men",
-        "name": "Paket Acne Micellar For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 300000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-body-brightening",
-        "name": "Paket Body Brightening",
-        "category": "Body Care",
-        "price": 330000,
-        "image": "assets/images/products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-body-lotion-rejuvenation",
-        "name": "Paket Body Lotion Rejuvenation",
-        "category": "Body Care",
-        "price": 395000,
-        "image": "assets/images/products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-1",
-        "name": "Paket Brightening 1",
-        "category": "Paket Perawatan Wajah",
-        "price": 260000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-2",
-        "name": "Paket Brightening 2",
-        "category": "Paket Perawatan Wajah",
-        "price": 260000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-3",
-        "name": "Paket Brightening 3",
-        "category": "Paket Perawatan Wajah",
-        "price": 260000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-custom",
-        "name": "Paket Brightening Custom",
-        "category": "Paket Perawatan Wajah",
-        "price": 260000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-glow-100ml",
-        "name": "Paket Brightening Glow 100ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 300000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-glow-60-ml",
-        "name": "Paket Brightening Glow 60 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 290000,
-        "image": "assets/images/products/Paket Ceramois/paket ceramois glowing.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-brightening-oily-custom",
-        "name": "Paket Brightening Oily Custom",
-        "category": "Paket Perawatan Wajah",
-        "price": 260000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-ceramoist-acne",
-        "name": "Paket Ceramoist Acne",
-        "category": "Paket Perawatan Wajah",
-        "price": 280000,
-        "image": "assets/images/products/Paket Acne Cream 3/paket acne cream 3 drw skincare.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-ceramoist-glowing",
-        "name": "Paket Ceramoist Glowing",
-        "category": "Paket Perawatan Wajah",
-        "price": 280000,
-        "image": "assets/images/products/Paket Ceramois/paket ceramois glowing.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-custom-for-men",
-        "name": "Paket Custom For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 250000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-glow-for-men",
-        "name": "Paket Glow For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 250000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-hemat-radiant-acne-brightening-milk-cleanser",
-        "name": "Paket Hemat Radiant Acne Brightening Milk Cleanser",
-        "category": "Paket Perawatan Wajah",
-        "price": 350000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-hemat-radiant-acne-micellar",
-        "name": "Paket Hemat Radiant Acne Micellar",
-        "category": "Paket Perawatan Wajah",
-        "price": 285000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-lotion-rejuvenation",
-        "name": "Paket Lotion Rejuvenation",
-        "category": "Paket Perawatan Wajah",
-        "price": 255000,
-        "image": "assets/images/products/Paket Body Lotion/Paket Body Lotion Rejuvenation.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-normal-for-men",
-        "name": "Paket Normal For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 250000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-normal-micellar-for-men",
-        "name": "Paket Normal Micellar For Men",
-        "category": "Paket Perawatan Wajah",
-        "price": 300000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-oily-acne-abha-100-ml",
-        "name": "Paket Oily Acne Abha 100 ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 300000,
-        "image": "assets/images/products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-oily-acne-abha-3",
-        "name": "Paket Oily Acne Abha 3",
-        "category": "Paket Perawatan Wajah",
-        "price": 275000,
-        "image": "assets/images/products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-oily-acne-abha-60ml",
-        "name": "Paket Oily Acne Abha 60ml",
-        "category": "Paket Perawatan Wajah",
-        "price": 290000,
-        "image": "assets/images/products/Paket Oily Acne ABHA/Paket Oily Acne ABHA.jfif",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-radiant-acne",
-        "name": "Paket Radiant Acne",
-        "category": "Paket Perawatan Wajah",
-        "price": 270000,
-        "image": "assets/images/products/Paket Radiant Acne Repair/Paket Basic RAR 2.jpg",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-radiant-brightening",
-        "name": "Paket Radiant Brightening",
-        "category": "Paket Perawatan Wajah",
-        "price": 270000,
-        "image": "assets/images/products/Paket Radiant Brigh Ultimate/Paket Radiant Bright Ultimate Acne Rara Drw Skincare.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    },
-    {
-        "id": "paket-radiant-brightening-flek",
-        "name": "Paket Radiant Brightening Flek",
-        "category": "Paket Perawatan Wajah",
-        "price": 270000,
-        "image": "assets/images/products/placeholder.png",
-        "description": "Produk DRW Skincare untuk melengkapi rutinitas perawatan dan kecantikan sehari-hari."
-    }
-]
-;
-
-</script>
-
-<script>
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const grid =
-            document.getElementById(
-                "productGrid"
-            );
-
-        const search =
-            document.getElementById(
-                "productSearch"
-            );
-
-        const categoryFilter =
-            document.getElementById(
-                "categoryFilter"
-            );
-
-        const productCount =
-            document.getElementById(
-                "productCount"
-            );
-
-
-        /* =========================================
-           AMBIL DATABASE
-        ========================================== */
-
-        const rawProducts = window.DRW_PRODUCTS;
-
-        const products = Array.isArray(rawProducts)
-            ? rawProducts
-            : rawProducts && typeof rawProducts === "object"
-                ? Object.values(rawProducts)
-                : [];
-
-
-        console.log(
-            "DRW PRODUCTS:",
-            products.length,
-            "produk ditemukan"
-        );
-
-        if (!products.length) {
-            console.error(
-                "DRW SKINCARE: window.DRW_PRODUCTS kosong. " +
-                "Pastikan assets/js/products-data.js berhasil dimuat."
-            );
-        }
-
-
-        /* =========================================
-           FORMAT RUPIAH
-        ========================================== */
-
-        function rupiah(value) {
-
-            if (
-                value === null ||
-                value === undefined ||
-                Number.isNaN(Number(value))
-            ) {
-                return "Harga belum tersedia";
             }
 
-            return new Intl.NumberFormat(
-                "id-ID",
-                {
-                    style: "currency",
-                    currency: "IDR",
-                    maximumFractionDigits: 0
+
+            id =
+                String(id)
+                    .trim();
+
+
+            return PRODUCTS.find(
+                function (product) {
+
+                    return (
+                        String(product.id) ===
+                        id
+                    );
+
                 }
-            ).format(value);
-        }
+            ) || null;
+
+        };
 
 
-        /* =========================================
-           ESCAPE HTML
-        ========================================== */
+    /* =====================================================
+       GET CATEGORY
+    ===================================================== */
 
-        function escapeHTML(value) {
+    window.getDRWProductsByCategory =
+        function (category) {
 
-            return String(value || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+            return PRODUCTS.filter(
+                function (product) {
 
-
-        /* =========================================
-           CATEGORY LIST
-        ========================================== */
-
-        function createCategories() {
-
-            const categories =
-                [
-                    ...new Set(
-                        products
-                            .map(
-                                product =>
-                                    product.category
-                            )
-                            .filter(Boolean)
-                    )
-                ];
-
-
-            categories.forEach(
-                category => {
-
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
-
-                    button.className =
-                        "category-btn";
-
-                    button.dataset.category =
-                        category;
-
-                    button.textContent =
-                        category;
-
-                    categoryFilter.appendChild(
-                        button
+                    return (
+                        product.category ===
+                        category
                     );
 
                 }
             );
 
-        }
+        };
 
 
-        /* =========================================
-           RENDER
-        ========================================== */
+    /* =====================================================
+       SEARCH
+    ===================================================== */
 
-        function renderProducts(
-            list
-        ) {
+    window.searchDRWProducts =
+        function (keyword) {
 
-            grid.innerHTML = "";
-
-            productCount.textContent =
-                list.length;
-
-
-            if (!list.length) {
-
-                grid.innerHTML = `
-
-                    <div class="products-empty">
-
-                        <i class="fa-solid fa-box-open"></i>
-
-                        <strong>
-                            Produk tidak ditemukan
-                        </strong>
-
-                        <p>
-                            Coba gunakan kata pencarian lain.
-                        </p>
-
-                    </div>
-
-                `;
-
-                return;
-            }
-
-
-            list.forEach(
-                product => {
-
-                    const card =
-                        document.createElement(
-                            "article"
-                        );
-
-                    card.className =
-                        "product-card";
-
-
-                    const image =
-                        product.image ||
-                        product.imageUrl ||
-                        "assets/images/placeholder.png";
-
-                    const productId =
-                        product.id ||
-                        product.slug ||
-                        product.name ||
-                        "";
-
-
-                    const price =
-                        rupiah(
-                            product.price
-                        );
-
-
-                    card.innerHTML = `
-
-                        <div class="product-card-image">
-
-                            <div class="product-badge">
-                                ${escapeHTML(
-                                    product.badge ||
-                                    "Best Seller"
-                                )}
-                            </div>
-
-                            <img
-                                src="${escapeHTML(image)}"
-                                alt="${escapeHTML(product.name)}"
-                                loading="lazy"
-                                onerror="
-                                    this.onerror=null;
-                                    this.src='assets/images/placeholder.png';
-                                "
-                            >
-
-                        </div>
-
-
-                        <div class="product-card-content">
-
-                            <div class="product-category">
-                                ${escapeHTML(
-                                    product.category ||
-                                    "Perawatan Wajah"
-                                )}
-                            </div>
-
-
-                            <h3>
-                                ${escapeHTML(
-                                    product.name
-                                )}
-                            </h3>
-
-
-                            <div class="product-rating">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                                <span>
-                                    ${product.rating || 4.9}
-                                    (${product.reviews || 128})
-                                </span>
-
-                            </div>
-
-
-                            <div class="product-price">
-                                ${price}
-                            </div>
-
-
-                            <div class="product-actions">
-
-                                <a
-                                   class="product-detail-btn"
-                                  href="product-detail.html?id=${encodeURIComponent(productId)}">
-
-                                    <i class="fa-regular fa-eye"></i>
-                                    Detail
-                                </a>
-
-
-                                <button
-                                    class="product-cart-btn"
-                                    type="button"
-                                    data-product-id="${escapeHTML(productId)}">
-
-                                    <i class="fa-solid fa-bag-shopping"></i>
-
-                                    Keranjang
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-
-                    grid.appendChild(card);
-
-                }
-            );
-
-        }
-
-
-        /* =========================================
-           FILTER
-        ========================================== */
-
-        let activeCategory =
-            "all";
-
-
-        function applyFilter() {
-
-            const keyword =
-                (
-                    search.value || ""
-                )
+            const search =
+                String(keyword || "")
                     .toLowerCase()
                     .trim();
 
 
-            const filtered =
-                products.filter(
-                    product => {
+            if (!search) {
 
-                        const searchableText = [product.name, product.category, product.description, product.badge]
-                            .filter(Boolean).join(" ").toLowerCase();
+                return PRODUCTS;
 
-                        const matchesSearch = !keyword || searchableText.includes(keyword);
+            }
 
 
-                        const matchesCategory =
-                            activeCategory === "all" ||
-                            product.category ===
-                                activeCategory;
+            return PRODUCTS.filter(
+                function (product) {
 
+                    return (
 
-                        return (
-                            matchesSearch &&
-                            matchesCategory
-                        );
+                        product.name
+                            .toLowerCase()
+                            .includes(search)
 
-                    }
-                );
+                        ||
 
+                        product.category
+                            .toLowerCase()
+                            .includes(search)
 
-            renderProducts(
-                filtered
+                        ||
+
+                        product.id
+                            .toLowerCase()
+                            .includes(search)
+
+                    );
+
+                }
             );
 
-        }
+        };
 
 
-        /* =========================================
-           SEARCH
-        ========================================== */
+    /* =====================================================
+       DEBUG
+    ===================================================== */
 
-        search.addEventListener(
-            "input",
-            applyFilter
-        );
+    console.log(
+        "%c DRW SKINCARE ",
+        "background:#e52d91;color:white;font-weight:bold;padding:6px 12px;border-radius:6px;"
+    );
 
 
-        /* =========================================
-           CATEGORY CLICK
-        ========================================== */
+    console.log(
+        "✅ PRODUCTS-DATA.JS AKTIF"
+    );
 
-        categoryFilter.addEventListener(
-            "click",
-            function (event) {
 
-                const button =
-                    event.target.closest(
-                        ".category-btn"
-                    );
+    console.log(
+        "✅ Jumlah produk:",
+        PRODUCTS.length
+    );
 
 
-                if (!button) {
-                    return;
-                }
+    console.log(
+        "✅ Test Badge:",
+        window.getDRWProduct(
+            "3-in-1-exfoliating-gel-100-ml"
+        ).badge
+    );
 
 
-                document
-                    .querySelectorAll(
-                        ".category-btn"
-                    )
-                    .forEach(
-                        btn =>
-                            btn.classList.remove(
-                                "active"
-                            )
-                    );
+    console.log(
+        "✅ Test Acne Cream 3:",
+        window.getDRWProduct(
+            "acne-cream-3"
+        )
+    );
 
 
-                button.classList.add(
-                    "active"
-                );
-
-
-                activeCategory =
-                    button.dataset.category ||
-                    "all";
-
-
-                applyFilter();
-
-            }
-        );
-
-
-        /* =========================================
-           ADD TO CART
-        ========================================== */
-
-        grid.addEventListener(
-            "click",
-            function (event) {
-
-                const button =
-                    event.target.closest(
-                        ".product-cart-btn"
-                    );
-
-
-                if (!button) {
-                    return;
-                }
-
-
-                const productId =
-                    button.dataset.productId;
-
-
-                const product =
-                    products.find(
-                        item =>
-                            String(item.id) ===
-                            String(productId)
-                    );
-
-
-                if (!product) {
-
-                    console.error(
-                        "Produk tidak ditemukan:",
-                        productId
-                    );
-
-                    return;
-                }
-
-
-                console.log(
-                    "Tambah ke keranjang:",
-                    product
-                );
-
-
-                /*
-                   Gunakan fungsi cart.js jika tersedia.
-                   Tidak memaksa fungsi tertentu
-                   agar kompatibel dengan CART V7.
-                */
-
-                if (
-                    typeof window.addToCart ===
-                    "function"
-                ) {
-
-                    window.addToCart(
-                        product,
-                        1
-                    );
-
-                } else {
-
-                    /*
-                       Fallback localStorage.
-                    */
-
-                    let cart = [];
-
-                    try {
-
-                        cart =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "drwCart"
-                                )
-                            ) || [];
-
-                    } catch (error) {
-
-                        cart = [];
-
-                    }
-
-
-                    const existing =
-                        cart.find(
-                            item =>
-                                String(
-                                    item.id
-                                ) ===
-                                String(
-                                    product.id
-                                )
-                        );
-
-
-                    if (existing) {
-
-                        existing.qty =
-                            Number(
-                                existing.qty || 0
-                            ) + 1;
-
-                        existing.quantity =
-                            existing.qty;
-
-                    } else {
-
-                        cart.push({
-
-                            ...product,
-
-                            qty: 1,
-
-                            quantity: 1
-
-                        });
-
-                    }
-
-
-                    localStorage.setItem(
-                        "drwCart",
-                        JSON.stringify(
-                            cart
-                        )
-                    );
-
-                }
-
-
-                button.innerHTML =
-                    `
-                    <i class="fa-solid fa-check"></i>
-                    Ditambahkan
-                    `;
-
-
-                setTimeout(
-                    function () {
-
-                        button.innerHTML =
-                            `
-                            <i class="fa-solid fa-bag-shopping"></i>
-                            Keranjang
-                            `;
-
-                    },
-                    1200
-                );
-
-            }
-        );
-
-
-        /* =========================================
-           START
-        ========================================== */
-
-        createCategories();
-
-        renderProducts(
-            products
-        );
-
-    }
-);
-
-</script>
-
-
-    <!-- =========================================================
-         DRW SKINCARE â€” FINAL SCRIPT ORDER
-    ========================================================== -->
-
-   <script src="assets/js/products-data.js"></script>
-  
-    
-
-</body>
-
-</html>
+})();
