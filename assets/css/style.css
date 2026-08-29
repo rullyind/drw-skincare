@@ -1721,9 +1721,9 @@ footer > p {
 
     .rara-whatsapp {
         right: 15px !important;
-        bottom: 170px !important;
+        bottom: 111px !important;
 
-        min-height: 55px;
+        min-height: 50px;
 
         padding: 6px 13px 6px 6px;
     }
@@ -1793,7 +1793,7 @@ footer > p {
         right: 16px;
         bottom: 16px;
 
-        padding: 8px 13px 8px 8px;
+        padding: 1px 13px 1px 8px;
 
         gap: 8px;
     }
@@ -1911,7 +1911,7 @@ footer > p {
 
     border-radius: 50%;
 
-    font-size: 24px;
+    font-size: 21px;
 
     box-shadow:
         0 4px 15px rgba(0,0,0,.12);
@@ -1968,7 +1968,7 @@ footer > p {
 
     .rara-shopee {
         right: 15px !important;
-        bottom: 110px !important;
+        bottom: 175px !important;
 
         min-height: 55px;
 
