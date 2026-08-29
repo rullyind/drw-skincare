@@ -1,2017 +1,793 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-22X510H1SQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-/* =========================================================
-   DRW SKINCARE — PREMIUM SOFT PINK / FANTA LUXURY THEME
-   Cocok untuk struktur HTML yang diberikan:
-   assets/css/style.css
-   ========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
-:root {
-    --pink-soft: #e778a1;
-    --pink-blush: #e484a9;
-    --pink-light: #ffd2e2;
-    --pink: #f6a1bd;
-    --pink-strong: #ef5f91;
-    --fanta: #ff3f86;
-    --fanta-dark: #d92d70;
-    --rose: #c92f65;
-    --white: #ffffff;
-    --cream: #fffafc;
-    --text: #52273c;
-    --muted: #806873;
-    --line: rgba(205, 87, 128, .14);
-    --shadow: 0 25px 55px rgba(192, 23, 116, 0.14);
-    --shadow-heavy: 0 28px 80px rgba(211, 76, 126, .22);
-    --radius: 24px;
-    --radius-sm: 16px;
-    --container: 1240px;
-    --transition: .35s cubic-bezier(.2,.7,.2,1);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 10  ;
-    padding: 0;
-    text-align: center;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    line-height: 1.25;
-    overflow-x: hidden;
-    font-size: small;
-}
-/* =========================================================
-   CATEGORY CARD — PINK FANTA TOUCH EFFECT
-========================================================= */
-
-.category-card {
-    position: relative;
-    overflow: hidden;
-
-    background: #ffffff;
-    color: #542b3f;
-
-    border: 1px solid #f1dce7;
-    border-radius: 22px;
-
-    transition:
-        background .35s ease,
-        color .35s ease,
-        border-color .35s ease,
-        box-shadow .35s ease,
-        transform .35s ease;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   SAAT DISENTUH / HOVER
-========================================================= */
-
-.category-card:hover,
-.category-card:active,
-.category-card:focus {
-    background: linear-gradient(
-        135deg,
-        #e83d9b 0%,
-        #f04fa7 50%,
-        #d92f88 100%
-    );
-
-    color: #ffffff;
-
-    border-color: #e83d9b;
-
-    transform: translateY(-7px);
-
-    box-shadow:
-        0 18px 45px rgba(232, 61, 155, .28),
-        0 0 35px rgba(255, 173, 215, .35);
-}
-
-
-/* =========================================================
-   JUDUL
-========================================================= */
-
-.category-card strong {
-    color: #542b3f;
-    transition: color .3s ease;
-}
-
-.category-card:hover strong,
-.category-card:active strong,
-.category-card:focus strong {
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   DESKRIPSI
-========================================================= */
-
-.category-card small {
-    color: #927084;
-    transition: color .3s ease;
-}
-
-.category-card:hover small,
-.category-card:active small,
-.category-card:focus small {
-    color: rgba(255,255,255,.90);
-}
-
-
-/* =========================================================
-   ICON
-========================================================= */
-
-.category-icon {
-    background: #fff0f8;
-    color: #e83d9b;
-
-    transition:
-        background .3s ease,
-        color .3s ease,
-        transform .3s ease;
-}
-
-.category-card:hover .category-icon,
-.category-card:active .category-icon,
-.category-card:focus .category-icon {
-    background: rgba(255,255,255,.20);
-    color: #ffffff;
-
-    transform: scale(1.08);
-}
-
-
-/* =========================================================
-   FOTO
-========================================================= */
-
-.category-image img {
-    transition:
-        transform .5s ease,
-        filter .4s ease;
-}
-
-.category-card:hover .category-image img,
-.category-card:active .category-image img {
-    transform: scale(1.06);
-}
-
-
-/* =========================================================
-   MOBILE TOUCH
-========================================================= */
-
-@media (hover: none) {
-
-    .category-card:active {
-        background: linear-gradient(
-            135deg,
-            #e83d9b,
-            #d92f88
-        );
-
+  gtag('config', 'G-22X510H1SQ');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<audio id="drwBackgroundMusic" loop preload="auto">
+    <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
+</audio>
+<style>
+    #drwMusicButton {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 52px;
+        height: 52px;
+        border: 1px solid #d4af37;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4fa3, #d4af37);
         color: #ffffff;
+        font-size: 21px;
+        line-height: 52px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        z-index: 99999;
+        box-shadow: 0 5px 20px rgba(0,0,0,.20);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
 
-        transform: scale(.98);
+    #drwMusicButton:hover {
+        transform: scale(1.08);
+    }
 
+    #drwMusicButton.playing {
         box-shadow:
-            0 15px 40px rgba(232,61,155,.30);
-    }
-
-}   
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: .25;
-    background-image: 
-        radial-gradient(circle, rgba(238, 151, 85, 0.9) 0 1px, transparent 1.5px);
-    background-size: 75px 75px;
-    mask-image: linear-gradient(to bottom, rgb(147, 8, 138), transparent 75%);
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-button {
-    font: inherit;
-}
-
-img {
-    max-width: 100%;
-    display: auto;
-}
-
-/* =========================================================
-   TOP BAR
-   ========================================================= */
-
-.top-bar {
-    min-height: 38px;
-    padding: 8px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    background: linear-gradient(90deg, #db9ab3, #db2769, #ff71a5, #52152c, #ff0062);
-    color: #efe8ec;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-}
-
-.top-bar::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -30%;
-    width: 25%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
-    transform: skewX(-25deg);
-    animation: shine 5s infinite;
-}
-
-.top-left,
-.top-right {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-}
-
-.top-bar a {
-    transition: var(--transition);
-}
-
-.top-bar a:hover {
-    color: #fff;
-    text-shadow: 0 0 12px rgba(255,255,255,.9);
-}
-
-.divider {
-    width: 1px;
-    height: 14px;
-    background: rgba(255,255,255,.4);
-}
-
-/* =========================================================
-   NAVBAR
-   ========================================================= */
-
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    min-height: 92px;
-    padding: 14px 5%;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 28px;
-    background: rgba(255,255,255,.86);
-    border-bottom: 1px solid rgba(238, 92, 143, .1);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    box-shadow: 0 8px 30px rgba(180, 52, 101, .06);
-}
-
-.nav-left,
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.nav-right {
-    justify-content: flex-end;
-}
-
-.nav-left a,
-.nav-right a {
-    position: relative;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    color: #6b4a58;
-    transition: var(--transition);
-}
-
-.nav-left a::after,
-.nav-right a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -9px;
-    width: 0;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--fanta), #ffb1ca);
-    box-shadow: 0 0 10px rgba(255,63,134,.55);
-    transition: width var(--transition);
-}
-
-.nav-left a:hover,
-.nav-right a:hover,
-.nav-left a.active {
-    color: var(--fanta-dark);
-}
-
-.nav-left a:hover::after,
-.nav-right a:hover::after,
-.nav-left a.active::after {
-    width: 100%;
-}
-
-.nav-left i {
-    margin-left: 4px;
-    font-size: 8px;
-}
-
-.logo {
-    text-align: center;
-    color: var(--fanta-dark);
-    line-height: 1;
-    position: relative;
-}
-
-.logo::before {
-    content: "";
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background: radial-gradient(circle, rgba(255,91,145,.17), transparent 70%);
-    filter: blur(7px);
-    z-index: -1;
-}
-
-.logo-main {
-    display: block;
-    font-family: 'Playfair Display', serif;
-    font-size: 31px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-shadow: 0 5px 20px rgba(239,95,145,.15);
-}
-
-.logo-sub {
-    display: block;
-    margin-top: 7px;
-    font-size: 8px;
-    letter-spacing: .48em;
-    margin-left: .48em;
-    color: #9e6178;
-}
-
-.icon-btn,
-.cart-btn,
-.mobile-menu-toggle {
-    border: 0;
-    background: transparent;
-    color: #6d4858;
-    cursor: pointer;
-}
-
-.icon-btn {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    transition: var(--transition);
-}
-
-.icon-btn:hover {
-    color: #fff;
-    background: linear-gradient(135deg, var(--fanta), #ff83ad);
-    box-shadow: 0 8px 22px rgba(255,63,134,.25);
-    transform: translateY(-2px);
-}
-
-.cart-btn {
-    position: relative;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    color: #fff;
-    background: linear-gradient(135deg, var(--fanta-dark), var(--fanta), #ff82aa);
-    box-shadow: 0 8px 25px rgba(255,63,134,.3);
-    transition: var(--transition);
-}
-
-.cart-btn:hover {
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 12px 32px rgba(255,63,134,.42);
-}
-
-.cart-count {
-    position: absolute;
-    top: -5px;
-    right: -4px;
-    min-width: 18px;
-    height: 18px;
-    display: grid;
-    place-items: center;
-    padding: 0 4px;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--fanta-dark);
-    border: 1px solid var(--pink-light);
-    font-size: 9px;
-    font-weight: 800;
-}
-
-.mobile-menu-toggle {
-    display: none;
-    font-size: 20px;
-}
-
-/* =========================================================
-   MOBILE NAVIGATION
-   ========================================================= */
-
-.mobile-navigation {
-    position: fixed;
-    top: 130px;
-    left: 18px;
-    right: 18px;
-    z-index: 1100;
-    padding: 22px;
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    border: 1px solid rgba(255,255,255,.7);
-    border-radius: 22px;
-    background: rgba(255,255,255,.96);
-    box-shadow: var(--shadow-heavy);
-    backdrop-filter: blur(20px);
-}
-
-.mobile-navigation a {
-    padding: 13px 15px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    color: #6f4a58;
-}
-
-.mobile-navigation a:hover {
-    background: var(--pink-soft);
-    color: var(--fanta-dark);
-}
-
-.mobile-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1050;
-    display: none;
-    background: rgba(65, 20, 38, .22);
-    backdrop-filter: blur(4px);
-}
-
-.mobile-navigation.active,
-.mobile-overlay.active {
-    display: flex;
-}
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero {
-    min-height: 650px;
-    padding: 1px 6%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 75% 35%, rgba(255, 63, 134, .17), transparent 24%),
-        radial-gradient(circle at 90% 75%, rgba(255, 185, 209, .45), transparent 27%),
-      
-}
-
-.hero::before,
-.hero::after {
-    content:icon;
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.hero::before {
-    width: 500px;
-    height: 500px;
-    right: -120px;
-    top: 70px;
-    background: radial-gradient(circle, rgba(163, 13, 13, 0.95), rgba(255,116,166,.13), transparent 68%);
-    filter: blur(112px);
-}
-
-.hero::after {
-    width: 8px;
-    height: 8px;
-    right: 23%;
-    top: 22%;
-    background: #fff;
-    box-shadow:
-        90px 80px 0 2px rgba(255,255,255,.9),
-        -160px 130px 0 1px rgba(255,255,255,.85),
-        210px 180px 0 1px rgba(255,255,255,.8),
-        -90px -70px 0 1px rgba(255,255,255,.8);
-    animation: twinkle 3.5s ease-in-out infinite;
-}
-
-.hero-content {
-    width: min(650px, 90%);
-    position: relative;
-    z-index: 2;
-}
-
-.hero-eyebrow,
-.featured-eyebrow,
-.best-seller-eyebrow,
-.ba-eyebrow,
-.testimonial-eyebrow {
-    display: inline-block;
-    color: var(--fanta-dark);
-    font-size: 100px;
-    font-weight: 800;
-    letter-spacing: .22em;
-}
-
-.hero-eyebrow {
-    margin-bottom: 1px;
-}
-
-.hero h1 {
-    max-width: 700px;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 7vw, 92px);
-    font-weight: 500;
-    line-height: .98;
-    letter-spacing: -.035em;
-    color: #402732;
-}
-
-.hero h1 span {
-    display: block;
-    font-style: italic;
-    color: var(--fanta);
-    text-shadow: 0 10px 35px rgba(255,63,134,.18);
-}
-
-.hero p {
-    max-width: 540px;
-    margin: 27px 0 35px;
-    color: var(--muted);
-    font-size: 15px;
-}
-
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 13px;
-}
-
-.hero-btn,
-.hero-btn-secondary,
-.ba-button,
-.modal-add-cart,
-.checkout-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 50px;
-    padding: 0 28px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .12em;
-    transition: var(--transition);
-}
-
-.hero-btn,
-.ba-button,
-.modal-add-cart,
-.checkout-btn {
-    color: #fff;
-    background: linear-gradient(120deg, #d92d70, #ff3f86 55%, #ff8db3);
-    box-shadow: 0 12px 30px rgba(239,95,145,.28);
-}
-
-.hero-btn:hover,
-.ba-button:hover,
-.modal-add-cart:hover,
-.checkout-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 38px rgba(239,95,145,.38);
-}
-
-.hero-btn-secondary {
-    color: var(--fanta-dark);
-    border: 1px solid rgba(239,95,145,.3);
-    background: rgba(255,255,255,.72);
-    box-shadow: 0 8px 24px rgba(190,75,118,.08);
-}
-
-.hero-btn-secondary:hover {
-    background: #fff;
-    transform: translateY(-3px);
-    border-color: rgba(239,95,145,.55);
-}
-
-
-/* =========================================================
-   CATEGORIES
-   ========================================================= */
-
-.product-categories {
-    background: linear-gradient(145deg, #fff4f8, #fff);
-}
-
-.categories-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-}
-
-.category-card {
-    min-height: 25px;
-    display:grid;
-    flex-direction:var(--shadow-heavy) ;
-    justify-content:var(--fanta-dark);
-    position-area: var(--pink-strong);
-    overflow:hidden;
-    border-radius: 25px;
-    border: 1px solid rgba(239,95,145,.12);
-    background: #ec049f9d;
-    box-shadow: 0 32px 35px rgba(188,72,115,.08);
-    transition: var(--transition);
-}
-
-.category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-heavy);
-}
-
-.category-visual {
-    position: absolute;
-    inset: 0;
-    color: rgba(214,48,104,.17);
-    font-size: 60px;
-    background:
-        radial-gradient(circle at 50% 40%, rgba(255,255,255,.95), transparent 28%),
-        linear-gradient(145deg, #ffe8f1, #fff);
-}
-
-.category-content {
-    position: relative;
-    z-index: 2;
-    padding: 25px;
-    background: linear-gradient(to top, rgba(255,255,255,.98) 20%, rgba(255,255,255,.82), transparent);
-}
-
-.category-content h3 {
-    margin: 5px 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 25px;
-    font-weight: 500;
-}
-
-.category-content p {
-    color: var(--fanta-dark);
-    font-size: 10px;
-    font-weight: 800;
-}
-
-/* =========================================================
-   BEFORE / AFTER
-   ========================================================= */
-
-.before-after {
-    background: #fff;
-}
-
-.ba-card {
-    max-width: 900px;
-    min-height: 380px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 75px 1fr;
-    align-items: stretch;
-    overflow: hidden;
-    border-radius: 28px;
-    background: #fff7fa;
-    box-shadow: var(--shadow);
-}
-
-.ba-image {
-    min-height: 380px;
-    display: grid;
-    place-items: center;
-    position: relative;
-    background:
-        radial-gradient(circle, rgba(255,255,255,.95), transparent 30%),
-        linear-gradient(145deg, #ffe4ed, #fff);
-}
-
-.ba-image:last-child {
-    background:
-        radial-gradient(circle, rgba(255,255,255,.95), transparent 30%),
-        linear-gradient(145deg, #ffd5e4, #fff);
-}
-
-.ba-label {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    padding: 7px 11px;
-    border-radius: 999px;
-    color: #fff;
-    background: rgba(55,30,39,.7);
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .15em;
-}
-
-.ba-divider {
-    display: grid;
-    place-items: center;
-    background: #fff;
-    position: relative;
-}
-
-.ba-divider::before {
-    content: "";
-    position: absolute;
-    width: 1px;
-    height: 75%;
-    background: var(--pink-light);
-}
-
-.ba-circle {
-    width: 48px;
-    height: 48px;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #fff;
-    background: var(--fanta);
-    box-shadow: 0 8px 25px rgba(239,95,145,.3);
-}
-
-.ba-info {
-    max-width: 800px;
-    margin: 30px auto 0;
-    text-align: center;
-}
-
-.ba-stars,
-.testimonial-stars {
-    color: #f7a42e;
-    letter-spacing: .1em;
-}
-
-.ba-info h3 {
-    margin: 9px 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 500;
-}
-
-.ba-info p {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.ba-features {
-    margin: 18px 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.ba-features span {
-    padding: 7px 12px;
-    border-radius: 999px;
-    background: var(--pink-soft);
-    color: var(--fanta-dark);
-    font-size: 10px;
-    font-weight: 700;
-}
-
-/* =========================================================
-   TESTIMONIALS
-   ========================================================= */
-
-.testimonials {
-    background:
-        radial-gradient(circle at 50% 0%, rgba(255,63,134,.12), transparent 30%),
-        #fff7fa;
-}
-
-.testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.testimonial-card {
-    padding: 30px;
-    border: 1px solid rgba(239,95,145,.12);
-    border-radius: var(--radius);
-    background: rgba(255,255,255,.82);
-    box-shadow: 0 12px 35px rgba(190,70,116,.07);
-    transition: var(--transition);
-}
-
-.testimonial-card:hover {
-    transform: translateY(-7px);
-    box-shadow: var(--shadow);
-}
-
-.testimonial-text {
-    margin: 16px 0 23px;
-    color: #634a55;
-    font-size: 13px;
-    font-style: italic;
-}
-
-.testimonial-user {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.testimonial-avatar {
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #fff;
-    background: linear-gradient(135deg, var(--fanta-dark), #ff8eb5);
-    font-weight: 800;
-}
-
-.testimonial-user h4 {
-    font-size: 13px;
-}
-
-.testimonial-user span {
-    color: #9c7d89;
-    font-size: 10px;
-}
-
-/* =========================================================
-   PRODUCT MODAL
-   ========================================================= */
-
-.product-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 3000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-}
-
-.product-modal.active,
-.product-modal[aria-hidden="false"] {
-    display: flex;
-}
-
-.product-modal-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(45, 15, 27, .48);
-    backdrop-filter: blur(8px);
-}
-
-.product-modal-box {
-    width: min(900px, 100%);
-    max-height: 90vh;
-    overflow: auto;
-    position: relative;
-    z-index: 2;
-    border-radius: 30px;
-    background: #fff;
-    box-shadow: 0 30px 100px rgba(40,10,23,.3);
-}
-
-.product-modal-close,
-.cart-close {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    width: 42px;
-    height: 42px;
-    z-index: 5;
-    border: 0;
-    border-radius: 50%;
-    color: #7a5260;
-    background: #fff;
-    box-shadow: 0 8px 22px rgba(100,35,58,.12);
-    cursor: pointer;
-    font-size: 24px;
-    transition: var(--transition);
-}
-
-.product-modal-close:hover,
-.cart-close:hover {
-    color: #fff;
-    background: var(--fanta);
-    transform: rotate(90deg);
-}
-
-.product-modal-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.product-modal-image {
-    min-height: 520px;
-    display: grid;
-    place-items: center;
-    padding: 40px;
-    background: linear-gradient(145deg, #ffe6ef, #fff);
-}
-
-.product-modal-content {
-    padding: 55px 42px;
-}
-
-.product-modal-category {
-    color: var(--fanta-dark);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .18em;
-}
-
-.product-modal-content h2 {
-    margin: 10px 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 39px;
-    line-height: 0.1;
-    font-weight: 10;
-}
-
-.modal-rating {
-    margin: 12px 0;
-    color: #f5a126;
-    font-size: 14px;
-}
-
-.modal-rating span {
-    margin-left: 6px;
-    color: #81646f;
-    font-size: 11px;
-}
-
-.product-modal-price {
-    margin: 18px 0;
-    color: var(--fanta-dark);
-    font-size: 25px;
-    font-weight: 800;
-}
-
-.product-modal-content > p {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.modal-quantity {
-    width: fit-content;
-    margin: 25px 0;
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--pink-light);
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.modal-quantity button {
-    width: 40px;
-    height: 40px;
-    border: 0;
-    color: var(--fanta-dark);
-    background: var(--pink-soft);
-    cursor: pointer;
-}
-
-.modal-quantity span {
-    width: 45px;
-    text-align: center;
-    font-weight: 700;
-}
-
-.modal-add-cart {
-    width: 100%;
-    border: 0;
-    cursor: pointer;
-}
-
-/* =========================================================
-   CART DRAWER
-   ========================================================= */
-
-.cart-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 2500;
-    display: none;
-    background: rgba(44,15,27,.35);
-    backdrop-filter: blur(5px);
-}
-
-.cart-overlay.active {
-    display: block;
-}
-
-.cart-drawer {
-    width: min(430px, 94vw);
-    position: fixed;
-    top: 0;
-    right: -460px;
-    bottom: 0;
-    z-index: 2600;
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    box-shadow: -25px 0 70px rgba(60,20,37,.18);
-    transition: right .45s cubic-bezier(.2,.8,.2,1);
-}
-
-.cart-drawer.active {
-    right: 0;
-}
-
-.cart-header {
-    min-height: 105px;
-    padding: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-}
-
-.cart-header .eyebrow {
-    color: var(--fanta-dark);
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .17em;
-}
-
-.cart-header h3 {
-    margin-top: 4px;
-    font-family: 'Playfair Display', serif;
-    font-size: 30px;
-    font-weight: 500;
-}
-
-.cart-items {
-    flex: 1;
-    overflow-y: auto;
-    padding: 25px;
-}
-
-.cart-empty {
-    min-height: 400px;
-    display: grid;
-    place-content: center;
-    text-align: center;
-}
-
-.cart-empty-icon {
-    width: 65px;
-    height: 65px;
-    margin: 0 auto 16px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: var(--fanta);
-    background: var(--pink-soft);
-    font-size: 25px;
-}
-
-.cart-empty h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 23px;
-    font-weight: 500;
-}
-
-.cart-empty p {
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-.cart-footer {
-    padding: 25px;
-    border-top: 1px solid var(--line);
-    background: #fffafb;
-}
-
-.cart-total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 17px;
-    font-size: 13px;
-}
-
-.cart-total-row strong {
-    color: var(--fanta-dark);
-    font-size: 18px;
-}
-
-.checkout-btn {
-    width: 100%;
-    border: 0;
-    cursor: pointer;
-    justify-content: space-between;
-}
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer {
-    padding: 70px 5% 25px;
-    text-align: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(255,134,177,.2), transparent 35%),
-        linear-gradient(135deg, #5d263d, #8f315b 55%, #c64276);
-}
-
-.footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: .08em;
-}
-
-.footer-logo span {
-    display: block;
-    margin-top: 4px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 8px;
-    letter-spacing: .5em;
-    margin-left: .5em;
-    opacity: .75;
-}
-
-footer > p {
-    margin-top: 12px;
-    color: rgba(255,255,255,.78);
-    font-size: 13px;
-}
-
-.footer-social {
-    margin: 25px 0 35px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.footer-social a {
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 50%;
-    background: rgba(255,255,255,.08);
-    transition: var(--transition);
-}
-
-.footer-social a:hover {
-    color: var(--fanta-dark);
-    background: #fff;
-    transform: translateY(-4px);
-}
-
-.footer-bottom {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,.15);
-    color: rgba(255,255,255,.6);
-    font-size: 10px;
-    letter-spacing: .05em;
-}
-
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-::-webkit-scrollbar {
-    width: 9px;
-}
-
-::-webkit-scrollbar-track {
-    background: #fff4f8;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 99px;
-    background: linear-gradient(#f6a1bd, #ef5f91);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--fanta);
-}
-
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
-@keyframes shine {
-    0% { left: -30%; }
-    35%, 100% { left: 120%; }
-}
-
-@keyframes sparkle {
-    0%, 100% { opacity: .35; transform: scale(.8) rotate(0); }
-    50% { opacity: 1; transform: scale(1.25) rotate(25deg); }
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: .4; }
-    50% { opacity: 1; }
-}
-
-@keyframes pulseGlow {
-    0%, 100% { transform: scale(.95); opacity: .65; }
-    50% { transform: scale(1.08); opacity: 1; }
-}
-
-/* =========================================================
-   RESPONSIVE — TABLET
-   ========================================================= */
-
-@media (max-width: 1050px) {
-    .navbar {
-        grid-template-columns: auto 1fr auto;
-    }
-
-    .nav-left,
-    .nav-right > a {
-        display: none;
-    }
-
-    .nav-right {
-        justify-content: flex-end;
-    }
-
-    .mobile-menu-toggle {
-        display: block;
-    }
-
-    .logo {
-        justify-self: center;
-    }
-
-    .featured-grid,
-    .why-grid,
-    .testimonial-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .best-seller-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .best-seller-side {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .best-seller-item {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-}
-
-/* =========================================================
-   RESPONSIVE — MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
-    .top-bar {
-        justify-content: center;
-        min-height: 34px;
-        padding: 7px 12px;
-        font-size: 8px;
-        letter-spacing: .09em;
-    }
-
-    .top-right {
-        display: none;
-    }
-
-    .navbar {
-        min-height: 76px;
-        padding: 10px 18px;
-    }
-
-    .logo-main {
-        font-size: 25px;
-    }
-
-    .logo-sub {
-        font-size: 6px;
-    }
-
-    .nav-right {
-        gap: 4px;
-    }
-
-    .icon-btn {
-        display: none;
-    }
-
-    .mobile-navigation {
-        top: 115px;
-    }
-
-    .hero {
-        min-height: 600px;
-        padding: 80px 22px;
-        text-align: center;
-    }
-
-    .hero-content {
-        margin: auto;
-    }
-
-    .hero h1 {
-        font-size: clamp(46px, 14vw, 68px);
-    }
-
-    .hero p {
-        font-size: 13px;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero-btn,
-    .hero-btn-secondary {
-        width: 100%;
-    }
-
-    .featured-products,
-    .best-seller,
-    .why-choose,
-    .product-categories,
-    .before-after,
-    .testimonials {
-        padding: 75px 18px;
-    }
-
-    .featured-grid,
-    .why-grid,
-    .testimonial-grid,
-    .categories-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .featured-heading,
-    .best-seller-heading,
-    .why-heading,
-    .categories-heading,
-    .ba-heading,
-    .testimonial-heading {
-        margin-bottom: 35px;
-    }
-
-    .featured-heading h2,
-    .best-seller-heading h2,
-    .why-heading h2,
-    .categories-heading h2,
-    .ba-heading h2,
-    .testimonial-heading h2 {
-        font-size: -8px;
-    }
-
-    .best-seller-main {
-        min-height: 500px;
-        padding: 30px 22px;
-    }
-
-    .best-seller-side {
-        display: flex;
-    }
-
-    .best-seller-item {
-        grid-template-columns: 90px 1fr;
-        text-align: left;
-    }
-
-    .bs-item-visual {
-        height: 95px;
-    }
-
-    .ba-card {
-        grid-template-columns: 1fr;
-    }
-
-    .ba-divider {
-        min-height: 65px;
-    }
-
-    .ba-divider::before {
-        width: 70%;
-        height: 1px;
-    }
-
-    .ba-image {
-        min-height: 280px;
-    }
-
-    .product-modal {
-        padding: 10px;
-    }
-
-    .product-modal-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .product-modal-image {
-        min-height: 300px;
-    }
-
-    .product-modal-content {
-        padding: 32px 25px;
-    }
-
-    .product-modal-content h2 {
-        font-size: 32px;
-    }
-
-    footer {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-}
-
-/* =========================================================
-   ACCESSIBILITY / REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
-#drwMusicLabel {
-    position: fixed;
-
-    right: 15px;
-    bottom: 88px;
-
-    padding: 8px 14px;
-
-    border-radius: 999px;
-
-    background: rgba(255,255,255,.95);
-
-    color: #d72f89;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: .3px;
-
-    white-space: nowrap;
-
-    box-shadow:
-        0 8px 25px rgba(100,40,70,.15);
-
-    border:
-        1px solid #f3c4da;
-
-    z-index: 999998;
-
-    transition:
-        .3s ease;
-
-    animation:
-        musicLabelFloat 2.5s ease-in-out infinite;
-}
-
-
-#drwMusicLabel::after {
-
-    content: "";
-
-    position: absolute;
-
-    right: 18px;
-
-    bottom: -6px;
-
-    width: 11px;
-    height: 11px;
-
-    background: #fff;
-
-    border-right:
-        1px solid #f3c4da;
-
-    border-bottom:
-        1px solid #f3c4da;
-
-    transform:
-        rotate(45deg);
-}
-
-
-@keyframes musicLabelFloat {
-
-    0%,
-    100% {
-        transform:
-            translateY(0);
-    }
-
-    50% {
-        transform:
-            translateY(-4px);
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    #drwMusicLabel {
-
-        right: 12px;
-
-        bottom: 78px;
-
-        font-size: 11px;
-
-        padding:
-            7px 11px;
-    }
-
-}
-
-/* =========================================================
-   RARA DRW SKINCARE
-   FLOATING WHATSAPP PREMIUM
-   ========================================================= */
-
-.rara-whatsapp {
-    position: fixed !important;
-    right: 22px !important;
-    bottom: 187px !important;
-
-    width: auto;
-    min-height: 60px;
-
-    display: flex !important;
-    align-items: center;
-    gap: 10px;
-
-    padding: 7px 18px 7px 7px;
-
-    background: linear-gradient(
-        135deg,
-        #25D366,
-        #18B957
-    );
-
-    color: #fff !important;
-
-    border-radius: 50px;
-
-    text-decoration: none !important;
-
-    z-index: 999999 !important;
-
-    box-shadow:
-        0 10px 30px rgba(37,211,102,.35),
-        0 0 20px rgba(37,211,102,.20);
-
-    transition: all .3s ease;
-
-    animation: raraWhatsAppFloat 3s ease-in-out infinite;
-}
-
-.rara-whatsapp:hover {
-    transform: translateY(-5px) scale(1.04);
-
-    color: #fff !important;
-
-    box-shadow:
-        0 15px 40px rgba(37,211,102,.50),
-        0 0 30px rgba(37,211,102,.30);
-}
-
-.rara-wa-icon {
-    width: 48px;
-    height: 48px;
-
-    flex: 0 0 48px;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    background: #fff;
-
-    color: #25D366;
-
-    border-radius: 50%;
-
-    font-size: 28px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.12);
-}
-
-.rara-wa-text {
-    display: flex !important;
-    flex-direction: column;
-
-    text-align: left !important;
-
-    line-height: 1.2;
-
-    white-space: nowrap;
-}
-
-.rara-wa-text strong {
-    color: #fff !important;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.rara-wa-text small {
-    margin-top: 3px;
-
-    color: rgba(255,255,255,.9) !important;
-
-    font-size: 10px;
-}
-
-/* ANIMASI */
-
-@keyframes raraWhatsAppFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .rara-whatsapp {
-        right: 15px !important;
-        bottom: 111px !important;
-
-        min-height: 50px;
-
-        padding: 6px 13px 6px 6px;
-    }
-
-    .rara-wa-icon {
-        width: 43px;
-        height: 43px;
-
-        flex-basis: 43px;
-
-        font-size: 25px;
-    }
-
-    .rara-wa-text strong {
-        font-size: 12px;
-    }
-
-    .rara-wa-text small {
-        font-size: 9px;
-    }
-}
-
-/* HP SANGAT KECIL */
-
-@media (max-width: 380px) {
-
-    .rara-wa-text {
-        display: none !important;
-    }
-
-    .rara-whatsapp {
-        width: 57px;
-        height: 57px;
-
-        padding: 6px;
-
-        justify-content: center;
-    }
-
-    .rara-wa-icon {
-        width: 45px;
-        height: 45px;
-    }
-}
-
-/* ANIMATION */
-
-@keyframes raraWhatsAppFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-4px);
-    }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .rara-whatsapp {
-        right: 16px;
-        bottom: 16px;
-
-        padding: 1px 13px 1px 8px;
-
-        gap: 8px;
-    }
-
-    .rara-wa-icon {
-        width: 44px;
-        height: 44px;
-
-        font-size: 25px;
-    }
-
-    .rara-wa-text strong {
-        font-size: 12px;
-    }
-
-    .rara-wa-text small {
-        font-size: 10px;
-    }
-}
-
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    .rara-wa-text {
-        display: none;
-    }
-
-    .rara-whatsapp {
-        width: 56px;
-        height: 56px;
-
-        padding: 6px;
-
-        justify-content: center;
-    }
-
-    .rara-wa-icon {
-        width: 44px;
-        height: 44px;
-    }
-}
-
-/* =========================================================
-   RARA DRW SKINCARE
-   FLOATING SHOPEE PREMIUM
-   ========================================================= */
-
-.rara-shopee {
-    position: fixed !important;
-
-    right: 22px !important;
-    bottom: 122px !important;
-
-    z-index: 999999 !important;
-
-    display: flex !important;
-    align-items: center;
-    gap: 10px;
-
-    min-height: 60px;
-
-    padding: 7px 18px 7px 7px;
-
-    background: linear-gradient(
-        135deg,
-        #ee4d2d,
-        #ff6b4a
-    );
-
-    color: #ffffff !important;
-
-    text-decoration: none !important;
-
-    border-radius: 50px;
-
-    box-shadow:
-        0 10px 30px rgba(238, 77, 45, .35),
-        0 0 20px rgba(238, 77, 45, .20);
-
-    transition: all .3s ease;
-
-    animation: raraShopeeFloat 3s ease-in-out infinite;
-}
-
-/* HOVER */
-
-.rara-shopee:hover {
-    transform: translateY(-5px) scale(1.04);
-
-    color: #ffffff !important;
-
-    box-shadow:
-        0 15px 40px rgba(238, 77, 45, .50),
-        0 0 30px rgba(238, 77, 45, .30);
-}
-
-/* ICON */
-
-.rara-shopee-icon {
-    width: 48px;
-    height: 48px;
-
-    flex: 0 0 48px;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    background: #ffffff;
-
-    color: #ee4d2d;
-
-    border-radius: 50%;
-
-    font-size: 21px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.12);
-}
-
-/* TEXT */
-
-.rara-shopee-text {
-    display: flex !important;
-    flex-direction: column;
-
-    text-align: left !important;
-
-    line-height: 1.2;
-
-    white-space: nowrap;
-}
-
-.rara-shopee-text strong {
-    color: #ffffff !important;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.rara-shopee-text small {
-    margin-top: 3px;
-
-    color: rgba(255,255,255,.9) !important;
-
-    font-size: 10px;
-}
-
-/* ANIMATION */
-
-@keyframes raraShopeeFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .rara-shopee {
-        right: 15px !important;
-        bottom: 175px !important;
-
-        min-height: 55px;
-
-        padding: 6px 13px 6px 6px;
-    }
-
-    .rara-shopee-icon  {
-        width: 43px;
-        height: 43px;
-
-        flex-basis: 43px;
-
-        font-size: 22px;
-    }
-
-    .rara-shopee-text strong {
-        font-size: 12px;
-    }
-
-    .rara-shopee-text small {
-        font-size: 9px;
-    }
-}
-
-/* HP KECIL */
-
-@media (max-width: 380px) {
-
-    .rara-shopee-text {
-        display: none !important;
-    }
-
-    .rara-shopee {
-        width: 57px;
-        height: 57px;
-
-        padding: 6px;
-
-        justify-content: center;
-    }
-
-    .rara-shopee-icon {
-        width: 45px;
-        height: 45px;
-    }
-}
+            0 0 0 5px rgba(255,79,163,.15),
+            0 5px 20px rgba(0,0,0,.20);
+    }
+
+    @media (max-width: 600px) {
+        #drwMusicButton {
+            right: 15px;
+            bottom: 15px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 19px;
+        }
+    }
+</style>
+
+<div id="drwMusicLabel">
+    🎵 Putar Musik
+</div>
+
+<button
+    id="drwMusicButton"
+    type="button"
+    aria-label="Putar musik"
+    title="Putar musik DRW Skincare">
+    🎵
+</button>
+
+<script>
+(function () {
+    "use strict";
+
+    const music = document.getElementById("drwBackgroundMusic");
+    const button = document.getElementById("drwMusicButton");
+
+    if (!music || !button) return;
+
+    // Volume awal 25% agar musik tidak terlalu keras.
+    music.volume = 0.25;
+
+    function updateButton() {
+        if (music.paused) {
+            button.textContent = "🎵";
+            button.classList.remove("playing");
+            button.setAttribute("aria-label", "Putar musik");
+            button.title = "Putar musik DRW Skincare";
+        } else {
+            button.textContent = "🔊";
+            button.classList.add("playing");
+            button.setAttribute("aria-label", "Matikan musik");
+            button.title = "Matikan musik DRW Skincare";
+        }
+    }
+
+    function playMusic() {
+        const promise = music.play();
+
+        if (promise !== undefined) {
+            promise
+                .then(updateButton)
+                .catch(updateButton);
+        } else {
+            updateButton();
+        }
+    }
+
+    function toggleMusic() {
+        if (music.paused) {
+            playMusic();
+        } else {
+            music.pause();
+            updateButton();
+        }
+    }
+
+    button.addEventListener("click", toggleMusic);
+
+    window.addEventListener("load", function () {
+    playMusic();
+    });
+
+    function firstInteraction() {
+        if (music.paused) {
+            playMusic();
+        }
+    }
+
+    document.addEventListener("pointerdown", firstInteraction, {
+        once: true,
+        passive: true
+    });
+
+    updateButton();
+})();
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-7748262975676486">
+    <title>DRW SKINCARE | Premium Beauty Experience</title>
+    <meta name="description" content="DRW SKINCARE - Temukan rangkaian skincare dan beauty essentials untuk rutinitas kecantikan Anda.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+ 
+    <style>
+        /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
+        html { scroll-behavior: smooth; }
+        body { margin: 0; font-family: "DM Sans", sans-serif; background: #dbd6daca; color: #151415; }
+        a { text-decoration: none; color: inherit; }
+        button, input { font: inherit; }
+        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#c10566; font-size:6px; }
+        .top-bar-left,.top-bar-right { display:flex; align-items:center; gap:10px; }
+        .auth-link { border:0; background:none; cursor:pointer; color:#7e315d; font-weight:600; }
+        .top-divider { opacity:.55; }
+        .main-navbar { min-height:50px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#ffffff; border-bottom:5px solid #c6307dbb; position:sticky; top:0; z-index:1000; }
+        .brand-logo img { object-fit: cover; width:1    60px; max-height:58px; object-fit:contain; display:block; }
+        .nav-menu { display:flex; align-items:center; justify-content:center; gap:22px; flex:1; }
+        .nav-item { font-size:14px; font-weight:600; color:#543747; }
+        .nav-item:hover,.nav-item.active { color:#e83d9b; }
+        .nav-actions { display:flex; align-items:center; gap:10px; }
+        .nav-icon { width:42px; height:42px; border:1px solid #f1d3e1; border-radius:50%; display:grid; place-items:center; background:#fff; color:#6d3a52; cursor:pointer; position:relative; }
+        .cart-count { position:absolute; top:-4px; right:-3px; min-width:18px; height:18px; padding:0 4px; border-radius:99px; display:grid; place-items:center; background:#e83d9b; color:#fff; font-size:10px; font-weight:700; }
+        .hero { padding:90px 7%; background:linear-gradient(15deg,#e8008f7c 0%,#83ee0131 55%,#836fddd0 110%); }
+        .hero-container { max-width:890px; margin:auto; display:grid; grid-template-columns:1.05fr .95fr; align-items:none center; gap:1px; }
+        .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:10px; font-weight:500; letter-spacing:2px; }
+        .hero h1 { margin:22px; font-family:"Playfair Display",serif; font-size:clamp(48px,6vw,82px); line-height:1.02; color:#422434; }
+        .hero h1 span { display:block; color:#df3b96; }
+        .hero p { max-width:620px; line-height: 10px; color:#765466; font-size:10px; }
+        .hero-actions { display:ruby-text; gap:12px; flex-wrap:wrap; margin:2px 0; }
+        .btn { display:list-item; align-items:center; justify-content:center; gap:9px; border-radius:999px; padding:10px 4px; font-weight:200; border:1px solid transparent; }
+        .btn-primary { font-size:13px; background:#e83d9b; color:#fff; box-shadow:0 10px 30px rgba(232,61,155,.22); }
+        .btn-secondary { font-size: 13px; border-color:#e9b9d2; color:#9b356d; background:#0ccd0171; }
+        .btn-white { background:#fff; color:#c72d80; }
+        .hero-image-card img {  width:78%; max-height:58%; object-fit:fill; }
+        .hero-mini-trust { display:block; flex-wrap:wrap; gap:18px; color:#70495d; font-size:13px; }
+        .hero-mini-trust i { color:#e83d9b; }
+        .hero-visual { position:relative; min-height:50px; display:grid; place-items:center; }
+        .hero-glow { position:absolute; width:90px; height:390px; border-radius:50%; background:rgba(233, 224, 229, 0.35); filter:blur(30px); }
+        .hero-feature { position:absolute; display:inline-block; align-items:center; gap:12px; padding:5px 5px; border:1px solid rgba(255,255,255,.9); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 15px 35px rgba(135,59,96,.13); }
+        .hero-feature i { color:#e83d9b; font-size:13px; }
+        .hero-feature strong,.hero-feature small { display:block; }
+        .hero-feature strong { font-size:10px; }
+        .hero-feature small { margin-top:3px; color:#927084; font-size:11px; }
+        .hero-feature-one { top:1%; left:0%; }
+        .hero-feature-two { bottom:1%; right:5; }
+        .trust-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+        .trust-item { display:none; align-items:center; gap:14px; padding:15px; border-radius:18px; }
+        .trust-item > i { color:#df3b96; font-size:25px; }
+        .trust-item strong,.trust-item span { display:block; }
+        .trust-item strong { font-size:14px; }
+        .trust-item span { margin-top:4px; color:#927084; font-size:12px; }
+        .section { padding:85px 7%; }
+        .section-soft { background:#fff7fb; }
+        .product-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+        .product-card { background:#fff; border:1px solid #f1dce7; border-radius:22px; overflow:hidden; box-shadow:0 10px 30px rgba(109,55,84,.06); }
+        .product-card-content { padding:17px; }
+        .product-image-wrap { aspect-ratio:1; display:grid; place-items:center; background:#fff8fc; overflow:hidden; }
+        .product-image { width:100%; height:100%; object-fit:contain; }
+        .product-category {  color:#c93482; font-size:11px; font-weight:700; text-transform:uppercase; }
+        .product-title { margin:8px 0; font-size:16px; line-height:1.35; }
+        .product-description { color:#806071; font-size:12px; line-height:1.55; min-height:38px; }
+        .product-price { margin:12px 0; color:#d72f89; font-size:18px; font-weight:800; }
+        .product-card-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+        .product-view-link { color:#9e356e; font-size:12px; font-weight:700; }
+        .add-cart-btn { border:0; border-radius:999px; padding:10px 12px; background:#fce0ef; color:#bd2e79; cursor:pointer; font-size:11px; font-weight:700; }
+        .section-action { text-align: center; margin-top:30px; }
+        .category-grid { max-width:1400px; margin:auto; display:grid; grid-template-columns:repeat(8,1fr); gap:5px; }
+        .category-card { padding:11px; border-style: groove; border-radius:110px; background:transparent; transition:.30s; }
+        .category-card:hover { transform:translateY(-90px); border-color:#e83d9b; box-shadow:100px rgba(89, 0, 49, 0.12); }
+        .category-icon { width: 10pxpx; height:18px; display:block; place-items:center; border-radius:15px; background:transparent; color:#e83d9b; margin-bottom:15px; }
+        .category-card strong,.category-card small { display:block; }
+        .category-card small { margin-top:5px; color:#8d0000; }
+        .about-container { max-width:1250px; margin:auto; display:grid; grid-template-columns:.8fr 1.2fr; gap:60px; align-items:center; }
+        .about-visual { min-height:360px; display:grid; place-items:center; border-radius:30px; background:linear-gradient(145deg,#fff,#ffe9f4);} 
+        .about-card { text-align:center; }
+        .about-logo-mark { font-family:"Playfair Display",serif; font-size:64px; color:#e83d9b; }
+        .about-card span { letter-spacing:4px; font-size:13px; }
+        .about-content h2 { font-family:"Playfair Display",serif; font-size:45px; margin:10px 0 20px; }
+        .about-content h2 span { color:#e83d9b; }
+        .about-content p { color:#765466; line-height:1.8; }
+        .about-points { margin:25px 0; display:grid; gap:12px; }
+        .about-points div { display:flex; gap:10px; align-items:center; }
+        .about-points i { color:#e83d9b; }
+        .tips-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+        .tip-card { padding:3px; border-radius:24px; background:#fff; border:1px solid #f0d7e4; }
+        .tip-icon { width:52px; height:52px; display:grid; place-items:center; border-radius:16px; background:#fff0f8; color:#e83d9b; }
+        .tip-card > span { display:block; margin-top:22px; color:#d93491; font-size:12px; font-weight:700; }
+        .tip-card h3 { font-size:20px; }
+        .tip-card p { color:#806071; line-height:1.7; font-size:14px; }
+        .cta { padding:70px 7%; background:linear-gradient(135deg,#e83d9b,#c92d80); color:#fff; text-align:center; }
+        .cta h2 { font-family:"Playfair Display",serif; font-size:42px; margin:0 0 12px; }
+        .cta p { opacity:.9; margin-bottom:25px; }
+        .footer { padding:60px 7% 20px; background:#321d29; color:#fff; }
+        .footer-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:40px; }
+        .footer-logo img { width:150px; background:#fff; border-radius:12px; padding:5px; }
+        .footer-brand p,.footer-column p { color:#d9bdca; line-height:1.7; font-size:13px; }
+        .footer-social { display:flex; gap:10px; margin-top:20px; }
+        .footer-social a { width:36px; height:36px; border:1px solid #70485a; border-radius:50%; display:grid; place-items:center; }
+        .footer-column h3 { font-size:15px; }
+        .footer-column a { display:block; margin:10px 0; color:#d9bdca; font-size:13px; }
+        .footer-bottom { max-width:1250px; margin:40px auto 0; padding-top:18px; border-top:1px solid #573541; display:flex; justify-content:space-between; gap:20px; color:#b998a8; font-size:11px; }
+        .search-overlay { position:fixed; inset:0; z-index:3000; background:rgba(35,18,28,.58); backdrop-filter:blur(8px); display:none; align-items:flex-start; justify-content:center; padding:100px 20px 30px; }
+        .search-overlay.active { display:flex; }
+        .search-box { width:min(760px,100%); background:#fff; border-radius:28px; padding:30px; box-shadow:0 30px 80px rgba(0,0,0,.22); }
+        .search-close { float:right; border:0; background:#fff1f8; width:36px; height:36px; border-radius:50%; cursor:pointer; color:#c72d80; }
+        .search-heading span { color:#d93491; font-size:11px; font-weight:700; letter-spacing:2px; }
+        .search-heading h2 { font-family:"Playfair Display",serif; font-size:32px; margin:8px 0 20px; }
+        .search-input-wrap { display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid #edcddd; border-radius:16px; }
+        .search-input-wrap i { color:#e83d9b; }
+        .search-input-wrap input { width:100%; border:0; outline:0; }
+        .search-results { margin-top:15px; max-height:380px; overflow:auto; }
+        @media (max-width: 950px) {
+            .nav-menu { display:none; }
+            .hero-container,.about-container { grid-template-columns:1fr; }
+            .product-grid { grid-template-columns:repeat(2,1fr); }
+            .category-grid { grid-template-columns:repeat(2,1fr); }
+            .trust-grid,.tips-grid { grid-template-columns:1fr; }
+            .footer-grid { grid-template-columns:1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .top-bar { justify-content:center; }
+            .top-bar-left { display:grid; }
+            .main-navbar { padding:0 24%; }
+            .brand-logo img { width:115px; }
+            .hero { padding:5px 1%; }
+            .hero h1 { font-size:20px; }
+            .hero p {font-size: 12px;}
+            .hero-feature { position:relative; inset:auto; margin:5px; }
+             .category-grid { grid-template-columns:repeat(4,1fr); }
+            .hero-visual { display:block; flex-direction:column; min-height:0; }
+            .product-grid,.category-grid,.footer-grid { grid-template-columns:fr}
+            .tips-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+        .tip-card p { color:#806071; line-height:1; font-size:9px; }
+                .tip-card h3 { font-size:12px; }
+
+
+            .section { padding:60px 5%; }
+            .footer-bottom { flex-direction:column; }
+        }
+    </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+    
+</head>
+
+<body>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <span class="top-highlight">✦</span>
+        FREE SHIPPING UNTUK PEMBELIAN DI ATAS Rp500.000
+        <span class="top-highlight">✦</span>
+    </div>
+
+    <div class="top-bar-right">
+        <button type="button" class="auth-link login-link" id="loginButton">Login</button>
+        <span class="top-divider">|</span>
+        <button type="button" class="auth-link register-link" id="registerButton">Daftar</button>
+        <span class="top-divider">|</span>
+        <span>Indonesia</span>
+    </div>
+</div>
+
+<!-- =====================================================
+     MAIN NAVBAR
+===================================================== -->
+<nav class="main-navbar">
+
+    <a href="index.html" class="brand-logo" aria-label="DRW Skincare">
+        <img src="assets/images/logo/logo.png" alt="DRW Skincare">
+    </a>
+
+    <div class="nav-menu">
+        <a href="index.html" class="nav-item active">Home</a>
+        <a href="products.html" class="nav-item">Produk</a>
+        <a href="product-detail.html?id=paket-radiant-acne-repair" class="nav-item">Best Seller</a>
+        <a href="index.html#kategori-produk" class="nav-item">Kategori Produk</a>
+        <a href="index.html#about" class="nav-item">Tentang Kami</a>
+        <a href="index.html#beauty-tips" class="nav-item">Beauty Tips</a>
+        <a href="index.html#contact" class="nav-item">Konsultasi</a>
+    </div>
+
+    <div class="nav-actions">
+        <button type="button" class="nav-icon" id="searchButton" aria-label="Cari produk">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <a href="cart.html" class="nav-icon cart-icon" aria-label="Keranjang">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </a>
+    </div>
+</nav>
+
+
+<!-- =====================================================
+     SEARCH OVERLAY
+===================================================== -->
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+    <div class="search-box">
+        <button type="button" class="search-close" id="closeSearch" aria-label="Tutup pencarian">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="search-heading">
+            <span>DRW SKINCARE</span>
+            <h2>Cari Produk Favoritmu</h2>
+        </div>
+
+        <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search"
+                   id="globalProductSearch"
+                   placeholder="Cari nama produk..."
+                   autocomplete="off">
+        </div>
+
+        <div id="searchResults" class="search-results"></div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+<section class="hero">
+    <div class="hero-container">
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">DRW SKINCARE</div>
+
+            <h1>
+                Your Skin,
+                <span>Your Confidence.</span>
+            </h1>
+
+           
+            <div class="hero-actions">
+                <a href="products.html" class="btn btn-primary">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Belanja Sekarang
+                </a>
+
+                <a href="#about" class="btn btn-secondary">
+                    Free Konsultasi
+                                        <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-mini-trust">
+                <span><i class="fa-solid fa-circle-check"></i> Produk Pilihan</span>
+                <span><i class="fa-solid fa-circle-check"></i> Pengiriman Aman</span>
+                <span><i class="fa-solid fa-circle-check"></i> Konsultasi</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-glow"></div>
+
+            <div class="hero-image-card">
+                <img src="assets/images/products/Brightening Peel Off Mask with Charcoal 60 ml.png" alt="DRW SKINCARE">
+            </div>
+
+</section>
+
+<!-- =====================================================
+     KATEGORI
+===================================================== -->
+<section class="section" id="kategori-produk">
+    <div class="section-heading">
+        <span class="section-eyebrow">SHOP BY CATEGORY</span>
+        <h1>Pilih Sesuai Kebutuhanmu</h1>
+        <div title="centre"></div>
+    </div>
+
+    <div class="category-grid">
+
+        <a href="products.html" class="category-card">
+                  <span class="category-icon"><i class="fa-solid fa-droplet"></i></span>
+            <img src="assets/images/products/Facial Wash Oily & Acne 110 ml TO.png" alt="Facial Wash">
+                  <strong>Facial Wash</strong>
+            <small>Pembersih wajah</small>
+        </a>
+
+        <a href="products.html?category=Cream%20Siang" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-sun"></i></span>
+            <img src="assets/images/products/Sunscreen Oily & Acne.png">
+            <strong>Cream Siang</strong>
+            <small>Perawatan siang</small>
+        </a>
+
+        <a href="products.html?category=Cream%20Malam" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-moon"></i></span>
+            <img src="assets/images/products/Radiant Glow Booster.png">
+            <strong>Cream Malam</strong>
+            <small>Perawatan malam</small>
+        </a>
+
+        <a href="products.html?category=Serum" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-flask"></i></span>
+            <img src="assets/images/products/Serum AHA BHA.png">
+            <strong>Serum</strong>
+            <small>Tekstur Kulit</small>
+        </a>
+
+        <a href="products.html?category=Toner" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-bottle-droplet"></i></span>
+            <img src="assets/images/products/Toner Lime 110 ml TO.png">
+            <strong>Toner</strong>
+            <small>Menyegarkan &amp; Melembabkan</small>
+        </a>
+
+        <a href="products.html?category=Body%20Care" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-spa"></i></span>
+            <img src="assets/images/products/Paket Handbody Dosting TO.png">
+            <strong>Body Care</strong>
+            <small>Perawatan tubuh</small>
+        </a>
+
+        <a href="products.html?category=Make%20Up%20%26%20Riasan" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            <img src="assets/images/products/Make Up & Riasan.png">
+            <strong>Make Up &amp; Riasan</strong>
+            <small>Beauty essentials</small>
+        </a>
+
+        <a href="products.html?category=Paket%20Perawatan%20Wajah" class="category-card">
+            <span class="category-icon"><i class="fa-solid fa-box-open"></i></span>
+            <img src="assets/images/products/paket perawatan.png">
+            <strong>Paket Perawatan</strong>
+            <small>Routine lebih praktis</small>
+        </a>
+
+    </div>
+</section>
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+<section class="section section-soft" id="about">
+    <div class="about-container">
+
+        <div class="about-visual">
+            <div class="about-card">
+                <div class="about-logo-mark"></div>
+                <span>DRW SKINCARE</span>
+                <img src="assets/images/hero/dr. wahyu triasmara.png">
+            </div>
+        </div>
+
+        <div class="about-content">
+            <span class="section-eyebrow">TENTANG DRW SKINCARE</span>
+
+            <h2>dr. Wahyu Triasmara,M.Kes, AAAM, AIFO-K</h2>
+<h3></h3><span>Founder & CEO DRW Corpora Indonesia</span></h3>
+
+            <p>
+                
+                DRW SKINCARE hadir untuk menemani perjalanan
+                perawatan dan kecantikan Anda dengan pilihan produk
+                yang praktis untuk digunakan dalam rutinitas sehari-hari.
+            </p>
+
+            <p>
+                Temukan produk sesuai kebutuhan Anda dan bangun
+                rutinitas perawatan yang terasa nyaman, konsisten,
+                dan menyenangkan.
+            </p>
+
+            <div class="about-points">
+                <div><i class="fa-solid fa-check"></i><span>Rangkaian perawatan lengkap</span></div>
+                <div><i class="fa-solid fa-check"></i><span>Pilihan produk untuk berbagai kebutuhan</span></div>
+                <div><i class="fa-solid fa-check"></i><span>Belanja online lebih praktis</span></div>
+            </div>
+
+            <a href="products.html" class="btn btn-primary">
+                Lihat Produk <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-7748262975676486"
+     data-ad-slot="5186180350"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<!-- =====================================================
+     BEAUTY TIPS
+===================================================== -->
+<section class="section" id="beauty-tips">
+    <div class="section-heading">
+        <span class="section-eyebrow">BEAUTY TIPS</span>
+        <h2>Mulai dari Rutinitas Sederhana</h2>
+    </div>
+
+    <div class="tips-grid">
+
+        <article class="tip-card">
+            <div class="tip-icon"><i class="fa-solid fa-droplet"></i></div>
+            <span>01</span>
+            <h3>Kenali Kebutuhan Kulit</h3>
+            <p>Mulailah dengan mengenali kebutuhan kulit agar produk yang dipilih lebih sesuai.</p>
+        </article>
+
+        <article class="tip-card">
+            <div class="tip-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <span>02</span>
+            <h3>Gunakan Secara Teratur</h3>
+            <p>Rutinitas yang konsisten membantu membuat perawatan kulit menjadi kebiasaan.</p>
+        </article>
+
+        <article class="tip-card">
+            <div class="tip-icon"><i class="fa-solid fa-sun"></i></div>
+            <span>03</span>
+            <h3>Perawatan Siang</h3>
+            <p>Lengkapi rutinitas pagi dengan produk perawatan yang sesuai kebutuhan kulit.</p>
+        </article>
+
+    </div>
+</section>
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+<section class="cta" id="contact">
+    <h2>Butuh Bantuan Memilih Produk?</h2>
+    <p>Konsultasikan kebutuhan produk Anda bersama DRW SKINCARE.</p>
+
+    <a href="https://wa.me/6282381432222?text=Halo%20DRW%20SKINCARE%2C%20saya%20ingin%20konsultasi%20produk."
+       class="btn btn-white"
+       target="_blank"
+       rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i>
+        Konsultasi Sekarang
+    </a>
+</section>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7748262975676486"
+     data-ad-slot="1083283811"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+<footer class="footer">
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+            <a href="index.html" class="footer-logo">
+                <img src="assets/images/logo/logo.png" alt="DRW Skincare">
+            </a>
+
+            <p>DRW SKINCARE — menemani rutinitas kecantikan Anda setiap hari.</p>
+
+            <div class="footer-social">
+                <a href="https://www.instagram.com/rara.drw_skincare?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/rara.utrilla" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.tiktok.com/@raradrwskincare?is_from_webapp=1&sender_device=pc" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-column">
+            <h3>Menu</h3>
+            <a href="index.html">Home</a>
+            <a href="products.html">Produk</a>
+            <a href="#best-seller">Best Seller</a>
+            <a href="#about">Tentang Kami</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Bantuan</h3>
+            <a href="cart.html">Keranjang</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="#contact">Konsultasi</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Informasi</h3>
+            <p>Indonesia</p>
+            <p>Senin — Minggu</p>
+            <p>Customer Support</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <span>© <span id="currentYear"></span> DRW SKINCARE. All Rights Reserved.</span>
+        <span>Premium Beauty Experience</span>
+    </div>
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+     URUTAN JANGAN DIUBAH
+===================================================== -->
+
+<script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+</script>
+
+<!-- DATA PRODUK HARUS PALING AWAL -->
+<script src="assets/js/products-data.js"></script>
+
+<!-- SISTEM PRODUK / FEATURED / BEST SELLER -->
+<script src="assets/js/app.js"></script>
+
+<!-- NAVBAR -->
+<script src="assets/js/navbar.js"></script>
+
+<!-- SEARCH -->
+<script src="assets/js/search.js"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<!-- bitdrwskincare -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7748262975676486"
+     data-ad-slot="6447291138"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="+22+rx+1+2-3"
+     data-ad-client="ca-pub-7748262975676486"
+     data-ad-slot="6718753874"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+```html
+<!-- =========================================================
+     RARA DRW SKINCARE - FLOATING SHOPEE BUTTON
+     ========================================================= -->
+
+<a
+    href="LINK_SHOPEE_ANDA"
+    class="rara-shopee"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Kunjungi Shopee RARA DRW SKINCARE">
+
+    <span class="rara-shopee-icon">
+        <img src="assets/images/products/logo shopee.png" alt="shopee">
+    </span>
+
+    <span class="rara-shopee-text">
+        <strong>Beli di Shopee</strong>
+        <small>drwskincare.indonesia_</small> 
+        <a href="https://shopee.co.id/drwskincare.indonesia_?entryPoint=ShopBySearch&searchKeyword=drwskincare.indonesia_"
+    </span>
+
+</a>
+
+<!-- =========================================================
+     RARA DRW SKINCARE - FLOATING WHATSAPP BUTTON
+     ========================================================= -->
+
+<a
+    href="https://wa.me/6282381432222?text=Halo%20DRW%20SKINCARE%2C%20saya%20ingin%20bertanya%20tentang%20produk."
+    class="rara-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat Admin DRW SKINCARE"
+>
+    <span class="rara-wa-icon">
+        <i class="fab fa-whatsapp"></i>
+    </span>
+
+    <span class="rara-wa-text">
+        <strong>WhatsApp</strong>
+        <small>Order/Konsultasi</small>
+    </span>
+</a>
+
+```html
+<!-- =====================================================
+     RARA DRW SKINCARE — PREMIUM SHIMMER & SPARKLE
+     ===================================================== -->
+
+<div class="rara-shimmer"></div>
+
+<div class="rara-sparkle" style="top:12%;left:14%;animation-delay:0s;"></div>
+
+<div class="rara-sparkle" style="top:27%;left:82%;animation-delay:1.2s;"></div>
+
+<div class="rara-sparkle" style="top:44%;left:28%;animation-delay:2.3s;"></div>
+
+<div class="rara-sparkle" style="top:58%;left:72%;animation-delay:0.8s;"></div>
+
+<div class="rara-sparkle" style="top:73%;left:18%;animation-delay:1.8s;"></div>
+
+<div class="rara-sparkle" style="top:86%;left:88%;animation-delay:2.8s;"></div>
+
+<div class="rara-sparkle" style="top:91%;left:48%;animation-delay:3.4s;"></div>
+```html
+<!-- =====================================================
+     RARA DRW SKINCARE
+     MOVING SMOKE BACKGROUND
+     ===================================================== -->
+
+<div class="rara-smoke-background">
+
+    <div class="rara-smoke"></div>
+
+    <div class="rara-smoke"></div>
+
+    <div class="rara-smoke"></div>
+
+    <div class="rara-smoke"></div>
+
+</div>
+
+
+</body>
+</html>
