@@ -1606,7 +1606,7 @@ footer > p {
 .rara-whatsapp {
     position: fixed !important;
     right: 22px !important;
-    bottom: 187px !important;
+    bottom: 125px !important;
 
     width: auto;
     min-height: 60px;
@@ -1848,7 +1848,7 @@ footer > p {
     position: fixed !important;
 
     right: 22px !important;
-    bottom: 122px !important;
+    bottom: 192px !important;
 
     z-index: 999999 !important;
 
@@ -1968,7 +1968,7 @@ footer > p {
 
     .rara-shopee {
         right: 15px !important;
-        bottom: 175px !important;
+        bottom: 164px !important;
 
         min-height: 55px;
 
@@ -2013,5 +2013,1199 @@ footer > p {
     .rara-shopee-icon {
         width: 45px;
         height: 45px;
+    }
+}
+/* =====================================================
+   RARA DRW SKINCARE — PREMIUM GLOW BACKGROUND
+   Pink Fanta + White Glow + Soft Gold
+   ===================================================== */
+
+body {
+    position: relative;
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 105, 180, 0.25) 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255, 215, 150, 0.20) 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(255, 20, 147, 0.16) 0%,
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #fff7fb 0%,
+            #ffe8f4 35%,
+            #fff 65%,
+            #fff0f8 100%
+        );
+
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+
+/* Lapisan cahaya bergerak */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.85) 0%,
+            rgba(255,182,220,0.20) 18%,
+            transparent 45%
+        );
+
+    animation: premiumGlow 12s ease-in-out infinite alternate;
+}
+
+
+/* Kilauan kedua */
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 5%;
+    right: -180px;
+
+    pointer-events: none;
+    z-index: -1;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,20,147,0.18) 0%,
+            rgba(255,105,180,0.10) 35%,
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    animation: floatingGlow 9s ease-in-out infinite;
+}
+
+
+/* Animasi cahaya utama */
+@keyframes premiumGlow {
+
+    0% {
+        transform: translate(-8%, -5%) scale(0.95);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: translate(5%, 5%) scale(1.05);
+        opacity: 0.90;
+    }
+
+    100% {
+        transform: translate(-3%, 10%) scale(1.10);
+        opacity: 0.70;
+    }
+}
+
+
+/* Animasi glow melayang */
+@keyframes floatingGlow {
+
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: translate(-100px, 80px) scale(1.2);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: translate(30px, 140px) scale(0.95);
+        opacity: 0.55;
+    }
+}
+/* =====================================================
+   RARA DRW SKINCARE — PREMIUM GLOW BACKGROUND
+   Pink Fanta + White Glow + Soft Gold
+   ===================================================== */
+
+body {
+    position: relative;
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 105, 180, 0.25) 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255, 215, 150, 0.20) 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(255, 20, 147, 0.16) 0%,
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #fff7fb 0%,
+            #ffe8f4 35%,
+            #fff 65%,
+            #fff0f8 100%
+        );
+
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+
+/* Lapisan cahaya bergerak */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.85) 0%,
+            rgba(255,182,220,0.20) 18%,
+            transparent 45%
+        );
+
+    animation: premiumGlow 12s ease-in-out infinite alternate;
+}
+
+
+/* Kilauan kedua */
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    top: 5%;
+    right: -180px;
+
+    pointer-events: none;
+    z-index: -1;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,20,147,0.18) 0%,
+            rgba(255,105,180,0.10) 35%,
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    animation: floatingGlow 9s ease-in-out infinite;
+}
+
+
+/* Animasi cahaya utama */
+@keyframes premiumGlow {
+
+    0% {
+        transform: translate(-8%, -5%) scale(0.95);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: translate(5%, 5%) scale(1.05);
+        opacity: 0.90;
+    }
+
+    100% {
+        transform: translate(-3%, 10%) scale(1.10);
+        opacity: 0.70;
+    }
+}
+
+
+/* Animasi glow melayang */
+@keyframes floatingGlow {
+
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: translate(-100px, 80px) scale(1.2);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: translate(30px, 140px) scale(0.95);
+        opacity: 0.55;
+    }
+}
+
+/* =========================================================
+   RARA DRW SKINCARE
+   PREMIUM GLOW BACKGROUND — FINAL
+   Pink Fanta + Soft Gold + White Light + Shimmer
+   ========================================================= */
+
+/* =========================
+   BODY BACKGROUND
+   ========================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(255, 105, 180, 0.24) 0%,
+            rgba(255, 105, 180, 0.08) 18%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(255, 215, 160, 0.22) 0%,
+            rgba(255, 215, 160, 0.08) 20%,
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 220, 240, 0.35) 25%,
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(255, 20, 147, 0.13) 0%,
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255, 200, 230, 0.20) 0%,
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #fffafd 0%,
+            #fff1f8 25%,
+            #ffffff 50%,
+            #fff0f7 75%,
+            #fffafd 100%
+        );
+
+    background-attachment: fixed;
+    background-size: 140% 140%;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN MOVING LIGHT
+   ========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    width: 900px;
+    height: 900px;
+
+    top: -350px;
+    left: -250px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.90) 0%,
+            rgba(255, 182, 220, 0.35) 18%,
+            rgba(255, 105, 180, 0.12) 35%,
+            transparent 68%
+        );
+
+    filter: blur(10px);
+
+    z-index: -1;
+
+    animation:
+        raraMainLight
+        15s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* =========================================================
+   SECOND LIGHT
+   ========================================================= */
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 650px;
+    height: 650px;
+
+    right: -250px;
+    top: 25%;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 215, 160, 0.30) 0%,
+            rgba(255, 105, 180, 0.20) 25%,
+            rgba(255, 20, 147, 0.08) 42%,
+            transparent 70%
+        );
+
+    filter: blur(20px);
+
+    z-index: -1;
+
+    animation:
+        raraGoldLight
+        18s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* =========================================================
+   MAIN LIGHT ANIMATION
+   ========================================================= */
+
+@keyframes raraMainLight {
+
+    0% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(0.85);
+
+        opacity: 0.45;
+    }
+
+    25% {
+        transform:
+            translate3d(180px, 80px, 0)
+            scale(1);
+
+        opacity: 0.70;
+    }
+
+    50% {
+        transform:
+            translate3d(350px, 180px, 0)
+            scale(1.15);
+
+        opacity: 0.90;
+    }
+
+    75% {
+        transform:
+            translate3d(180px, 300px, 0)
+            scale(1.05);
+
+        opacity: 0.65;
+    }
+
+    100% {
+        transform:
+            translate3d(-50px, 450px, 0)
+            scale(0.90);
+
+        opacity: 0.45;
+    }
+}
+
+
+/* =========================================================
+   GOLD LIGHT ANIMATION
+   ========================================================= */
+
+@keyframes raraGoldLight {
+
+    0% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(0.80);
+
+        opacity: 0.35;
+    }
+
+    30% {
+        transform:
+            translate3d(-100px, -80px, 0)
+            scale(1);
+
+        opacity: 0.60;
+    }
+
+    60% {
+        transform:
+            translate3d(-250px, 100px, 0)
+            scale(1.20);
+
+        opacity: 0.80;
+    }
+
+    100% {
+        transform:
+            translate3d(-100px, 250px, 0)
+            scale(0.90);
+
+        opacity: 0.40;
+    }
+}
+
+
+/* =========================================================
+   PREMIUM SHIMMER LAYER
+   ========================================================= */
+
+.rara-shimmer {
+    position: fixed;
+
+    top: 0;
+    left: -150%;
+
+    width: 80%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    transform:
+        skewX(-20deg);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,0.03) 30%,
+            rgba(255,255,255,0.38) 50%,
+            rgba(255,255,255,0.03) 70%,
+            transparent 100%
+        );
+
+    filter: blur(8px);
+
+    animation:
+        raraShimmer
+        10s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes raraShimmer {
+
+    0% {
+        left: -150%;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.5;
+    }
+
+    45% {
+        opacity: 0.8;
+    }
+
+    65% {
+        opacity: 0;
+    }
+
+    100% {
+        left: 160%;
+        opacity: 0;
+    }
+}
+
+
+/* =========================================================
+   SPARKLE / DIAMOND LIGHT
+   ========================================================= */
+
+.rara-sparkle {
+    position: fixed;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    box-shadow:
+        0 0 4px #ffffff,
+        0 0 10px #ffb6dc,
+        0 0 18px #ff69b4,
+        0 0 30px rgba(255,20,147,0.65);
+
+    animation:
+        raraSparkle
+        4s
+        ease-in-out
+        infinite;
+}
+
+
+/* Cross sparkle */
+
+.rara-sparkle::before,
+.rara-sparkle::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(255,255,255,0.95),
+            transparent
+        );
+}
+
+
+.rara-sparkle::before {
+    width: 28px;
+    height: 1px;
+}
+
+
+.rara-sparkle::after {
+    width: 1px;
+    height: 28px;
+}
+
+
+@keyframes raraSparkle {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.2) rotate(0deg);
+    }
+
+    20% {
+        opacity: 0.2;
+    }
+
+    45% {
+        opacity: 1;
+        transform: scale(1.5) rotate(45deg);
+    }
+
+    65% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.2) rotate(90deg);
+    }
+}
+
+
+/* =========================================================
+   GLASS / GLOW CARD
+   Bisa digunakan pada product-card, beauty tips,
+   trust bar, category, dll.
+   ========================================================= */
+
+.rara-glass {
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.78),
+            rgba(255,235,246,0.48)
+        );
+
+    border: 1px solid rgba(255,255,255,0.80);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 40px rgba(255,20,147,0.08),
+        0 0 30px rgba(255,255,255,0.45);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+}
+
+
+.rara-glass:hover {
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(255,105,180,0.45);
+
+    box-shadow:
+        0 18px 55px rgba(255,20,147,0.16),
+        0 0 35px rgba(255,105,180,0.20),
+        inset 0 0 30px rgba(255,255,255,0.40);
+}
+
+
+/* =========================================================
+   PINK FANTA GLOW TEXT
+   ========================================================= */
+
+.rara-glow-text {
+    color: #ff1493;
+
+    text-shadow:
+        0 0 5px rgba(255,20,147,0.20),
+        0 0 12px rgba(255,105,180,0.25),
+        0 0 25px rgba(255,105,180,0.20);
+}
+
+
+/* =========================================================
+   GOLD GLOW
+   ========================================================= */
+
+.rara-gold-glow {
+    color: #c99545;
+
+    text-shadow:
+        0 0 5px rgba(255,215,160,0.30),
+        0 0 12px rgba(255,200,120,0.25),
+        0 0 25px rgba(255,215,160,0.25);
+}
+
+
+/* =========================================================
+   PREMIUM BUTTON
+   ========================================================= */
+
+.rara-glow-button {
+    position: relative;
+
+    border: none;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff69b4,
+            #ff1493,
+            #d90078
+        );
+
+    box-shadow:
+        0 8px 25px rgba(255,20,147,0.25),
+        0 0 25px rgba(255,105,180,0.20);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.rara-glow-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    transform: skewX(-20deg);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.65),
+            transparent
+        );
+
+    animation:
+        raraButtonShine
+        4s
+        ease-in-out
+        infinite;
+}
+
+
+.rara-glow-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.02);
+
+    box-shadow:
+        0 12px 35px rgba(255,20,147,0.35),
+        0 0 35px rgba(255,105,180,0.35);
+}
+
+
+@keyframes raraButtonShine {
+
+    0% {
+        left: -120%;
+    }
+
+    45%,
+    100% {
+        left: 150%;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        background-attachment: scroll;
+        background-size: 180% 180%;
+    }
+
+    body::before {
+        width: 600px;
+        height: 600px;
+
+        top: -220px;
+        left: -220px;
+    }
+
+    body::after {
+        width: 450px;
+        height: 450px;
+
+        right: -220px;
+    }
+
+    .rara-shimmer {
+        animation-duration: 14s;
+    }
+
+    .rara-sparkle {
+        width: 3px;
+        height: 3px;
+    }
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   Untuk pengguna yang mengaktifkan reduced motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    body::before,
+    body::after,
+    .rara-shimmer,
+    .rara-sparkle,
+    .rara-glow-button::before {
+        animation: none !important;
+    }
+}
+```css
+/* =========================================================
+   RARA DRW SKINCARE
+   MOVING SMOKE / MIST BACKGROUND
+   Luxury Pink + White + Champagne Gold
+   ========================================================= */
+
+body {
+    position: relative;
+    overflow-x: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffafb 0%,
+            #fff3f8 35%,
+            #ffffff 55%,
+            #fff0f6 75%,
+            #fffafc 100%
+        );
+}
+
+
+/* =========================================================
+   CONTAINER ASAP
+   ========================================================= */
+
+.rara-smoke-background {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   ASAP 1
+   ========================================================= */
+
+.rara-smoke {
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.80) 0%,
+            rgba(255, 190, 220, 0.45) 20%,
+            rgba(255, 105, 180, 0.18) 40%,
+            transparent 70%
+        );
+
+    filter: blur(45px);
+
+    opacity: 0.65;
+
+    animation:
+        raraSmokeMove1
+        18s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   ASAP 2
+   ========================================================= */
+
+.rara-smoke:nth-child(2) {
+
+    width: 750px;
+    height: 750px;
+
+    left: 45%;
+    top: 10%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.75) 0%,
+            rgba(255,225,190,0.30) 25%,
+            rgba(255,205,220,0.20) 45%,
+            transparent 72%
+        );
+
+    filter: blur(60px);
+
+    opacity: 0.55;
+
+    animation:
+        raraSmokeMove2
+        23s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   ASAP 3
+   ========================================================= */
+
+.rara-smoke:nth-child(3) {
+
+    width: 500px;
+    height: 500px;
+
+    left: 65%;
+    top: 55%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.70) 0%,
+            rgba(255,105,180,0.20) 30%,
+            rgba(214,168,95,0.12) 50%,
+            transparent 75%
+        );
+
+    filter: blur(50px);
+
+    opacity: 0.50;
+
+    animation:
+        raraSmokeMove3
+        20s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   ASAP 4
+   ========================================================= */
+
+.rara-smoke:nth-child(4) {
+
+    width: 650px;
+    height: 650px;
+
+    left: -15%;
+    top: 55%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.85) 0%,
+            rgba(255,220,238,0.35) 30%,
+            rgba(255,180,215,0.15) 50%,
+            transparent 72%
+        );
+
+    filter: blur(55px);
+
+    opacity: 0.60;
+
+    animation:
+        raraSmokeMove4
+        26s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   GERAK ASAP 1
+   ========================================================= */
+
+@keyframes raraSmokeMove1 {
+
+    0% {
+        transform:
+            translate(-20%, -15%)
+            scale(0.85)
+            rotate(0deg);
+    }
+
+    30% {
+        transform:
+            translate(10%, 5%)
+            scale(1.05)
+            rotate(20deg);
+    }
+
+    60% {
+        transform:
+            translate(25%, 20%)
+            scale(1.20)
+            rotate(45deg);
+    }
+
+    100% {
+        transform:
+            translate(5%, 35%)
+            scale(0.95)
+            rotate(80deg);
+    }
+}
+
+
+/* =========================================================
+   GERAK ASAP 2
+   ========================================================= */
+
+@keyframes raraSmokeMove2 {
+
+    0% {
+        transform:
+            translate(20%, -10%)
+            scale(1);
+    }
+
+    35% {
+        transform:
+            translate(-15%, 15%)
+            scale(1.15);
+    }
+
+    70% {
+        transform:
+            translate(-30%, 35%)
+            scale(0.90);
+    }
+
+    100% {
+        transform:
+            translate(5%, 50%)
+            scale(1.10);
+    }
+}
+
+
+/* =========================================================
+   GERAK ASAP 3
+   ========================================================= */
+
+@keyframes raraSmokeMove3 {
+
+    0% {
+        transform:
+            translate(0, 20%)
+            scale(0.80);
+    }
+
+    50% {
+        transform:
+            translate(-25%, -15%)
+            scale(1.20);
+    }
+
+    100% {
+        transform:
+            translate(20%, -30%)
+            scale(0.95);
+    }
+}
+
+
+/* =========================================================
+   GERAK ASAP 4
+   ========================================================= */
+
+@keyframes raraSmokeMove4 {
+
+    0% {
+        transform:
+            translate(-10%, 15%)
+            scale(1);
+    }
+
+    40% {
+        transform:
+            translate(20%, -20%)
+            scale(1.20);
+    }
+
+    75% {
+        transform:
+            translate(35%, -5%)
+            scale(0.90);
+    }
+
+    100% {
+        transform:
+            translate(10%, 25%)
+            scale(1.10);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .rara-smoke {
+        width: 400px;
+        height: 400px;
+
+        filter: blur(40px);
+    }
+
+    .rara-smoke:nth-child(2) {
+        width: 450px;
+        height: 450px;
+
+        filter: blur(45px);
+    }
+
+    .rara-smoke:nth-child(3) {
+        width: 350px;
+        height: 350px;
+
+        filter: blur(40px);
+    }
+
+    .rara-smoke:nth-child(4) {
+        width: 400px;
+        height: 400px;
+
+        filter: blur(40px);
+    }
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .rara-smoke {
+        animation: none;
     }
 }
