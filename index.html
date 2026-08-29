@@ -16,7 +16,6 @@
     <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
 </audio>
 <style>
-    
     #drwMusicButton {
         position: fixed;
         right: 20px;
@@ -157,7 +156,7 @@
     <style>
         /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: "DM Sans", sans-serif; background: url("assets/images/products/Background 4.png"); #dbd6daca; color: #ce0f7e; }
+        body { margin: 0; font-family: "DM Sans", sans-serif; background: #a6d2060b; color: #ce0f7e; }
         a { text-decoration: none; color: inherit; }
         button, input { font: inherit; }
         .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#c10566; font-size:6px; }
@@ -175,6 +174,7 @@
         .hero { padding:90px 7%; background:linear-gradient(15deg,#e8008f7c 0%,#83ee0131 55%,#836fddd0 110%); }
         .hero-container { max-width:890px; margin:auto; display:grid; grid-template-columns:1.05fr .95fr; align-items:none center; gap:1px; }
         .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:10px; font-weight:500; letter-spacing:2px; }
+        .hero h1 { margin:22px; font-family:"Playfair Display",serif; font-size:clamp(48px,6vw,82px); line-height:1.02; color:#422434; }
         .hero h1 span { display:block; color:#df3b96; }
         .hero p { max-width:620px; line-height: 10px; color:#765466; font-size:10px; }
         .hero-actions { display:ruby-text; gap:12px; flex-wrap:wrap; margin:2px 0; }
@@ -182,7 +182,7 @@
         .btn-primary { font-size:13px; background:#e83d9b; color:#fff; box-shadow:0 10px 30px rgba(232,61,155,.22); }
         .btn-secondary { font-size: 13px; border-color:#e9b9d2; color:#9b356d; background:#0ccd0171; }
         .btn-white { background:#fff; color:#c72d80; }
-        .hero-image-card img {  width:270%; max-height:50%; object-fit:fill; }
+        .hero-image-card img {  width:78%; max-height:58%; object-fit:fill; }
         .hero-mini-trust { display:block; flex-wrap:wrap; gap:18px; color:#70495d; font-size:13px; }
         .hero-mini-trust i { color:#e83d9b; }
         .hero-visual { position:relative; min-height:50px; display:grid; place-items:center; }
@@ -226,7 +226,7 @@
         .about-card { text-align:center; }
         .about-logo-mark { font-family:"Playfair Display",serif; font-size:64px; color:#e83d9b; }
         .about-card span { letter-spacing:4px; font-size:13px; }
-        .about-content h2 { font-family:"Playfair Display",serif; font-size:25px; margin:10px 0 20px; }
+        .about-content h2 { font-family:"Playfair Display",serif; font-size:45px; margin:10px 0 20px; }
         .about-content h2 span { color:#e83d9b; }
         .about-content p { color:#765466; line-height:1.8; }
         .about-points { margin:25px 0; display:grid; gap:12px; }
@@ -711,7 +711,7 @@
      ========================================================= -->
 
 <a
-    href="https://shopee.co.id/drwskincare.indonesia_"
+    href="LINK_SHOPEE_ANDA"
     class="rara-shopee"
     target="_blank"
     rel="noopener noreferrer"
@@ -749,149 +749,7 @@
         <small>Order/Konsultasi</small>
     </span>
 </a>
-<div class="category-card">
 
-    <div class="category-glass-shine"></div>
-
-    <div class="category-sparkle"
-         style="top:22%;left:25%;">
-    </div>
-
-    <div class="category-sparkle"
-         style="top:65%;left:75%;">
-    </div>
-
-    <!-- isi category Anda -->
-    <img src="..." alt="...">
-
-    <h3>Perawatan Wajah</h3>
-
-</div>
-<!-- =========================================================
-     DRW SKINCARE - VOICE WELCOME
-     Suara otomatis:
-     "Assalamualaikum, Selamat Datang di DRW Skincare"
-========================================================= -->
-
-<div id="drwWelcomeVoice" class="drw-welcome-voice">
-    <div class="drw-voice-glow"></div>
-
-    <div class="drw-voice-icon">
-        <i class="fas fa-volume-up"></i>
-    </div>
-
-    <div class="drw-voice-text">
-        <span>DRW SKINCARE</span>
-        <strong>"Assalamualaikum, Selamat Datang"</strong>
-    </div>
-</div>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    let sudahBicara = false;
-
-    function suaraSambutan() {
-
-        if (sudahBicara) return;
-
-        if (!("speechSynthesis" in window)) {
-            console.log("Browser tidak mendukung Speech Synthesis");
-            return;
-        }
-
-        // Hentikan suara sebelumnya
-        window.speechSynthesis.cancel();
-
-        const pesan = new SpeechSynthesisUtterance(
-            "Assalamualaikum. Selamat datang di D R W Skincare."
-        );
-
-        // Bahasa Indonesia
-        pesan.lang = "id-ID";
-
-        // Kecepatan bicara
-        pesan.rate = 0.88;
-
-        // Nada suara
-        pesan.pitch = 1.25;
-
-        // Volume
-        pesan.volume = 1;
-
-        // Cari suara wanita Indonesia jika tersedia
-        const voices = window.speechSynthesis.getVoices();
-
-        const suaraWanita =
-            voices.find(voice =>
-                voice.lang.includes("id") &&
-                (
-                    voice.name.toLowerCase().includes("female") ||
-                    voice.name.toLowerCase().includes("woman") ||
-                    voice.name.toLowerCase().includes("female")
-                )
-            ) ||
-            voices.find(voice => voice.lang.includes("id"));
-
-        if (suaraWanita) {
-            pesan.voice = suaraWanita;
-        }
-
-        pesan.onstart = function () {
-            document.body.classList.add("drw-speaking");
-            sudahBicara = true;
-        };
-
-        pesan.onend = function () {
-            document.body.classList.remove("drw-speaking");
-
-            setTimeout(() => {
-                const welcome = document.getElementById("drwWelcomeVoice");
-
-                if (welcome) {
-                    welcome.classList.add("hide");
-                }
-            }, 1500);
-        };
-
-        window.speechSynthesis.speak(pesan);
-    }
-
-
-    // Coba otomatis saat halaman dibuka
-    setTimeout(() => {
-
-        window.speechSynthesis.getVoices();
-
-        suaraSambutan();
-
-    }, 1200);
-
-
-    // Jika browser memblokir autoplay,
-    // suara akan aktif saat pengunjung pertama kali klik/touch
-    document.addEventListener("click", function () {
-        suaraSambutan();
-    }, { once: true });
-
-
-    document.addEventListener("touchstart", function () {
-        suaraSambutan();
-    }, { once: true });
-
-
-    // Reload daftar suara
-    if ("speechSynthesis" in window) {
-
-        window.speechSynthesis.onvoiceschanged = function () {
-            window.speechSynthesis.getVoices();
-        };
-
-    }
-
-});
-</script>
 
 </body>
 </html>
