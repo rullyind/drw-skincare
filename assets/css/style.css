@@ -1721,7 +1721,7 @@ footer > p {
 
     .rara-whatsapp {
         right: 15px !important;
-        bottom: 115px !important;
+        bottom: 170px !important;
 
         min-height: 55px;
 
@@ -1836,5 +1836,182 @@ footer > p {
     .rara-wa-icon {
         width: 44px;
         height: 44px;
+    }
+}
+
+/* =========================================================
+   RARA DRW SKINCARE
+   FLOATING SHOPEE PREMIUM
+   ========================================================= */
+
+.rara-shopee {
+    position: fixed !important;
+
+    right: 22px !important;
+    bottom: 122px !important;
+
+    z-index: 999999 !important;
+
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+
+    min-height: 60px;
+
+    padding: 7px 18px 7px 7px;
+
+    background: linear-gradient(
+        135deg,
+        #ee4d2d,
+        #ff6b4a
+    );
+
+    color: #ffffff !important;
+
+    text-decoration: none !important;
+
+    border-radius: 50px;
+
+    box-shadow:
+        0 10px 30px rgba(238, 77, 45, .35),
+        0 0 20px rgba(238, 77, 45, .20);
+
+    transition: all .3s ease;
+
+    animation: raraShopeeFloat 3s ease-in-out infinite;
+}
+
+/* HOVER */
+
+.rara-shopee:hover {
+    transform: translateY(-5px) scale(1.04);
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 15px 40px rgba(238, 77, 45, .50),
+        0 0 30px rgba(238, 77, 45, .30);
+}
+
+/* ICON */
+
+.rara-shopee-icon {
+    width: 48px;
+    height: 48px;
+
+    flex: 0 0 48px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    color: #ee4d2d;
+
+    border-radius: 50%;
+
+    font-size: 24px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.12);
+}
+
+/* TEXT */
+
+.rara-shopee-text {
+    display: flex !important;
+    flex-direction: column;
+
+    text-align: left !important;
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.rara-shopee-text strong {
+    color: #ffffff !important;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.rara-shopee-text small {
+    margin-top: 3px;
+
+    color: rgba(255,255,255,.9) !important;
+
+    font-size: 10px;
+}
+
+/* ANIMATION */
+
+@keyframes raraShopeeFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rara-shopee {
+        right: 15px !important;
+        bottom: 110px !important;
+
+        min-height: 55px;
+
+        padding: 6px 13px 6px 6px;
+    }
+
+    .rara-shopee-icon {
+        width: 43px;
+        height: 43px;
+
+        flex-basis: 43px;
+
+        font-size: 22px;
+    }
+
+    .rara-shopee-text strong {
+        font-size: 12px;
+    }
+
+    .rara-shopee-text small {
+        font-size: 9px;
+    }
+}
+
+/* HP KECIL */
+
+@media (max-width: 380px) {
+
+    .rara-shopee-text {
+        display: none !important;
+    }
+
+    .rara-shopee {
+        width: 57px;
+        height: 57px;
+
+        padding: 6px;
+
+        justify-content: center;
+    }
+
+    .rara-shopee-icon {
+        width: 45px;
+        height: 45px;
     }
 }
