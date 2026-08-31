@@ -569,50 +569,8 @@ body {
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-```html
-<!-- =========================================================
-     RARA DRW SKINCARE - FLOATING SHOPEE BUTTON
-     ========================================================= -->
 
-<a
-    href="LINK_SHOPEE_ANDA"
-    class="rara-shopee"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Kunjungi Shopee RARA DRW SKINCARE">
 
-    <span class="rara-shopee-icon">
-        <img src="assets/images/products/logo shopee.png" alt="shopee">
-    </span>
-
-    <span class="rara-shopee-text">
-        <strong>Beli di Shopee</strong>
-        <small>drwskincare.indonesia_</small> 
-        <a href="https://shopee.co.id/drwskincare.indonesia_?entryPoint=ShopBySearch&searchKeyword=drwskincare.indonesia_"
-    </span>
-
-</a>
-
-<!-- =========================================================
-     RARA DRW SKINCARE - FLOATING WHATSAPP BUTTON
-     ========================================================= -->
-
-<a
-    href="https://wa.me/6282381432222?text=Halo%20DRW%20SKINCARE%2C%20saya%20ingin%20bertanya%20tentang%20produk."
-    class="rara-whatsapp"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Chat Admin DRW SKINCARE"
->
-    <span class="rara-wa-icon">
-        <i class="fab fa-whatsapp"></i>
-    </span>
-
-    <span class="rara-wa-text">
-        <strong>WhatsApp</strong>
-        <small>Order/Konsultasi</small>
-    </span>
-</a>
 
 batas wa lama
 
@@ -639,7 +597,7 @@ body {
 .rara-wa-container {
     position: fixed;
     right: 14px;
-    bottom: 25px;
+    bottom: 140px;
     z-index: 999999;
     display: flex;
     align-items: center;
@@ -670,7 +628,7 @@ body {
         0 8px 30px rgba(0,0,0,0.18),
         0 0 20px rgba(255, 20, 147, 0.15);
 
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    border: 1px solid rgb(255, 255, 255);
 
     opacity: 0;
     visibility: hidden;
@@ -711,12 +669,12 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: #25D366;
+    background: #01f65b;
 
     box-shadow:
-        0 7px 22px rgba(0,0,0,0.25),
+        0 7px 22px rgba(0, 0, 0, 0.999),
         0 0 0 4px rgba(255,255,255,0.75),
-        0 0 25px rgba(37,211,102,0.45);
+        0 0 25px rgb(0, 0, 0);
 
     text-decoration: none;
 
@@ -985,6 +943,498 @@ raraWaMessage.addEventListener(
 
     }
 );
+
+</script>
+
+Tombol Shopee
+
+
+<style>
+
+/* =========================================================
+   FLOATING SHOPEE
+   ========================================================= */
+
+.rara-shopee-float {
+    position: fixed;
+    right: 14px;
+    bottom: 225px;
+    z-index: 999999;
+
+    width: 58px;
+    height: 58px;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================================
+   TOMBOL SHOPEE
+   ========================================================= */
+
+.rara-shopee-btn {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ee4d2d;
+
+    border-radius: 50%;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 7px 22px rgba(0,0,0,.25),
+        0 0 0 4px rgba(255,255,255,.9),
+        0 0 28px rgba(238,77,45,.45);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.rara-shopee-btn:hover {
+    transform: scale(1.12);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.3),
+        0 0 0 4px rgba(255,255,255,1),
+        0 0 38px rgba(238,77,45,.7);
+}
+
+
+/* =========================================================
+   LOGO SHOPEE
+   ========================================================= */
+
+.rara-shopee-logo {
+    width: 34px;
+    height: 34px;
+
+    fill: white;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   CAHAYA BERDENYUT
+   ========================================================= */
+
+.rara-shopee-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -7px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(238,77,45,.35);
+
+    animation: raraShopeePulse 2s infinite;
+}
+
+
+@keyframes raraShopeePulse {
+
+    0% {
+        transform: scale(.9);
+        opacity: .9;
+    }
+
+    70% {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1.28);
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   NOTIFICATION DOT
+   ========================================================= */
+
+.rara-shopee-dot {
+
+    position: absolute;
+
+    top: -1px;
+    right: -1px;
+
+    width: 15px;
+    height: 15px;
+
+    background: #ff1493;
+
+    border: 2px solid white;
+
+    border-radius: 50%;
+
+    z-index: 5;
+
+    animation: raraShopeeDot 1.5s infinite;
+}
+
+
+@keyframes raraShopeeDot {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+}
+
+
+/* =========================================================
+   PESAN SHOPEE
+   ========================================================= */
+
+.rara-shopee-message {
+
+    position: absolute;
+
+    right: 0;
+    bottom: 7px;
+
+    width: max-content;
+
+    max-width: calc(100vw - 90px);
+
+    padding: 12px 18px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.97);
+
+    color: #ee4d2d;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    white-space: nowrap;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateX(130px);
+
+    transition:
+        transform .8s cubic-bezier(.22,1,.36,1),
+        opacity .5s ease,
+        visibility .5s ease;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.18);
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   PESAN MUNCUL
+   ========================================================= */
+
+.rara-shopee-message.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateX(-66px);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:600px) {
+
+    .rara-shopee-float {
+
+        right: 10px;
+        bottom: 20px;
+
+        width: 53px;
+        height: 53px;
+
+    }
+
+
+    .rara-shopee-btn {
+
+        width: 53px;
+        height: 53px;
+
+    }
+
+
+    .rara-shopee-logo {
+
+        width: 31px;
+        height: 31px;
+
+    }
+
+
+    .rara-shopee-message {
+
+        font-size: 12px;
+
+        padding: 10px 14px;
+
+        max-width: calc(100vw - 75px);
+
+    }
+
+
+    .rara-shopee-message.show {
+
+        transform: translateX(-60px);
+
+    }
+
+}
+
+
+/* =========================================================
+   HP KECIL
+   ========================================================= */
+
+@media(max-width:380px) {
+
+    .rara-shopee-float {
+
+        right: 8px;
+
+    }
+
+
+    .rara-shopee-btn {
+
+        width: 50px;
+        height: 50px;
+
+    }
+
+
+    .rara-shopee-logo {
+
+        width: 29px;
+        height: 29px;
+
+    }
+
+
+    .rara-shopee-message {
+
+        font-size: 11px;
+
+        padding: 9px 12px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     SHOPEE BUTTON
+     ========================================================= -->
+
+<div class="rara-shopee-float">
+
+    <!-- PESAN -->
+    <div
+        id="raraShopeeMessage"
+        class="rara-shopee-message"
+        onclick="raraShopeeOpen()"
+    >
+        🛍️ Beli di Shopee Klik &gt;
+    </div>
+
+
+    <!-- TOMBOL -->
+    <a
+        href="https://shopee.co.id/drwskincare.indonesia_"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rara-shopee-btn"
+        aria-label="Beli di Shopee"
+    >
+
+        <!-- =================================================
+             LOGO SHOPEE
+             ================================================= -->
+
+        <svg
+            class="rara-shopee-logo"
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+        >
+
+            <!-- TAS SHOPEE -->
+            <path
+                d="
+                M18 20
+                C18 12 24 7 32 7
+                C40 7 46 12 46 20
+                H53
+                C55 20 57 22 57 24
+                L54 53
+                C54 56 52 58 49 58
+                H15
+                C12 58 10 56 10 53
+                L7 24
+                C7 22 9 20 11 20
+                Z
+                "
+            />
+
+            <!-- PEGANGAN TAS -->
+            <path
+                d="
+                M22 20
+                C22 14 26 11 32 11
+                C38 11 42 14 42 20
+                H38
+                C38 17 36 15 32 15
+                C28 15 26 17 26 20
+                Z
+                "
+                fill="#ee4d2d"
+            />
+
+            <!-- HURUF S -->
+            <path
+                d="
+                M39 31
+                C37 28 34 26 30 26
+                C25 26 22 29 22 33
+                C22 37 25 39 31 41
+                C35 42 37 43 37 46
+                C37 48 35 49 32 49
+                C28 49 26 47 24 44
+                L20 47
+                C23 51 27 53 32 53
+                C38 53 42 50 42 45
+                C42 40 39 38 33 36
+                C29 35 27 34 27 32
+                C27 30 29 29 31 29
+                C34 29 36 31 37 33
+                Z
+                "
+                fill="#ee4d2d"
+            />
+
+        </svg>
+
+
+        <!-- NOTIFICATION -->
+        <span class="rara-shopee-dot"></span>
+
+    </a>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   RARA DRW SKINCARE
+   AUTO SHOPEE MESSAGE
+   ========================================================= */
+
+(function() {
+
+    const message =
+        document.getElementById("raraShopeeMessage");
+
+
+    /* =====================================================
+       TAMPILKAN PESAN
+       ===================================================== */
+
+    function showShopeeMessage() {
+
+        if (!message) return;
+
+
+        message.classList.add("show");
+
+
+        /*
+         * Pesan tampil selama 6 detik
+         */
+
+        setTimeout(function() {
+
+            message.classList.remove("show");
+
+        }, 6000);
+
+    }
+
+
+    /* =====================================================
+       MUNCUL SETIAP 20 DETIK
+       ===================================================== */
+
+    setInterval(
+        showShopeeMessage,
+        20000
+    );
+
+
+    /* =====================================================
+       KLIK PESAN
+       ===================================================== */
+
+    window.raraShopeeOpen = function() {
+
+        window.open(
+            "https://shopee.co.id/drwskincare.indonesia_",
+            "_blank"
+        );
+
+    };
+
+
+})();
 
 </script>
 
