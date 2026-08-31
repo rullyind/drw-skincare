@@ -171,10 +171,10 @@
         .nav-actions { display:flex; align-items:center; gap:10px; }
         .nav-icon { width:42px; height:42px; border:1px solid #f1d3e1; border-radius:50%; display:grid; place-items:center; background:#fff; color:#6d3a52; cursor:pointer; position:relative; }
         .cart-count { position:absolute; top:-4px; right:-3px; min-width:18px; height:18px; padding:0 4px; border-radius:99px; display:grid; place-items:center; background:#e83d9b; color:#fff; font-size:10px; font-weight:700; }
-        .hero { padding:90px 7%; background:linear-gradient(299deg,#e8008f7c 0%,#83ee0131 55%,#836fddd0 110%); }
+        .hero { padding:90px 7%; background:transparent; }
         .hero-container { max-width:890px; margin:auto; display:grid; grid-template-columns:1.05fr .95fr; align-items:none center; gap:1px; }
         .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:10px; font-weight:500; letter-spacing:2px; }
-        .hero h1 { margin:22px; font-family:"Playfair Display",serif; font-size:clamp(48px,6vw,82px); line-height:1.02; color:#422434; }
+        .hero h1 { margin:22px; font-family:"Playfair Display",serif; font-size:revert-ruler; line-height:1.02; color:#422434; }
         .hero h1 span { display:block; color:#df3b96; }
         .hero p { max-width:620px; line-height: 10px; color:#765466; font-size:10px; }
         .hero-actions { display:ruby-text; gap:12px; flex-wrap:wrap; margin:2px 0; }
@@ -241,7 +241,7 @@
         .cta { padding:70px 7%; background:linear-gradient(135deg,#e83d9b,#c92d80); color:#fff; text-align:center; }
         .cta h2 { font-family:"Playfair Display",serif; font-size:42px; margin:0 0 12px; }
         .cta p { opacity:.9; margin-bottom:25px; }
-        .footer { padding:60px 7% 20px; background:#321d29; color:#fff; }
+        .footer { padding:60px 7% 20px; background:#c9629d; color:#fff; }
         .footer-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:40px; }
         .footer-logo img { width:150px; background:#fff; border-radius:12px; padding:5px; }
         .footer-brand p,.footer-column p { color:#d9bdca; line-height:1.7; font-size:13px; }
@@ -404,9 +404,6 @@ body {
         <div class="hero-visual">
             <div class="hero-glow"></div>
 
-            <div class="hero-image-card">
-                <img src="assets/images/products/Brightening Peel Off Mask with Charcoal 60 ml.png" alt="DRW SKINCARE">
-            </div>
 <div class="hero-mini-trust">
                 <span><i class="fa-solid fa-circle-check"></i> Produk Pilihan</span>
                 <span><i class="fa-solid fa-circle-check"></i> Pengiriman Aman</span>
@@ -778,7 +775,7 @@ body {
 
     .rara-wa-container {
         right: 10px;
-        bottom: 20px;
+        bottom: 200px;
     }
 
     .rara-wa-button {
@@ -1185,7 +1182,7 @@ Tombol Shopee
     .rara-shopee-float {
 
         right: 10px;
-        bottom: 20px;
+        bottom: 120px;
 
         width: 53px;
         height: 53px;
