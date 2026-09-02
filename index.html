@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-22X510H1SQ"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -11,6 +12,132 @@
     <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
     crossorigin="anonymous">
+</script>
+
+<audio id="drwBackgroundMusic" loop preload="auto">
+    <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
+</audio>
+<style>
+    #drwMusicButton {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 52px;
+        height: 52px;
+        border: 1px solid #d4af37;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4fa3, #d4af37);
+        color: #ffffff;
+        font-size: 21px;
+        line-height: 52px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        z-index: 99999;
+        box-shadow: 0 5px 20px rgba(0,0,0,.20);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    #drwMusicButton:hover {
+        transform: scale(1.08);
+    }
+
+    #drwMusicButton.playing {
+        box-shadow:
+            0 0 0 5px rgba(255,79,163,.15),
+            0 5px 20px rgba(0,0,0,.20);
+    }
+
+    @media (max-width: 600px) {
+        #drwMusicButton {
+            right: 15px;
+            bottom: 15px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 19px;
+        }
+    }
+</style>
+
+<div id="drwMusicLabel">
+    🎵 Putar Musik
+</div>
+
+<button
+    id="drwMusicButton"
+    type="button"
+    aria-label="Putar musik"
+    title="Putar musik DRW Skincare">
+    🎵
+</button>
+
+<script>
+(function () {
+    "use strict";
+
+    const music = document.getElementById("drwBackgroundMusic");
+    const button = document.getElementById("drwMusicButton");
+
+    if (!music || !button) return;
+
+    // Volume awal 25% agar musik tidak terlalu keras.
+    music.volume = 0.25;
+
+    function updateButton() {
+        if (music.paused) {
+            button.textContent = "🎵";
+            button.classList.remove("playing");
+            button.setAttribute("aria-label", "Putar musik");
+            button.title = "Putar musik DRW Skincare";
+        } else {
+            button.textContent = "🔊";
+            button.classList.add("playing");
+            button.setAttribute("aria-label", "Matikan musik");
+            button.title = "Matikan musik DRW Skincare";
+        }
+    }
+
+    function playMusic() {
+        const promise = music.play();
+
+        if (promise !== undefined) {
+            promise
+                .then(updateButton)
+                .catch(updateButton);
+        } else {
+            updateButton();
+        }
+    }
+
+    function toggleMusic() {
+        if (music.paused) {
+            playMusic();
+        } else {
+            music.pause();
+            updateButton();
+        }
+    }
+
+    button.addEventListener("click", toggleMusic);
+
+    window.addEventListener("load", function () {
+    playMusic();
+    });
+
+    function firstInteraction() {
+        if (music.paused) {
+            playMusic();
+        }
+    }
+
+    document.addEventListener("pointerdown", firstInteraction, {
+        once: true,
+        passive: true
+    });
+
+    updateButton();
+})();
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +161,8 @@
 
 <!-- FONT AWESOME -->
 <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 <!-- CSS UTAMA -->
 <link rel="stylesheet" href="assets/css/style.css">
@@ -50,6 +178,133 @@
 
 
 <style>
+        /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
+        .top-bar { min-height: 38px; padding: 0 5%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:#c10566; font-size:6px; }
+        .top-bar-left,.top-bar-right { display:flex; align-items:center; gap:10px; }
+        .auth-link { border:0; background:none; cursor:pointer; color:#7e315d; font-weight:600; }
+        .top-divider { opacity:.55; }
+        .main-navbar { min-height:50px; padding:0 5%; display:flex; align-items:center; gap:28px; background:#ffffff; border-bottom:5px solid #c6307dbb; position:sticky; top:0; z-index:1000; }
+        .brand-logo img { object-fit: cover; width:1    60px; max-height:58px; object-fit:contain; display:block; }
+        .nav-menu { display:flex; align-items:center; justify-content:center; gap:22px; flex:1; }
+        .nav-item { font-size:14px; font-weight:600; color:#543747; }
+        .nav-item:hover,.nav-item.active { color:#e83d9b; }
+        .nav-actions { display:flex; align-items:center; gap:10px; }
+        .cart-count { position:absolute; top:-4px; right:-3px; min-width:18px; height:18px; padding:0 4px; border-radius:99px; display:grid; place-items:center; background:#e83d9b; color:#fff; font-size:10px; font-weight:700; }
+        .hero { padding:90px 7%; background:transparent; }
+        .hero-container { max-width:890px; margin:auto; display:none; }
+        .hero-eyebrow,.section-eyebrow { color:#d93491; font-size:10px; font-weight:500; letter-spacing:2px; }
+        .hero h1 { margin:22px; font-family:"Playfair Display",serif; font-size:revert-ruler; line-height:1.02; color:#422434; }
+        .hero h1 span { display:block; color:#df3b96; }
+        .hero p { max-width:620px; line-height: 10px; color:#765466; font-size:10px; }
+        .hero-actions { display:ruby-text; gap:12px; flex-wrap:wrap; margin:2px 0; }
+        .btn { display:inherit; align-items:center; justify-content:center; gap:9px; border-radius:999px; padding:10px 4px; font-weight:200; border:1px solid transparent; }
+        .btn-primary { font-size:13px; background:#e83d9b; color:#fff; box-shadow:0 10px 30px rgba(232,61,155,.22); }
+        .btn-secondary { font-size: 13px; border-color:#e9b9d2; color:#9b356d; background:#0ccd0171; }
+        .btn-white { background:#fff; color:#c72d80; }
+        .hero-image-card img {  width:78%; max-height:58%; object-fit:fill; }
+        .hero-mini-trust { display:block; flex-wrap:wrap; gap:18px; color:#70495d; font-size:13px; }
+        .hero-mini-trust i { color:#e83d9b; }
+        .hero-visual { position:relative; min-height:50px; display:grid; place-items:center; }
+        .hero-glow { position:absolute; width:90px; height:390px; border-radius:50%; background:rgba(233, 224, 229, 0.35); filter:blur(30px); }
+        .hero-feature { position:absolute; display:inline-block; align-items:center; gap:12px; padding:5px 5px; border:1px solid rgba(255,255,255,.9); border-radius:18px; background:rgba(255,255,255,.9); box-shadow:0 15px 35px rgba(135,59,96,.13); }
+        .hero-feature i { color:#e83d9b; font-size:13px; }
+        .hero-feature strong,.hero-feature small { display:block; }
+        .hero-feature strong { font-size:10px; }
+        .hero-feature small { margin-top:3px; color:#927084; font-size:11px; }
+        .hero-feature-one { top:1%; left:0%; }
+        .hero-feature-two { bottom:1%; right:5; }
+        .trust-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+        .trust-item { display:none; align-items:center; gap:14px; padding:15px; border-radius:18px; }
+        .trust-item > i { color:#df3b96; font-size:25px; }
+        .trust-item strong,.trust-item span { display:block; }
+        .trust-item strong { font-size:14px; }
+        .trust-item span { margin-top:4px; color:#927084; font-size:12px; }
+        .section-soft { background:#fff7fb; }
+        .product-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+        .product-card { background:#fff; border:1px solid #f1dce7; border-radius:22px; overflow:hidden; box-shadow:0 10px 30px rgba(109,55,84,.06); }
+        .product-card-content { padding:17px; }
+        .product-image-wrap { aspect-ratio:1; display:grid; place-items:center; background:#fff8fc; overflow:hidden; }
+        .product-image { width:100%; height:100%; object-fit:contain; }
+        .product-category {  color:#c93482; font-size:11px; font-weight:700; text-transform:uppercase; }
+        .product-title { margin:8px 0; font-size:16px; line-height:1.35; }
+        .product-description { color:#806071; font-size:12px; line-height:1.55; min-height:38px; }
+        .product-price { margin:12px 0; color:#d72f89; font-size:18px; font-weight:800; }
+        .product-card-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+        .product-view-link { color:#9e356e; font-size:12px; font-weight:700; }
+        .add-cart-btn { border:0; border-radius:999px; padding:10px 12px; background:#fce0ef; color:#bd2e79; cursor:pointer; font-size:11px; font-weight:700; }
+        .section-action { text-align: center; margin-top:30px; }
+        .category-grid { max-width:1400px; margin:auto; display:grid; grid-template-columns:repeat(8,1fr); gap:5px; }
+        .category-card:hover { transform:translateY(-90px); border-color:#e83d9b; box-shadow:100px rgba(89, 0, 49, 0.12); }
+        .category-icon { width: 10pxpx; height:18px; display:block; place-items:center; border-radius:15px; background:transparent; color:#e83d9b; margin-bottom:15px; }
+        .category-card strong,.category-card small { display:block; }
+        .category-card small { margin-top:5px; color:#8d0000; }
+        .about-container { max-width:1250px; margin:auto; display:grid; grid-template-columns:.8fr 1.2fr; gap:60px; align-items:center; }
+        .about-visual { min-height:360px; display:grid; place-items:center; border-radius:30px; background:linear-gradient(145deg,#fff,#ffe9f4);} 
+        .about-card { text-align:center; }
+        .about-logo-mark { font-family:"Playfair Display",serif; font-size:64px; color:#e83d9b; }
+        .about-card span { letter-spacing:4px; font-size:13px; }
+        .about-content h2 { font-family:"Playfair Display",serif; font-size:17px; margin:10px 0 20px; }
+        .about-content h2 span { color:#e83d9b; }
+        .about-content p { color:#765466; line-height:1.8; }
+        .about-points { margin:25px 0; display:grid; gap:12px; }
+        .about-points div { display:flex; gap:10px; align-items:center; }
+        .about-points i { color:#e83d9b; }
+        .tips-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+        .tip-card { padding:3px; border-radius:24px; background:#fff; border:1px solid #f0d7e4; }
+        .tip-icon { width:52px; height:52px; display:grid; place-items:center; border-radius:16px; background:#fff0f8; color:#e83d9b; }
+        .tip-card > span { display:block; margin-top:22px; color:#d93491; font-size:12px; font-weight:700; }
+        .tip-card h3 { font-size:20px; }
+        .tip-card p { color:#806071; line-height:1.7; font-size:14px; }
+        .cta { padding:70px 7%; background:linear-gradient(135deg,#e83d9b,#c92d80); color:#fff; text-align:center; }
+        .cta h2 { font-family:"Playfair Display",serif; font-size:42px; margin:0 0 12px; }
+        .cta p { opacity:.9; margin-bottom:25px; }
+        .footer { padding:60px 7% 20px; background:#c9629d; color:#fff; }
+        .footer-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:40px; }
+        .footer-logo img { width:150px; background:#fff; border-radius:12px; padding:5px; }
+        .footer-brand p,.footer-column p { color:#d9bdca; line-height:1.7; font-size:13px; }
+        .footer-social { display:flex; gap:10px; margin-top:20px; }
+        .footer-social a { width:36px; height:36px; border:1px solid #70485a; border-radius:50%; display:grid; place-items:center; }
+        .footer-column h3 { font-size:15px; }
+        .footer-column a { display:block; margin:10px 0; color:#d9bdca; font-size:13px; }
+        .footer-bottom { max-width:1250px; margin:40px auto 0; padding-top:18px; border-top:1px solid #573541; display:flex; justify-content:space-between; gap:20px; color:#b998a8; font-size:11px; }
+        .search-overlay { position:fixed; inset:0; z-index:3000; background:rgba(35,18,28,.58); backdrop-filter:blur(8px); display:none; align-items:flex-start; justify-content:center; padding:100px 20px 30px; }
+        .search-overlay.active { display:flex; }
+        .search-box { width:min(760px,100%); background:#fff; border-radius:28px; padding:30px; box-shadow:0 30px 80px rgba(0,0,0,.22); }
+        .search-close { float:right; border:0; background:#fff1f8; width:36px; height:36px; border-radius:50%; cursor:pointer; color:#c72d80; }
+        .search-heading span { color:#d93491; font-size:11px; font-weight:700; letter-spacing:2px; }
+        .search-heading h2 { font-family:"Playfair Display",serif; font-size:32px; margin:8px 0 20px; }
+        .search-input-wrap { display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid #edcddd; border-radius:16px; }
+        .search-input-wrap i { color:#e83d9b; }
+        .search-input-wrap input { width:100%; border:0; outline:0; }
+        .search-results { margin-top:15px; max-height:380px; overflow:auto; }
+        @media (max-width: 950px) {
+            .nav-menu { display:none; }
+            .hero-container,.about-container { grid-template-columns:1fr; }
+            .product-grid { grid-template-columns:repeat(2,1fr); }
+            .category-grid { grid-template-columns:repeat(2,1fr); }
+            .trust-grid,.tips-grid { grid-template-columns:1fr; }
+            .footer-grid { grid-template-columns:1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .top-bar { justify-content:center; }
+            .top-bar-left { display:grid; }
+            .main-navbar { padding:0 24%; }
+            .brand-logo img { width:115px; }
+            .hero { padding:5px 1%; }
+            .hero h1 { font-size:50px; }
+            .hero p {font-size: 12px;}
+            .hero-feature { position:relative; inset:auto; margin:5px; }
+             .category-grid { grid-template-columns:repeat(4,1fr); }
+            .hero-visual { display:block; flex-direction:column; min-height:0; }
+            .product-grid,.category-grid,.footer-grid { grid-template-columns:fr}
+            .tips-grid { max-width:1250px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+        .tip-card p { color:#806071; line-height:1; font-size:9px; }
+                .tip-card h3 { font-size:12px; }
+
+
+            .section { padding:60px 5%; }
+            .footer-bottom { flex-direction:column; }
+        }
 
     /* =====================================================
        ROOT
@@ -75,20 +330,6 @@
             0 20px 60px rgba(159, 45, 94, .12);
     }
 
-
-    /* =====================================================
-       RESET
-    ====================================================== */
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
 
     body {
         min-height: 100vh;
@@ -126,7 +367,7 @@
                 135deg,
                 #fff 0%,
                 #fff7fb 45%,
-                #fff 100%
+                #975e07 100%
             );
     }
 
@@ -384,6 +625,7 @@
         align-items: center;
 
         gap: 9px;
+        
     }
 
     .nav-icon {
@@ -492,13 +734,7 @@
         BACKGROUND GAMBAR BARU
         */
         background-image:
-            linear-gradient(
-                90deg,
-                rgba(255, 245, 250, .62) 0%,
-                rgba(255, 225, 238, .38) 42%,
-                rgba(255, 255, 255, .16) 100%
-            ),
-            url("assets/images/products/logo drw 2027.png");
+                     url("assets/images/products/logo drw 2027.png");
 
         background-size: cover;
 
@@ -511,139 +747,6 @@
         isolation: isolate;
     }
 
-    /* OVERLAY LEMBUT AGAR TEKS TETAP MUDAH DIBACA */
-    .hero::before {
-
-        content: "";
-
-        position: absolute;
-
-        inset: 0;
-
-        pointer-events: none;
-
-        z-index: 1;
-
-        background:
-            radial-gradient(
-                circle at 18% 30%,
-                rgba(255,255,255,.48),
-                transparent 34%
-            ),
-            radial-gradient(
-                circle at 82% 35%,
-                rgba(255,120,180,.12),
-                transparent 38%
-            ),
-            linear-gradient(
-                180deg,
-                rgba(255,255,255,.05),
-                rgba(255,230,242,.12)
-            );
-    }
-
-
-    .hero-container {
-
-        width: min(
-            1250px,
-            100%
-        );
-
-        margin: auto;
-
-        display: grid;
-
-        grid-template-columns:
-            1fr
-            1fr;
-
-        align-items: center;
-
-        gap: 50px;
-
-        position: relative;
-
-        z-index: 2;
-    }
-
-
-    /* =====================================================
-       HERO CONTENT
-    ====================================================== */
-
-    .hero-eyebrow {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 10px;
-
-        color: var(--pink);
-
-        font-size: 11px;
-
-        font-weight: 800;
-
-        letter-spacing: .28em;
-    }
-
-    .hero-eyebrow::before {
-
-        content: "";
-
-        width: 32px;
-
-        height: 1px;
-
-        background: var(--gold);
-    }
-
-    .hero h1 {
-
-        margin-top: 20px;
-
-        max-width: 650px;
-
-        font-family:
-            "Playfair Display",
-            Georgia,
-            serif;
-
-        font-size:
-            clamp(
-                48px,
-                6vw,
-                82px
-            );
-
-        line-height: 1.02;
-
-        color: #38212c;
-
-        letter-spacing: -.025em;
-    }
-
-    .hero h1 span {
-
-        display: block;
-
-        color: var(--pink);
-    }
-
-    .hero p {
-
-        max-width: 540px;
-
-        margin-top: 22px;
-
-        color: #735663;
-
-        font-size: 15px;
-
-        line-height: 1.8;
-    }
 
 
     /* =====================================================
@@ -704,6 +807,7 @@
         box-shadow:
             0 12px 30px
             rgba(201,31,103,.25);
+          
     }
 
     .btn-primary:hover {
@@ -724,6 +828,7 @@
 
         background:
             rgba(255,255,255,.75);
+            transform: translate(800px, 110px);
     }
 
     .btn-secondary:hover {
@@ -784,6 +889,7 @@
         place-items: center;
 
         position: relative;
+        transform: translateX(380px);
     }
 
     .hero-glow {
@@ -2155,16 +2261,16 @@
 
         .top-bar {
 
-            min-height: 10px;
+            min-height: 1px;
 
             padding:
-                0px 4%;
+                7px 4%;
 
             flex-direction: column;
 
-            gap: 10px;
+            gap: 1px;
 
-            font-size: 16px;
+            font-size: 11px;
 
             text-align: center;
         }
@@ -2203,7 +2309,7 @@
             min-height: auto;
 
             padding:
-                30px 5% 35px;
+                280px 50% 1px;
 
             background-size: cover;
 
@@ -2219,6 +2325,7 @@
         }
         .hero-visual {
             min-height: 350px;
+            transform:translate3d(0, 0, 0);
         }
         .hero-image-card {
 
@@ -2349,109 +2456,187 @@
 
 <body>
 
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
 <div class="top-bar">
-<div class="top-bar-left">
+    <div class="top-bar-left">
+        <span class="top-highlight">✦</span>
+        DRRW SKINCARE OFFICIAL STORE
+        <span class="top-highlight">✦</span>
+    </div>
 
-    <span class="top-highlight"><h5>Drw Skincare Official</h5></span>
-
+    <div class="top-bar-right">
+        <button type="button" class="auth-link login-link" id="loginButton">Login</button>
+        <span class="top-divider">|</span>
+        <button type="button" class="auth-link register-link" id="registerButton">Daftar</button>
+        <span class="top-divider">|</span>
+        <span>Indonesia</span>
+    </div>
 </div>
+
+<!-- =====================================================
+     MAIN NAVBAR
+===================================================== -->
+<nav class="main-navbar">
+
+    <a href="index.html" class="brand-logo" aria-label="DRW Skincare">
+        <img src="assets/images/logo/logo.png" alt="DRW Skincare">
+    </a>
+
+    <div class="nav-menu">
+        <a href="index.html" class="nav-item active">Home</a>
+        <a href="products.html" class="nav-item">Produk</a>
+        <a href="product-detail.html?id=paket-radiant-acne-repair" class="nav-item">Best Seller</a>
+        <a href="index.html#kategori-produk" class="nav-item">Kategori Produk</a>
+        <a href="index.html#about" class="nav-item">Tentang Kami</a>
+        <a href="index.html#beauty-tips" class="nav-item">Beauty Tips</a>
+        <a href="index.html#contact" class="nav-item">Konsultasi</a>
+    </div>
+
+    <div class="nav-actions">
+        <button
+    type="button"
+    class="nav-icon"
+    id="searchButton"
+    aria-label="Cari produk"
+    title="Cari produk">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+</button>
+
+        <a href="cart.html" class="nav-icon cart-icon" aria-label="Keranjang">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </a>
+    </div>
+</nav>
+
+<!-- =========================================================
+     DRW SKINCARE — SEARCH OVERLAY FINAL
+========================================================= -->
+
+<div
+    class="search-overlay"
+    id="searchOverlay"
+    aria-hidden="true">
+
+    <div class="search-box">
+
+        <!-- TOMBOL CLOSE -->
+        <button
+            type="button"
+            class="search-close"
+            id="closeSearch"
+            aria-label="Tutup pencarian">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <!-- HEADING -->
+        <div class="search-heading">
+
+            <span>DRW SKINCARE</span>
+
+            <h2>
+                Cari Produk Favoritmu
+            </h2>
+
+            <p>
+                Ketik nama produk yang ingin Anda cari
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH INPUT -->
+        <div class="search-input-wrap">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="globalProductSearch"
+                placeholder="Cari nama produk..."
+                autocomplete="off"
+                spellcheck="false">
+
+            <button
+                type="button"
+                id="clearProductSearch"
+                aria-label="Hapus pencarian"
+                title="Hapus">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- HASIL PENCARIAN -->
+        <div
+            id="searchResults"
+            class="search-results">
+
+            <div class="search-empty">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <strong>
+                    Cari produk DRW SKINCARE
+                </strong>
+
+                <span>
+                    Masukkan nama produk di atas
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 <!-- =====================================================
-     NAVBAR
-====================================================== -->
+     HERO
+===================================================== -->
 
-<nav class="main-navbar">
-<a
-    href="index.html"
-    class="brand-logo"
-    aria-label="DRW Skincare">
+<style>
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
 
-    <img src="assets/images/logo/logo.png"alt="DRW Skincare">
+<section class="hero"> 
+    <div class="hero-container">
+         
+        <div class="hero-content">
+            <div class="hero-eyebrow">DRW SKINCARE</div>
+            <h1>
+                Your Skin,
+                <span>Your Confidence.</span>
+            </h1>
+    
+            
+        </div>
 
-</a>
+        <div class="hero-visual">
+            <div class="hero-glow"></div>
 
-
-<div class="nav-menu">
-
-    <a
-        href="index.html"
-        class="nav-item active">
-        Home
-    </a>
-
-    <a
-        href="products.html"
-        class="nav-item">
-        Produk
-    </a>
-
-    <a
-        href="product-detail.html?id=paket-radiant-acne-repair"
-        class="nav-item">
-        Best Seller
-    </a>
-
-    <a
-        href="#kategori-produk"
-        class="nav-item">
-        Kategori Produk
-    </a>
-
-    <a
-        href="#about"
-        class="nav-item">
-        Tentang Kami
-    </a>
-
-    <a
-        href="#beauty-tips"
-        class="nav-item">
-        Beauty Tips
-    </a>
-
-    <a
-        href="#contact"
-        class="nav-item">
-        Konsultasi
-    </a>
-
-</div>
-
-
-<div class="nav-actions">
-
-    <button
-        type="button"
-        class="nav-icon"
-        id="searchButton"
-        aria-label="Cari produk">
-
-        <i class="fa-solid fa-magnifying-glass"></i>
-
-    </button>
-
-
-    <a
-        href="cart.html"
-        class="nav-icon cart-icon"
-        aria-label="Keranjang">
-
-        <i class="fa-solid fa-bag-shopping"></i>
-
-        <span
-            class="cart-count"
-            id="cartCount">
-            0
-        </span>
-
-    </a>
-
-</div>
-
-
-</nav>
+<div class="hero-mini-trust">
+                <span><i class="fa-solid fa-circle-check"></i> Produk Pilihan</span>
+                <span><i class="fa-solid fa-circle-check"></i> Pengiriman Aman</span>
+                <span><i class="fa-solid fa-circle-check"></i> Konsultasi</span>
+            </div>
+</section>
 
 <!-- =====================================================
      SEARCH
@@ -2511,136 +2696,6 @@
 
 </div>
 
-<!-- =====================================================
-     HERO
-====================================================== -->
-
-<section class="hero">
-
-<div class="hero-container">
-
-
-    <div class="hero-content">
-
-        <div class="hero-eyebrow">
-            DRW SKINCARE
-        </div>
-
-
-        <h1>
-
-            Your Skin,
-
-            <span>
-                Your Confidence.
-            </span>
-
-        </h1>
-
-
-        <p>
-        Premiun Skincare dan Beauty Essentials
-        </p>
-        <div class="hero-actions">
-            <a
-                href="products.html"
-                class="btn btn-primary">
-                <i class="fa-solid fa-bag-shopping"></i>
-                Belanja Sekarang
-            </a>
-            <a href="#contact"
-                class="btn btn-secondary">
-
-                Konsultasi
-
-                <i class="fa-solid fa-arrow-right"></i>
-
-            </a>
-
-        </div>
-
-
-        <div class="hero-mini-trust">
-
-            <span>
-                <i class="fa-solid fa-circle-check"></i>
-                Produk Pilihan
-            </span>
-
-            <span>
-                <i class="fa-solid fa-shield-heart"></i>
-                Belanja Aman
-            </span>
-
-            <span>
-                <i class="fa-solid fa-truck-fast"></i>
-                Pengiriman Aman
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- HERO IMAGE -->
-
-    <div class="hero-visual">
-
-        <div class="hero-glow"></div>
-
-
-        <div class="hero-image-card">
-
-            <img
-                src="assets/images/products/Brightening Peel Off Mask with Charcoal 60 ml.png"
-                alt="DRW Skincare">
-
-        </div>
-
-
-        <div class="hero-feature hero-feature-one">
-
-            <i class="fa-solid fa-sparkles"></i>
-
-            <div>
-
-                <strong>
-                    Premium Beauty
-                </strong>
-
-                <small>
-                    Untuk rutinitas kecantikanmu
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <div class="hero-feature hero-feature-two">
-
-            <i class="fa-solid fa-heart"></i>
-
-            <div>
-
-                <strong>
-                    Beauty Experience
-                </strong>
-
-                <small>
-                    Care â€¢ Beauty â€¢ Confidence
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
 
 <!-- =====================================================
      CATEGORY
@@ -3245,12 +3300,6 @@
 
 </div>
 
-
-
-
-
-batas wa lama
-
 <style>
 /* =========================================================
    RARA DRW SKINCARE
@@ -3504,8 +3553,6 @@ body {
 </style>
 </head>
 
-<>
-
 <!-- =======================================================
      WHATSAPP FLOATING BUTTON
      ======================================================= -->
@@ -3622,9 +3669,6 @@ raraWaMessage.addEventListener(
 );
 
 </script>
-
-Tombol Shopee
-
 
 <style>
 
@@ -4114,7 +4158,669 @@ Tombol Shopee
 })();
 
 </script>
+<script>
+/* =========================================================
+   DRW SKINCARE
+   GLOBAL PRODUCT SEARCH — FINAL
+========================================================= */
 
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       ELEMENT
+    ===================================================== */
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const searchOverlay =
+        document.getElementById("searchOverlay");
+
+    const closeSearch =
+        document.getElementById("closeSearch");
+
+    const searchInput =
+        document.getElementById("globalProductSearch");
+
+    const searchResults =
+        document.getElementById("searchResults");
+
+    const clearSearch =
+        document.getElementById("clearProductSearch");
+
+
+    /* =====================================================
+       CEK ELEMENT
+    ===================================================== */
+
+    if (
+        !searchButton ||
+        !searchOverlay ||
+        !closeSearch ||
+        !searchInput ||
+        !searchResults
+    ) {
+
+        console.warn(
+            "DRW Search: element pencarian tidak lengkap."
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       BUKA SEARCH
+    ===================================================== */
+
+    function openSearch() {
+
+        searchOverlay.classList.add("active");
+
+        searchOverlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow = "hidden";
+
+        setTimeout(function () {
+
+            searchInput.focus();
+
+        }, 100);
+
+    }
+
+
+    /* =====================================================
+       TUTUP SEARCH
+    ===================================================== */
+
+    function closeSearchBox() {
+
+        searchOverlay.classList.remove("active");
+
+        searchOverlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    /* =====================================================
+       NORMALIZE DATA
+    ===================================================== */
+
+    function normalizeProduct(product, index) {
+
+        if (!product) {
+            return null;
+        }
+
+
+        const name =
+            product.name ||
+            product.title ||
+            product.nama ||
+            "";
+
+
+        if (!name) {
+            return null;
+        }
+
+
+        const category =
+            product.category ||
+            product.kategori ||
+            "DRW SKINCARE";
+
+
+        const image =
+            product.image ||
+            product.img ||
+            product.photo ||
+            product.foto ||
+            "assets/images/products/placeholder.png";
+
+
+        const price =
+            product.price ||
+            product.harga ||
+            product.regularPrice ||
+            0;
+
+
+        const id =
+            product.id ||
+            product.slug ||
+            product.productId ||
+            String(index);
+
+
+        return {
+
+            id: id,
+
+            name: String(name),
+
+            category: String(category),
+
+            image: String(image),
+
+            price: price
+
+        };
+
+    }
+
+
+    /* =====================================================
+       AMBIL DATA PRODUK
+       
+       Mendukung:
+       PRODUCT_DATA
+       DRW_PRODUCTS
+       products
+       PRODUCTS
+    ===================================================== */
+
+    function getProducts() {
+
+        let data = [];
+
+
+        /* PRODUCT_DATA */
+
+        if (
+            Array.isArray(window.PRODUCT_DATA)
+        ) {
+
+            data =
+                window.PRODUCT_DATA;
+
+        }
+
+
+        /* products */
+
+        else if (
+            Array.isArray(window.products)
+        ) {
+
+            data =
+                window.products;
+
+        }
+
+
+        /* PRODUCTS */
+
+        else if (
+            Array.isArray(window.PRODUCTS)
+        ) {
+
+            data =
+                window.PRODUCTS;
+
+        }
+
+
+        /* DRW_PRODUCTS */
+
+        else if (
+            window.DRW_PRODUCTS &&
+            typeof window.DRW_PRODUCTS === "object"
+        ) {
+
+            data =
+                Object.values(
+                    window.DRW_PRODUCTS
+                );
+
+        }
+
+
+        return data
+
+            .map(normalizeProduct)
+
+            .filter(Boolean);
+
+    }
+
+
+    /* =====================================================
+       FORMAT RUPIAH
+    ===================================================== */
+
+    function formatRupiah(value) {
+
+        let number =
+            Number(
+                String(value)
+                    .replace(/[^\d]/g, "")
+            );
+
+
+        if (!number) {
+
+            return "Harga tersedia di produk";
+
+        }
+
+
+        return "Rp" +
+            number.toLocaleString(
+                "id-ID"
+            );
+
+    }
+
+
+    /* =====================================================
+       BUAT LINK PRODUK
+    ===================================================== */
+
+    function productLink(product) {
+
+        /* Jika mempunyai URL khusus */
+
+        if (
+            product.url
+        ) {
+
+            return product.url;
+
+        }
+
+
+        /* Jika mempunyai slug */
+
+        if (
+            product.slug
+        ) {
+
+            return (
+                "product-detail.html?id=" +
+                encodeURIComponent(
+                    product.slug
+                )
+            );
+
+        }
+
+
+        /* Gunakan ID */
+
+        return (
+            "product-detail.html?id=" +
+            encodeURIComponent(
+                product.id
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =====================================================
+       TAMPILKAN HASIL
+    ===================================================== */
+
+    function showResults(keyword) {
+
+        const products =
+            getProducts();
+
+
+        const query =
+            String(keyword)
+                .trim()
+                .toLowerCase();
+
+
+        /* =================================================
+           BELUM MENGETIK
+        ================================================= */
+
+        if (!query) {
+
+            searchResults.innerHTML = `
+
+                <div class="search-empty">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <strong>
+                        Cari produk DRW SKINCARE
+                    </strong>
+
+                    <span>
+                        Masukkan nama produk di atas
+                    </span>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* =================================================
+           FILTER
+        ================================================= */
+
+        const results =
+            products
+                .filter(function (product) {
+
+                    const text = (
+
+                        product.name +
+                        " " +
+                        product.category
+
+                    ).toLowerCase();
+
+
+                    return text.includes(query);
+
+                })
+                .slice(0, 30);
+
+
+        /* =================================================
+           TIDAK DITEMUKAN
+        ================================================= */
+
+        if (!results.length) {
+
+            searchResults.innerHTML = `
+
+                <div class="search-empty">
+
+                    <i class="fa-regular fa-face-frown"></i>
+
+                    <strong>
+                        Produk tidak ditemukan
+                    </strong>
+
+                    <span>
+                        Coba gunakan nama produk lain
+                    </span>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* =================================================
+           HASIL
+        ================================================= */
+
+        searchResults.innerHTML =
+            results
+                .map(function (product) {
+
+                    const name =
+                        escapeHTML(
+                            product.name
+                        );
+
+
+                    const category =
+                        escapeHTML(
+                            product.category
+                        );
+
+
+                    const image =
+                        escapeHTML(
+                            product.image
+                        );
+
+
+                    const link =
+                        productLink(
+                            product
+                        );
+
+
+                    return `
+
+                        <a
+                            class="search-product-item"
+                            href="${link}"
+                            data-product-id="${escapeHTML(product.id)}">
+
+                            <div
+                                class="search-product-image">
+
+                                <img
+                                    src="${image}"
+                                    alt="${name}"
+                                    loading="lazy"
+                                    onerror="
+                                        this.onerror=null;
+                                        this.src='assets/images/logo/logo.png';
+                                    ">
+
+                            </div>
+
+
+                            <div
+                                class="search-product-info">
+
+                                <span
+                                    class="search-product-name">
+
+                                    ${name}
+
+                                </span>
+
+
+                                <span
+                                    class="search-product-category">
+
+                                    ${category}
+
+                                </span>
+
+
+                                <span
+                                    class="search-product-price">
+
+                                    ${formatRupiah(product.price)}
+
+                                </span>
+
+                            </div>
+
+
+                            <span
+                                class="search-product-arrow">
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </span>
+
+                        </a>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    /* =====================================================
+       OPEN
+    ===================================================== */
+
+    searchButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            openSearch();
+
+        }
+    );
+
+
+    /* =====================================================
+       CLOSE
+    ===================================================== */
+
+    closeSearch.addEventListener(
+        "click",
+        closeSearchBox
+    );
+
+
+    /* =====================================================
+       KLIK LUAR BOX
+    ===================================================== */
+
+    searchOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target === searchOverlay
+            ) {
+
+                closeSearchBox();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       ESC
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape" &&
+                searchOverlay.classList.contains("active")
+            ) {
+
+                closeSearchBox();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       SEARCH INPUT
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const value =
+                searchInput.value;
+
+
+            /* tombol clear */
+
+            if (clearSearch) {
+
+                clearSearch.classList.toggle(
+                    "visible",
+                    value.length > 0
+                );
+
+            }
+
+
+            showResults(value);
+
+        }
+    );
+
+
+    /* =====================================================
+       CLEAR SEARCH
+    ===================================================== */
+
+    if (clearSearch) {
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                searchInput.focus();
+
+                clearSearch.classList.remove(
+                    "visible"
+                );
+
+                showResults("");
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       INIT
+    ===================================================== */
+
+    showResults("");
+
+
+})();
+</script>
 
 </body>
 </html>
