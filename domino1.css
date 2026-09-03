@@ -1,0 +1,116 @@
+*{box-sizing:border-box}:root{--bg:#080d11;--panel:#151f27;--panel2:#1c2932;--line:#364751;--gold:#e7bd65;--text:#f5f7f8;--muted:#9eabb3;--felt:#145d45;--felt2:#083e2f;--tile:#f7f1e5;--pip:#151b20}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#293741,#080b0e 65%);color:var(--text);font:14px Arial,sans-serif}.hidden{display:none!important}.page{display:none}.page.active{display:block}.app{width:min(1250px,100%);margin:auto;padding:16px}.screen{min-height:100vh;display:grid;place-items:center;padding:20px}.login-card{width:min(440px,100%);background:linear-gradient(145deg,#1b2730,#10171c);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 30px 100px #0009}.logo{font-size:25px;font-weight:900;letter-spacing:2px;color:var(--gold)}.logo span{color:#fff}.muted{color:var(--muted)}label{display:grid;gap:6px;color:var(--muted);font-size:12px;margin:16px 0}input,select{width:100%;background:#202d36;color:#fff;border:1px solid #50616b;border-radius:9px;padding:11px;outline:none}button{font:inherit;cursor:pointer;border:1px solid var(--line);background:#202c34;color:#fff;padding:10px 14px;border-radius:9px;font-weight:800}button:disabled{opacity:.4;cursor:not-allowed}.gold{background:linear-gradient(135deg,#d3a649,#f2d080);border:0;color:#171208}.full,.wide{width:100%}.topbar,.roombar,.lobby-head,.league-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.topbar{margin-bottom:14px}nav{display:flex;gap:6px}.nav{background:#202c34}.roombar{padding:12px 15px;margin-bottom:12px}.roombar>div:first-child{display:flex;align-items:center;gap:9px}.label{font-size:10px;color:var(--muted);letter-spacing:1px}.roombar strong{font-size:18px;color:var(--gold);letter-spacing:2px}.pill{font-size:10px;background:#24323a;padding:5px 8px;border-radius:20px}.card{background:linear-gradient(145deg,#19242c,#10171c);border:1px solid var(--line);border-radius:17px;box-shadow:0 18px 55px #0006}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#10181d;padding:4px;border-radius:12px;margin:20px 0}.tab{border:0;background:transparent}.tab.active{background:#293841;color:var(--gold)}.or{text-align:center;color:var(--muted);margin:12px}.status{margin:10px 0;padding:9px 12px;background:#17242a;border:1px solid #2e424b;border-radius:9px;color:#dce5e8}.status.mini{font-size:12px}.waiting{padding:18px;margin-bottom:12px}.waiting h2{margin:0 0 5px}.lobby-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.slot{background:#1b2930;border:1px solid #30434d;border-radius:10px;padding:10px}.slot small,.player-box small,.result-row small{display:block;color:var(--muted);margin-top:3px}.game-layout{display:grid;grid-template-columns:210px 1fr;gap:14px}.side{padding:16px}.side h3{font-size:11px;color:var(--muted);letter-spacing:2px;margin:0}.big{font-size:38px;font-weight:900;color:var(--gold);margin:3px 0 16px}.turn-box{background:#0e181d;border:1px solid #31434b;padding:12px;border-radius:11px}.turn-box small{display:block;color:var(--muted);font-size:10px}.turn-box strong{display:block;margin-top:5px}.rules{display:grid;gap:5px;margin-top:14px;padding-top:12px;border-top:1px solid #2d3c43;font-size:11px;color:#c3cdd1}.rules span{color:var(--muted)}.danger{margin-top:18px;background:#49252b;border-color:#71313b}.players{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.player-box{padding:10px;background:#131d22;border:1px solid #29383f;border-radius:10px}.player-box.active{border-color:var(--gold);box-shadow:0 0 0 1px #e7bd6544 inset}.table-wrap{background:linear-gradient(145deg,var(--felt),var(--felt2));border:9px solid #513c24;border-radius:18px;min-height:310px;overflow:auto;box-shadow:inset 0 0 45px #0008,0 15px 35px #0007}.board{min-width:max-content;min-height:292px;display:flex;align-items:center;justify-content:center;gap:5px;padding:35px}.empty{color:#b8d3c8;opacity:.65}.board-tile,.hand-tile{width:48px;height:92px;border-radius:7px;background:linear-gradient(145deg,#fffaf0,#ded5c3);color:var(--pip);border:1px solid #c9bea9;box-shadow:0 4px 8px #0005;display:grid;grid-template-rows:1fr 1px 1fr;place-items:center;font-weight:900;flex:none;position:relative}.board-tile span,.hand-tile span{font-size:22px}.board-tile i,.hand-tile i{display:block;width:70%;height:1px;background:#766d60}.hand{display:flex;gap:8px;overflow-x:auto;padding:14px}.my-hand{margin-top:12px}.hand-title{padding:13px 14px 0;font-weight:900}.hand-tile{cursor:pointer;transition:.15s}.hand-tile:hover{transform:translateY(-5px)}.hand-tile.disabled{opacity:.35;filter:grayscale(.7);cursor:not-allowed}.controls{display:flex;gap:8px;margin-top:10px}.controls button{flex:1}.end-info{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;padding:7px}.league-head{padding:18px;margin-bottom:12px}.league-head h1{margin:0}.table-card{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #2d3c43}th{color:var(--muted);font-size:11px}.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:20}.modal-box{width:min(480px,100%);background:#17232a;border:1px solid #46565d;border-radius:18px;padding:24px;box-shadow:0 30px 100px #000}.trophy{text-align:center;font-size:45px}.modal-box h2{text-align:center;margin:5px 0}.result-row{display:grid;grid-template-columns:35px 1fr 55px;align-items:center;gap:8px;background:#10191e;border:1px solid #2a3940;border-radius:9px;padding:10px;margin:7px 0}.result-row.winner{border-color:var(--gold)}.result-row> b:first-child{font-size:20px;color:var(--gold)}.result-row> b:last-child{text-align:right;color:var(--gold)}
+@media(max-width:800px){.game-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.side h3,.side .big{display:none}.rules{margin-top:0}.players{grid-template-columns:repeat(2,1fr)}.lobby-grid{grid-template-columns:repeat(2,1fr)}.topbar{align-items:flex-start}.topbar nav{flex-wrap:wrap}.table-wrap{min-height:240px}.board{min-height:220px;padding:25px}.board-tile{width:43px;height:82px}.board-tile span{font-size:19px}}
+@media(max-width:480px){.app{padding:10px}.login-card{padding:22px}.logo{font-size:21px}.players{gap:5px}.player-box{padding:8px;font-size:12px}.controls{position:sticky;bottom:5px;z-index:5}.hand{padding:12px 8px}.hand-tile{width:43px;height:82px}.hand-tile span{font-size:19px}.roombar{padding:9px}.roombar button{padding:8px}.side{padding:11px}.rules{font-size:10px}.board{justify-content:flex-start}}
+
+/* D2T DOMINO - realistic pip domino stones */
+.tile,
+.hand-tile,
+.board-tile {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 25% 18%, rgba(255,255,255,.95), rgba(255,255,255,0) 28%),
+    linear-gradient(145deg, #fffdf5 0%, #eee8d8 48%, #d8cfbb 100%);
+  border: 1px solid rgba(90, 74, 49, .48);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -2px 4px rgba(70,55,35,.16),
+    0 4px 10px rgba(0,0,0,.28);
+  color: #191919;
+}
+
+.hand-tile {
+  width: 44px;
+  height: 84px;
+  flex: 0 0 44px;
+}
+
+.board-tile {
+  width: 48px;
+  height: 92px;
+  flex: 0 0 48px;
+}
+
+.domino-half {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: calc(50% - 1px);
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.domino-half .pip {
+  width: 7px;
+  height: 7px;
+  justify-self: center;
+  align-self: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #555 0 12%, #161616 42%, #050505 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.22),
+    0 1px 2px rgba(0,0,0,.45);
+}
+
+.domino-half .p0 { grid-area: 1 / 1; }
+.domino-half .p1 { grid-area: 1 / 2; }
+.domino-half .p2 { grid-area: 1 / 3; }
+.domino-half .p3 { grid-area: 2 / 1; }
+.domino-half .p4 { grid-area: 2 / 2; }
+.domino-half .p5 { grid-area: 2 / 3; }
+.domino-half .p6 { grid-area: 3 / 1; }
+.domino-half .p7 { grid-area: 3 / 2; }
+.domino-half .p8 { grid-area: 3 / 3; }
+
+.domino-divider {
+  display: block;
+  height: 2px;
+  margin: 0 5px;
+  background: linear-gradient(90deg, transparent, rgba(70,60,45,.48), transparent);
+}
+
+.hand-tile:hover:not(.disabled) {
+  transform: translateY(-5px);
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 8px 16px rgba(0,0,0,.35);
+}
+
+.hand-tile.disabled {
+  opacity: .48;
+  filter: grayscale(.2);
+}
+
+.board-tile {
+  margin: 3px;
+}
+
+/* If the game board lays stones horizontally, keep each stone readable. */
+.board .board-tile .domino-half .pip {
+  width: 7px;
+  height: 7px;
+}
+
+@media (max-width: 600px) {
+  .hand-tile {
+    width: 40px;
+    height: 76px;
+    flex-basis: 40px;
+  }
+  .board-tile {
+    width: 43px;
+    height: 82px;
+    flex-basis: 43px;
+  }
+  .domino-half .pip {
+    width: 6px;
+    height: 6px;
+  }
+}
