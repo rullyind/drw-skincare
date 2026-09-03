@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Produk | DRW Skincare</title>
@@ -11,6 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
+    
 /* =========================================================
    RARA DRW SKINCARE
    FLOATING WHATSAPP - PREMIUM
@@ -88,6 +90,7 @@ body {
     visibility: visible;
     transform: translateX(-65px);
 }
+.breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#9d7890;margin-bottom:28px}.breadcrumb a{color:#d83d8b}.breadcrumb i{font-size:9px}
 
 /* =========================================================
    TOMBOL BULAT WHATSAPP
@@ -423,14 +426,14 @@ raraWaMessage.addEventListener(
         ========================================= */
 
         .products-hero {
-            padding: 105px 20px 55px;
+            padding: 0px;
             text-align: center;
         }
 
         .products-eyebrow {
-            font-size: 15px;
+            font-size: 28px;
             font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 21px;
             color: #fffeff;
             margin-bottom: 5px;
             background:
@@ -798,7 +801,13 @@ raraWaMessage.addEventListener(
         /* =========================================
            CONTENT
         ========================================= */
+.product-card-content {
 
+            padding:
+                25px 20px 30px;
+
+            text-align: center;
+        }
 
         .product-category {
 
@@ -855,16 +864,16 @@ raraWaMessage.addEventListener(
             grid-template-columns:
                 1fr 1fr;
 
-            gap: 9px;
+            gap: 29px;
         }
 
         .product-detail-btn,
 
         .product-detail-btn:hover {
-
+border-radius: 20px 50px;
+padding: 7px;
             background:
                 #ec4f93;
-
             color: #fff;
         }
 
@@ -873,7 +882,7 @@ raraWaMessage.addEventListener(
             border: none;
 
             color: #fff;
-
+border-radius:20px 50px;
             background:
                 linear-gradient(
                     135deg,
@@ -1118,7 +1127,13 @@ raraWaMessage.addEventListener(
         </p>
 
     </section>
+<main class="page">
+<div class="breadcrumb">
+<a href="index.html">Home</a><i class="fa-solid fa-chevron-right"></i>
+<a href="products.html">Produk</a><i class="fa-solid fa-chevron-right"></i>
+<span id="breadcrumbProduct">Detail Produk</span>
 
+</div>
 
     <!-- =========================================
          SEARCH + CATEGORY
