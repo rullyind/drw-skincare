@@ -81,9 +81,23 @@
 
     if (!music || !button) return;
 
-    // Volume awal 25% agar musik tidak terlalu keras.
+    const STORAGE_TIME = "drwMusicTime";
+    const STORAGE_PLAYING = "drwMusicPlaying";
+
     music.volume = 0.25;
 
+    // ================================
+    // AMBIL POSISI MUSIK TERAKHIR
+    // ================================
+    const savedTime = localStorage.getItem(STORAGE_TIME);
+
+    if (savedTime !== null) {
+        music.currentTime = parseFloat(savedTime) || 0;
+    }
+
+    // ================================
+    // UPDATE TOMBOL
+    // ================================
     function updateButton() {
         if (music.paused) {
             button.textContent = "🎵";
@@ -98,47 +112,131 @@
         }
     }
 
+    // ================================
+    // SIMPAN POSISI MUSIK
+    // ================================
+    music.addEventListener("timeupdate", function () {
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+    });
+
+    // ================================
+    // SIMPAN SAAT PINDAH HALAMAN
+    // ================================
+    window.addEventListener("beforeunload", function () {
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+
+        localStorage.setItem(
+            STORAGE_PLAYING,
+            music.paused ? "false" : "true"
+        );
+    });
+
+    // ================================
+    // PLAY
+    // ================================
     function playMusic() {
+
         const promise = music.play();
 
         if (promise !== undefined) {
+
             promise
-                .then(updateButton)
-                .catch(updateButton);
+                .then(function () {
+                    localStorage.setItem(STORAGE_PLAYING, "true");
+                    updateButton();
+                })
+                .catch(function () {
+                    updateButton();
+                });
+
         } else {
             updateButton();
         }
     }
 
+    // ================================
+    // PAUSE
+    // ================================
+    function pauseMusic() {
+
+        music.pause();
+
+        localStorage.setItem(
+            STORAGE_PLAYING,
+            "false"
+        );
+
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+
+        updateButton();
+    }
+
+    // ================================
+    // TOGGLE
+    // ================================
     function toggleMusic() {
+
         if (music.paused) {
             playMusic();
         } else {
-            music.pause();
-            updateButton();
+            pauseMusic();
         }
+
     }
 
     button.addEventListener("click", toggleMusic);
 
+    // ================================
+    // SAAT HALAMAN SELESAI
+    // ================================
     window.addEventListener("load", function () {
-    playMusic();
-    });
 
-    function firstInteraction() {
-        if (music.paused) {
+        const shouldPlay =
+            localStorage.getItem(STORAGE_PLAYING) === "true";
+
+        if (shouldPlay) {
             playMusic();
         }
-    }
 
-    document.addEventListener("pointerdown", firstInteraction, {
-        once: true,
-        passive: true
+        updateButton();
+
     });
 
+    // ================================
+    // INTERAKSI PERTAMA
+    // ================================
+    document.addEventListener(
+        "pointerdown",
+        function () {
+
+            if (
+                music.paused &&
+                localStorage.getItem(STORAGE_PLAYING) === "true"
+            ) {
+                playMusic();
+            }
+
+        },
+        {
+            once: true,
+            passive: true
+        }
+    );
+
     updateButton();
+
 })();
 </script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -171,11 +269,6 @@
 <!-- =====================================================
      BACKGROUND MUSIC
 ====================================================== -->
-
-<audio id="drwBackgroundMusic" loop preload="auto">
-    <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
-</audio>
-
 
 <style>
         /* Fallback dasar agar index tetap tampil walaupun CSS utama sedang bermasalah */
@@ -1942,6 +2035,7 @@
     }
 
 
+
     /* =====================================================
        FLOATING MUSIC
     ====================================================== */
@@ -2463,7 +2557,7 @@
 <div class="top-bar">
     <div class="top-bar-left">
         <span class="top-highlight">✦</span>
-        DRRW SKINCARE OFFICIAL STORE
+        DRW SKINCARE OFFICIAL STORE
         <span class="top-highlight">✦</span>
     </div>
 
@@ -2492,7 +2586,7 @@
         <a href="index.html#kategori-produk" class="nav-item">Kategori Produk</a>
         <a href="index.html#about" class="nav-item">Tentang Kami</a>
         <a href="index.html#beauty-tips" class="nav-item">Beauty Tips</a>
-        <a href="index.html#contact" class="nav-item">Konsultasi</a>
+        <a href="index.html#contact" class="nav-item">Hiburan</a>
     </div>
 
     <div class="nav-actions">
@@ -3147,6 +3241,20 @@ body {
     Mulai Belanja
 
 </a>
+
+
+
+</section>
+
+<section
+    class="section"
+    id="games">
+
+    <a href="D2T.html"> 
+        <class="btn btn-primary">    
+            <i class="fa-solid fa-chess"></i>
+            Game Catur
+        </a>
 
 </section>
 
@@ -5110,8 +5218,6 @@ raraWaMessage.addEventListener(
 
 })();
 </script>
-
-
 
 </body>
 </html>
