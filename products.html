@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
+
+
 <style>
     
 /* =========================================================
@@ -90,7 +92,7 @@ body {
     visibility: visible;
     transform: translateX(-65px);
 }
-.breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#9d7890;margin-bottom:28px}.breadcrumb a{color:#d83d8b}.breadcrumb i{font-size:9px}
+.breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#9d7890;margin-bottom:28px; margin-left: 850px;}.breadcrumb a{color:#d83d8b}.breadcrumb i{font-size:9px}
 
 /* =========================================================
    TOMBOL BULAT WHATSAPP
@@ -381,6 +383,230 @@ raraWaMessage.addEventListener(
     }
 );
 
+
+
+</script>
+<audio id="drwBackgroundMusic" loop preload="auto">
+    <source src="assets/audio/drw-music.mp3" type="audio/mpeg">
+</audio>
+<style>
+    #drwMusicButton {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 52px;
+        height: 52px;
+        border: 1px solid #d4af37;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4fa3, #d4af37);
+        color: #ffffff;
+        font-size: 21px;
+        line-height: 52px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        z-index: 99999;
+        box-shadow: 0 5px 20px rgba(0,0,0,.20);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    #drwMusicButton:hover {
+        transform: scale(1.08);
+    }
+
+    #drwMusicButton.playing {
+        box-shadow:
+            0 0 0 5px rgba(255,79,163,.15),
+            0 5px 20px rgba(0,0,0,.20);
+    }
+
+    @media (max-width: 600px) {
+        #drwMusicButton {
+            right: 15px;
+            bottom: 15px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            font-size: 19px;
+        }
+    }
+</style>
+
+<div id="drwMusicLabel">
+    🎵 Putar Musik
+</div>
+
+<button
+    id="drwMusicButton"
+    type="button"
+    aria-label="Putar musik"
+    title="Putar musik DRW Skincare">
+    🎵
+</button>
+
+<script>
+(function () {
+    "use strict";
+
+    const music = document.getElementById("drwBackgroundMusic");
+    const button = document.getElementById("drwMusicButton");
+
+    if (!music || !button) return;
+
+    const STORAGE_TIME = "drwMusicTime";
+    const STORAGE_PLAYING = "drwMusicPlaying";
+
+    music.volume = 0.25;
+
+    // ================================
+    // AMBIL POSISI MUSIK TERAKHIR
+    // ================================
+    const savedTime = localStorage.getItem(STORAGE_TIME);
+
+    if (savedTime !== null) {
+        music.currentTime = parseFloat(savedTime) || 0;
+    }
+
+    // ================================
+    // UPDATE TOMBOL
+    // ================================
+    function updateButton() {
+        if (music.paused) {
+            button.textContent = "🎵";
+            button.classList.remove("playing");
+            button.setAttribute("aria-label", "Putar musik");
+            button.title = "Putar musik DRW Skincare";
+        } else {
+            button.textContent = "🔊";
+            button.classList.add("playing");
+            button.setAttribute("aria-label", "Matikan musik");
+            button.title = "Matikan musik DRW Skincare";
+        }
+    }
+
+    // ================================
+    // SIMPAN POSISI MUSIK
+    // ================================
+    music.addEventListener("timeupdate", function () {
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+    });
+
+    // ================================
+    // SIMPAN SAAT PINDAH HALAMAN
+    // ================================
+    window.addEventListener("beforeunload", function () {
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+
+        localStorage.setItem(
+            STORAGE_PLAYING,
+            music.paused ? "false" : "true"
+        );
+    });
+
+    // ================================
+    // PLAY
+    // ================================
+    function playMusic() {
+
+        const promise = music.play();
+
+        if (promise !== undefined) {
+
+            promise
+                .then(function () {
+                    localStorage.setItem(STORAGE_PLAYING, "true");
+                    updateButton();
+                })
+                .catch(function () {
+                    updateButton();
+                });
+
+        } else {
+            updateButton();
+        }
+    }
+
+    // ================================
+    // PAUSE
+    // ================================
+    function pauseMusic() {
+
+        music.pause();
+
+        localStorage.setItem(
+            STORAGE_PLAYING,
+            "false"
+        );
+
+        localStorage.setItem(
+            STORAGE_TIME,
+            music.currentTime.toString()
+        );
+
+        updateButton();
+    }
+
+    // ================================
+    // TOGGLE
+    // ================================
+    function toggleMusic() {
+
+        if (music.paused) {
+            playMusic();
+        } else {
+            pauseMusic();
+        }
+
+    }
+
+    button.addEventListener("click", toggleMusic);
+
+    // ================================
+    // SAAT HALAMAN SELESAI
+    // ================================
+    window.addEventListener("load", function () {
+
+        const shouldPlay =
+            localStorage.getItem(STORAGE_PLAYING) === "true";
+
+        if (shouldPlay) {
+            playMusic();
+        }
+
+        updateButton();
+
+    });
+
+    // ================================
+    // INTERAKSI PERTAMA
+    // ================================
+    document.addEventListener(
+        "pointerdown",
+        function () {
+
+            if (
+                music.paused &&
+                localStorage.getItem(STORAGE_PLAYING) === "true"
+            ) {
+                playMusic();
+            }
+
+        },
+        {
+            once: true,
+            passive: true
+        }
+    );
+
+    updateButton();
+
+})();
 </script>
 
 <style>
@@ -428,16 +654,6 @@ raraWaMessage.addEventListener(
         .products-hero {
             padding: 0px;
             text-align: center;
-        }
-
-        .products-eyebrow {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: 21px;
-            color: #fffeff;
-            margin-bottom: 5px;
-            background:
-            conic-gradient(from 274deg, red, orange, yellow, #ff09bd, teal, #d10ea2, purple);
         }
 
         .products-title {
@@ -2850,6 +3066,14 @@ document.addEventListener(
 ================================ */
 
 @media (max-width: 600px) {
+
+.products-eyebrow {
+    display:contents;
+    font-size: 14px;    
+    margin-bottom: 10px;
+    line-height: 1.2;
+letter-spacing: normal;
+}
 
     .floating-product-wrapper {
 
