@@ -7,16 +7,11 @@
    - product-detail.html
    - cart.html
    - checkout.html
-
    FIX:
    - badge produk tidak lagi dihapus
    - badge berbeda setiap produk
    - tetap mempertahankan 83 produk
    ========================================================= */
-
-(function () {
-
-    "use strict";
 
 
     /* =====================================================
@@ -44,7 +39,9 @@
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "3 in 1 Exfoliating Gel 100 ml 2.png",
             price: 130000,
-            badge: "Best Seller"
+            badge: "Best Seller",
+            rating: 4.9,
+            reviews: 191,
         },
 
 
@@ -54,17 +51,19 @@
             category: "Cream Malam",
             image: IMAGE_FOLDER + "Acne Cream 3.png",
             price: 100000,
-            
+            rating: 4.7,
+            reviews: 92
         },
 
-
+        
         {
             id: "bamboo-charcoal-soap-premium",
             name: "Bamboo Charcoal Soap Premium",
             category: "Body Care",
             image: IMAGE_FOLDER + "Bamboo Charcoal Soap Premium.png",
             price: 55000,
-           
+            rating: 4.8,
+            reviews: 89,
         },
 
 
@@ -74,17 +73,18 @@
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "BB Cream Air Cushion Shade Ivory TO.png",
             price: 65000,
-           
+            rating: 4.9,
+            reviews: 394,
         },
-
-
+    
         {
             id: "brightening-cream",
             name: "Brightening Cream",
             category: "Cream Malam",
             image: IMAGE_FOLDER + "Brightening Cream.png",
             price: 100000,
-            
+            rating: 4.8,
+            reviews: 184,
         },
 
 
@@ -94,9 +94,9 @@
             category: "Masker",
             image: IMAGE_FOLDER + "Brightening Peel Off Mask with Charcoal 60 ml.png",
             price: 110000,
-            
+            rating: 4.9,
+            reviews: 351
         },
-
 
         {
             id: "cleansing-milk-with-green-tea-110-ml",
@@ -104,7 +104,8 @@
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
             price: 80000,
-          
+            rating: 4.7,
+            reviews: 123,  
         },
 
 
@@ -114,7 +115,8 @@
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Milk Cleanser 110 ml.jpg",
             price: 60000,
-            badge : "Cleansing"
+            rating: 4.7,
+            reviews: 98,
         },
 
 
@@ -124,7 +126,8 @@
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
             price: 100000,
- 
+            rating: 4.8,
+            reviews: 210,
         },
 
 
@@ -134,7 +137,8 @@
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Daily Compact Powder Natural Whitening.png",
             price: 100000,
- 
+            rating: 4.8,
+            reviews: 350,
         },
 
 
@@ -144,7 +148,9 @@
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Acne 1.png",
             price: 100000,
-       
+            rating: 4.9,
+            reviews: 1451,
+            badge: "Best Seller"
         },
 
 
@@ -154,6 +160,8 @@
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Acne 2.png",
             price: 100000,
+            rating: 4.8,
+            reviews: 123,
         },
 
 
@@ -163,7 +171,9 @@
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream Pink.png",
             price: 100000,
-            },
+            rating: 4.7,
+            reviews: 98,
+        },
 
 
         {
@@ -172,6 +182,8 @@
             category: "Cream Siang",
             image: IMAGE_FOLDER + "Day Cream White.png",
             price: 100000,
+            rating: 4.8,
+            reviews: 1247,
                },
 
 
@@ -914,9 +926,8 @@
     ===================================================== */
 
     console.log(
-        "%c DRW SKINCARE ",
-        "background:#e52d91;color:white;font-weight:bold;padding:6px 12px;border-radius:6px;"
-    );
+        "%c DRW SKINCARE")
+        background :"assets/images/products/Background 5.png"
 
 
     console.log(
@@ -928,22 +939,15 @@
         "✅ Jumlah produk:",
         PRODUCTS.length
     );
-
-
     console.log(
         "✅ Test Badge:",
         window.getDRWProduct(
             "3-in-1-exfoliating-gel-100-ml"
-        ).badge
-    );
-
-
+        )
+());
     console.log(
         "✅ Test Acne Cream 3:",
         window.getDRWProduct(
             "acne-cream-3"
         )
-    );
-
-
-})();
+    ());
