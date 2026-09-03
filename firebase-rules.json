@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['status','createdAt'])",
+        "moves": {
+          "$moveId": {
+            ".validate": "newData.hasChildren(['from','to','fen','by','at'])"
+          }
+        },
+        "chat": {
+          "$messageId": {
+            ".validate": "newData.hasChildren(['name','text','at'])"
+          }
+        }
+      }
+    }
+  }
+}

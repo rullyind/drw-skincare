@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>D2t Catur Online</title>
+<link rel="stylesheet" href="chess.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <div>
+      <div class="brand">RARA <span>CHESS</span></div>
+      <div class="sub">Online Multiplayer • Real-time</div>
+    </div>
+    <div id="connection" class="status offline">● Menghubungkan...</div>
+  </header>
+
+  <section id="lobby" class="panel lobby">
+    <h1>Main Catur Online</h1>
+    <p class="muted">Buat room lalu kirim kode room kepada teman.</p>
+    <label>Nama pemain
+      <input id="playerName" maxlength="20" placeholder="Nama Anda">
+    </label>
+    <div class="lobby-actions">
+      <button id="createBtn" class="primary">♟ Buat Room</button>
+      <div class="join">
+        <input id="roomInput" maxlength="8" placeholder="KODE ROOM">
+        <button id="joinBtn">Gabung</button>
+      </div>
+    </div>
+    <div id="lobbyMsg" class="msg"></div>
+    <div class="notice">Untuk produksi, gunakan Authentication dan Security Rules yang lebih ketat. File ini dibuat agar cepat diuji.</div>
+  </section>
+
+  <section id="game" class="game hidden">
+    <div class="board-panel">
+      <div class="gamebar">
+        <div>
+          <strong id="roomTitle">ROOM</strong>
+          <span id="roleText"></span>
+        </div>
+        <button id="copyBtn">🔗 Salin Undangan</button>
+      </div>
+
+      <div class="player-row">
+        <div class="player black"><span class="dot"></span><b id="blackName">Menunggu...</b></div>
+        <div id="blackClock" class="clock">10:00</div>
+      </div>
+
+      <div id="board" class="board" aria-label="Papan catur"></div>
+
+      <div class="player-row">
+        <div class="player white"><span class="dot"></span><b id="whiteName">Menunggu...</b></div>
+        <div id="whiteClock" class="clock">10:00</div>
+      </div>
+
+      <div class="controls">
+        <button id="resignBtn">🏳 Menyerah</button>
+        <button id="drawBtn">🤝 Tawarkan Remis</button>
+        <button id="newBtn">↻ Kembali ke Lobby</button>
+      </div>
+      <div id="gameMsg" class="game-msg">Menunggu pemain kedua...</div>
+    </div>
+
+    <aside class="side">
+      <div class="card">
+        <h3>💬 Chat</h3>
+        <div id="chatList" class="chat-list"></div>
+        <form id="chatForm">
+          <input id="chatInput" maxlength="160" placeholder="Tulis pesan...">
+          <button>➤</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>ℹ️ Cara bermain</h3>
+        <p>Klik bidak, lalu klik kotak tujuan. Gerakan divalidasi oleh chess.js dan posisi disinkronkan melalui Firebase Realtime Database.</p>
+      </div>
+    </aside>
+  </section>
+</main>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0g1J3k5n6e7f8g9h0i1j2k3l4m5n6o7p",
+    authDomain: "rara-chess.firebaseapp.com",
+    databaseURL: "https://rara-chess-default-rtdb.firebaseio.com",
+    projectId: "rara-chess",
+    storageBucket: "rara-chess.appspot.com",
+    messagingSenderId: "123456789012",
+    appId: "1:123456789012:web:abcdef1234567890abcdef12",
+    measurementId: "G-ABCDEFGH"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const analytics = firebase.analytics(); 
+
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0-beta.2/dist/chess.min.js"></scrip>
+<script type="module" src="chessboard.js"></script>
+<script type="module" src="main.js"></scrip>
+<script type="module" src="lobby.js"></script>
+<script type="module" src="game.js"></script>
+<script type="module" src="chat.js"></script>
+<script type="module" src="clock.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="ui.js"></script>
+<script type="module" src="index.js"></script>
+</script>
+</body>
+</html>
