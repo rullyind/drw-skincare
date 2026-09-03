@@ -11,6 +11,392 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
+/* =========================================================
+   RARA DRW SKINCARE
+   FLOATING WHATSAPP - PREMIUM
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================================================
+   WHATSAPP CONTAINER
+   ========================================================= */
+
+.rara-wa-container {
+    position: fixed;
+    right: 14px;
+    bottom: 200px;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+/* =========================================================
+   TULISAN WHATSAPP
+   ========================================================= */
+
+.rara-wa-message {
+    position: absolute;
+    right: 0;
+    width: max-content;
+    max-width: calc(100vw - 90px);
+
+    padding: 12px 18px;
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.96);
+    color: #d50068;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.18),
+        0 0 20px rgba(255, 20, 147, 0.15);
+
+    border: 1px solid rgb(255, 255, 255);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateX(120px);
+
+    transition:
+        transform 0.8s cubic-bezier(.22,1,.36,1),
+        opacity 0.5s ease,
+        visibility 0.5s ease;
+
+    pointer-events: auto;
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+/* Pesan muncul */
+.rara-wa-message.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-65px);
+}
+
+/* =========================================================
+   TOMBOL BULAT WHATSAPP
+   ========================================================= */
+
+.rara-wa-button {
+    position: relative;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #01f65b;
+
+    box-shadow:
+        0 7px 22px rgba(0, 0, 0, 0.999),
+        0 0 0 4px rgba(255,255,255,0.75),
+        0 0 25px rgb(0, 0, 0);
+
+    text-decoration: none;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+    pointer-events: auto;
+}
+
+/* Ikon WhatsApp */
+.rara-wa-button svg {
+    width: 31px;
+    height: 31px;
+    fill: white;
+}
+
+/* Hover desktop */
+.rara-wa-button:hover {
+    transform: scale(1.12);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.3),
+        0 0 0 4px rgba(255,255,255,0.9),
+        0 0 35px rgba(37,211,102,0.7);
+}
+
+/* =========================================================
+   EFEK CAHAYA
+   ========================================================= */
+
+.rara-wa-button::before {
+    content: "";
+
+    position: absolute;
+    inset: -7px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(37,211,102,0.35);
+
+    animation: raraWaPulse 2s infinite;
+}
+
+@keyframes raraWaPulse {
+
+    0% {
+        transform: scale(0.9);
+        opacity: 0.9;
+    }
+
+    70% {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   TITIK NOTIFIKASI
+   ========================================================= */
+
+.rara-wa-dot {
+    position: absolute;
+
+    top: -1px;
+    right: -1px;
+
+    width: 15px;
+    height: 15px;
+
+    background: #ff1493;
+
+    border: 2px solid white;
+
+    border-radius: 50%;
+
+    animation: raraDot 1.5s infinite;
+}
+
+@keyframes raraDot {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rara-wa-container {
+        right: 10px;
+        bottom: 200px;
+    }
+
+    .rara-wa-button {
+        width: 54px;
+        height: 54px;
+    }
+
+    .rara-wa-button svg {
+        width: 29px;
+        height: 29px;
+    }
+
+    .rara-wa-message {
+        font-size: 12px;
+        padding: 10px 14px;
+
+        max-width: calc(100vw - 75px);
+    }
+
+    .rara-wa-message.show {
+        transform: translateX(-62px);
+    }
+}
+
+/* =========================================================
+   HP SANGAT KECIL
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .rara-wa-message {
+        font-size: 11px;
+        padding: 9px 12px;
+    }
+
+    .rara-wa-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .rara-wa-button svg {
+        width: 26px;
+        height: 26px;
+    }
+}
+</style>
+</head>
+
+<!-- =======================================================
+     WHATSAPP FLOATING BUTTON
+     ======================================================= -->
+
+<div class="rara-wa-container">
+
+    <!-- PESAN -->
+    <div
+        class="rara-wa-message"
+        id="raraWaMessage"
+        onclick="raraOpenWhatsApp()"
+    >
+        💬 Order atau Konsultasi? Klik WhatsApp
+    </div>
+
+    <!-- BUTTON -->
+    <a
+        href="https://wa.me/6282381432222"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rara-wa-button"
+        aria-label="Order atau Konsultasi melalui WhatsApp"
+    >
+
+        <!-- ICON WHATSAPP -->
+        <svg
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M19.11 17.19c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.29s.98 2.66 1.12 2.84c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.26.18 1.74.11.53-.08 1.6-.66 1.82-1.29.23-.63.23-1.17.16-1.29-.07-.11-.25-.18-.52-.32zM16.02 26.7h-.01c-1.83 0-3.62-.49-5.2-1.42l-.37-.22-3.85 1.01 1.03-3.75-.24-.39a10.68 10.68 0 0 1-1.64-5.7c0-5.92 4.82-10.73 10.75-10.73 2.87 0 5.56 1.12 7.59 3.14a10.67 10.67 0 0 1 3.14 7.59c0 5.92-4.82 10.74-10.75 10.74zm9.14-19.88a12.85 12.85 0 0 0-9.15-3.79C8.88 3.03 3.09 8.82 3.09 15.94c0 2.25.59 4.45 1.72 6.39L3 28.97l6.8-1.78a12.9 12.9 0 0 0 6.17 1.57h.01c7.12 0 12.91-5.79 12.91-12.91 0-3.45-1.34-6.69-3.73-9.03z"/>
+        </svg>
+
+        <span class="rara-wa-dot"></span>
+
+    </a>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   RARA DRW SKINCARE
+   WHATSAPP AUTO MESSAGE
+   ========================================================= */
+
+const raraWaMessage =
+    document.getElementById("raraWaMessage");
+
+let raraWaTimer;
+
+
+/* =========================================================
+   BUKA WHATSAPP
+   ========================================================= */
+
+function raraOpenWhatsApp() {
+
+    const message =
+        encodeURIComponent(
+            "Halo Admin DRW SKINCARE, saya ingin Order / Konsultasi."
+        );
+
+    window.open(
+        "https://wa.me/6282381432222?text=" + message,
+        "_blank"
+    );
+}
+
+
+/* =========================================================
+   TAMPILKAN PESAN
+   ========================================================= */
+
+function raraShowWhatsAppMessage() {
+
+    raraWaMessage.classList.add("show");
+
+    /*
+       Setelah 6 detik,
+       pesan kembali ke kanan
+    */
+
+    setTimeout(function() {
+
+        raraWaMessage.classList.remove("show");
+
+    }, 6000);
+}
+
+
+/* =========================================================
+   PERTAMA KALI MUNCUL
+   15 DETIK
+   ========================================================= */
+
+raraWaTimer = setInterval(
+    raraShowWhatsAppMessage,
+    15000
+);
+
+
+/* =========================================================
+   RESET TIMER SAAT PESAN DIKLIK
+   ========================================================= */
+
+raraWaMessage.addEventListener(
+    "click",
+    function() {
+
+        raraWaMessage.classList.remove("show");
+
+    }
+);
+
+</script>
+
+<style>
+
+/* =========================================================
+   FLOATING SHOPEE
+   ========================================================= */
+
+.rara-shopee-float {
+    position: fixed;
+    right: 14px;
+    bottom: 225px;
+    z-index: 999999;
+
+    width: 58px;
+    height: 58px;
+
+    font-family: Arial, sans-serif;
+}
 
         /* =========================================
            PRODUCTS PAGE
@@ -42,11 +428,13 @@
         }
 
         .products-eyebrow {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 600;
             letter-spacing: 2px;
-            color: #a44b72;
-            margin-bottom: 15px;
+            color: #fffeff;
+            margin-bottom: 5px;
+            background:
+            conic-gradient(from 274deg, red, orange, yellow, #ff09bd, teal, #d10ea2, purple);
         }
 
         .products-title {
@@ -57,7 +445,7 @@
                 serif;
 
             font-size:
-                clamp(42px, 5vw, 72px);
+               xx-large;
 
             line-height: 1.1;
             color: #21191e;
@@ -359,7 +747,7 @@
 
             padding: 22px;
 
-            box-sizing: border-box;
+            box-sizing: initial;
 
             transition:
                 transform .5s ease;
@@ -411,11 +799,6 @@
            CONTENT
         ========================================= */
 
-        .product-card-content {
-
-            padding:
-                22px;
-        }
 
         .product-category {
 
@@ -435,20 +818,6 @@
                 1px;
         }
 
-        .product-card h3 {
-
-            margin:
-                0 0 10px;
-
-            color:
-                #2b2025;
-
-            font-size: 17px;
-
-            line-height: 1.45;
-
-            min-height: 49px;
-        }
 
         .product-rating {
 
@@ -490,49 +859,6 @@
         }
 
         .product-detail-btn,
-        .product-cart-btn {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 7px;
-
-            padding:
-                12px 10px;
-
-            border-radius: 12px;
-
-            cursor: pointer;
-
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            text-decoration:
-                none;
-
-            transition: .3s ease;
-        }
-
-        .product-detail-btn {
-
-            color:
-                #e33f87;
-
-            background:
-                #fff4f8;
-
-            border:
-                1px solid
-                rgba(236,79,147,.20);
-        }
 
         .product-detail-btn:hover {
 
@@ -637,7 +963,7 @@
             .products-section {
 
                 padding:
-                    20px 15px 70px;
+                    15px;
             }
 
             .product-card-image {
@@ -660,7 +986,7 @@
                     8px 18px 40px;
             }
            .product-card-content {
-    padding: 2px;
+    padding: 20px;
            }
             .category-filter {
 
@@ -691,7 +1017,7 @@
             gap: 1px;
 
             padding:
-                1px 1px;
+                1px 7px;
 
             border-radius: 10px;
 
@@ -701,7 +1027,7 @@
                 "DM Sans",
                 sans-serif;
 
-            font-size: 8px;
+            font-size: 12px;
 
             font-weight: 500;
 
@@ -714,14 +1040,11 @@
         .product-detail-btn {
 
             color:
-                #e33f87;
+                #f30069;
 
             background:
-                #8bef001c;
+                #fefefe;
 
-            border:
-                1px solid
-                rgba(236,79,147,.20);
         }
 
         .product-detail-btn:hover {
@@ -734,15 +1057,13 @@
 
         .product-cart-btn {
 
-            border: solid;
-
-            color: #fff;
+            color: #f46100;
 
             background:
                 linear-gradient(
                     135deg,
-                    #ef4f96,
-                    #d92d78
+                    #ffffff,
+                    #ffffff
                 );
         }
 
@@ -758,9 +1079,9 @@
 .product-card h3 {
     margin: 0 0 1px;
     color: #2b2025;
-    font-size: 13px;
-    line-height: 1.45;
-    min-height: 49px;
+    font-size: 14px;
+    line-height: 1.25;
+  
             .products-info {
 
                 display: block;
@@ -876,24 +1197,6 @@
 
 </div>
 
-
-<!-- =================================================
-     SCRIPT ORDER â€” SANGAT PENTING
-================================================= -->
-
-<!-- 1. DATABASE PRODUK -->
-
-
-<!-- 2. CART -->
-
-
-<!-- 3. APP -->
-
-
-<!-- =================================================
-     PRODUCTS PAGE RENDERER
-================================================= -->
-<script src="assets/js/products-data.js"></script>
 
 
 <script>
@@ -2009,7 +2312,7 @@ document.addEventListener(
                                    class="product-detail-btn"
                                   href="product-detail.html?id=${encodeURIComponent(productId)}">
 
-                                    <i class="fa-regular fa-eye"></i>
+                                    <i class="fa-regular fa-eye" style="transform: translateX(5px)"></i>
                                     Detail
                                 </a>
 
@@ -2326,9 +2629,296 @@ document.addEventListener(
          DRW SKINCARE â€” FINAL SCRIPT ORDER
     ========================================================== -->
 
-   <script src="assets/js/products-data.js"></script>
   
-    
+    <!-- =====================================================
+     FLOATING — LIHAT SEMUA PRODUK
+     MUNCUL SETIAP 25 DETIK
+====================================================== -->
+
+<a href="products.html"
+   class="floating-product-wrapper"
+   aria-label="Lihat Semua Produk">
+
+    <!-- Tulisan yang muncul -->
+    <span class="floating-product-label">
+        Lihat Semua Produk <b>›</b>
+    </span>
+
+    <!-- Tombol bulat -->
+    <span class="floating-product-circle">
+        🛍️
+    </span>
+
+</a>
+
+<style>
+/* ================================
+   POSISI UTAMA
+================================ */
+
+.floating-product-wrapper {
+    position: fixed;
+
+    right: 15px;
+    bottom: 300px;
+
+    z-index: 9998;
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* ================================
+   TOMBOL BULAT
+================================ */
+
+.floating-product-circle {
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5caf,
+            #ff1493,
+            #d90075
+        );
+
+    color: white;
+
+    font-size: 23px;
+
+    border: 2px solid rgba(255,255,255,.7);
+
+    box-shadow:
+        0 6px 25px rgba(255,20,147,.45),
+        0 0 20px rgba(255,105,180,.45);
+
+    position: relative;
+
+    z-index: 2;
+
+    transition: .3s ease;
+
+    animation: productPulse 2.5s infinite;
+}
+
+
+/* ================================
+   LABEL
+================================ */
+
+.floating-product-label {
+
+    position: absolute;
+
+    right: 52px;
+
+    white-space: nowrap;
+
+    padding: 11px 20px 11px 16px;
+
+    border-radius: 25px;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,20,147,.96),
+            rgba(217,0,117,.96)
+        );
+
+    box-shadow:
+        0 5px 20px rgba(255,20,147,.35),
+        0 0 18px rgba(255,105,180,.35);
+
+    opacity: 0;
+
+    transform:
+        translateX(25px)
+        scale(.8);
+
+    pointer-events: none;
+
+    transition:
+        opacity .5s ease,
+        transform .5s ease;
+}
+
+
+/* PANAH */
+
+.floating-product-label b {
+
+    font-size: 22px;
+
+    margin-left: 5px;
+
+    vertical-align: -2px;
+}
+
+
+/* ================================
+   SAAT LABEL MUNCUL
+================================ */
+
+.floating-product-wrapper.show-label
+.floating-product-label {
+
+    opacity: 1;
+
+    transform:
+        translateX(0)
+        scale(1);
+}
+
+
+/* ================================
+   HOVER
+================================ */
+
+.floating-product-wrapper:hover
+.floating-product-circle {
+
+    transform: scale(1.1);
+
+    box-shadow:
+        0 8px 30px rgba(255,20,147,.6),
+        0 0 30px rgba(255,105,180,.7);
+}
+
+
+/* ================================
+   PULSE
+================================ */
+
+@keyframes productPulse {
+
+    0% {
+        box-shadow:
+            0 6px 25px rgba(255,20,147,.45),
+            0 0 20px rgba(255,105,180,.35);
+    }
+
+    50% {
+        box-shadow:
+            0 8px 30px rgba(255,20,147,.65),
+            0 0 30px rgba(255,105,180,.6);
+    }
+
+    100% {
+        box-shadow:
+            0 6px 25px rgba(255,20,147,.45),
+            0 0 20px rgba(255,105,180,.35);
+    }
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .floating-product-wrapper {
+
+        right: 14px;
+        bottom: 88px;
+    }
+
+    .floating-product-circle {
+
+        width: 52px;
+        height: 52px;
+
+        font-size: 21px;
+        bottom: 180px;
+        right:-5px;
+    }
+
+    .floating-product-label {
+
+        right: 45px;
+        bottom: 180px;
+        font-size: 12px;
+
+        padding:
+            9px
+            16px
+            9px
+            13px;
+    }
+}
+</style>
+
+
+<>
+/* =====================================================
+   TULISAN MUNCUL SETIAP 25 DETIK
+====================================================== */
+
+(function () {
+
+    const button =
+        document.querySelector(
+            '.floating-product-wrapper'
+        );
+
+    if (!button) return;
+
+
+    function showProductLabel() {
+
+        /* tampilkan tulisan */
+        button.classList.add('show-label');
+
+
+        /* sembunyikan setelah 5 detik */
+        setTimeout(function () {
+
+            button.classList.remove(
+                'show-label'
+            );
+
+        }, 5000);
+
+    }
+
+
+    /* Muncul pertama kali setelah 25 detik */
+    setTimeout(function () {
+
+        showProductLabel();
+
+        /* kemudian setiap 25 detik */
+        setInterval(
+            showProductLabel,
+            25000
+        );
+
+    }, 25000);
+
+})();
+
+</script>
+   <script src="assets/js/products-data.js"></script>
+
 
 </body>
 
