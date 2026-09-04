@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>D2T DOMINO â€¢ Online Firebase</title>
+<title>Mbicukia Domino</title>
 <link rel="stylesheet" href="domino1.css">
 </head>
 <body>
 
 <div id="loginScreen" class="screen">
   <div class="login-card">
-    <div class="logo">D2T <span>DOMINO</span></div>
-    <p class="muted">ðŸŽ´ 28 Kartu â€¢ Online Firebase â€¢ 2â€“4 Pemain</p>
+    <div class="logo">Mbicuki <span>DOMINO</span></div>
+    <p class="muted">28 Kartu 2 atau 4 Pemain</p>
 
     <div class="tabs">
       <button id="localTab" class="tab active">Main Sendiri</button>
@@ -24,22 +24,22 @@
       <label id="name3Wrap" class="hidden">Nama Pemain 3<input id="name3" maxlength="18" placeholder="Nama pemain 3"></label>
       <label>Mode
         <select id="humanCount">
-          <option value="1">1 Orang vs 3 Computer</option>
-          <option value="2">2 Orang vs 2 Computer</option>
-          <option value="3">3 Orang vs 1 Computer</option>
+          <option value="1">1 Orang vs 3 Ai</option>
+          <option value="2">2 Orang vs 2 Ai</option>
+          <option value="3">3 Orang vs 1 Ai</option>
         </select>
       </label>
-      <button id="startLocalBtn" class="gold full">â–¶ Mulai Game</button>
-      <small class="muted">Pemain manusia bergantian pada perangkat yang sama.</small>
+      <button id="startLocalBtn" class="gold full">Mulai Game</button>
+      <small class="muted">Pemain bergantian pada perangkat yang sama.</small>
     </section>
 
     <section id="onlinePanel" class="hidden">
       <label>Nama Online<input id="onlineName" maxlength="18" placeholder="Nama kamu"></label>
-      <button id="createRoomBtn" class="gold full" disabled>ï¼‹ Buat Room</button>
+      <button id="createRoomBtn" class="gold full" disabled>Buat Room</button>
       <div class="or">atau</div>
       <label>Kode Room<input id="roomCodeInput" maxlength="6" placeholder="Contoh: A7K2P9" autocomplete="off"></label>
-      <button id="joinRoomBtn" class="full" disabled>ðŸšª Gabung Room</button>
-      <div id="firebaseStatus" class="status mini">Memuat Firebaseâ€¦</div>
+      <button id="joinRoomBtn" class="full" disabled>Gabung Room</button>
+      <div id="firebaseStatus" class="status mini">Memuat...</div>
     </section>
   </div>
 </div>
@@ -47,41 +47,41 @@
 <div id="app" class="app hidden">
 <header class="topbar">
   <div>
-    <div class="logo">D2T <span>DOMINO</span></div>
+    <div class="logo">Mbicukia <span>DOMINO</span></div>
     <div id="welcome" class="muted"></div>
   </div>
   <nav>
-    <button id="newGameBtn" class="nav">ðŸŽ® Menu</button>
-    <button id="leagueBtn" class="nav">ðŸ† Liga</button>
+    <button id="newGameBtn" class="nav">Menu</button>
+    <button id="leagueBtn" class="nav">Liga</button>
   </nav>
 </header>
 
 <section id="gamePage" class="page active">
   <div class="roombar card">
-    <div><span class="label">ROOM</span><strong id="roomCode">LOCAL</strong><button id="copyRoomBtn">ðŸ“‹ Salin</button></div>
+    <div><span class="label">ROOM</span><strong id="roomCode">LOCAL</strong><button id="copyRoomBtn">‹ Salin</button></div>
     <div><span id="onlineState" class="pill">Lokal</span></div>
   </div>
 
   <div id="waitingCard" class="card waiting hidden">
-    <h2>ðŸŽ® Menunggu pemain</h2>
+    <h2>Menunggu pemain</h2>
     <p id="waitingText">Bagikan kode room kepada teman.</p>
     <div id="roomPlayers" class="lobby-grid"></div>
-    <button id="startOnlineBtn" class="gold wide">â–¶ Mulai Ronde</button>
+    <button id="startOnlineBtn" class="gold wide">Mulai Ronde</button>
     <small class="muted">Host dapat memulai saat minimal 2 pemain sudah masuk.</small>
   </div>
 
   <div class="game-layout">
     <aside class="side card">
       <h3>RONDE</h3><div id="roundNo" class="big">1</div>
-      <div class="turn-box"><small>GILIRAN</small><strong id="turnName">â€”</strong></div>
+      <div class="turn-box"><small>GILIRAN</small><strong id="turnName"></strong></div>
       <div class="rules">
-        <b>ðŸ Aturan Selesai</b>
-        <span>Jika ada yang habis batu â†’ selesai.</span>
-        <span>Jika meja buntu/tertutup â†’ hitung total angka batu.</span>
+        <b>Aturan Selesai</b>
+        <span>Jika ada yang habis batu selesai.</span>
+        <span>Jika meja buntu/tertutup hitung total angka batu.</span>
         <span><strong>Angka paling kecil = pemenang.</strong></span>
       </div>
       <div class="rules">
-        <b>ðŸ† Poin Liga</b><span>ðŸ¥‡ 1 = 3</span><span>ðŸ¥ˆ 2 = 2</span><span>ðŸ¥‰ 3 = 1</span><span>4 = 0</span>
+        <b>Poin Liga</b><span>1 = 3</span><span>2 = 2</span><span>3 = 1</span><span>4 = 0</span>
       </div>
       <button id="resetLeague" class="wide danger">Reset Liga</button>
     </aside>
@@ -97,8 +97,8 @@
       </div>
 
       <div class="controls">
-        <button id="drawBtn">ðŸƒ Ambil Kartu</button>
-        <button id="passBtn">â­ï¸ Lewati</button>
+        <button id="drawBtn">Ambil Kartu</button>
+        <button id="passBtn">Taruih lah</button>
       </div>
 
       <div id="myHand" class="my-hand card">
@@ -110,7 +110,7 @@
 </section>
 
 <section id="leaguePage" class="page">
-  <div class="card league-head"><div><h1>ðŸ† Klasemen Liga</h1><p>Poin tersimpan di perangkat untuk mode lokal.</p></div></div>
+  <div class="card league-head"><div><h1>Klasemen Liga</h1><p>Poin tersimpan di perangkat untuk mode lokal.</p></div></div>
   <div class="card table-card"><table>
     <thead><tr><th>#</th><th>Pemain</th><th>Ronde</th><th>Menang</th><th>Poin</th></tr></thead>
     <tbody id="standings"></tbody>
@@ -120,10 +120,10 @@
 
 <div id="modal" class="modal hidden">
   <div class="modal-box">
-    <div class="trophy">ðŸ†</div><h2 id="modalTitle">Ronde Selesai</h2>
+    <div class="trophy"></div><h2 id="modalTitle">Ronde Selesai</h2>
     <p id="modalSub" class="muted"></p>
     <div id="results"></div>
-    <button id="nextBtn" class="gold wide">â–¶ Ronde Berikutnya</button>
+    <button id="nextBtn" class="gold wide">Ronde Berikutnya</button>
   </div>
 </div>
 
