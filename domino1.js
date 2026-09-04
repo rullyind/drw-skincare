@@ -3,94 +3,70 @@
 
   /* =========================================================
      MBICUKIA DOMINO
-     DOMINO1.JS — FINAL V2
-     LOCAL + FIREBASE ONLINE
-     2 / 3 / 4 PEMAIN
+     DOMINO1.JS — FINAL 7 KARTU
      
-     ATURAN BUNTU:
-     Jika tumpukan habis DAN tidak ada SATU PUN pemain
-     yang mempunyai batu yang dapat dimainkan,
-     ronde langsung selesai.
+     MODE:
+     - LOCAL
+     - ONLINE FIREBASE
 
-     Pemenang = pemain dengan TOTAL TITIK TERKECIL.
+     ATURAN:
+     - Semua pemain mendapat 7 batu
+     - Tidak ada Ambil Kartu
+     - Jika tidak punya batu yang cocok = PASS
+     - Jika semua pemain PASS = permainan buntu
+     - Angka/titik paling kecil = pemenang
+     - Jika pemain menghabiskan batu = langsung menang
      ========================================================= */
 
-
-  /* =========================================================
-     HELPER
-     ========================================================= */
-
-  const $ = (id) => document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
   const POINTS = [3, 2, 1, 0];
 
-  const LEAGUE_KEY = "d2t_domino_local_league_v2";
-  const NAME_KEY = "d2t_domino_local_names_v2";
-
-  let mode = "local";
-
+  const LEAGUE_KEY = "d2t_domino_local_league_v3";
+  const NAME_KEY = "d2t_domino_local_names_v3";
 
   /* =========================================================
-     FIREBASE
+     STATE
      ========================================================= */
 
-  let db = null;
-  let auth = null;
+  let mode = "menu";
+
   let currentUid = null;
-  let firebaseReady = false;
+  let authUser = null;
+  let db = null;
 
   let roomId = null;
   let roomData = null;
 
   let roomUnsub = null;
   let actionUnsub = null;
-  let handUnsub = null;
 
+  let localGame = null;
 
-  /* =========================================================
-     ONLINE STATE
-     ========================================================= */
+  let league = [];
 
-  let onlineHand = [];
+  let localPassCount = 0;
 
-  let processingActions = {};
-  let onlineRendering = false;
-
-
-  /* =========================================================
-     LOCAL STATE
-     ========================================================= */
-
-  let localPlayers = [];
-  let localBoard = [];
-  let localLeft = null;
-  let localRight = null;
-  let localTurn = 0;
-  let localBoneyard = [];
-  let localRound = 1;
-  let localFinished = false;
-  let localResults = [];
-
+  let processingActions = new Set();
 
   /* =========================================================
      DOMINO DECK
      ========================================================= */
 
   function deck28() {
-    const deck = [];
+    const d = [];
 
     for (let a = 0; a <= 6; a++) {
       for (let b = a; b <= 6; b++) {
-        deck.push([a, b]);
+        d.push([a, b]);
       }
     }
 
-    return deck;
+    return d;
   }
 
-
-  function shuffle(arr) {
-    const a = [...arr];
+  function shuffle(array) {
+    const a = [...array];
 
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -101,41 +77,29 @@
     return a;
   }
 
-
-  function cloneTile(tile) {
-    return tile
-      ? [Number(tile[0]), Number(tile[1])]
-      : null;
+  function sumPips(hand) {
+    return (hand || []).reduce((sum, tile) => {
+      return sum + Number(tile[0]) + Number(tile[1]);
+    }, 0);
   }
-
 
   function tileKey(tile) {
-    if (!tile) return "";
-
-    return `${Number(tile[0])}-${Number(tile[1])}`;
+    return `${tile[0]}-${tile[1]}`;
   }
 
-
-  function sumPips(hand) {
-    return (hand || []).reduce(
-      (sum, tile) => {
-        if (!tile) return sum;
-
-        return (
-          sum +
-          Number(tile[0]) +
-          Number(tile[1])
-        );
-      },
-      0
-    );
-  }
-
+  /* =========================================================
+     FIRESTORE TILE FORMAT
+     
+     Firestore tidak boleh menyimpan array di dalam array.
+     
+     [6,5]
+     menjadi
+     "6-5"
+     ========================================================= */
 
   function encodeTile(tile) {
     return `${Number(tile[0])}-${Number(tile[1])}`;
   }
-
 
   function decodeTile(value) {
     if (Array.isArray(value)) {
@@ -145,311 +109,424 @@
       ];
     }
 
-    if (typeof value !== "string") {
-      return null;
-    }
-
-    const parts = value
-      .split("-")
-      .map(Number);
-
-    if (
-      parts.length !== 2 ||
-      !Number.isFinite(parts[0]) ||
-      !Number.isFinite(parts[1])
-    ) {
-      return null;
-    }
+    const parts = String(value || "").split("-");
 
     return [
-      parts[0],
-      parts[1]
+      Number(parts[0]),
+      Number(parts[1])
     ];
   }
 
-
   function encodeTiles(tiles) {
-    return (tiles || []).map(
-      encodeTile
-    );
+    return (tiles || []).map(encodeTile);
   }
-
 
   function decodeTiles(tiles) {
-    return (tiles || [])
-      .map(decodeTile)
-      .filter(Boolean);
+    return (tiles || []).map(decodeTile);
   }
-
 
   /* =========================================================
-     FIREBASE SERVER TIMESTAMP
+     HTML SAFETY
      ========================================================= */
 
-  function serverTimestamp() {
-    return firebase.firestore.FieldValue.serverTimestamp();
+  function esc(value) {
+    return String(value ?? "").replace(
+      /[&<>"']/g,
+      char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char])
+    );
   }
-
 
   /* =========================================================
-     UI
+     DOMINO PIP
      ========================================================= */
 
-  function show(id) {
-    const el = $(id);
+  const PIP_POSITIONS = {
+    0: [],
+    1: [4],
+    2: [0, 8],
+    3: [0, 4, 8],
+    4: [0, 2, 6, 8],
+    5: [0, 2, 4, 6, 8],
+    6: [0, 2, 3, 5, 6, 8]
+  };
 
-    if (el) {
-      el.classList.remove("hidden");
-    }
+  function pipHTML(number) {
+    return `
+      <div class="domino-half" aria-label="${number} titik">
+        ${
+          PIP_POSITIONS[number]
+            .map(pos => `<span class="pip p${pos}"></span>`)
+            .join("")
+        }
+      </div>
+    `;
   }
 
-
-  function hide(id) {
-    const el = $(id);
-
-    if (el) {
-      el.classList.add("hidden");
-    }
+  function tileHTML(tile, className = "tile") {
+    return `
+      <div
+        class="${className}"
+        data-a="${tile[0]}"
+        data-b="${tile[1]}"
+      >
+        ${pipHTML(tile[0])}
+        <i class="domino-divider"></i>
+        ${pipHTML(tile[1])}
+      </div>
+    `;
   }
 
+  /* =========================================================
+     STATUS
+     ========================================================= */
 
-  function setText(id, text) {
-    const el = $(id);
-
-    if (el) {
-      el.textContent =
-        text ?? "";
-    }
-  }
-
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-
-  function setStatus(text, type) {
+  function setStatus(message) {
     const el = $("status");
 
-    if (!el) return;
-
-    el.textContent =
-      text || "";
-
-    el.classList.remove(
-      "success",
-      "error",
-      "warning"
-    );
-
-    if (type) {
-      el.classList.add(type);
+    if (el) {
+      el.textContent = message || "";
     }
   }
-
-
-  function setFirebaseStatus(text, type) {
-    const el =
-      $("firebaseStatus");
-
-    if (!el) return;
-
-    el.textContent =
-      text || "";
-
-    el.classList.remove(
-      "success",
-      "error",
-      "warning"
-    );
-
-    if (type) {
-      el.classList.add(type);
-    }
-  }
-
 
   /* =========================================================
-     LOCAL STORAGE
+     FIREBASE
      ========================================================= */
 
-  function loadLeague() {
-    try {
-      return JSON.parse(
-        localStorage.getItem(
-          LEAGUE_KEY
-        ) || "{}"
-      );
-    } catch (e) {
-      return {};
-    }
-  }
-
-
-  function saveLeague(data) {
-    localStorage.setItem(
-      LEAGUE_KEY,
-      JSON.stringify(data)
+  function firebaseReady() {
+    return !!(
+      window.firebase &&
+      window.D2T_FIREBASE_CONFIG &&
+      !String(
+        window.D2T_FIREBASE_CONFIG.apiKey || ""
+      ).startsWith("GANTI_")
     );
   }
-
-
-  function getSavedNames() {
-    try {
-      return JSON.parse(
-        localStorage.getItem(
-          NAME_KEY
-        ) || "{}"
-      );
-    } catch (e) {
-      return {};
-    }
-  }
-
-
-  function saveNames() {
-    localStorage.setItem(
-      NAME_KEY,
-      JSON.stringify({
-        name1:
-          $("name1")?.value || "",
-
-        name2:
-          $("name2")?.value || "",
-
-        name3:
-          $("name3")?.value || "",
-
-        onlineName:
-          $("onlineName")?.value || ""
-      })
-    );
-  }
-
-
-  function loadNames() {
-    const names =
-      getSavedNames();
-
-    if ($("name1")) {
-      $("name1").value =
-        names.name1 || "";
-    }
-
-    if ($("name2")) {
-      $("name2").value =
-        names.name2 || "";
-    }
-
-    if ($("name3")) {
-      $("name3").value =
-        names.name3 || "";
-    }
-
-    if ($("onlineName")) {
-      $("onlineName").value =
-        names.onlineName || "";
-    }
-  }
-
-
-  /* =========================================================
-     FIREBASE INIT
-     ========================================================= */
 
   async function initFirebase() {
+    const status = $("firebaseStatus");
+
     try {
       if (!window.firebase) {
-        throw new Error(
-          "Firebase SDK tidak ditemukan."
+        if (status) {
+          status.textContent =
+            "🔴 Firebase SDK tidak termuat.";
+        }
+
+        return;
+      }
+
+      if (!window.D2T_FIREBASE_CONFIG) {
+        if (status) {
+          status.textContent =
+            "🔴 Konfigurasi Firebase tidak ditemukan.";
+        }
+
+        return;
+      }
+
+      if (!firebaseReady()) {
+        if (status) {
+          status.textContent =
+            "🔴 API Key Firebase belum diisi.";
+        }
+
+        return;
+      }
+
+      let app;
+
+      if (firebase.apps.length) {
+        app = firebase.app();
+
+        const existingProject =
+          app.options?.projectId || "";
+
+        const wantedProject =
+          window.D2T_FIREBASE_CONFIG.projectId || "";
+
+        if (
+          existingProject &&
+          wantedProject &&
+          existingProject !== wantedProject
+        ) {
+          throw new Error(
+            "Firebase project bentrok. Pastikan hanya Firebase Domino yang digunakan."
+          );
+        }
+      } else {
+        app = firebase.initializeApp(
+          window.D2T_FIREBASE_CONFIG
         );
       }
 
-      const config =
-        window.D2T_FIREBASE_CONFIG;
+      db = app.firestore();
 
-      if (!config) {
-        throw new Error(
-          "D2T_FIREBASE_CONFIG tidak ditemukan."
-        );
+      const auth = app.auth();
+
+      if (status) {
+        status.textContent =
+          "⏳ Masuk sebagai pemain...";
       }
 
-      if (!firebase.apps.length) {
-        firebase.initializeApp(
-          config
-        );
+      const credential =
+        await auth.signInAnonymously();
+
+      authUser = credential.user;
+
+      currentUid = credential.user.uid;
+
+      if (status) {
+        status.textContent =
+          "🟢 Firebase terhubung.";
       }
 
-      auth =
-        firebase.auth();
-
-      db =
-        firebase.firestore();
-
-      await auth.signInAnonymously();
-
-      currentUid =
-        auth.currentUser?.uid ||
-        null;
-
-      if (!currentUid) {
-        throw new Error(
-          "UID Firebase tidak tersedia."
-        );
+      if ($("createRoomBtn")) {
+        $("createRoomBtn").disabled = false;
       }
 
-      firebaseReady = true;
+      if ($("joinRoomBtn")) {
+        $("joinRoomBtn").disabled = false;
+      }
 
-      setFirebaseStatus(
-        "Firebase Connected",
-        "success"
+      console.log(
+        "D2T Domino Firebase:",
+        currentUid
       );
-
-      $("createRoomBtn")
-        ?.removeAttribute(
-          "disabled"
-        );
-
-      $("joinRoomBtn")
-        ?.removeAttribute(
-          "disabled"
-        );
-
-      return true;
 
     } catch (error) {
 
       console.error(
-        "Firebase Error:",
+        "Firebase initialization error:",
         error
       );
 
-      firebaseReady = false;
+      let message =
+        error?.message ||
+        error?.code ||
+        String(error);
 
-      setFirebaseStatus(
-        "Firebase gagal: " +
-          (
-            error.message ||
-            "Unknown error"
-          ),
-        "error"
-      );
+      if (
+        error?.code ===
+        "auth/operation-not-allowed"
+      ) {
+        message =
+          "Anonymous Login belum diaktifkan di Firebase Authentication.";
+      }
 
-      return false;
+      if (
+        error?.code ===
+        "auth/unauthorized-domain"
+      ) {
+        message =
+          "Domain website belum diizinkan di Firebase Authentication.";
+      }
+
+      if (
+        error?.code ===
+        "auth/network-request-failed"
+      ) {
+        message =
+          "Koneksi Firebase gagal. Periksa internet.";
+      }
+
+      if (status) {
+        status.textContent =
+          "🔴 Firebase gagal: " + message;
+      }
     }
   }
 
-
   /* =========================================================
-     ROOM ID
+     NAMES
      ========================================================= */
 
-  function randomRoomCode() {
+  function loadNames() {
+    try {
+      const names =
+        JSON.parse(
+          localStorage.getItem(NAME_KEY) || "[]"
+        );
+
+      if ($("name1")) {
+        $("name1").value = names[0] || "";
+      }
+
+      if ($("name2")) {
+        $("name2").value = names[1] || "";
+      }
+
+      if ($("name3")) {
+        $("name3").value = names[2] || "";
+      }
+
+    } catch (error) {
+      console.warn(
+        "Gagal membaca nama pemain.",
+        error
+      );
+    }
+  }
+
+  function saveNames() {
+    localStorage.setItem(
+      NAME_KEY,
+      JSON.stringify([
+        $("name1")?.value.trim() || "",
+        $("name2")?.value.trim() || "",
+        $("name3")?.value.trim() || ""
+      ])
+    );
+  }
+
+  /* =========================================================
+     LEAGUE
+     ========================================================= */
+
+  function loadLeague() {
+    try {
+      league =
+        JSON.parse(
+          localStorage.getItem(
+            LEAGUE_KEY
+          ) || "[]"
+        );
+    } catch {
+      league = [];
+    }
+
+    renderLeague();
+  }
+
+  function saveLeague() {
+    localStorage.setItem(
+      LEAGUE_KEY,
+      JSON.stringify(league)
+    );
+
+    renderLeague();
+  }
+
+  function ensureLeague(name) {
+    if (!name) return;
+
+    if (
+      !league.some(
+        player => player.name === name
+      )
+    ) {
+      league.push({
+        name,
+        rounds: 0,
+        wins: 0,
+        points: 0
+      });
+    }
+  }
+
+  function renderLeague() {
+    const table = $("standings");
+
+    if (!table) return;
+
+    const sorted = [...league].sort(
+      (a, b) =>
+        Number(b.points) -
+          Number(a.points) ||
+        Number(b.wins) -
+          Number(a.wins) ||
+        a.name.localeCompare(b.name)
+    );
+
+    table.innerHTML = sorted
+      .map(
+        (player, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>
+              <b>${esc(player.name)}</b>
+            </td>
+            <td>${player.rounds}</td>
+            <td>${player.wins}</td>
+            <td>
+              <b>${player.points}</b>
+            </td>
+          </tr>
+        `
+      )
+      .join("");
+  }
+
+  /* =========================================================
+     TAB
+     ========================================================= */
+
+  function switchTab(type) {
+
+    if ($("localTab")) {
+      $("localTab").classList.toggle(
+        "active",
+        type === "local"
+      );
+    }
+
+    if ($("onlineTab")) {
+      $("onlineTab").classList.toggle(
+        "active",
+        type === "online"
+      );
+    }
+
+    if ($("localPanel")) {
+      $("localPanel").classList.toggle(
+        "hidden",
+        type !== "local"
+      );
+    }
+
+    if ($("onlinePanel")) {
+      $("onlinePanel").classList.toggle(
+        "hidden",
+        type !== "online"
+      );
+    }
+  }
+
+  /* =========================================================
+     PLAYER COUNT
+     ========================================================= */
+
+  function updateNameInputs() {
+
+    const count =
+      Number($("humanCount")?.value || 1);
+
+    if ($("name2Wrap")) {
+      $("name2Wrap").classList.toggle(
+        "hidden",
+        count < 2
+      );
+    }
+
+    if ($("name3Wrap")) {
+      $("name3Wrap").classList.toggle(
+        "hidden",
+        count < 3
+      );
+    }
+  }
+
+  /* =========================================================
+     ROOM
+     ========================================================= */
+
+  function newRoomCode() {
+
     const chars =
       "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
@@ -459,8 +536,7 @@
       code +=
         chars[
           Math.floor(
-            Math.random() *
-              chars.length
+            Math.random() * chars.length
           )
         ];
     }
@@ -468,415 +544,351 @@
     return code;
   }
 
+  function playerList(room) {
 
-  /* =========================================================
-     PLAYERS
-     ========================================================= */
+    return [...(room?.players || [])]
+      .sort(
+        (a, b) =>
+          Number(a.seat) -
+          Number(b.seat)
+      );
+  }
 
-  function playerList(data = roomData) {
-    if (
-      !data ||
-      !Array.isArray(
-        data.players
-      )
-    ) {
-      return [];
+  function roomRef() {
+
+    if (!db || !roomId) {
+      throw new Error(
+        "Firebase room belum siap."
+      );
     }
 
-    return [
-      ...data.players
-    ].sort(
-      (a, b) =>
-        Number(a.seat || 0) -
-        Number(b.seat || 0)
-    );
+    return db
+      .collection("rooms")
+      .doc(roomId);
   }
-
-
-  function currentOnlinePlayer() {
-    return playerList().find(
-      (p) =>
-        p.uid === currentUid
-    );
-  }
-
-
-  function currentOnlineTurnPlayer() {
-    const players =
-      playerList();
-
-    return (
-      players.find(
-        (p) =>
-          Number(p.seat) ===
-          Number(
-            roomData?.turn
-          )
-      ) ||
-      players[0]
-    );
-  }
-
 
   /* =========================================================
      CREATE ROOM
      ========================================================= */
 
-  async function createRoom() {
-    if (
-      !firebaseReady ||
-      !db ||
-      !currentUid
-    ) {
-      setFirebaseStatus(
-        "Firebase belum siap.",
-        "error"
-      );
+  if ($("createRoomBtn")) {
 
-      return;
-    }
+    $("createRoomBtn").onclick =
+      async function () {
 
-    const input =
-      $("onlineName");
+        if (!db || !currentUid) {
+          alert(
+            "Firebase belum siap."
+          );
 
-    const name =
-      String(
-        input?.value || ""
-      ).trim() ||
-      "Pemain";
+          return;
+        }
 
-    saveNames();
+        const name =
+          $("onlineName")?.value.trim();
 
-    try {
+        if (!name) {
+          alert(
+            "Masukkan nama pemain."
+          );
 
-      let code =
-        randomRoomCode();
+          return;
+        }
 
-      let roomRef =
-        db
-          .collection("rooms")
-          .doc(code);
+        roomId = newRoomCode();
 
-      /*
-       * Pastikan kode room belum digunakan.
-       */
+        const player = {
+          uid: currentUid,
+          name,
+          seat: 0,
+          handCount: 0,
+          pips: 0
+        };
 
-      let exists =
-        await roomRef.get();
+        try {
 
-      let attempts = 0;
+          await roomRef().set({
 
-      while (
-        exists.exists &&
-        attempts < 10
-      ) {
-        code =
-          randomRoomCode();
+            code: roomId,
 
-        roomRef =
-          db
-            .collection("rooms")
-            .doc(code);
+            hostUid: currentUid,
 
-        exists =
-          await roomRef.get();
+            players: [player],
 
-        attempts++;
-      }
+            status: "lobby",
 
-      if (exists.exists) {
-        throw new Error(
-          "Gagal membuat kode room unik."
-        );
-      }
+            round: 0,
 
-      const initialRoom = {
-        code,
+            board: [],
 
-        hostUid:
-          currentUid,
+            left: null,
 
-        players: [
-          {
-            uid:
-              currentUid,
+            right: null,
 
+            turn: 0,
+
+            /* Tidak digunakan.
+               Disimpan kosong agar kompatibel. */
+            boneyard: [],
+
+            /* Jumlah PASS berturut-turut */
+            consecutivePasses: 0,
+
+            finished: false,
+
+            blocked: false,
+
+            finishReason: null,
+
+            results: [],
+
+            createdAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+          });
+
+          mode = "online";
+
+          subscribeRoom();
+
+          subscribeActions();
+
+          showApp(
             name,
+            roomId,
+            true
+          );
 
-            seat: 0,
+        } catch (error) {
 
-            handCount: 0,
+          console.error(
+            "Create room:",
+            error
+          );
 
-            pips: 0
-          }
-        ],
-
-        status: "lobby",
-
-        round: 0,
-
-        board: [],
-
-        left: null,
-
-        right: null,
-
-        turn: 0,
-
-        boneyard: [],
-
-        finished: false,
-
-        results: [],
-
-        createdAt:
-          serverTimestamp()
+          alert(
+            "Gagal membuat room:\n\n" +
+            error.message
+          );
+        }
       };
-
-      await roomRef.set(
-        initialRoom
-      );
-
-      roomId = code;
-
-      onlineHand = [];
-
-      subscribeRoom();
-
-      subscribeMyHand();
-
-      subscribeActions();
-
-      showApp();
-
-      setStatus(
-        "Room berhasil dibuat. Bagikan kode room kepada teman.",
-        "success"
-      );
-
-    } catch (error) {
-
-      console.error(error);
-
-      setFirebaseStatus(
-        "Gagal membuat room: " +
-          (
-            error.message ||
-            "Unknown error"
-          ),
-        "error"
-      );
-    }
   }
-
 
   /* =========================================================
      JOIN ROOM
      ========================================================= */
 
-  async function joinRoom() {
-    if (
-      !firebaseReady ||
-      !db ||
-      !currentUid
-    ) {
-      setFirebaseStatus(
-        "Firebase belum siap.",
-        "error"
-      );
+  if ($("joinRoomBtn")) {
 
-      return;
-    }
+    $("joinRoomBtn").onclick =
+      async function () {
 
-    const code =
-      String(
-        $("roomCodeInput")
-          ?.value || ""
-      )
-        .trim()
-        .toUpperCase();
+        if (!db || !currentUid) {
+          alert(
+            "Firebase belum siap."
+          );
 
-    const name =
-      String(
-        $("onlineName")
-          ?.value || ""
-      ).trim() ||
-      "Pemain";
+          return;
+        }
 
-    if (!code) {
-      setFirebaseStatus(
-        "Masukkan kode room.",
-        "warning"
-      );
+        const name =
+          $("onlineName")?.value.trim();
 
-      return;
-    }
+        const code =
+          $("roomCodeInput")
+            ?.value
+            .trim()
+            .toUpperCase();
 
-    try {
+        if (!name) {
+          alert(
+            "Masukkan nama pemain."
+          );
 
-      const roomRef =
-        db
-          .collection("rooms")
-          .doc(code);
+          return;
+        }
 
-      const snap =
-        await roomRef.get();
+        if (!code) {
+          alert(
+            "Masukkan kode room."
+          );
 
-      if (!snap.exists) {
-        setFirebaseStatus(
-          "Room tidak ditemukan.",
-          "error"
-        );
-
-        return;
-      }
-
-      const data =
-        snap.data() || {};
-
-      const players =
-        Array.isArray(
-          data.players
-        )
-          ? [...data.players]
-          : [];
-
-      /*
-       * Jika UID sudah ada,
-       * berarti pemain sedang kembali
-       * ke room.
-       */
-
-      const already =
-        players.find(
-          (p) =>
-            p.uid ===
-            currentUid
-        );
-
-      if (already) {
+          return;
+        }
 
         roomId = code;
 
-        subscribeRoom();
+        try {
 
-        subscribeMyHand();
+          const ref = roomRef();
 
-        subscribeActions();
+          const snapshot =
+            await ref.get();
 
-        showApp();
+          if (!snapshot.exists) {
+            alert(
+              "Room tidak ditemukan."
+            );
 
-        setStatus(
-          "Anda kembali ke room " +
-            code +
-            ".",
-          "success"
-        );
+            return;
+          }
 
-        return;
-      }
+          const data =
+            snapshot.data();
 
-      /*
-       * Jangan izinkan pemain baru
-       * masuk ke ronde yang sedang berjalan.
-       */
+          const players =
+            playerList(data);
 
-      if (
-        data.status ===
-        "playing"
-      ) {
-        setFirebaseStatus(
-          "Game sudah dimulai. Tidak bisa masuk ronde ini.",
-          "warning"
-        );
+          if (
+            data.status === "playing"
+          ) {
+            alert(
+              "Game sudah dimulai."
+            );
 
-        return;
-      }
+            return;
+          }
 
-      if (
-        players.length >= 4
-      ) {
-        setFirebaseStatus(
-          "Room sudah penuh. Maksimal 4 pemain.",
-          "error"
-        );
+          if (
+            data.status === "finished"
+          ) {
+            alert(
+              "Room sudah selesai."
+            );
 
-        return;
-      }
+            return;
+          }
 
-      const usedSeats =
-        players.map(
-          (p) =>
-            Number(p.seat)
-        );
+          if (
+            players.some(
+              p => p.uid === currentUid
+            )
+          ) {
 
-      let seat = 0;
+            mode = "online";
 
-      while (
-        usedSeats.includes(
-          seat
-        )
-      ) {
-        seat++;
-      }
+            subscribeRoom();
 
-      players.push({
-        uid:
-          currentUid,
+            subscribeActions();
 
-        name,
+            showApp(
+              name,
+              code,
+              currentUid === data.hostUid
+            );
 
-        seat,
+            return;
+          }
 
-        handCount: 0,
+          if (players.length >= 4) {
+            alert(
+              "Room sudah penuh. Maksimal 4 pemain."
+            );
 
-        pips: 0
-      });
+            return;
+          }
 
-      await roomRef.update({
-        players
-      });
+          const seat =
+            players.length;
 
-      roomId = code;
+          players.push({
+            uid: currentUid,
+            name,
+            seat,
+            handCount: 0,
+            pips: 0
+          });
 
-      onlineHand = [];
+          await ref.update({
+            players
+          });
 
-      subscribeRoom();
+          mode = "online";
 
-      subscribeMyHand();
+          subscribeRoom();
 
-      /*
-       * PENTING:
-       * Pemain yang baru join juga
-       * harus mendengarkan action.
-       */
+          subscribeActions();
 
-      subscribeActions();
+          showApp(
+            name,
+            code,
+            false
+          );
 
-      showApp();
+        } catch (error) {
 
-      setStatus(
-        "Berhasil masuk room " +
-          code +
-          ".",
-        "success"
-      );
+          console.error(
+            "Join room:",
+            error
+          );
 
-    } catch (error) {
-
-      console.error(error);
-
-      setFirebaseStatus(
-        "Gagal bergabung: " +
-          (
-            error.message ||
-            "Unknown error"
-          ),
-        "error"
-      );
-    }
+          alert(
+            "Gagal bergabung:\n\n" +
+            error.message
+          );
+        }
+      };
   }
 
+  /* =========================================================
+     SHOW APP
+     ========================================================= */
+
+  function showApp(
+    name,
+    code,
+    isHost
+  ) {
+
+    if ($("loginScreen")) {
+      $("loginScreen")
+        .classList
+        .add("hidden");
+    }
+
+    if ($("app")) {
+      $("app")
+        .classList
+        .remove("hidden");
+    }
+
+    if ($("welcome")) {
+      $("welcome").textContent =
+        `${name} • Online`;
+    }
+
+    if ($("roomCode")) {
+      $("roomCode").textContent =
+        code;
+    }
+
+    if ($("onlineState")) {
+      $("onlineState").textContent =
+        isHost
+          ? "Host"
+          : "Online";
+    }
+
+    if ($("waitingCard")) {
+      $("waitingCard")
+        .classList
+        .remove("hidden");
+    }
+
+    if ($("startOnlineBtn")) {
+      $("startOnlineBtn")
+        .classList
+        .toggle(
+          "hidden",
+          !isHost
+        );
+    }
+
+    setStatus(
+      "Terhubung ke room."
+    );
+  }
 
   /* =========================================================
      SUBSCRIBE ROOM
@@ -886,532 +898,60 @@
 
     if (roomUnsub) {
       roomUnsub();
-
-      roomUnsub = null;
     }
-
-    if (!db || !roomId) {
-      return;
-    }
-
-    const roomRef =
-      db
-        .collection("rooms")
-        .doc(roomId);
 
     roomUnsub =
-      roomRef.onSnapshot(
-        (snap) => {
+      roomRef().onSnapshot(
+        snapshot => {
 
-          if (!snap.exists) {
+          if (!snapshot.exists) {
 
-            roomData = null;
-
-            setStatus(
-              "Room sudah tidak tersedia.",
-              "error"
+            alert(
+              "Room sudah dihapus."
             );
+
+            location.reload();
 
             return;
           }
 
-          const data =
-            snap.data() || {};
+          const raw =
+            snapshot.data();
 
           roomData = {
-            ...data,
+
+            id: snapshot.id,
+
+            ...raw,
 
             board:
               decodeTiles(
-                data.board || []
+                raw.board || []
               ),
 
             boneyard:
               decodeTiles(
-                data.boneyard || []
-              ),
-
-            left:
-              decodeTile(
-                data.left
-              ),
-
-            right:
-              decodeTile(
-                data.right
+                raw.boneyard || []
               )
           };
 
           renderOnlineRoom();
 
-          if (
-            roomData.status ===
-            "playing"
-          ) {
-            renderOnlineGame();
-          }
-
         },
-        (error) => {
+        error => {
 
           console.error(
-            "Room listener error:",
+            "Room listener:",
             error
           );
 
           setStatus(
-            "Gagal sinkronisasi room: " +
-              (
-                error.message ||
-                "Unknown error"
-              ),
-            "error"
+            "Koneksi Firebase: " +
+            error.message
           );
         }
       );
   }
-
-
-  /* =========================================================
-     REALTIME MY HAND
-     ========================================================= */
-
-  function subscribeMyHand() {
-
-    if (handUnsub) {
-      handUnsub();
-
-      handUnsub = null;
-    }
-
-    onlineHand = [];
-
-    if (
-      !db ||
-      !roomId ||
-      !currentUid
-    ) {
-      return;
-    }
-
-    const handRef =
-      db
-        .collection("rooms")
-        .doc(roomId)
-        .collection("hands")
-        .doc(currentUid);
-
-    handUnsub =
-      handRef.onSnapshot(
-        (snap) => {
-
-          if (!snap.exists) {
-
-            onlineHand = [];
-
-          } else {
-
-            const data =
-              snap.data() || {};
-
-            onlineHand =
-              decodeTiles(
-                data.tiles || []
-              );
-          }
-
-          console.log(
-            "HAND UPDATE:",
-            currentUid,
-            onlineHand
-          );
-
-          if (
-            roomData &&
-            roomData.status ===
-              "playing"
-          ) {
-            renderOnlineGame();
-          }
-
-        },
-        (error) => {
-
-          console.error(
-            "Hand listener error:",
-            error
-          );
-
-          setStatus(
-            "Kartu gagal disinkronkan: " +
-              (
-                error.message ||
-                "Firestore Rules"
-              ),
-            "error"
-          );
-        }
-      );
-  }
-
-
-  /* =========================================================
-     GET MY HAND
-     ========================================================= */
-
-  async function getMyHandOnline() {
-
-    if (
-      !db ||
-      !roomId ||
-      !currentUid
-    ) {
-      return [];
-    }
-
-    try {
-
-      const snap =
-        await db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("hands")
-          .doc(currentUid)
-          .get();
-
-      if (!snap.exists) {
-        return [];
-      }
-
-      return decodeTiles(
-        snap.data()?.tiles ||
-          []
-      );
-
-    } catch (error) {
-
-      console.error(
-        "getMyHandOnline error:",
-        error
-      );
-
-      return [];
-    }
-  }
-
-
-  /* =========================================================
-     DELETE OLD ACTIONS
-     ========================================================= */
-
-  async function clearOldActions() {
-
-    if (
-      !db ||
-      !roomId
-    ) {
-      return;
-    }
-
-    try {
-
-      const ref =
-        db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("actions");
-
-      const snap =
-        await ref.get();
-
-      if (snap.empty) {
-        return;
-      }
-
-      const batch =
-        db.batch();
-
-      let count = 0;
-
-      snap.docs.forEach(
-        (doc) => {
-
-          if (count < 500) {
-            batch.delete(doc.ref);
-
-            count++;
-          }
-
-        }
-      );
-
-      if (count > 0) {
-        await batch.commit();
-      }
-
-    } catch (error) {
-
-      console.warn(
-        "Tidak dapat membersihkan action lama:",
-        error
-      );
-    }
-  }
-
-
-  /* =========================================================
-     START ONLINE ROUND
-     ========================================================= */
-
-  async function startOnlineRound() {
-
-    if (
-      !db ||
-      !roomId ||
-      !roomData
-    ) {
-      return;
-    }
-
-    if (
-      roomData.hostUid !==
-      currentUid
-    ) {
-      setStatus(
-        "Hanya host yang dapat memulai ronde.",
-        "warning"
-      );
-
-      return;
-    }
-
-    const players =
-      playerList();
-
-    if (
-      players.length < 2
-    ) {
-      setStatus(
-        "Minimal 2 pemain untuk memulai.",
-        "warning"
-      );
-
-      return;
-    }
-
-    if (
-      players.length > 4
-    ) {
-      setStatus(
-        "Maksimal 4 pemain.",
-        "error"
-      );
-
-      return;
-    }
-
-    try {
-
-      /*
-       * Bersihkan action dari ronde sebelumnya.
-       */
-
-      await clearOldActions();
-
-      const deck =
-        shuffle(
-          deck28()
-        );
-
-      const hands = {};
-
-      players.forEach(
-        (player) => {
-
-          hands[player.uid] =
-            deck.splice(
-              0,
-              7
-            );
-        }
-      );
-
-      const nextRound =
-        Number(
-          roomData.round || 0
-        ) + 1;
-
-      const batch =
-        db.batch();
-
-      /*
-       * BAGIKAN 7 BATU KE SEMUA PEMAIN
-       */
-
-      players.forEach(
-        (player) => {
-
-          const handRef =
-            db
-              .collection("rooms")
-              .doc(roomId)
-              .collection("hands")
-              .doc(
-                player.uid
-              );
-
-          const hand =
-            hands[
-              player.uid
-            ] || [];
-
-          batch.set(
-            handRef,
-            {
-              uid:
-                player.uid,
-
-              round:
-                nextRound,
-
-              tiles:
-                encodeTiles(
-                  hand
-                ),
-
-              handCount:
-                hand.length,
-
-              pips:
-                sumPips(hand),
-
-              updatedAt:
-                serverTimestamp()
-            },
-            {
-              merge: true
-            }
-          );
-        }
-      );
-
-
-      /*
-       * PLAYER INFO
-       */
-
-      const updatedPlayers =
-        players.map(
-          (player) => {
-
-            const hand =
-              hands[
-                player.uid
-              ] || [];
-
-            return {
-              uid:
-                player.uid,
-
-              name:
-                player.name,
-
-              seat:
-                Number(
-                  player.seat
-                ),
-
-              handCount:
-                hand.length,
-
-              pips:
-                sumPips(
-                  hand
-                )
-            };
-          }
-        );
-
-
-      /*
-       * ROOM
-       */
-
-      const roomRef =
-        db
-          .collection("rooms")
-          .doc(roomId);
-
-      batch.update(
-        roomRef,
-        {
-          status:
-            "playing",
-
-          round:
-            nextRound,
-
-          players:
-            updatedPlayers,
-
-          board: [],
-
-          left: null,
-
-          right: null,
-
-          turn: 0,
-
-          boneyard:
-            encodeTiles(
-              deck
-            ),
-
-          finished:
-            false,
-
-          results: [],
-
-          startedAt:
-            serverTimestamp(),
-
-          updatedAt:
-            serverTimestamp()
-        }
-      );
-
-      await batch.commit();
-
-      onlineHand =
-        hands[
-          currentUid
-        ] || [];
-
-      setStatus(
-        "Ronde " +
-          nextRound +
-          " dimulai. Selamat bermain!",
-        "success"
-      );
-
-    } catch (error) {
-
-      console.error(
-        "startOnlineRound:",
-        error
-      );
-
-      setStatus(
-        "Gagal memulai ronde: " +
-          (
-            error.message ||
-            "Unknown error"
-          ),
-        "error"
-      );
-    }
-  }
-
 
   /* =========================================================
      RENDER ONLINE ROOM
@@ -1419,848 +959,296 @@
 
   function renderOnlineRoom() {
 
-    if (!roomData) {
-      return;
-    }
+    if (!roomData) return;
 
     const players =
-      playerList();
+      playerList(roomData);
 
-    setText(
-      "roomCode",
-      roomData.code ||
-        roomId ||
-        "ONLINE"
-    );
+    if ($("roomPlayers")) {
 
-    setText(
-      "onlineState",
-      roomData.status ===
-        "playing"
-        ? "Online • Bermain"
-        : "Online • Menunggu"
-    );
+      $("roomPlayers").innerHTML =
+        players
+          .map(
+            player => `
+              <div class="slot">
+                <b>
+                  ${esc(player.name)}
+                  ${
+                    player.uid === currentUid
+                      ? " 👤"
+                      : ""
+                  }
+                </b>
 
-    const waiting =
-      $("waitingCard");
+                <small>
+                  Kursi ${Number(player.seat) + 1}
+                  ${
+                    player.uid === roomData.hostUid
+                      ? " • Host"
+                      : ""
+                  }
+                </small>
+              </div>
+            `
+          )
+          .join("");
+    }
+
+    if ($("waitingText")) {
+
+      $("waitingText").textContent =
+        roomData.status === "lobby"
+          ? `Kode ${roomData.code} • ${players.length}/4 pemain.`
+          : `Ronde ${roomData.round} sedang berjalan.`;
+    }
+
+    if ($("startOnlineBtn")) {
+
+      $("startOnlineBtn")
+        .classList
+        .toggle(
+          "hidden",
+          !(
+            roomData.hostUid === currentUid &&
+            roomData.status === "lobby" &&
+            players.length >= 2
+          )
+        );
+    }
+
+    if ($("waitingCard")) {
+
+      $("waitingCard")
+        .classList
+        .toggle(
+          "hidden",
+          roomData.status !== "lobby"
+        );
+    }
 
     if (
-      roomData.status ===
-        "lobby" &&
-      waiting
+      roomData.status === "playing" ||
+      roomData.status === "finished"
     ) {
 
-      show(
-        "waitingCard"
-      );
-
-      setText(
-        "waitingText",
-        `Pemain ${players.length}/4 • Bagikan kode ${roomData.code}`
-      );
-
-      renderLobbyPlayers();
-
-      const startBtn =
-        $("startOnlineBtn");
-
-      if (startBtn) {
-
-        startBtn.disabled =
-          roomData.hostUid !==
-            currentUid ||
-          players.length < 2;
+      if ($("roomCode")) {
+        $("roomCode").textContent =
+          roomData.code;
       }
 
-    } else {
-
-      hide(
-        "waitingCard"
-      );
+      renderOnlineGame();
     }
   }
 
-
   /* =========================================================
-     LOBBY
+     START ONLINE ROUND
+     
+     SEMUA PEMAIN = 7 BATU
+     
+     Tidak ada boneyard.
      ========================================================= */
 
-  function renderLobbyPlayers() {
+  async function startOnlineRound() {
 
-    const container =
-      $("roomPlayers");
+    if (!roomData) return;
 
-    if (!container) {
+    if (
+      roomData.hostUid !== currentUid
+    ) {
       return;
     }
 
     const players =
-      playerList();
+      playerList(roomData);
 
-    container.innerHTML =
-      "";
+    if (players.length < 2) {
 
-    for (
-      let i = 0;
-      i < 4;
-      i++
-    ) {
-
-      const player =
-        players[i];
-
-      const div =
-        document.createElement(
-          "div"
-        );
-
-      div.className =
-        "lobby-player" +
-        (
-          player
-            ? " filled"
-            : ""
-        );
-
-      if (player) {
-
-        const host =
-          player.uid ===
-          roomData.hostUid
-            ? " 👑"
-            : "";
-
-        const me =
-          player.uid ===
-          currentUid
-            ? " (Anda)"
-            : "";
-
-        div.innerHTML = `
-          <strong>
-            ${escapeHtml(
-              player.name
-            )}
-            ${host}
-          </strong>
-
-          <small>
-            Pemain ${
-              Number(
-                player.seat
-              ) + 1
-            }${me}
-          </small>
-        `;
-
-      } else {
-
-        div.innerHTML = `
-          <strong>
-            Menunggu...
-          </strong>
-
-          <small>
-            Slot kosong
-          </small>
-        `;
-      }
-
-      container.appendChild(
-        div
+      setStatus(
+        "Minimal 2 pemain diperlukan."
       );
-    }
-  }
 
-
-  /* =========================================================
-     RENDER ONLINE GAME
-     ========================================================= */
-
-  function renderOnlineGame() {
-
-    if (!roomData) {
       return;
     }
 
-    if (onlineRendering) {
+    if (players.length > 4) {
+
+      setStatus(
+        "Maksimal 4 pemain."
+      );
+
       return;
     }
-
-    onlineRendering = true;
 
     try {
 
-      const players =
-        playerList();
+      const deck =
+        shuffle(deck28());
 
-      setText(
-        "roomCode",
-        roomData.code ||
-          roomId
-      );
+      const hands = {};
 
-      setText(
-        "onlineState",
-        "Online • " +
-          (
-            roomData.status ===
-            "playing"
-              ? "Bermain"
-              : "Menunggu"
-          )
-      );
+      /* Setiap pemain tepat 7 */
+      players.forEach(player => {
 
-      setText(
-        "roundNo",
-        String(
-          roomData.round ||
-            1
-        )
-      );
+        hands[player.uid] =
+          deck.splice(0, 7);
+      });
 
-      renderOnlinePlayers(
-        players
-      );
+      const nextRound =
+        Number(roomData.round || 0) + 1;
 
-      renderBoard(
-        roomData.board ||
-          [],
-        roomData.left,
-        roomData.right
-      );
+      const publicPlayers =
+        players.map(player => ({
+          ...player,
 
-      setText(
-        "boneyardInfo",
-        `Sisa tumpukan: ${
-          (
-            roomData.boneyard ||
-            []
-          ).length
-        }`
-      );
+          handCount:
+            hands[player.uid].length,
 
-      const turnPlayer =
-        currentOnlineTurnPlayer();
-
-      setText(
-        "turnName",
-        turnPlayer?.name ||
-          "-"
-      );
-
-      if (
-        roomData.status !==
-        "playing"
-      ) {
-        return;
-      }
-
-      if (
-        roomData.finished
-      ) {
-
-        renderOnlineResults();
-
-        return;
-      }
-
-      renderOnlineHand();
-
-    } finally {
-
-      onlineRendering =
-        false;
-    }
-  }
-
-
-  /* =========================================================
-     ONLINE PLAYERS
-     ========================================================= */
-
-  function renderOnlinePlayers(
-    players
-  ) {
-
-    const container =
-      $("players");
-
-    if (!container) {
-      return;
-    }
-
-    container.innerHTML =
-      "";
-
-    players.forEach(
-      (player) => {
-
-        const isTurn =
-          Number(
-            player.seat
-          ) ===
-          Number(
-            roomData.turn
-          );
-
-        const isMe =
-          player.uid ===
-          currentUid;
-
-        const div =
-          document.createElement(
-            "div"
-          );
-
-        div.className =
-          "player" +
-          (
-            isTurn
-              ? " active"
-              : ""
-          ) +
-          (
-            isMe
-              ? " me"
-              : ""
-          );
-
-        div.innerHTML = `
-          <div class="player-name">
-            ${escapeHtml(
-              player.name
-            )}
-
-            ${
-              player.uid ===
-              roomData.hostUid
-                ? " 👑"
-                : ""
-            }
-
-            ${
-              isMe
-                ? " • Anda"
-                : ""
-            }
-          </div>
-
-          <div class="player-info">
-            ${Number(
-              player.handCount ||
-                0
-            )} batu
-            •
-            ${Number(
-              player.pips ||
-                0
-            )} angka
-          </div>
-        `;
-
-        container.appendChild(
-          div
-        );
-      }
-    );
-  }
-
-
-  /* =========================================================
-     DOMINO PIPS
-     ========================================================= */
-
-  function renderPips(number) {
-
-    const positions = {
-
-      0: [],
-
-      1: [
-        [50, 50]
-      ],
-
-      2: [
-        [25, 25],
-        [75, 75]
-      ],
-
-      3: [
-        [25, 25],
-        [50, 50],
-        [75, 75]
-      ],
-
-      4: [
-        [25, 25],
-        [75, 25],
-        [25, 75],
-        [75, 75]
-      ],
-
-      5: [
-        [25, 25],
-        [75, 25],
-        [50, 50],
-        [25, 75],
-        [75, 75]
-      ],
-
-      6: [
-        [25, 20],
-        [75, 20],
-        [25, 50],
-        [75, 50],
-        [25, 80],
-        [75, 80]
-      ]
-    };
-
-    const dots =
-      positions[
-        Number(number)
-      ] || [];
-
-    return `
-      <svg
-        viewBox="0 0 100 100"
-        class="domino-pips"
-        aria-hidden="true"
-        style="
-          width:100%;
-          height:100%;
-          display:block;
-          overflow:visible;
-        "
-      >
-        ${
-          dots
-            .map(
-              ([x, y]) => `
-                <circle
-                  cx="${x}"
-                  cy="${y}"
-                  r="10"
-                  fill="currentColor"
-                ></circle>
-              `
+          pips:
+            sumPips(
+              hands[player.uid]
             )
-            .join("")
-        }
-      </svg>
-    `;
-  }
+        }));
 
+      const batch =
+        db.batch();
 
-  /* =========================================================
-     CREATE DOMINO TILE
-     ========================================================= */
+      players.forEach(player => {
 
-  function createTileElement(
-    tile,
-    options = {}
-  ) {
+        batch.set(
+          roomRef()
+            .collection("hands")
+            .doc(player.uid),
 
-    const el =
-      document.createElement(
-        "button"
-      );
+          {
+            tiles:
+              encodeTiles(
+                hands[player.uid]
+              ),
 
-    el.type =
-      "button";
+            round: nextRound,
 
-    el.className =
-      "domino hand-tile";
-
-    if (
-      options.disabled
-    ) {
-
-      el.classList.add(
-        "disabled"
-      );
-
-      el.disabled = true;
-    }
-
-    el.dataset.index =
-      Number(
-        options.index ?? 0
-      );
-
-    const a =
-      Number(
-        tile?.[0] ?? 0
-      );
-
-    const b =
-      Number(
-        tile?.[1] ?? 0
-      );
-
-    el.innerHTML = `
-
-      <div
-        class="pip-half"
-        style="
-          width:50%;
-          height:100%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:#111;
-          flex:1;
-        "
-      >
-        ${renderPips(a)}
-      </div>
-
-      <i
-        style="
-          width:2px;
-          height:78%;
-          background:rgba(0,0,0,.35);
-          display:block;
-          flex:none;
-        "
-      ></i>
-
-      <div
-        class="pip-half"
-        style="
-          width:50%;
-          height:100%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:#111;
-          flex:1;
-        "
-      >
-        ${renderPips(b)}
-      </div>
-
-    `;
-
-    return el;
-  }
-
-
-  /* =========================================================
-     BOARD
-     ========================================================= */
-
-  function renderBoard(
-    board,
-    left,
-    right
-  ) {
-
-    const container =
-      $("board");
-
-    if (!container) {
-      return;
-    }
-
-    container.innerHTML =
-      "";
-
-    if (
-      !Array.isArray(board) ||
-      board.length === 0
-    ) {
-
-      const empty =
-        document.createElement(
-          "div"
+            updatedAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+          }
         );
+      });
 
-      empty.className =
-        "empty";
+      await batch.commit();
 
-      empty.textContent =
-        "Meja domino";
+      await roomRef().update({
 
-      container.appendChild(
-        empty
+        status: "playing",
+
+        round: nextRound,
+
+        players: publicPlayers,
+
+        board: [],
+
+        left: null,
+
+        right: null,
+
+        turn: 0,
+
+        /* Tidak ada kartu cadangan */
+        boneyard: [],
+
+        /* PASS dimulai dari nol */
+        consecutivePasses: 0,
+
+        finished: false,
+
+        blocked: false,
+
+        finishReason: null,
+
+        results: [],
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+      });
+
+      setStatus(
+        "🎮 Ronde dimulai. Semua pemain mendapat 7 batu."
       );
 
-      return;
+    } catch (error) {
+
+      console.error(
+        "Start online round:",
+        error
+      );
+
+      setStatus(
+        "❌ Gagal memulai ronde: " +
+        error.message
+      );
+
+      alert(
+        "Gagal memulai ronde.\n\n" +
+        error.message +
+        "\n\nPastikan Firestore Rules mengizinkan penulisan."
+      );
     }
-
-    board.forEach(
-      (tile) => {
-
-        if (
-          !Array.isArray(tile) ||
-          tile.length !== 2
-        ) {
-          return;
-        }
-
-        const el =
-          document.createElement(
-            "div"
-          );
-
-        el.className =
-          "domino board-tile";
-
-        el.innerHTML = `
-
-          <div
-            class="pip-half"
-            style="
-              width:50%;
-              height:100%;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              color:#111;
-              flex:1;
-            "
-          >
-            ${renderPips(
-              tile[0]
-            )}
-          </div>
-
-          <i
-            style="
-              width:2px;
-              height:78%;
-              background:rgba(0,0,0,.35);
-              display:block;
-              flex:none;
-            "
-          ></i>
-
-          <div
-            class="pip-half"
-            style="
-              width:50%;
-              height:100%;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              color:#111;
-              flex:1;
-            "
-          >
-            ${renderPips(
-              tile[1]
-            )}
-          </div>
-
-        `;
-
-        container.appendChild(
-          el
-        );
-      }
-    );
   }
 
+  if ($("startOnlineBtn")) {
+    $("startOnlineBtn").onclick =
+      startOnlineRound;
+  }
 
   /* =========================================================
      ONLINE HAND
      ========================================================= */
 
-  function renderOnlineHand() {
+  async function getMyHandOnline() {
 
-    const handContainer =
-      $("hand");
-
-    if (!handContainer) {
-      return;
+    if (!currentUid) {
+      return [];
     }
 
-    handContainer.innerHTML =
-      "";
+    const snapshot =
+      await roomRef()
+        .collection("hands")
+        .doc(currentUid)
+        .get();
 
-    const me =
-      currentOnlinePlayer();
-
-    const turnPlayer =
-      currentOnlineTurnPlayer();
-
-    const myTurn =
-      !!me &&
-      !!turnPlayer &&
-      turnPlayer.uid ===
-        currentUid &&
-      Number(
-        roomData?.turn
-      ) ===
-        Number(me.seat);
-
-    setText(
-      "handTitle",
-      myTurn
-        ? "Kartu Anda • GILIRAN ANDA"
-        : "Kartu Anda"
-    );
-
-    if (
-      !onlineHand.length
-    ) {
-
-      const empty =
-        document.createElement(
-          "div"
-        );
-
-      empty.className =
-        "empty";
-
-      empty.textContent =
-        roomData?.finished
-          ? "Ronde selesai"
-          : "Menunggu kartu...";
-
-      handContainer.appendChild(
-        empty
-      );
-
-      updateOnlineControls(
-        myTurn
-      );
-
-      return;
+    if (!snapshot.exists) {
+      return [];
     }
 
-    onlineHand.forEach(
-      (tile, index) => {
-
-        const canPlay =
-          myTurn &&
-          canOnlinePlay(
-            tile,
-            roomData?.board ||
-              []
-          );
-
-        const el =
-          createTileElement(
-            tile,
-            {
-              index,
-
-              disabled:
-                !myTurn ||
-                !canPlay
-            }
-          );
-
-        if (
-          myTurn &&
-          canPlay
-        ) {
-
-          el.addEventListener(
-            "click",
-            () => {
-
-              openOnlineTileChoice(
-                index
-              );
-            }
-          );
-        }
-
-        handContainer.appendChild(
-          el
-        );
-      }
-    );
-
-    updateOnlineControls(
-      myTurn
+    return decodeTiles(
+      snapshot.data()?.tiles || []
     );
   }
 
-
   /* =========================================================
-     ONLINE CONTROL
-     ========================================================= */
-
-  function updateOnlineControls(
-    myTurn
-  ) {
-
-    const draw =
-      $("drawBtn");
-
-    const pass =
-      $("passBtn");
-
-    const canDraw =
-      myTurn &&
-      (
-        roomData?.boneyard ||
-        []
-      ).length > 0;
-
-    if (draw) {
-      draw.disabled =
-        !canDraw;
-    }
-
-    if (pass) {
-      pass.disabled =
-        !myTurn;
-    }
-  }
-
-
-  /* =========================================================
-     VALIDATE TILE
+     CAN PLAY ONLINE
      ========================================================= */
 
   function canOnlinePlay(
     tile,
-    board
+    board,
+    left,
+    right
   ) {
 
-    if (!tile) {
-      return false;
-    }
-
-    if (
-      !board ||
-      board.length === 0
-    ) {
+    if (!board.length) {
       return true;
     }
 
-    const first =
-      board[0];
-
-    const last =
-      board[
-        board.length - 1
-      ];
-
-    const leftTarget =
-      Number(first[0]);
-
-    const rightTarget =
-      Number(last[1]);
-
     return (
-      Number(tile[0]) ===
-        leftTarget ||
-      Number(tile[1]) ===
-        leftTarget ||
-      Number(tile[0]) ===
-        rightTarget ||
-      Number(tile[1]) ===
-        rightTarget
+      Number(tile[0]) === Number(left) ||
+      Number(tile[1]) === Number(left) ||
+      Number(tile[0]) === Number(right) ||
+      Number(tile[1]) === Number(right)
     );
   }
-
 
   /* =========================================================
      NORMALIZE TILE
@@ -2268,297 +1256,92 @@
 
   function normalizeTile(
     tile,
-    target
+    side,
+    left,
+    right
   ) {
 
-    if (!tile) {
-      return null;
-    }
-
-    const a =
-      Number(tile[0]);
-
-    const b =
-      Number(tile[1]);
-
-    if (a === target) {
-      return [
-        a,
-        b
-      ];
-    }
-
-    if (b === target) {
-      return [
-        b,
-        a
-      ];
-    }
-
-    return null;
-  }
-
-
-  /* =========================================================
-     PLACE TILE
-     ========================================================= */
-
-  function placeOnline(
-    board,
-    tile,
-    side
-  ) {
-
-    const nextBoard =
-      (board || [])
-        .map(
-          cloneTile
-        );
-
-    if (!tile) {
-      return null;
-    }
-
-    /*
-     * BATU PERTAMA
-     */
+    const t = [
+      Number(tile[0]),
+      Number(tile[1])
+    ];
 
     if (
-      nextBoard.length === 0
+      side === "left" &&
+      t[0] === Number(left) &&
+      t[1] !== Number(left)
     ) {
+      return [
+        t[1],
+        t[0]
+      ];
+    }
 
-      nextBoard.push(
-        cloneTile(tile)
+    if (
+      side === "right" &&
+      t[1] === Number(right) &&
+      t[0] !== Number(right)
+    ) {
+      return [
+        t[1],
+        t[0]
+      ];
+    }
+
+    return t;
+  }
+
+  /* =========================================================
+     PLACE ONLINE TILE
+     ========================================================= */
+
+  function placeOnlineTile(
+    board,
+    tile,
+    side,
+    left,
+    right
+  ) {
+
+    const t =
+      normalizeTile(
+        tile,
+        side,
+        left,
+        right
       );
 
+    if (!board.length) {
+
       return {
-        board:
-          nextBoard,
-
-        left:
-          nextBoard[0],
-
-        right:
-          nextBoard[0]
+        board: [t],
+        left: t[0],
+        right: t[1]
       };
     }
 
-    const first =
-      nextBoard[0];
+    const result =
+      board.slice();
 
-    const last =
-      nextBoard[
-        nextBoard.length - 1
-      ];
+    if (side === "left") {
 
-    /*
-     * KIRI
-     */
+      result.unshift(t);
 
-    if (
-      side === "left"
-    ) {
-
-      const normalized =
-        normalizeTile(
-          tile,
-          Number(first[0])
-        );
-
-      if (!normalized) {
-        return null;
-      }
-
-      nextBoard.unshift(
-        normalized
-      );
-
+      return {
+        board: result,
+        left: t[0],
+        right
+      };
     }
 
-    /*
-     * KANAN
-     */
-
-    else {
-
-      const normalized =
-        normalizeTile(
-          tile,
-          Number(last[1])
-        );
-
-      if (!normalized) {
-        return null;
-      }
-
-      nextBoard.push(
-        normalized
-      );
-    }
+    result.push(t);
 
     return {
-      board:
-        nextBoard,
-
-      left:
-        nextBoard[0],
-
-      right:
-        nextBoard[
-          nextBoard.length - 1
-        ]
+      board: result,
+      left,
+      right: t[1]
     };
   }
-
-
-  /* =========================================================
-     CHOOSE ONLINE SIDE
-     ========================================================= */
-
-  function openOnlineTileChoice(
-    index
-  ) {
-
-    if (
-      !roomData ||
-      roomData.status !==
-        "playing" ||
-      roomData.finished
-    ) {
-      return;
-    }
-
-    const me =
-      currentOnlinePlayer();
-
-    const turnPlayer =
-      currentOnlineTurnPlayer();
-
-    if (
-      !me ||
-      !turnPlayer ||
-      turnPlayer.uid !==
-        currentUid
-    ) {
-
-      setStatus(
-        "Belum giliran Anda.",
-        "warning"
-      );
-
-      return;
-    }
-
-    const tile =
-      onlineHand[index];
-
-    if (!tile) {
-      return;
-    }
-
-    const board =
-      roomData.board || [];
-
-    /*
-     * MEJA KOSONG
-     */
-
-    if (
-      board.length === 0
-    ) {
-
-      sendOnlineAction(
-        "play",
-        index,
-        "right"
-      );
-
-      return;
-    }
-
-    const first =
-      board[0];
-
-    const last =
-      board[
-        board.length - 1
-      ];
-
-    const canLeft =
-      Number(tile[0]) ===
-        Number(first[0]) ||
-      Number(tile[1]) ===
-        Number(first[0]);
-
-    const canRight =
-      Number(tile[0]) ===
-        Number(last[1]) ||
-      Number(tile[1]) ===
-        Number(last[1]);
-
-    /*
-     * BISA KIRI DAN KANAN
-     */
-
-    if (
-      canLeft &&
-      canRight
-    ) {
-
-      const useLeft =
-        confirm(
-          `Batu ${tile[0]}-${tile[1]}\n\n` +
-          `OK = taruh di KIRI\n` +
-          `Batal = taruh di KANAN`
-        );
-
-      sendOnlineAction(
-        "play",
-        index,
-        useLeft
-          ? "left"
-          : "right"
-      );
-
-      return;
-    }
-
-    /*
-     * HANYA KIRI
-     */
-
-    if (canLeft) {
-
-      sendOnlineAction(
-        "play",
-        index,
-        "left"
-      );
-
-      return;
-    }
-
-    /*
-     * HANYA KANAN
-     */
-
-    if (canRight) {
-
-      sendOnlineAction(
-        "play",
-        index,
-        "right"
-      );
-
-      return;
-    }
-
-    setStatus(
-      "Batu tersebut tidak cocok dengan meja.",
-      "warning"
-    );
-  }
-
 
   /* =========================================================
      SEND ONLINE ACTION
@@ -2566,42 +1349,34 @@
 
   async function sendOnlineAction(
     type,
-    index,
-    side
+    index = null,
+    side = null
   ) {
 
+    if (!roomData) return;
+
     if (
-      !db ||
-      !roomId ||
-      !roomData
+      roomData.status !== "playing"
     ) {
       return;
     }
 
-    if (
-      roomData.status !==
-        "playing" ||
-      roomData.finished
-    ) {
+    const players =
+      playerList(roomData);
+
+    const currentPlayer =
+      players[roomData.turn];
+
+    if (!currentPlayer) {
       return;
     }
 
-    const me =
-      currentOnlinePlayer();
-
-    const turnPlayer =
-      currentOnlineTurnPlayer();
-
     if (
-      !me ||
-      !turnPlayer ||
-      turnPlayer.uid !==
-        currentUid
+      currentPlayer.uid !== currentUid
     ) {
 
-      setStatus(
-        "Belum giliran Anda.",
-        "warning"
+      alert(
+        "Bukan giliran kamu."
       );
 
       return;
@@ -2609,131 +1384,86 @@
 
     try {
 
-      await db
-        .collection("rooms")
-        .doc(roomId)
+      if (type === "play") {
+        setStatus(
+          "Mengirim langkah..."
+        );
+      }
+
+      if (type === "pass") {
+        setStatus(
+          "Mengirim PASS..."
+        );
+      }
+
+      await roomRef()
         .collection("actions")
         .add({
 
-          uid:
-            currentUid,
+          uid: currentUid,
 
-          type:
-            type,
+          type,
 
-          index:
-            index === undefined
-              ? null
-              : Number(index),
+          index,
 
-          side:
-            side || null,
+          side,
 
           round:
-            Number(
-              roomData.round ||
-                0
-            ),
-
-          /*
-           * createdAtMs digunakan
-           * supaya tidak tergantung
-           * serverTimestamp pending.
-           */
+            Number(roomData.round || 0),
 
           createdAtMs:
             Date.now(),
 
           createdAt:
-            serverTimestamp(),
+            firebase.firestore
+              .FieldValue
+              .serverTimestamp(),
 
-          processed:
-            false
+          processed: false
         });
-
-      setStatus(
-        type === "play"
-          ? "Mengirim langkah..."
-          : type === "draw"
-          ? "Mengambil batu..."
-          : "Pass...",
-        ""
-      );
 
     } catch (error) {
 
       console.error(
-        "sendOnlineAction:",
+        "Send action:",
         error
       );
 
       setStatus(
-        "Gagal mengirim langkah: " +
-          (
-            error.message ||
-            "Firestore Rules"
-          ),
-        "error"
+        "❌ Gagal mengirim langkah: " +
+        error.message
       );
     }
   }
 
-
   /* =========================================================
-     SUBSCRIBE ACTIONS
+     ACTION LISTENER
      ========================================================= */
 
   function subscribeActions() {
 
     if (actionUnsub) {
       actionUnsub();
-
-      actionUnsub = null;
     }
-
-    if (
-      !db ||
-      !roomId
-    ) {
-      return;
-    }
-
-    /*
-     * Tidak menggunakan orderBy createdAt
-     * karena serverTimestamp bisa null
-     * sesaat setelah action dibuat.
-     */
 
     actionUnsub =
-      db
-        .collection("rooms")
-        .doc(roomId)
+      roomRef()
         .collection("actions")
+        .orderBy(
+          "createdAtMs",
+          "asc"
+        )
         .onSnapshot(
-          (snapshot) => {
+          snapshot => {
 
-            snapshot.docChanges()
+            snapshot
+              .docChanges()
+              .filter(
+                change =>
+                  change.type === "added"
+              )
               .forEach(
-                (change) => {
-
-                  if (
-                    change.type !==
-                      "added"
-                  ) {
-                    return;
-                  }
-
-                  const action =
-                    change.doc.data() ||
-                    {};
-
-                  const actionId =
-                    change.doc.id;
-
-                  /*
-                   * Hanya host yang
-                   * memproses action.
-                   */
+                async change => {
 
                   if (
                     roomData?.hostUid !==
@@ -2743,369 +1473,648 @@
                   }
 
                   if (
-                    processingActions[
-                      actionId
-                    ]
-                  ) {
-                    return;
-                  }
-
-                  /*
-                   * Action sudah diproses.
-                   */
-
-                  if (
-                    action.processed ===
-                    true
-                  ) {
-                    return;
-                  }
-
-                  /*
-                   * Action dari ronde lama
-                   * tidak boleh diproses.
-                   */
-
-                  if (
-                    Number(
-                      action.round
-                    ) !==
-                    Number(
-                      roomData?.round
+                    processingActions.has(
+                      change.doc.id
                     )
                   ) {
                     return;
                   }
 
-                  processingActions[
-                    actionId
-                  ] = true;
+                  processingActions.add(
+                    change.doc.id
+                  );
 
-                  hostProcessAction(
-                    actionId,
-                    action
-                  )
-                    .catch(
-                      (error) => {
+                  try {
 
-                        console.error(
-                          "hostProcessAction:",
-                          error
-                        );
-                      }
-                    )
-                    .finally(
-                      () => {
-
-                        delete
-                          processingActions[
-                            actionId
-                          ];
-                      }
+                    await hostProcessAction(
+                      change.doc.id,
+                      change.doc.data()
                     );
+
+                  } catch (error) {
+
+                    console.error(
+                      "Host action:",
+                      error
+                    );
+
+                  } finally {
+
+                    processingActions.delete(
+                      change.doc.id
+                    );
+                  }
                 }
               );
           },
-          (error) => {
+          error => {
 
             console.error(
-              "Actions listener:",
+              "Action listener:",
               error
-            );
-
-            setStatus(
-              "Listener langkah gagal: " +
-                (
-                  error.message ||
-                  "Firestore Rules"
-                ),
-              "error"
             );
           }
         );
   }
 
-
   /* =========================================================
-     MARK ACTION PROCESSED
+     MARK ACTION
      ========================================================= */
 
   async function markActionProcessed(
     actionId
   ) {
 
-    if (
-      !db ||
-      !roomId ||
-      !actionId
-    ) {
-      return;
-    }
-
     try {
 
-      await db
-        .collection("rooms")
-        .doc(roomId)
+      await roomRef()
         .collection("actions")
         .doc(actionId)
         .update({
-          processed:
-            true,
-
+          processed: true,
           processedAt:
-            serverTimestamp()
+            firebase.firestore
+              .FieldValue
+              .serverTimestamp()
         });
 
     } catch (error) {
 
       console.warn(
-        "markActionProcessed:",
+        "Tidak dapat menandai action:",
         error
       );
     }
   }
 
-
   /* =========================================================
-     GET ALL ONLINE HANDS
+     HOST PROCESS ACTION
+     
+     INI BAGIAN PALING PENTING.
+     
+     consecutivePasses:
+       play -> 0
+       pass -> +1
+     
+     Jika:
+       consecutivePasses >= jumlah pemain
+     
+     GAME LANGSUNG SELESAI.
      ========================================================= */
 
-  async function getAllOnlineHands(
-    players
+  async function hostProcessAction(
+    actionId,
+    action
   ) {
 
-    const result = {};
+    if (!roomData) return;
 
     if (
-      !Array.isArray(players)
+      roomData.status !== "playing"
     ) {
-      return result;
+      await markActionProcessed(
+        actionId
+      );
+
+      return;
     }
 
-    await Promise.all(
-      players.map(
-        async (player) => {
+    /* Ambil data ROOM TERBARU */
+    const freshSnapshot =
+      await roomRef().get();
 
-          try {
+    if (!freshSnapshot.exists) {
+      return;
+    }
 
-            const snap =
-              await db
-                .collection("rooms")
-                .doc(roomId)
-                .collection("hands")
-                .doc(player.uid)
-                .get();
+    const fresh =
+      freshSnapshot.data();
 
-            if (
-              snap.exists
-            ) {
+    const players =
+      playerList(fresh);
 
-              result[
-                player.uid
-              ] =
-                decodeTiles(
-                  snap.data()
-                    ?.tiles || []
-                );
+    const turn =
+      Number(fresh.turn || 0);
 
-            } else {
+    const player =
+      players[turn];
 
-              result[
-                player.uid
-              ] = [];
-            }
+    if (!player) {
+      return;
+    }
 
-          } catch (error) {
+    /* Action bukan milik pemain yang sedang giliran */
+    if (
+      action.uid !== player.uid
+    ) {
+      return;
+    }
 
-            console.error(
-              "getAllOnlineHands:",
-              player.uid,
-              error
-            );
+    /* Action dari ronde lama */
+    if (
+      Number(action.round || 0) !==
+      Number(fresh.round || 0)
+    ) {
+      await markActionProcessed(
+        actionId
+      );
 
-            result[
-              player.uid
-            ] = [];
-          }
+      return;
+    }
+
+    const handSnapshot =
+      await roomRef()
+        .collection("hands")
+        .doc(player.uid)
+        .get();
+
+    let hand =
+      decodeTiles(
+        handSnapshot.data()?.tiles || []
+      );
+
+    let board =
+      decodeTiles(
+        fresh.board || []
+      );
+
+    let left =
+      fresh.left === null ||
+      fresh.left === undefined
+        ? null
+        : Number(fresh.left);
+
+    let right =
+      fresh.right === null ||
+      fresh.right === undefined
+        ? null
+        : Number(fresh.right);
+
+    let consecutivePasses =
+      Number(
+        fresh.consecutivePasses || 0
+      );
+
+    let changed = false;
+
+    /* =====================================================
+       PLAY
+       ===================================================== */
+
+    if (action.type === "play") {
+
+      const index =
+        Number(action.index);
+
+      if (
+        !Number.isInteger(index) ||
+        index < 0 ||
+        index >= hand.length
+      ) {
+
+        await markActionProcessed(
+          actionId
+        );
+
+        return;
+      }
+
+      const tile =
+        hand[index];
+
+      if (
+        !canOnlinePlay(
+          tile,
+          board,
+          left,
+          right
+        )
+      ) {
+
+        await markActionProcessed(
+          actionId
+        );
+
+        return;
+      }
+
+      let side =
+        action.side === "left" ||
+        action.side === "right"
+          ? action.side
+          : "right";
+
+      if (!board.length) {
+        side = "right";
+      }
+
+      if (
+        board.length &&
+        side === "left" &&
+        !(
+          Number(tile[0]) === left ||
+          Number(tile[1]) === left
+        )
+      ) {
+        side = "right";
+      }
+
+      if (
+        board.length &&
+        side === "right" &&
+        !(
+          Number(tile[0]) === right ||
+          Number(tile[1]) === right
+        )
+      ) {
+        side = "left";
+      }
+
+      const placed =
+        placeOnlineTile(
+          board,
+          tile,
+          side,
+          left,
+          right
+        );
+
+      board =
+        placed.board;
+
+      left =
+        placed.left;
+
+      right =
+        placed.right;
+
+      hand.splice(index, 1);
+
+      /* PEMAIN BERHASIL MAIN */
+      consecutivePasses = 0;
+
+      changed = true;
+    }
+
+    /* =====================================================
+       PASS
+       ===================================================== */
+
+    else if (
+      action.type === "pass"
+    ) {
+
+      /*
+       * Karena sekarang TIDAK ADA AMBIL KARTU,
+       * pemain boleh PASS bila tidak punya batu
+       * yang bisa dipasang.
+       */
+
+      const playable =
+        hand.some(tile =>
+          canOnlinePlay(
+            tile,
+            board,
+            left,
+            right
+          )
+        );
+
+      if (playable) {
+
+        await markActionProcessed(
+          actionId
+        );
+
+        return;
+      }
+
+      /* Pemain benar-benar tidak bisa main */
+      consecutivePasses++;
+
+      changed = true;
+    }
+
+    /* =====================================================
+       ACTION TIDAK DIKENAL
+       ===================================================== */
+
+    else {
+
+      await markActionProcessed(
+        actionId
+      );
+
+      return;
+    }
+
+    if (!changed) {
+      return;
+    }
+
+    /* =====================================================
+       SIMPAN HAND
+       ===================================================== */
+
+    await roomRef()
+      .collection("hands")
+      .doc(player.uid)
+      .set({
+
+        tiles:
+          encodeTiles(hand),
+
+        round:
+          Number(fresh.round || 0),
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+      });
+
+    /* =====================================================
+       UPDATE PLAYER DATA
+       ===================================================== */
+
+    const updatedPlayers =
+      players.map(p => {
+
+        if (
+          p.uid !== player.uid
+        ) {
+          return p;
         }
-      )
-    );
 
-    return result;
+        return {
+          ...p,
+
+          handCount:
+            hand.length,
+
+          pips:
+            sumPips(hand)
+        };
+      });
+
+    /* =====================================================
+       PEMAIN HABIS BATU
+       ===================================================== */
+
+    if (
+      hand.length === 0
+    ) {
+
+      const results =
+        await calculateOnlineResults(
+          updatedPlayers,
+          player.uid
+        );
+
+      await roomRef().update({
+
+        board:
+          encodeTiles(board),
+
+        left,
+
+        right,
+
+        boneyard: [],
+
+        players:
+          updatedPlayers,
+
+        consecutivePasses: 0,
+
+        turn,
+
+        status: "finished",
+
+        finished: true,
+
+        blocked: false,
+
+        finishReason: "empty",
+
+        results,
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+      });
+
+      await markActionProcessed(
+        actionId
+      );
+
+      return;
+    }
+
+    /* =====================================================
+       SEMUA PEMAIN SUDAH PASS
+       ===================================================== */
+
+    if (
+      action.type === "pass" &&
+      consecutivePasses >=
+        players.length
+    ) {
+
+      const results =
+        await calculateOnlineResults(
+          updatedPlayers,
+          null
+        );
+
+      await roomRef().update({
+
+        board:
+          encodeTiles(board),
+
+        left,
+
+        right,
+
+        boneyard: [],
+
+        players:
+          updatedPlayers,
+
+        consecutivePasses,
+
+        turn,
+
+        status: "finished",
+
+        finished: true,
+
+        blocked: true,
+
+        finishReason: "blocked",
+
+        results,
+
+        updatedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp()
+      });
+
+      await markActionProcessed(
+        actionId
+      );
+
+      return;
+    }
+
+    /* =====================================================
+       TENTUKAN GILIRAN BERIKUTNYA
+       ===================================================== */
+
+    let nextTurn = turn;
+
+    if (
+      action.type === "play" ||
+      action.type === "pass"
+    ) {
+
+      nextTurn =
+        (turn + 1) %
+        players.length;
+    }
+
+    /* =====================================================
+       UPDATE ROOM
+       ===================================================== */
+
+    await roomRef().update({
+
+      board:
+        encodeTiles(board),
+
+      left,
+
+      right,
+
+      boneyard: [],
+
+      players:
+        updatedPlayers,
+
+      turn: nextTurn,
+
+      consecutivePasses,
+
+      status: "playing",
+
+      finished: false,
+
+      blocked: false,
+
+      finishReason: null,
+
+      updatedAt:
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
+    });
+
+    await markActionProcessed(
+      actionId
+    );
   }
 
-
   /* =========================================================
-     ONLINE BLOCK CHECK
-     
-     INI ATURAN PENTING:
-     
-     - Tumpukan harus habis.
-     - SEMUA pemain harus tidak punya
-       batu yang dapat dimainkan.
-     
-     Jika iya -> BUNTU.
+     ONLINE RESULTS
      ========================================================= */
 
-  async function isOnlineBlocked(
-    board,
-    boneyard,
-    players
+  async function calculateOnlineResults(
+    players,
+    emptyUid = null
   ) {
 
-    /*
-     * Kalau masih ada batu di tumpukan,
-     * belum boleh dianggap buntu.
-     */
-
-    if (
-      boneyard &&
-      boneyard.length > 0
-    ) {
-      return false;
-    }
-
-    if (
-      !players ||
-      players.length === 0
-    ) {
-      return false;
-    }
-
-    const hands =
-      await getAllOnlineHands(
-        players
-      );
+    const rows = [];
 
     for (
       const player of players
     ) {
 
-      const hand =
-        hands[
-          player.uid
-        ] || [];
+      const snapshot =
+        await roomRef()
+          .collection("hands")
+          .doc(player.uid)
+          .get();
 
-      const playable =
-        hand.some(
-          (tile) =>
-            canOnlinePlay(
-              tile,
-              board
-            )
+      const hand =
+        decodeTiles(
+          snapshot.data()?.tiles || []
         );
 
-      /*
-       * SATU saja pemain yang masih
-       * bisa jalan berarti belum buntu.
-       */
+      rows.push({
 
-      if (playable) {
-        return false;
-      }
+        uid: player.uid,
+
+        name: player.name,
+
+        seat:
+          Number(player.seat || 0),
+
+        pips:
+          sumPips(hand),
+
+        handCount:
+          hand.length,
+
+        empty:
+          emptyUid !== null &&
+          player.uid === emptyUid
+      });
     }
 
-    /*
-     * SEMUA pemain tidak bisa jalan.
-     */
-
-    return true;
-  }
-
-
-  /* =========================================================
-     CALCULATE ONLINE BLOCKED RESULTS
-     
-     Selalu baca ulang semua hand Firebase
-     supaya angka yang dihitung benar-benar
-     angka terakhir.
-     ========================================================= */
-
-  async function calculateOnlineBlockedResults(
-    players
-  ) {
-
-    const hands =
-      await getAllOnlineHands(
-        players
-      );
-
-    const list =
-      players.map(
-        (player) => {
-
-          const hand =
-            hands[
-              player.uid
-            ] || [];
-
-          return {
-            uid:
-              player.uid,
-
-            name:
-              player.name,
-
-            seat:
-              Number(
-                player.seat
-              ),
-
-            pips:
-              sumPips(hand),
-
-            handCount:
-              hand.length
-          };
-        }
-      );
-
-    /*
-     * TOTAL TITIK TERKECIL MENANG
-     */
-
-    list.sort(
+    rows.sort(
       (a, b) => {
 
-        const pipDiff =
-          Number(a.pips) -
-          Number(b.pips);
+        /* Jika ada pemain habis batu,
+           dia selalu peringkat 1. */
 
         if (
-          pipDiff !== 0
+          a.empty &&
+          !b.empty
         ) {
-          return pipDiff;
+          return -1;
         }
-
-        /*
-         * Jika total sama,
-         * gunakan jumlah batu
-         * sebagai tie-breaker.
-         */
-
-        const countDiff =
-          Number(a.handCount) -
-          Number(b.handCount);
 
         if (
-          countDiff !== 0
+          !a.empty &&
+          b.empty
         ) {
-          return countDiff;
+          return 1;
         }
+
+        /* Permainan buntu:
+           angka terkecil menang. */
 
         return (
+          Number(a.pips) -
+            Number(b.pips) ||
+
+          Number(a.handCount) -
+            Number(b.handCount) ||
+
           Number(a.seat) -
-          Number(b.seat)
+            Number(b.seat)
         );
       }
     );
 
-    return list.map(
-      (item, index) => ({
-        ...item,
+    return rows.map(
+      (row, index) => ({
 
-        rank:
+        ...row,
+
+        place:
           index + 1,
 
         points:
@@ -3114,975 +2123,551 @@
     );
   }
 
-
   /* =========================================================
-     HOST PROCESS ACTION
+     RENDER ONLINE GAME
      ========================================================= */
 
-  async function hostProcessAction(
-    actionId,
-    action
-  ) {
+  async function renderOnlineGame() {
 
-    if (
-      !db ||
-      !roomId ||
-      !roomData
-    ) {
-      return;
-    }
-
-    /*
-     * Ambil room TERBARU.
-     */
-
-    const roomRef =
-      db
-        .collection("rooms")
-        .doc(roomId);
-
-    const roomSnap =
-      await roomRef.get();
-
-    if (
-      !roomSnap.exists
-    ) {
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-    const freshRoom =
-      roomSnap.data() || {};
-
-    /*
-     * Jangan proses ronde lama.
-     */
-
-    if (
-      Number(
-        action.round
-      ) !==
-      Number(
-        freshRoom.round
-      )
-    ) {
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-    if (
-      freshRoom.status !==
-        "playing" ||
-      freshRoom.finished
-    ) {
-
-      await markActionProcessed(
-        actionId
-      );
-
+    if (!roomData) {
       return;
     }
 
     const players =
-      playerList(
-        freshRoom
-      );
-
-    if (
-      !players.length
-    ) {
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-    /*
-     * CARI PEMAIN YANG SEDANG GILIRAN
-     */
+      playerList(roomData);
 
     const turnPlayer =
-      players.find(
-        (player) =>
-          Number(
-            player.seat
-          ) ===
-          Number(
-            freshRoom.turn
+      players[
+        Number(roomData.turn || 0)
+      ];
+
+    if ($("roundNo")) {
+      $("roundNo").textContent =
+        roomData.round || 1;
+    }
+
+    if ($("turnName")) {
+      $("turnName").textContent =
+        turnPlayer?.name || "—";
+    }
+
+    /* PLAYER BOX */
+
+    if ($("players")) {
+
+      $("players").innerHTML =
+        players
+          .map(
+            (player, index) => `
+              <div class="player-box ${
+                index === Number(roomData.turn || 0) &&
+                !roomData.finished
+                  ? "active"
+                  : ""
+              }">
+
+                <b>
+                  ${esc(player.name)}
+                  ${
+                    player.uid === currentUid
+                      ? " 👤"
+                      : ""
+                  }
+                </b>
+
+                <small>
+                  ${Number(player.handCount || 0)}
+                  batu
+                  ${
+                    index ===
+                    Number(roomData.turn || 0)
+                      ? " • giliran"
+                      : ""
+                  }
+                </small>
+
+              </div>
+            `
           )
-      );
-
-    if (!turnPlayer) {
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
+          .join("");
     }
 
-    /*
-     * Action harus berasal dari
-     * pemain yang sedang mendapat giliran.
-     */
+    /* BOARD */
 
-    if (
-      action.uid !==
-      turnPlayer.uid
-    ) {
+    if ($("board")) {
 
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-    const handRef =
-      db
-        .collection("rooms")
-        .doc(roomId)
-        .collection("hands")
-        .doc(
-          turnPlayer.uid
-        );
-
-    const handSnap =
-      await handRef.get();
-
-    if (
-      !handSnap.exists
-    ) {
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-    const handData =
-      handSnap.data() ||
-      {};
-
-    let hand =
-      decodeTiles(
-        handData.tiles || []
-      );
-
-    let board =
-      decodeTiles(
-        freshRoom.board || []
-      );
-
-    let boneyard =
-      decodeTiles(
-        freshRoom.boneyard ||
-          []
-      );
-
-    let left =
-      decodeTile(
-        freshRoom.left
-      );
-
-    let right =
-      decodeTile(
-        freshRoom.right
-      );
-
-    let newHand =
-      [...hand];
-
-    let boardChanged =
-      false;
-
-    let drawOnly =
-      false;
-
-    let validAction =
-      true;
-
-
-    /* =====================================================
-       PLAY
-       ===================================================== */
-
-    if (
-      action.type ===
-      "play"
-    ) {
-
-      const index =
-        Number(
-          action.index
-        );
-
-      if (
-        !Number.isInteger(
-          index
-        ) ||
-        index < 0 ||
-        index >=
-          hand.length
-      ) {
-
-        validAction =
-          false;
-
-      } else {
-
-        const tile =
-          hand[index];
-
-        const side =
-          action.side ===
-            "left"
-            ? "left"
-            : "right";
-
-        const placement =
-          placeOnline(
-            board,
-            tile,
-            side
-          );
-
-        if (!placement) {
-
-          validAction =
-            false;
-
-        } else {
-
-          board =
-            placement.board;
-
-          left =
-            placement.left;
-
-          right =
-            placement.right;
-
-          newHand.splice(
-            index,
-            1
-          );
-
-          boardChanged =
-            true;
-        }
-      }
-    }
-
-
-    /* =====================================================
-       DRAW
-       ===================================================== */
-
-    else if (
-      action.type ===
-      "draw"
-    ) {
-
-      if (
-        boneyard.length === 0
-      ) {
-
-        validAction =
-          false;
-
-      } else {
-
-        const drawn =
-          boneyard.pop();
-
-        newHand.push(
-          drawn
-        );
-
-        drawOnly =
-          true;
-      }
-    }
-
-
-    /* =====================================================
-       PASS
-       ===================================================== */
-
-    else if (
-      action.type ===
-      "pass"
-    ) {
-
-      /*
-       * Pass hanya boleh jika tumpukan habis.
-       */
-
-      if (
-        boneyard.length > 0
-      ) {
-
-        validAction =
-          false;
-
-      } else {
-
-        const hasPlayable =
-          newHand.some(
-            (tile) =>
-              canOnlinePlay(
-                tile,
-                board
+      $("board").innerHTML =
+        roomData.board.length
+          ? roomData.board
+              .map(tile =>
+                tileHTML(
+                  tile,
+                  "board-tile"
+                )
               )
-          );
+              .join("")
+          : `
+              <div class="empty">
+                Meja domino
+              </div>
+            `;
+    }
 
-        /*
-         * Kalau pemain masih bisa
-         * main, pass tidak boleh.
-         */
+    /* Karena tidak ada tumpukan,
+       selalu 0. */
 
-        if (
-          hasPlayable
-        ) {
-          validAction =
-            false;
-        }
+    if ($("boneyardInfo")) {
+      $("boneyardInfo").textContent =
+        "Tidak ada tumpukan kartu";
+    }
+
+    if ($("blockInfo")) {
+
+      $("blockInfo").textContent =
+        roomData.blocked
+          ? "⛔ PERMAINAN BUNTU • ANGKA TERKECIL MENANG"
+          : "";
+    }
+
+    /* GAME SELESAI */
+
+    if (
+      roomData.status === "finished"
+    ) {
+
+      if ($("waitingCard")) {
+        $("waitingCard")
+          .classList
+          .add("hidden");
       }
+
+      showResults(
+        roomData.results || [],
+        "online"
+      );
+
+      return;
+    }
+
+    /* AMBIL HAND */
+
+    let myHand = [];
+
+    try {
+
+      myHand =
+        await getMyHandOnline();
+
+    } catch (error) {
+
+      console.error(
+        "Get online hand:",
+        error
+      );
+
+      return;
+    }
+
+    const me =
+      players.find(
+        p => p.uid === currentUid
+      );
+
+    const isTurn =
+      turnPlayer?.uid === currentUid;
+
+    if ($("handTitle")) {
+      $("handTitle").textContent =
+        `Kartu ${me?.name || "Saya"}`;
+    }
+
+    if ($("hand")) {
+
+      $("hand").innerHTML = "";
+
+      myHand.forEach(
+        (tile, index) => {
+
+          const wrapper =
+            document.createElement(
+              "div"
+            );
+
+          wrapper.innerHTML =
+            tileHTML(
+              tile,
+              "hand-tile"
+            );
+
+          const element =
+            wrapper.firstElementChild;
+
+          const playable =
+            canOnlinePlay(
+              tile,
+              roomData.board,
+              roomData.left,
+              roomData.right
+            );
+
+          if (
+            !isTurn ||
+            !playable
+          ) {
+            element.classList.add(
+              "disabled"
+            );
+          }
+
+          element.onclick =
+            () => {
+
+              if (
+                !isTurn ||
+                !playable
+              ) {
+                return;
+              }
+
+              let side = "right";
+
+              if (
+                roomData.board.length
+              ) {
+
+                if (
+                  Number(tile[0]) ===
+                    Number(roomData.right) ||
+                  Number(tile[1]) ===
+                    Number(roomData.right)
+                ) {
+
+                  side = "right";
+
+                } else {
+
+                  side = "left";
+                }
+              }
+
+              sendOnlineAction(
+                "play",
+                index,
+                side
+              );
+            };
+
+          $("hand")
+            .appendChild(element);
+        }
+      );
+    }
+
+    /* =====================================================
+       AMBIL KARTU DIHILANGKAN
+       ===================================================== */
+
+    if ($("drawBtn")) {
+
+      $("drawBtn").style.display =
+        "none";
+
+      $("drawBtn").disabled =
+        true;
+    }
+
+    /* PASS */
+
+    if ($("passBtn")) {
+
+      $("passBtn").style.display =
+        "";
+
+      $("passBtn").disabled =
+        !isTurn;
+
+      $("passBtn").textContent =
+        "Lewat";
+    }
+
+    if (isTurn) {
+
+      setStatus(
+        "🎯 Giliran kamu."
+      );
 
     } else {
 
-      validAction =
-        false;
-    }
-
-
-    /* =====================================================
-       ACTION INVALID
-       ===================================================== */
-
-    if (!validAction) {
-
-      await markActionProcessed(
-        actionId
+      setStatus(
+        "⏳ Menunggu giliran " +
+        (turnPlayer?.name ||
+          "pemain") +
+        "..."
       );
+    }
+  }
 
+  /* =========================================================
+     RESULTS
+     ========================================================= */
+
+  function showResults(
+    results,
+    type
+  ) {
+
+    if (!results?.length) {
       return;
     }
 
+    if ($("modalTitle")) {
 
-    /* =====================================================
-       UPDATE HAND
-       ===================================================== */
+      $("modalTitle").textContent =
+        type === "online"
+          ? "Ronde Online Selesai"
+          : "Ronde Selesai";
+    }
 
-    await handRef.set(
-      {
-        uid:
-          turnPlayer.uid,
+    let blocked = false;
 
-        round:
-          Number(
-            freshRoom.round ||
-              0
-          ),
+    if (type === "online") {
 
-        tiles:
-          encodeTiles(
-            newHand
-          ),
+      blocked =
+        roomData?.finishReason ===
+        "blocked";
 
-        handCount:
-          newHand.length,
+    } else {
 
-        pips:
-          sumPips(
-            newHand
-          ),
+      blocked =
+        localGame?.finishReason ===
+        "blocked";
+    }
 
-        updatedAt:
-          serverTimestamp()
-      },
-      {
-        merge: true
-      }
-    );
+    if ($("modalSub")) {
 
+      $("modalSub").textContent =
+        blocked
 
-    /* =====================================================
-       UPDATE PLAYER INFO
-       ===================================================== */
+          ? "⛔ PERMAINAN BUNTU — ANGKA TERKECIL MENANG"
 
-    let updatedPlayers =
-      players.map(
-        (player) => {
+          : "🏆 Pemain yang menghabiskan semua batu menjadi pemenang.";
+    }
+
+    if ($("results")) {
+
+      $("results").innerHTML =
+        results
+          .map(
+            result => `
+              <div class="result-row ${
+                Number(result.place) === 1
+                  ? "winner"
+                  : ""
+              }">
+
+                <b>
+                  ${result.place}
+                </b>
+
+                <span>
+                  ${esc(result.name)}
+
+                  <small>
+                    ${result.pips} angka
+                    • ${result.handCount} batu
+
+                    ${
+                      result.empty
+                        ? " • HABIS BATU"
+                        : ""
+                    }
+                  </small>
+                </span>
+
+                <b>
+                  +${result.points}
+                </b>
+
+              </div>
+            `
+          )
+          .join("");
+    }
+
+    if ($("nextBtn")) {
+
+      $("nextBtn")
+        .classList
+        .toggle(
+          "hidden",
+          type === "online" &&
+          roomData?.hostUid !==
+            currentUid
+        );
+    }
+
+    if ($("modal")) {
+
+      $("modal")
+        .classList
+        .remove("hidden");
+    }
+  }
+
+  /* =========================================================
+     NEXT ROUND
+     ========================================================= */
+
+  if ($("nextBtn")) {
+
+    $("nextBtn").onclick =
+      async function () {
+
+        if ($("modal")) {
+          $("modal")
+            .classList
+            .add("hidden");
+        }
+
+        if (
+          mode === "online"
+        ) {
 
           if (
-            player.uid ===
-            turnPlayer.uid
+            roomData?.hostUid ===
+            currentUid
           ) {
 
-            return {
-              ...player,
-
-              handCount:
-                newHand.length,
-
-              pips:
-                sumPips(
-                  newHand
-                )
-            };
+            await startOnlineRound();
           }
 
-          return {
-            ...player
-          };
+        } else {
+
+          startLocalGame();
         }
+      };
+  }
+
+  /* =========================================================
+     DRAW BUTTON
+     
+     TETAP ADA DI HTML LAMA TIDAK MASALAH.
+     JAVASCRIPT MEMATIKANNYA DAN MENYEMBUNYIKANNYA.
+     ========================================================= */
+
+  if ($("drawBtn")) {
+
+    $("drawBtn").style.display =
+      "none";
+
+    $("drawBtn").disabled =
+      true;
+  }
+
+  /* =========================================================
+     PASS BUTTON
+     ========================================================= */
+
+  if ($("passBtn")) {
+
+    $("passBtn").textContent =
+      "Lewat";
+
+    $("passBtn").onclick =
+      function () {
+
+        if (
+          mode === "online"
+        ) {
+
+          sendOnlineAction(
+            "pass"
+          );
+
+        } else {
+
+          localPass();
+        }
+      };
+  }
+
+  /* =========================================================
+     LOCAL GAME
+     ========================================================= */
+
+  function startLocalGame() {
+
+    const humanCount =
+      Number(
+        $("humanCount")?.value || 1
       );
 
+    const names = [
 
-    /* =====================================================
-       WINNER KARENA BATU HABIS
-       ===================================================== */
+      $("name1")
+        ?.value
+        .trim() || "",
 
-    if (
-      newHand.length ===
-      0
-    ) {
+      $("name2")
+        ?.value
+        .trim() || "",
 
-      /*
-       * Pemain yang habis batu
-       * langsung menjadi juara.
-       */
+      $("name3")
+        ?.value
+        .trim() || ""
+    ];
 
-      const resultData =
-        calculateOnlineResults(
-          updatedPlayers,
-          {
-            uid:
-              turnPlayer.uid,
+    if (!names[0]) {
 
-            name:
-              turnPlayer.name,
-
-            seat:
-              turnPlayer.seat,
-
-            handCount:
-              0,
-
-            pips:
-              0
-          }
-        );
-
-      await roomRef.update({
-
-        players:
-          updatedPlayers,
-
-        board:
-          encodeTiles(
-            board
-          ),
-
-        left:
-          left
-            ? encodeTile(
-                left
-              )
-            : null,
-
-        right:
-          right
-            ? encodeTile(
-                right
-              )
-            : null,
-
-        boneyard:
-          encodeTiles(
-            boneyard
-          ),
-
-        finished:
-          true,
-
-        status:
-          "playing",
-
-        results:
-          resultData,
-
-        updatedAt:
-          serverTimestamp()
-      });
-
-      await markActionProcessed(
-        actionId
+      alert(
+        "Masukkan nama Pemain 1."
       );
 
       return;
     }
 
-
-    /* =====================================================
-       ★ CEK BUNTU SETELAH SETIAP AKSI
-       
-       Ini bagian paling penting.
-       
-       Jika:
-       - boneyard = 0
-       - semua pemain tidak bisa main
-       
-       maka GAME LANGSUNG SELESAI.
-       ===================================================== */
-
-    if (
-      boneyard.length ===
-      0
+    for (
+      let i = 0;
+      i < humanCount;
+      i++
     ) {
 
-      const blocked =
-        await isOnlineBlocked(
-          board,
-          boneyard,
-          updatedPlayers
-        );
+      if (!names[i]) {
 
-      if (blocked) {
-
-        /*
-         * Hitung ulang semua hand
-         * dari Firebase.
-         */
-
-        const resultData =
-          await calculateOnlineBlockedResults(
-            updatedPlayers
-          );
-
-        await roomRef.update({
-
-          players:
-            resultData.map(
-              (result) => ({
-                uid:
-                  result.uid,
-
-                name:
-                  result.name,
-
-                seat:
-                  result.seat,
-
-                handCount:
-                  result.handCount,
-
-                pips:
-                  result.pips
-              })
-            ),
-
-          board:
-            encodeTiles(
-              board
-            ),
-
-          left:
-            left
-              ? encodeTile(
-                  left
-                )
-              : null,
-
-          right:
-            right
-              ? encodeTile(
-                  right
-                )
-              : null,
-
-          boneyard:
-            [],
-
-          finished:
-            true,
-
-          status:
-            "playing",
-
-          results:
-            resultData,
-
-          updatedAt:
-            serverTimestamp()
-        });
-
-        await markActionProcessed(
-          actionId
+        alert(
+          `Masukkan nama Pemain ${i + 1}.`
         );
 
         return;
       }
     }
 
-
-    /* =====================================================
-       DRAW
-       
-       Jika hanya mengambil batu:
-       giliran TETAP.
-       ===================================================== */
-
-    if (
-      drawOnly
-    ) {
-
-      await roomRef.update({
-
-        players:
-          updatedPlayers,
-
-        boneyard:
-          encodeTiles(
-            boneyard
-          ),
-
-        finished:
-          false,
-
-        updatedAt:
-          serverTimestamp()
-      });
-
-      /*
-       * Penting:
-       * Setelah draw, pemain yang sama
-       * tetap mendapat giliran.
-       */
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
-
-
-    /* =====================================================
-       NEXT TURN
-       ===================================================== */
-
-    const currentIndex =
-      players.findIndex(
-        (player) =>
-          Number(
-            player.seat
-          ) ===
-          Number(
-            freshRoom.turn
-          )
-      );
-
-    let nextIndex =
-      currentIndex + 1;
-
-    if (
-      nextIndex >=
-      players.length
-    ) {
-      nextIndex = 0;
-    }
-
-    const nextTurn =
-      Number(
-        players[
-          nextIndex
-        ].seat
-      );
-
-
-    /* =====================================================
-       UPDATE ROOM
-       ===================================================== */
-
-    await roomRef.update({
-
-      players:
-        updatedPlayers,
-
-      board:
-        boardChanged
-          ? encodeTiles(
-              board
-            )
-          : freshRoom.board ||
-            [],
-
-      left:
-        left
-          ? encodeTile(
-              left
-            )
-          : null,
-
-      right:
-        right
-          ? encodeTile(
-              right
-            )
-          : null,
-
-      boneyard:
-        encodeTiles(
-          boneyard
-        ),
-
-      turn:
-        nextTurn,
-
-      finished:
-        false,
-
-      updatedAt:
-        serverTimestamp()
-    });
-
-
-    /*
-     * Action selesai diproses.
-     */
-
-    await markActionProcessed(
-      actionId
-    );
-  }
-
-
-  /* =========================================================
-     ONLINE RESULTS NORMAL
-     ========================================================= */
-
-  function calculateOnlineResults(
-    players,
-    winner
-  ) {
-
-    const list =
-      players.map(
-        (player) => ({
-          uid:
-            player.uid,
-
-          name:
-            player.name,
-
-          seat:
-            Number(
-              player.seat
-            ),
-
-          pips:
-            player.uid ===
-            winner.uid
-              ? 0
-              : Number(
-                  player.pips ||
-                    0
-                ),
-
-          handCount:
-            player.uid ===
-            winner.uid
-              ? 0
-              : Number(
-                  player.handCount ||
-                    0
-                )
-        })
-      );
-
-    list.sort(
-      (a, b) => {
-
-        if (
-          a.uid ===
-          winner.uid
-        ) {
-          return -1;
-        }
-
-        if (
-          b.uid ===
-          winner.uid
-        ) {
-          return 1;
-        }
-
-        return (
-          Number(a.pips) -
-          Number(b.pips)
+    const normalizedNames =
+      names
+        .slice(0, humanCount)
+        .map(name =>
+          name.toLowerCase()
         );
-      }
-    );
-
-    return list.map(
-      (item, index) => ({
-        ...item,
-
-        rank:
-          index + 1,
-
-        points:
-          POINTS[index] ??
-          0
-      })
-    );
-  }
-
-
-  /* =========================================================
-     RENDER ONLINE RESULTS
-     ========================================================= */
-
-  function renderOnlineResults() {
 
     if (
-      !roomData?.finished
+      new Set(normalizedNames)
+        .size !== humanCount
     ) {
+
+      alert(
+        "Nama pemain harus berbeda."
+      );
+
       return;
     }
 
-    const results =
-      Array.isArray(
-        roomData.results
-      )
-        ? roomData.results
-        : [];
+    saveNames();
 
-    if (
-      !results.length
-    ) {
-      return;
-    }
-
-    /*
-     * Jika permainan buntu,
-     * tampilkan keterangan khusus.
-     */
-
-    const blockedText =
-      results.length > 0 &&
-      results[0].pips > 0
-        ? "Permainan buntu • angka terkecil menang"
-        : "Ada pemain yang menghabiskan semua batu.";
-
-    showModal(
-      "Ronde Selesai",
-      blockedText,
-      results
-    );
-
-    const nextBtn =
-      $("nextBtn");
-
-    if (nextBtn) {
-
-      nextBtn.disabled =
-        roomData.hostUid !==
-        currentUid;
-    }
-  }
-
-
-  /* =========================================================
-     SHOW APP
-     ========================================================= */
-
-  function showApp() {
-
-    hide(
-      "loginScreen"
-    );
-
-    show(
-      "app"
-    );
-
-    /*
-     * Pastikan halaman game aktif.
-     */
-
-    $("leaguePage")
-      ?.classList.remove(
-        "active"
-      );
-
-    $("gamePage")
-      ?.classList.add(
-        "active"
-      );
-
-    setText(
-      "welcome",
-      mode ===
-        "online"
-        ? "Mode Online"
-        : "Mode Lokal"
-    );
-  }
-
-
-  /* =========================================================
-     LOCAL GAME
-     ========================================================= */
-
-  function getHumanCount() {
-    return Number(
-      $("humanCount")
-        ?.value || 1
-    );
-  }
-
-
-  function createLocalPlayers() {
-
-    const humanCount =
-      getHumanCount();
-
-    const names = [
-
-      String(
-        $("name1")
-          ?.value || ""
-      ).trim() ||
-        "Pemain 1",
-
-      String(
-        $("name2")
-          ?.value || ""
-      ).trim() ||
-        "Pemain 2",
-
-      String(
-        $("name3")
-          ?.value || ""
-      ).trim() ||
-        "Pemain 3"
-    ];
+    mode = "local";
 
     const players = [];
+
+    /* HUMAN */
 
     for (
       let i = 0;
@@ -4092,527 +2677,328 @@
 
       players.push({
 
-        id:
-          `local-${i}`,
+        id: `local-${i}`,
 
         name:
-          names[i] ||
-          `Pemain ${i + 1}`,
+          names[i],
 
-        seat:
-          i,
+        human: true,
 
-        human:
-          true,
+        seat: i,
 
-        hand: [],
-
-        pips:
-          0,
-
-        handCount:
-          0
+        hand: []
       });
     }
 
+    /* COMPUTER */
 
-    while (
-      players.length < 4
+    const computerCount =
+      4 - humanCount;
+
+    for (
+      let i = 0;
+      i < computerCount;
+      i++
     ) {
-
-      const seat =
-        players.length;
 
       players.push({
 
         id:
-          `local-ai-${seat}`,
+          `computer-${i}`,
 
         name:
-          `AI ${seat + 1}`,
+          `Computer ${i + 1}`,
 
-        seat,
+        human: false,
 
-        human:
-          false,
+        seat:
+          humanCount + i,
 
-        hand: [],
-
-        pips:
-          0,
-
-        handCount:
-          0
+        hand: []
       });
     }
 
-    return players;
-  }
-
-
-  /* =========================================================
-     START LOCAL
-     ========================================================= */
-
-  function startLocalGame(
-    newRound = true
-  ) {
-
-    saveNames();
-
-    mode =
-      "local";
-
-    localPlayers =
-      createLocalPlayers();
+    /* =====================================================
+       DECK
+       ===================================================== */
 
     const deck =
-      shuffle(
-        deck28()
-      );
+      shuffle(deck28());
 
-    localPlayers.forEach(
-      (player) => {
+    /* =====================================================
+       SEMUA PEMAIN DAPAT 7
+       ===================================================== */
+
+    players.forEach(
+      player => {
 
         player.hand =
-          deck.splice(
-            0,
-            7
-          );
-
-        player.handCount =
-          player.hand.length;
-
-        player.pips =
-          sumPips(
-            player.hand
-          );
+          deck.splice(0, 7);
       }
     );
 
-    localBoneyard =
-      deck;
+    /* =====================================================
+       GAME
+       ===================================================== */
 
-    localBoard = [];
+    const oldRound =
+      Number(
+        localGame?.round || 0
+      );
 
-    localLeft =
-      null;
+    localGame = {
 
-    localRight =
-      null;
+      players,
 
-    localTurn =
-      0;
+      humanCount,
 
-    localFinished =
-      false;
+      round:
+        oldRound + 1,
 
-    localResults =
-      [];
+      /* Tidak digunakan */
+      boneyard: [],
 
-    if (
-      newRound
-    ) {
-      localRound =
-        1;
+      board: [],
+
+      left: null,
+
+      right: null,
+
+      turn: 0,
+
+      finished: false,
+
+      blocked: false,
+
+      finishReason: null,
+
+      results: []
+    };
+
+    /* PASS RESET */
+    localPassCount = 0;
+
+    /* LEAGUE */
+
+    names
+      .slice(0, humanCount)
+      .forEach(ensureLeague);
+
+    saveLeague();
+
+    if ($("loginScreen")) {
+      $("loginScreen")
+        .classList
+        .add("hidden");
     }
 
-    showApp();
+    if ($("app")) {
+      $("app")
+        .classList
+        .remove("hidden");
+    }
 
-    setText(
-      "roomCode",
-      "LOCAL"
-    );
+    if ($("welcome")) {
 
-    setText(
-      "onlineState",
-      "Lokal"
-    );
+      $("welcome").textContent =
+        `${names[0]} • Lokal`;
+    }
 
-    setText(
-      "roundNo",
-      String(
-        localRound
-      )
-    );
+    if ($("roomCode")) {
+      $("roomCode").textContent =
+        "LOCAL";
+    }
 
-    hide(
-      "waitingCard"
-    );
+    if ($("onlineState")) {
+      $("onlineState").textContent =
+        "Lokal";
+    }
+
+    if ($("waitingCard")) {
+      $("waitingCard")
+        .classList
+        .add("hidden");
+    }
+
+    /* HILANGKAN DRAW */
+
+    if ($("drawBtn")) {
+
+      $("drawBtn").style.display =
+        "none";
+
+      $("drawBtn").disabled =
+        true;
+    }
+
+    if ($("passBtn")) {
+
+      $("passBtn").style.display =
+        "";
+
+      $("passBtn").textContent =
+        "Lewat";
+    }
+
+    renderLocal();
 
     setStatus(
-      "Game lokal dimulai.",
-      "success"
+      `🎮 Giliran ${players[0].name}.`
     );
 
-    renderLocalGame();
-  }
-
-
-  /* =========================================================
-     RENDER LOCAL
-     ========================================================= */
-
-  function renderLocalGame() {
-
-    renderLocalPlayers();
-
-    renderBoard(
-      localBoard,
-      localLeft,
-      localRight
-    );
-
-    setText(
-      "boneyardInfo",
-      `Sisa tumpukan: ${
-        localBoneyard.length
-      }`
-    );
-
-    const turnPlayer =
-      localPlayers[
-        localTurn
-      ];
-
-    setText(
-      "turnName",
-      turnPlayer?.name ||
-        "-"
-    );
-
+    /* Jika pemain pertama komputer */
     if (
-      localFinished
+      !players[0].human
     ) {
 
-      renderLocalResults();
-
-      return;
-    }
-
-    renderLocalHand();
-  }
-
-
-  /* =========================================================
-     LOCAL PLAYERS
-     ========================================================= */
-
-  function renderLocalPlayers() {
-
-    const container =
-      $("players");
-
-    if (!container) {
-      return;
-    }
-
-    container.innerHTML =
-      "";
-
-    localPlayers.forEach(
-      (
-        player,
-        index
-      ) => {
-
-        const isTurn =
-          index ===
-          localTurn;
-
-        const div =
-          document.createElement(
-            "div"
-          );
-
-        div.className =
-          "player" +
-          (
-            isTurn
-              ? " active"
-              : ""
-          );
-
-        div.innerHTML = `
-          <div class="player-name">
-            ${escapeHtml(
-              player.name
-            )}
-            ${
-              player.human
-                ? ""
-                : " 🤖"
-            }
-          </div>
-
-          <div class="player-info">
-            ${player.hand.length} batu
-            •
-            ${sumPips(
-              player.hand
-            )} angka
-          </div>
-        `;
-
-        container.appendChild(
-          div
-        );
-      }
-    );
-  }
-
-
-  /* =========================================================
-     LOCAL HAND
-     ========================================================= */
-
-  function renderLocalHand() {
-
-    const container =
-      $("hand");
-
-    if (!container) {
-      return;
-    }
-
-    container.innerHTML =
-      "";
-
-    const player =
-      localPlayers[
-        localTurn
-      ];
-
-    if (!player) {
-      return;
-    }
-
-    setText(
-      "handTitle",
-      player.human
-        ? `${player.name} • GILIRAN ANDA`
-        : `${player.name} • Giliran AI`
-    );
-
-    if (
-      !player.human
-    ) {
-
-      updateLocalControls(
-        false
+      setTimeout(
+        localAiTurn,
+        400
       );
+    }
+  }
 
-      return;
+  /* =========================================================
+     LOCAL CAN PLAY
+     ========================================================= */
+
+  function localCanPlay(tile) {
+
+    const game =
+      localGame;
+
+    if (!game) {
+      return false;
     }
 
-    player.hand.forEach(
-      (
-        tile,
-        index
-      ) => {
+    if (
+      !game.board.length
+    ) {
+      return true;
+    }
 
-        const playable =
-          canOnlinePlay(
-            tile,
-            localBoard
-          );
+    return (
+      Number(tile[0]) ===
+        Number(game.left) ||
 
-        const el =
-          createTileElement(
-            tile,
-            {
-              index,
+      Number(tile[1]) ===
+        Number(game.left) ||
 
-              disabled:
-                !playable
-            }
-          );
+      Number(tile[0]) ===
+        Number(game.right) ||
 
-        if (
-          playable
-        ) {
-
-          el.addEventListener(
-            "click",
-            () => {
-
-              localChooseTile(
-                index
-              );
-            }
-          );
-        }
-
-        container.appendChild(
-          el
-        );
-      }
-    );
-
-    updateLocalControls(
-      true
+      Number(tile[1]) ===
+        Number(game.right)
     );
   }
 
-
   /* =========================================================
-     LOCAL CONTROL
+     LOCAL PLACE
      ========================================================= */
 
-  function updateLocalControls(
-    myTurn
+  function localPlaceTile(
+    tile,
+    side
   ) {
 
-    const draw =
-      $("drawBtn");
+    const game =
+      localGame;
 
-    const pass =
-      $("passBtn");
+    if (
+      !game.board.length
+    ) {
 
-    if (draw) {
+      game.board = [tile];
 
-      draw.disabled =
-        !myTurn ||
-        localBoneyard.length ===
-          0;
+      game.left =
+        Number(tile[0]);
+
+      game.right =
+        Number(tile[1]);
+
+      return;
     }
 
-    if (pass) {
+    let placed = [
+      Number(tile[0]),
+      Number(tile[1])
+    ];
 
-      pass.disabled =
-        !myTurn;
+    if (
+      side === "left"
+    ) {
+
+      if (
+        Number(placed[0]) !==
+          Number(game.left) &&
+        Number(placed[1]) ===
+          Number(game.left)
+      ) {
+
+        placed = [
+          placed[1],
+          placed[0]
+        ];
+      }
+
+      game.board.unshift(
+        placed
+      );
+
+      game.left =
+        Number(placed[0]);
+
+    } else {
+
+      if (
+        Number(placed[1]) !==
+          Number(game.right) &&
+        Number(placed[0]) ===
+          Number(game.right)
+      ) {
+
+        placed = [
+          placed[1],
+          placed[0]
+        ];
+      }
+
+      game.board.push(
+        placed
+      );
+
+      game.right =
+        Number(placed[1]);
     }
   }
-
-
-  /* =========================================================
-     LOCAL CHOOSE TILE
-     ========================================================= */
-
-  function localChooseTile(
-    index
-  ) {
-
-    const player =
-      localPlayers[
-        localTurn
-      ];
-
-    if (
-      !player ||
-      !player.human
-    ) {
-      return;
-    }
-
-    const tile =
-      player.hand[index];
-
-    if (!tile) {
-      return;
-    }
-
-    if (
-      localBoard.length ===
-      0
-    ) {
-
-      localPlayTile(
-        index,
-        "right"
-      );
-
-      return;
-    }
-
-    const first =
-      localBoard[0];
-
-    const last =
-      localBoard[
-        localBoard.length - 1
-      ];
-
-    const canLeft =
-      Number(tile[0]) ===
-        Number(first[0]) ||
-      Number(tile[1]) ===
-        Number(first[0]);
-
-    const canRight =
-      Number(tile[0]) ===
-        Number(last[1]) ||
-      Number(tile[1]) ===
-        Number(last[1]);
-
-    if (
-      canLeft &&
-      canRight
-    ) {
-
-      const left =
-        confirm(
-          `Batu ${tile[0]}-${tile[1]}\n\n` +
-          `OK = KIRI\n` +
-          `Batal = KANAN`
-        );
-
-      localPlayTile(
-        index,
-        left
-          ? "left"
-          : "right"
-      );
-
-      return;
-    }
-
-    if (
-      canLeft
-    ) {
-
-      localPlayTile(
-        index,
-        "left"
-      );
-
-      return;
-    }
-
-    if (
-      canRight
-    ) {
-
-      localPlayTile(
-        index,
-        "right"
-      );
-
-      return;
-    }
-
-    setStatus(
-      "Batu tidak cocok dengan meja.",
-      "warning"
-    );
-  }
-
 
   /* =========================================================
      LOCAL PLAY
      ========================================================= */
 
   function localPlayTile(
-    index,
-    side
+    index
   ) {
 
+    const game =
+      localGame;
+
+    if (
+      !game ||
+      game.finished
+    ) {
+      return;
+    }
+
     const player =
-      localPlayers[
-        localTurn
+      game.players[
+        game.turn
       ];
 
-    if (!player) {
+    if (
+      !player ||
+      !player.human
+    ) {
       return;
     }
 
@@ -4623,287 +3009,148 @@
       return;
     }
 
-    const placement =
-      placeOnline(
-        localBoard,
-        tile,
-        side
-      );
-
-    if (!placement) {
+    if (
+      !localCanPlay(tile)
+    ) {
 
       setStatus(
-        "Batu tidak cocok.",
-        "warning"
+        "Batu itu tidak bisa dimainkan."
       );
 
       return;
     }
 
-    localBoard =
-      placement.board;
+    let side = "right";
 
-    localLeft =
-      placement.left;
+    if (
+      game.board.length
+    ) {
 
-    localRight =
-      placement.right;
+      if (
+        Number(tile[0]) ===
+          Number(game.right) ||
+        Number(tile[1]) ===
+          Number(game.right)
+      ) {
+
+        side = "right";
+
+      } else {
+
+        side = "left";
+      }
+    }
+
+    localPlaceTile(
+      tile,
+      side
+    );
 
     player.hand.splice(
       index,
       1
     );
 
-    player.handCount =
-      player.hand.length;
+    /* BERHASIL MAIN = PASS RESET */
 
-    player.pips =
-      sumPips(
-        player.hand
-      );
+    localPassCount = 0;
 
-
-    /* =====================================================
-       PEMAIN HABIS BATU
-       ===================================================== */
+    /* HABIS BATU */
 
     if (
-      player.hand.length ===
-      0
+      player.hand.length === 0
     ) {
 
       finishLocalGame(
-        player
+        player.id,
+        false
       );
 
       return;
     }
 
-
-    /* =====================================================
-       ★ CEK BUNTU SEBELUM GANTI GILIRAN
-       ===================================================== */
-
-    if (
-      localBoneyard.length ===
-      0 &&
-      isLocalBlocked()
-    ) {
-
-      finishLocalBlockedGame();
-
-      return;
-    }
-
+    /* NEXT PLAYER */
 
     nextLocalTurn();
   }
 
-
-  /* =========================================================
-     LOCAL DRAW
-     ========================================================= */
-
-  function localDraw() {
-
-    const player =
-      localPlayers[
-        localTurn
-      ];
-
-    if (
-      !player ||
-      !player.human
-    ) {
-      return;
-    }
-
-    if (
-      localBoneyard.length ===
-      0
-    ) {
-
-      /*
-       * Kalau tumpukan habis,
-       * cek apakah permainan buntu.
-       */
-
-      if (
-        isLocalBlocked()
-      ) {
-
-        finishLocalBlockedGame();
-
-      } else {
-
-        setStatus(
-          "Tumpukan sudah habis. Mainkan batu yang cocok atau pass.",
-          "warning"
-        );
-      }
-
-      return;
-    }
-
-    const tile =
-      localBoneyard.pop();
-
-    player.hand.push(
-      tile
-    );
-
-    player.handCount =
-      player.hand.length;
-
-    player.pips =
-      sumPips(
-        player.hand
-      );
-
-    setStatus(
-      `${player.name} mengambil batu ${tile[0]}-${tile[1]}.`,
-      ""
-    );
-
-    renderLocalGame();
-
-
-    /*
-     * Setelah mengambil,
-     * giliran tetap.
-     *
-     * Jika tumpukan sekarang habis
-     * dan seluruh pemain buntu,
-     * langsung selesaikan.
-     */
-
-    if (
-      localBoneyard.length ===
-      0 &&
-      isLocalBlocked()
-    ) {
-
-      finishLocalBlockedGame();
-    }
-  }
-
-
   /* =========================================================
      LOCAL PASS
+     
+     Tidak ada kartu cadangan.
+     
+     PASS jika benar-benar tidak
+     punya batu yang bisa dimainkan.
      ========================================================= */
 
   function localPass() {
 
+    const game =
+      localGame;
+
+    if (
+      !game ||
+      game.finished
+    ) {
+      return;
+    }
+
     const player =
-      localPlayers[
-        localTurn
+      game.players[
+        game.turn
       ];
 
     if (
       !player ||
       !player.human
     ) {
-      return;
-    }
-
-    if (
-      localBoneyard.length >
-      0
-    ) {
-
-      setStatus(
-        "Masih ada batu di tumpukan. Ambil batu dulu.",
-        "warning"
-      );
-
       return;
     }
 
     const playable =
       player.hand.some(
-        (tile) =>
-          canOnlinePlay(
-            tile,
-            localBoard
-          )
+        tile =>
+          localCanPlay(tile)
       );
 
-    if (
-      playable
-    ) {
+    if (playable) {
 
       setStatus(
-        "Masih ada batu yang bisa dimainkan.",
-        "warning"
+        "⚠️ Masih ada batu yang bisa dimainkan."
       );
 
       return;
     }
 
+    /* PASS VALID */
 
-    /*
-     * ★ CEK SELURUH PEMAIN
-     */
+    localPassCount++;
+
+    setStatus(
+      `${player.name} PASS (${localPassCount}/${game.players.length}).`
+    );
+
+    /* =====================================================
+       SEMUA PEMAIN PASS
+       ===================================================== */
 
     if (
-      isLocalBlocked()
+      localPassCount >=
+      game.players.length
     ) {
 
-      finishLocalBlockedGame();
+      finishLocalGame(
+        null,
+        true
+      );
 
       return;
     }
 
+    /* NEXT PLAYER */
 
     nextLocalTurn();
   }
-
-
-  /* =========================================================
-     LOCAL BLOCK CHECK
-     
-     SEMUA pemain harus tidak punya
-     batu yang bisa dimainkan.
-     ========================================================= */
-
-  function isLocalBlocked() {
-
-    if (
-      localBoneyard.length >
-      0
-    ) {
-      return false;
-    }
-
-    if (
-      !localPlayers.length
-    ) {
-      return false;
-    }
-
-    for (
-      const player of localPlayers
-    ) {
-
-      const playable =
-        player.hand.some(
-          (tile) =>
-            canOnlinePlay(
-              tile,
-              localBoard
-            )
-        );
-
-      if (
-        playable
-      ) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
 
   /* =========================================================
      NEXT LOCAL TURN
@@ -4911,44 +3158,46 @@
 
   function nextLocalTurn() {
 
-    /*
-     * Sebelum pindah,
-     * cek apakah permainan sudah buntu.
-     */
+    const game =
+      localGame;
 
     if (
-      !localFinished &&
-      localBoneyard.length ===
-        0 &&
-      isLocalBlocked()
+      !game ||
+      game.finished
     ) {
-
-      finishLocalBlockedGame();
-
       return;
     }
 
-    localTurn++;
+    game.turn =
+      (
+        Number(game.turn) + 1
+      ) %
+      game.players.length;
 
-    if (
-      localTurn >=
-      localPlayers.length
-    ) {
-
-      localTurn = 0;
-    }
-
-    renderLocalGame();
+    renderLocal();
 
     const player =
-      localPlayers[
-        localTurn
+      game.players[
+        game.turn
       ];
 
+    if (!player) {
+      return;
+    }
+
     if (
-      player &&
-      !player.human
+      player.human
     ) {
+
+      setStatus(
+        `🎯 Giliran ${player.name}.`
+      );
+
+    } else {
+
+      setStatus(
+        `🤖 ${player.name} sedang berpikir...`
+      );
 
       setTimeout(
         localAiTurn,
@@ -4957,23 +3206,33 @@
     }
   }
 
-
   /* =========================================================
-     AI TURN
+     LOCAL AI
+     
+     Tidak ada DRAW.
+     
+     Jika bisa main:
+       main
+
+     Jika tidak bisa:
+       PASS otomatis
      ========================================================= */
 
   function localAiTurn() {
 
+    const game =
+      localGame;
+
     if (
-      mode !== "local" ||
-      localFinished
+      !game ||
+      game.finished
     ) {
       return;
     }
 
     const player =
-      localPlayers[
-        localTurn
+      game.players[
+        game.turn
       ];
 
     if (
@@ -4983,301 +3242,229 @@
       return;
     }
 
-
-    /* =====================================================
-       CARI BATU YANG BISA DIMAINKAN
-       ===================================================== */
-
-    let playableIndex =
-      -1;
-
-    for (
-      let i = 0;
-      i < player.hand.length;
-      i++
-    ) {
-
-      if (
-        canOnlinePlay(
-          player.hand[i],
-          localBoard
-        )
-      ) {
-
-        playableIndex =
-          i;
-
-        break;
-      }
-    }
-
-
-    /* =====================================================
-       ADA BATU YANG BISA DIMAINKAN
-       ===================================================== */
-
-    if (
-      playableIndex >= 0
-    ) {
-
-      const tile =
-        player.hand[
-          playableIndex
-        ];
-
-      let side =
-        "right";
-
-      if (
-        localBoard.length >
-        0
-      ) {
-
-        const first =
-          localBoard[0];
-
-        const last =
-          localBoard[
-            localBoard.length - 1
-          ];
-
-        const canLeft =
-          Number(tile[0]) ===
-            Number(first[0]) ||
-          Number(tile[1]) ===
-            Number(first[0]);
-
-        const canRight =
-          Number(tile[0]) ===
-            Number(last[1]) ||
-          Number(tile[1]) ===
-            Number(last[1]);
-
-        if (
-          canLeft &&
-          !canRight
-        ) {
-
-          side =
-            "left";
-
-        } else if (
-          canLeft &&
-          canRight
-        ) {
-
-          side =
-            Math.random() <
-            0.5
-              ? "left"
-              : "right";
-        }
-      }
-
-      localPlayTile(
-        playableIndex,
-        side
-      );
-
-      return;
-    }
-
-
-    /* =====================================================
-       TIDAK BISA MAIN + MASIH ADA BATU
-       ===================================================== */
-
-    if (
-      localBoneyard.length >
-      0
-    ) {
-
-      const tile =
-        localBoneyard.pop();
-
-      player.hand.push(
-        tile
-      );
-
-      player.handCount =
-        player.hand.length;
-
-      player.pips =
-        sumPips(
-          player.hand
-        );
-
-      renderLocalGame();
-
-      /*
-       * Setelah mengambil,
-       * AI mencoba lagi.
-       */
-
-      setTimeout(
-        localAiTurn,
-        400
-      );
-
-      return;
-    }
-
-
-    /* =====================================================
-       TUMPUKAN HABIS
-       
-       Jangan langsung next turn.
-       Cek apakah SEMUA pemain buntu.
-       ===================================================== */
-
-    if (
-      isLocalBlocked()
-    ) {
-
-      finishLocalBlockedGame();
-
-      return;
-    }
-
-
-    /*
-     * Belum semua buntu.
-     * AI pass dan lanjut.
-     */
+    setStatus(
+      `🤖 ${player.name} sedang berpikir...`
+    );
 
     setTimeout(
       () => {
 
+        if (
+          !localGame ||
+          localGame.finished
+        ) {
+          return;
+        }
+
+        const currentGame =
+          localGame;
+
+        const currentPlayer =
+          currentGame.players[
+            currentGame.turn
+          ];
+
+        if (
+          !currentPlayer ||
+          currentPlayer.human
+        ) {
+          return;
+        }
+
+        /* CARI BATU */
+
+        const playable =
+          currentPlayer.hand
+            .map(
+              (tile, index) => ({
+                tile,
+                index
+              })
+            )
+            .filter(
+              item =>
+                localCanPlay(
+                  item.tile
+                )
+            );
+
+        /* =================================================
+           AI BISA MAIN
+           ================================================= */
+
+        if (
+          playable.length
+        ) {
+
+          /*
+           * Pilih batu dengan angka
+           * terbesar supaya AI
+           * lebih cepat mengurangi
+           * total titik.
+           */
+
+          playable.sort(
+            (a, b) =>
+              (
+                Number(b.tile[0]) +
+                Number(b.tile[1])
+              ) -
+              (
+                Number(a.tile[0]) +
+                Number(a.tile[1])
+              )
+          );
+
+          const selected =
+            playable[0];
+
+          let side = "right";
+
+          if (
+            currentGame.board.length
+          ) {
+
+            if (
+              Number(
+                selected.tile[0]
+              ) ===
+                Number(
+                  currentGame.right
+                ) ||
+
+              Number(
+                selected.tile[1]
+              ) ===
+                Number(
+                  currentGame.right
+                )
+            ) {
+
+              side = "right";
+
+            } else {
+
+              side = "left";
+            }
+          }
+
+          localPlaceTile(
+            selected.tile,
+            side
+          );
+
+          currentPlayer.hand.splice(
+            selected.index,
+            1
+          );
+
+          /* AI berhasil main */
+          localPassCount = 0;
+
+          setStatus(
+            `🤖 ${currentPlayer.name} memasang batu.`
+          );
+
+          /* AI HABIS BATU */
+
+          if (
+            currentPlayer.hand.length ===
+            0
+          ) {
+
+            finishLocalGame(
+              currentPlayer.id,
+              false
+            );
+
+            return;
+          }
+
+          nextLocalTurn();
+
+          return;
+        }
+
+        /* =================================================
+           AI TIDAK BISA MAIN
+           ================================================= */
+
+        localPassCount++;
+
+        setStatus(
+          `🤖 ${currentPlayer.name} PASS (${localPassCount}/${currentGame.players.length}).`
+        );
+
+        /* SEMUA PASS */
+
+        if (
+          localPassCount >=
+          currentGame.players.length
+        ) {
+
+          finishLocalGame(
+            null,
+            true
+          );
+
+          return;
+        }
+
         nextLocalTurn();
 
       },
-      300
+      450
     );
   }
 
-
   /* =========================================================
-     LOCAL NORMAL FINISH
+     FINISH LOCAL GAME
+     
+     winnerId = pemain yang habis batu
+     winnerId null = permainan buntu
      ========================================================= */
 
   function finishLocalGame(
-    winner
+    winnerId = null,
+    blocked = false
   ) {
 
+    const game =
+      localGame;
+
     if (
-      localFinished
+      !game ||
+      game.finished
     ) {
       return;
     }
 
-    localFinished =
-      true;
+    game.finished = true;
 
-    localResults =
-      localPlayers
-        .map(
-          (player) => ({
+    game.blocked =
+      blocked;
 
-            id:
-              player.id,
+    game.finishReason =
+      blocked
+        ? "blocked"
+        : "empty";
 
-            name:
-              player.name,
-
-            pips:
-              player.id ===
-              winner.id
-                ? 0
-                : sumPips(
-                    player.hand
-                  ),
-
-            handCount:
-              player.hand.length
-          })
-        )
-        .sort(
-          (a, b) =>
-            a.pips -
-            b.pips
-        )
-        .map(
-          (
-            player,
-            index
-          ) => ({
-
-            ...player,
-
-            rank:
-              index + 1,
-
-            points:
-              POINTS[index] ??
-              0
-          })
-        );
-
-    updateLocalLeague();
-
-    renderLocalGame();
-
-    setStatus(
-      `${winner.name} menang karena menghabiskan semua batu!`,
-      "success"
-    );
-  }
-
-
-  /* =========================================================
-     ★ LOCAL BLOCKED FINISH
-     
-     ATURAN:
-     TOTAL TITIK TERKECIL MENANG.
-     ========================================================= */
-
-  function finishLocalBlockedGame() {
-
-    if (
-      localFinished
-    ) {
-      return;
-    }
-
-    /*
-     * Pastikan benar-benar buntu.
-     */
-
-    if (
-      localBoneyard.length >
-      0
-    ) {
-      return;
-    }
-
-    if (
-      !isLocalBlocked()
-    ) {
-      return;
-    }
-
-    localFinished =
-      true;
-
-
-    /*
-     * Hitung semua pemain.
-     */
+    /* =====================================================
+       HITUNG SEMUA BATU
+       ===================================================== */
 
     const results =
-      localPlayers.map(
-        (player) => ({
+      game.players.map(
+        player => ({
 
           id:
             player.id,
 
           name:
             player.name,
+
+          seat:
+            player.seat,
 
           pips:
             sumPips(
@@ -5287,985 +3474,580 @@
           handCount:
             player.hand.length,
 
-          seat:
-            player.seat
+          empty:
+            winnerId !== null &&
+            player.id === winnerId
         })
       );
 
-
-    /*
-     * ANGKA TERKECIL MENANG.
-     */
+    /* =====================================================
+       URUTKAN
+       ===================================================== */
 
     results.sort(
       (a, b) => {
 
-        const pipDiff =
-          Number(a.pips) -
-          Number(b.pips);
+        /* Pemain habis batu
+           otomatis juara */
 
         if (
-          pipDiff !== 0
+          a.empty &&
+          !b.empty
         ) {
-          return pipDiff;
+          return -1;
         }
-
-        const countDiff =
-          Number(
-            a.handCount
-          ) -
-          Number(
-            b.handCount
-          );
 
         if (
-          countDiff !== 0
+          !a.empty &&
+          b.empty
         ) {
-          return countDiff;
+          return 1;
         }
+
+        /* BUNTU:
+           ANGKA TERKECIL */
 
         return (
+          Number(a.pips) -
+            Number(b.pips) ||
+
+          Number(a.handCount) -
+            Number(b.handCount) ||
+
           Number(a.seat) -
-          Number(b.seat)
+            Number(b.seat)
         );
       }
     );
 
+    /* =====================================================
+       POINTS + LEAGUE
+       ===================================================== */
 
-    localResults =
-      results.map(
-        (
-          player,
-          index
-        ) => ({
+    results.forEach(
+      (result, index) => {
 
-          ...player,
+        result.place =
+          index + 1;
 
-          rank:
-            index + 1,
+        result.points =
+          POINTS[index] ?? 0;
 
-          points:
-            POINTS[index] ??
-            0
-        })
-      );
-
-
-    updateLocalLeague();
-
-    renderLocalGame();
-
-    const winner =
-      localResults[0];
-
-    setStatus(
-      `PERMAINAN BUNTU! ${winner?.name || "Pemenang"} menang dengan ${winner?.pips || 0} angka.`,
-      "success"
-    );
-  }
-
-
-  /* =========================================================
-     LOCAL LEAGUE
-     ========================================================= */
-
-  function updateLocalLeague() {
-
-    const league =
-      loadLeague();
-
-    localResults.forEach(
-      (result) => {
-
-        if (
-          !league[
-            result.name
-          ]
-        ) {
-
-          league[
-            result.name
-          ] = {
-
-            rounds:
-              0,
-
-            wins:
-              0,
-
-            points:
-              0
-          };
-        }
-
-        league[
+        ensureLeague(
           result.name
-        ].rounds++;
+        );
 
-        league[
-          result.name
-        ].points +=
-          Number(
-            result.points ||
-              0
+        const leaguePlayer =
+          league.find(
+            player =>
+              player.name ===
+              result.name
           );
 
-        if (
-          Number(
-            result.rank
-          ) === 1
-        ) {
+        if (leaguePlayer) {
 
-          league[
-            result.name
-          ].wins++;
+          leaguePlayer.rounds++;
+
+          leaguePlayer.points +=
+            result.points;
+
+          if (
+            index === 0
+          ) {
+            leaguePlayer.wins++;
+          }
         }
       }
     );
 
-    saveLeague(
-      league
+    game.results =
+      results;
+
+    saveLeague();
+
+    renderLocal();
+
+    showResults(
+      results,
+      "local"
     );
+
+    const winner =
+      results[0];
+
+    if (blocked) {
+
+      setStatus(
+        `⛔ PERMAINAN BUNTU! ${winner?.name || "Pemenang"} menang dengan ${winner?.pips || 0} angka.`
+      );
+
+    } else {
+
+      setStatus(
+        `🏆 ${winner?.name || "Pemenang"} menang!`
+      );
+    }
   }
 
-
   /* =========================================================
-     RENDER STANDINGS
+     RENDER LOCAL
      ========================================================= */
 
-  function renderStandings() {
+  function renderLocal() {
 
-    const tbody =
-      $("standings");
+    const game =
+      localGame;
 
-    if (!tbody) {
+    if (!game) {
       return;
     }
 
-    const league =
-      loadLeague();
+    if ($("roundNo")) {
 
-    const list =
-      Object.entries(
-        league
-      )
-        .map(
-          (
-            [name, data]
-          ) => ({
+      $("roundNo").textContent =
+        game.round;
+    }
 
-            name,
+    if ($("turnName")) {
 
-            rounds:
-              Number(
-                data.rounds ||
-                  0
-              ),
+      $("turnName").textContent =
+        game.players[
+          game.turn
+        ]?.name || "—";
+    }
 
-            wins:
-              Number(
-                data.wins ||
-                  0
-              ),
+    /* PLAYERS */
 
-            points:
-              Number(
-                data.points ||
-                  0
+    if ($("players")) {
+
+      $("players").innerHTML =
+        game.players
+          .map(
+            (player, index) => `
+              <div class="player-box ${
+                index === game.turn &&
+                !game.finished
+                  ? "active"
+                  : ""
+              }">
+
+                <b>
+                  ${esc(player.name)}
+                  ${
+                    player.human
+                      ? " 👤"
+                      : " 🤖"
+                  }
+                </b>
+
+                <small>
+                  ${player.hand.length}
+                  batu
+                  ${
+                    index === game.turn
+                      ? " • giliran"
+                      : ""
+                  }
+                </small>
+
+              </div>
+            `
+          )
+          .join("");
+    }
+
+    /* BOARD */
+
+    if ($("board")) {
+
+      $("board").innerHTML =
+        game.board.length
+
+          ? game.board
+              .map(
+                tile =>
+                  tileHTML(
+                    tile,
+                    "board-tile"
+                  )
               )
-          })
-        )
-        .sort(
-          (a, b) => {
+              .join("")
+
+          : `
+              <div class="empty">
+                Meja domino
+              </div>
+            `;
+    }
+
+    /* NO BONEYARD */
+
+    if ($("boneyardInfo")) {
+
+      $("boneyardInfo").textContent =
+        "Tidak ada tumpukan kartu";
+    }
+
+    if ($("blockInfo")) {
+
+      $("blockInfo").textContent =
+        game.blocked
+          ? "⛔ PERMAINAN BUNTU • ANGKA TERKECIL MENANG"
+          : "";
+    }
+
+    const player =
+      game.players[
+        game.turn
+      ];
+
+    /* HAND */
+
+    if (
+      player &&
+      player.human
+    ) {
+
+      if ($("handTitle")) {
+
+        $("handTitle").textContent =
+          `Kartu ${player.name}`;
+      }
+
+      if ($("hand")) {
+
+        $("hand").innerHTML = "";
+
+        player.hand.forEach(
+          (tile, index) => {
+
+            const wrapper =
+              document.createElement(
+                "div"
+              );
+
+            wrapper.innerHTML =
+              tileHTML(
+                tile,
+                "hand-tile"
+              );
+
+            const element =
+              wrapper.firstElementChild;
+
+            const playable =
+              localCanPlay(
+                tile
+              );
 
             if (
-              b.points !==
-              a.points
+              !playable ||
+              game.finished
             ) {
-              return (
-                b.points -
-                a.points
+
+              element.classList.add(
+                "disabled"
               );
             }
 
-            return (
-              b.wins -
-              a.wins
-            );
+            element.onclick =
+              () => {
+
+                if (
+                  game.finished ||
+                  !playable
+                ) {
+                  return;
+                }
+
+                localPlayTile(
+                  index
+                );
+              };
+
+            $("hand")
+              .appendChild(element);
           }
         );
+      }
 
-    tbody.innerHTML =
-      "";
+    } else {
 
-    list.forEach(
-      (
-        player,
-        index
-      ) => {
+      if ($("handTitle")) {
 
-        const tr =
-          document.createElement(
-            "tr"
+        $("handTitle").textContent =
+          "Computer sedang berpikir...";
+      }
+
+      if ($("hand")) {
+
+        $("hand").innerHTML =
+          `
+            <span class="muted">
+              Tunggu giliran computer.
+            </span>
+          `;
+      }
+    }
+
+    /* =====================================================
+       DRAW = HILANG
+       ===================================================== */
+
+    if ($("drawBtn")) {
+
+      $("drawBtn").style.display =
+        "none";
+
+      $("drawBtn").disabled =
+        true;
+    }
+
+    /* =====================================================
+       PASS
+       ===================================================== */
+
+    if ($("passBtn")) {
+
+      $("passBtn").style.display =
+        "";
+
+      $("passBtn").textContent =
+        "Lewat";
+
+      $("passBtn").disabled =
+        !player ||
+        !player.human ||
+        game.finished;
+    }
+  }
+
+  /* =========================================================
+     MENU
+     ========================================================= */
+
+  if ($("newGameBtn")) {
+
+    $("newGameBtn").onclick =
+      function () {
+
+        if (roomUnsub) {
+          roomUnsub();
+        }
+
+        if (actionUnsub) {
+          actionUnsub();
+        }
+
+        location.reload();
+      };
+  }
+
+  /* =========================================================
+     LEAGUE BUTTON
+     ========================================================= */
+
+  if ($("leagueBtn")) {
+
+    $("leagueBtn").onclick =
+      function () {
+
+        document
+          .querySelectorAll(".page")
+          .forEach(
+            page =>
+              page.classList.remove(
+                "active"
+              )
           );
 
-        tr.innerHTML = `
-          <td>
-            ${index + 1}
-          </td>
+        if ($("leaguePage")) {
 
-          <td>
-            ${escapeHtml(
-              player.name
-            )}
-          </td>
+          $("leaguePage")
+            .classList
+            .add("active");
+        }
 
-          <td>
-            ${player.rounds}
-          </td>
-
-          <td>
-            ${player.wins}
-          </td>
-
-          <td>
-            ${player.points}
-          </td>
-        `;
-
-        tbody.appendChild(
-          tr
-        );
-      }
-    );
-
-    if (
-      !list.length
-    ) {
-
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="5">
-            Belum ada data liga.
-          </td>
-        </tr>
-      `;
-    }
+        renderLeague();
+      };
   }
-
-
-  /* =========================================================
-     LOCAL RESULT
-     ========================================================= */
-
-  function renderLocalResults() {
-
-    if (
-      !localResults.length
-    ) {
-      return;
-    }
-
-    /*
-     * Jika semua pemain masih punya batu,
-     * berarti ini hasil permainan buntu.
-     */
-
-    const isBlocked =
-      localResults.every(
-        (result) =>
-          Number(
-            result.handCount
-          ) > 0
-      );
-
-    showModal(
-      "Ronde Selesai",
-
-      isBlocked
-        ? "PERMAINAN BUNTU • ANGKA TERKECIL MENANG"
-        : "Hasil ronde lokal",
-
-      localResults
-    );
-
-    const nextBtn =
-      $("nextBtn");
-
-    if (nextBtn) {
-      nextBtn.disabled =
-        false;
-    }
-  }
-
-
-  /* =========================================================
-     MODAL
-     ========================================================= */
-
-  function showModal(
-    title,
-    sub,
-    results
-  ) {
-
-    const modal =
-      $("modal");
-
-    if (!modal) {
-      return;
-    }
-
-    setText(
-      "modalTitle",
-      title
-    );
-
-    setText(
-      "modalSub",
-      sub
-    );
-
-    const resultBox =
-      $("results");
-
-    if (!resultBox) {
-      return;
-    }
-
-    resultBox.innerHTML =
-      "";
-
-    results.forEach(
-      (result) => {
-
-        const div =
-          document.createElement(
-            "div"
-          );
-
-        div.className =
-          "result-row";
-
-        div.innerHTML = `
-          <div>
-            <strong>
-              #${result.rank}
-              ${escapeHtml(
-                result.name
-              )}
-            </strong>
-
-            <small>
-              ${Number(
-                result.pips ||
-                  0
-              )} angka
-              •
-              ${Number(
-                result.handCount ||
-                  0
-              )} batu
-            </small>
-          </div>
-
-          <strong>
-            +${Number(
-              result.points ||
-                0
-            )}
-          </strong>
-        `;
-
-        resultBox.appendChild(
-          div
-        );
-      }
-    );
-
-    show(
-      "modal"
-    );
-  }
-
-
-  function closeModal() {
-    hide(
-      "modal"
-    );
-  }
-
-
-  /* =========================================================
-     NEXT ROUND
-     ========================================================= */
-
-  async function nextRound() {
-
-    closeModal();
-
-    if (
-      mode === "local"
-    ) {
-
-      localRound++;
-
-      startLocalGame(
-        false
-      );
-
-      return;
-    }
-
-    if (
-      mode === "online" &&
-      roomData &&
-      roomData.hostUid ===
-        currentUid
-    ) {
-
-      await startOnlineRound();
-    }
-  }
-
-
-  /* =========================================================
-     LEAVE / MENU
-     ========================================================= */
-
-  function goMenu() {
-
-    if (roomUnsub) {
-
-      roomUnsub();
-
-      roomUnsub = null;
-    }
-
-    if (actionUnsub) {
-
-      actionUnsub();
-
-      actionUnsub = null;
-    }
-
-    if (handUnsub) {
-
-      handUnsub();
-
-      handUnsub = null;
-    }
-
-    roomId =
-      null;
-
-    roomData =
-      null;
-
-    onlineHand =
-      [];
-
-    processingActions =
-      {};
-
-    mode =
-      "local";
-
-    hide(
-      "app"
-    );
-
-    show(
-      "loginScreen"
-    );
-
-    closeModal();
-
-    setText(
-      "roomCode",
-      "LOCAL"
-    );
-
-    setText(
-      "onlineState",
-      "Lokal"
-    );
-  }
-
 
   /* =========================================================
      COPY ROOM
      ========================================================= */
 
-  async function copyRoom() {
+  if ($("copyRoomBtn")) {
 
-    const code =
-      roomData?.code ||
-      roomId;
+    $("copyRoomBtn").onclick =
+      async function () {
 
-    if (!code) {
-      return;
-    }
+        const code =
+          $("roomCode")
+            ?.textContent || "";
 
-    try {
+        if (
+          !code ||
+          code === "LOCAL"
+        ) {
+          return;
+        }
 
-      await navigator.clipboard.writeText(
-        code
-      );
+        try {
 
-      setStatus(
-        "Kode room berhasil disalin: " +
-          code,
-        "success"
-      );
+          await navigator.clipboard
+            .writeText(code);
 
-    } catch (error) {
+          setStatus(
+            "Kode room berhasil disalin: " +
+            code
+          );
 
-      window.prompt(
-        "Salin kode room:",
-        code
-      );
-    }
+        } catch {
+
+          alert(
+            "Kode room: " +
+            code
+          );
+        }
+      };
   }
-
-
-  /* =========================================================
-     TABS
-     ========================================================= */
-
-  function switchMode(
-    newMode
-  ) {
-
-    mode =
-      newMode;
-
-    const localTab =
-      $("localTab");
-
-    const onlineTab =
-      $("onlineTab");
-
-    const localPanel =
-      $("localPanel");
-
-    const onlinePanel =
-      $("onlinePanel");
-
-    if (
-      newMode ===
-      "local"
-    ) {
-
-      localTab?.classList.add(
-        "active"
-      );
-
-      onlineTab?.classList.remove(
-        "active"
-      );
-
-      localPanel?.classList.remove(
-        "hidden"
-      );
-
-      onlinePanel?.classList.add(
-        "hidden"
-      );
-
-    } else {
-
-      localTab?.classList.remove(
-        "active"
-      );
-
-      onlineTab?.classList.add(
-        "active"
-      );
-
-      localPanel?.classList.add(
-        "hidden"
-      );
-
-      onlinePanel?.classList.remove(
-        "hidden"
-      );
-
-      if (
-        firebaseReady
-      ) {
-
-        setFirebaseStatus(
-          "Firebase Connected",
-          "success"
-        );
-      }
-    }
-  }
-
-
-  /* =========================================================
-     HUMAN COUNT UI
-     ========================================================= */
-
-  function updateHumanInputs() {
-
-    const count =
-      getHumanCount();
-
-    if (
-      count >= 2
-    ) {
-
-      $("name2Wrap")
-        ?.classList.remove(
-          "hidden"
-        );
-
-    } else {
-
-      $("name2Wrap")
-        ?.classList.add(
-          "hidden"
-        );
-    }
-
-    if (
-      count >= 3
-    ) {
-
-      $("name3Wrap")
-        ?.classList.remove(
-          "hidden"
-        );
-
-    } else {
-
-      $("name3Wrap")
-        ?.classList.add(
-          "hidden"
-        );
-    }
-  }
-
 
   /* =========================================================
      RESET LEAGUE
      ========================================================= */
 
-  function resetLeague() {
+  if ($("resetLeague")) {
 
-    const yes =
-      confirm(
-        "Hapus semua data Liga lokal?"
-      );
+    $("resetLeague").onclick =
+      function () {
 
-    if (!yes) {
-      return;
-    }
+        if (
+          !confirm(
+            "Reset semua poin liga lokal?"
+          )
+        ) {
+          return;
+        }
 
-    localStorage.removeItem(
-      LEAGUE_KEY
-    );
+        league = [];
 
-    renderStandings();
-
-    setStatus(
-      "Data Liga berhasil dihapus.",
-      "success"
-    );
+        saveLeague();
+      };
   }
 
-
   /* =========================================================
-     EVENT HANDLERS
+     START LOCAL BUTTON
      ========================================================= */
 
-  function bindEvents() {
+  if ($("startLocalBtn")) {
 
-    $("localTab")
-      ?.addEventListener(
-        "click",
-        () =>
-          switchMode(
-            "local"
+    $("startLocalBtn").onclick =
+      startLocalGame;
+  }
+
+  /* =========================================================
+     PLAYER COUNT
+     ========================================================= */
+
+  if ($("humanCount")) {
+
+    $("humanCount").onchange =
+      updateNameInputs;
+  }
+
+  /* =========================================================
+     TABS
+     ========================================================= */
+
+  if ($("localTab")) {
+
+    $("localTab").onclick =
+      () => switchTab("local");
+  }
+
+  if ($("onlineTab")) {
+
+    $("onlineTab").onclick =
+      () => switchTab("online");
+  }
+
+  /* =========================================================
+     OPEN GAME PAGE
+     ========================================================= */
+
+  function openGamePage() {
+
+    document
+      .querySelectorAll(".page")
+      .forEach(
+        page =>
+          page.classList.remove(
+            "active"
           )
       );
 
-
-    $("onlineTab")
-      ?.addEventListener(
-        "click",
-        () =>
-          switchMode(
-            "online"
-          )
-      );
-
-
-    $("humanCount")
-      ?.addEventListener(
-        "change",
-        updateHumanInputs
-      );
-
-
-    $("startLocalBtn")
-      ?.addEventListener(
-        "click",
-        () =>
-          startLocalGame(
-            true
-          )
-      );
-
-
-    $("createRoomBtn")
-      ?.addEventListener(
-        "click",
-        createRoom
-      );
-
-
-    $("joinRoomBtn")
-      ?.addEventListener(
-        "click",
-        joinRoom
-      );
-
-
-    $("roomCodeInput")
-      ?.addEventListener(
-        "input",
-        (event) => {
-
-          event.target.value =
-            event.target.value
-              .toUpperCase()
-              .replace(
-                /[^A-Z0-9]/g,
-                ""
-              )
-              .slice(
-                0,
-                6
-              );
-        }
-      );
-
-
-    $("startOnlineBtn")
-      ?.addEventListener(
-        "click",
-        startOnlineRound
-      );
-
-
-    $("drawBtn")
-      ?.addEventListener(
-        "click",
-        () => {
-
-          if (
-            mode ===
-            "local"
-          ) {
-
-            localDraw();
-
-          } else {
-
-            sendOnlineAction(
-              "draw"
-            );
-          }
-        }
-      );
-
-
-    $("passBtn")
-      ?.addEventListener(
-        "click",
-        () => {
-
-          if (
-            mode ===
-            "local"
-          ) {
-
-            localPass();
-
-          } else {
-
-            sendOnlineAction(
-              "pass"
-            );
-          }
-        }
-      );
-
-
-    $("newGameBtn")
-      ?.addEventListener(
-        "click",
-        goMenu
-      );
-
-
-    $("leagueBtn")
-      ?.addEventListener(
-        "click",
-        () => {
-
-          renderStandings();
-
-          $("gamePage")
-            ?.classList.remove(
-              "active"
-            );
-
-          $("leaguePage")
-            ?.classList.add(
-              "active"
-            );
-        }
-      );
-
-
-    $("resetLeague")
-      ?.addEventListener(
-        "click",
-        resetLeague
-      );
-
-
-    $("copyRoomBtn")
-      ?.addEventListener(
-        "click",
-        copyRoom
-      );
-
-
-    $("nextBtn")
-      ?.addEventListener(
-        "click",
-        nextRound
-      );
-
-
-    $("modal")
-      ?.addEventListener(
-        "click",
-        (event) => {
-
-          if (
-            event.target ===
-            $("modal")
-          ) {
-
-            closeModal();
-          }
-        }
-      );
-  }
-
-
-  /* =========================================================
-     AUTH STATE
-     ========================================================= */
-
-  function watchAuth() {
-
-    if (!auth) {
-      return;
-    }
-
-    auth.onAuthStateChanged(
-      (user) => {
-
-        if (user) {
-
-          currentUid =
-            user.uid;
-
-          console.log(
-            "Firebase UID:",
-            currentUid
-          );
-
-          if (
-            roomId
-          ) {
-
-            subscribeMyHand();
-
-            subscribeActions();
-          }
-        }
-      }
-    );
-  }
-
-
-  /* =========================================================
-     INITIALIZE
-     ========================================================= */
-
-  async function init() {
-
-    loadNames();
-
-    updateHumanInputs();
-
-    bindEvents();
-
-    switchMode(
-      "local"
-    );
-
-    renderStandings();
-
-    setFirebaseStatus(
-      "Menghubungkan Firebase...",
-      ""
-    );
-
-    await initFirebase();
-
-    /*
-     * Jika room sudah tersedia,
-     * pastikan listener aktif.
-     */
-
-    if (
-      roomId
-    ) {
-
-      subscribeRoom();
-
-      subscribeMyHand();
-
-      subscribeActions();
+    if ($("gamePage")) {
+
+      $("gamePage")
+        .classList
+        .add("active");
     }
   }
 
-
   /* =========================================================
-     START
+     INITIALIZATION
      ========================================================= */
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+  if ($("createRoomBtn")) {
+    $("createRoomBtn").disabled =
+      true;
+  }
 
-      await init();
+  if ($("joinRoomBtn")) {
+    $("joinRoomBtn").disabled =
+      true;
+  }
 
-      watchAuth();
+  /* HILANGKAN AMBIL KARTU DARI AWAL */
 
-      console.log(
-        "Mbicukia Domino FINAL V2 loaded."
-      );
+  if ($("drawBtn")) {
+
+    $("drawBtn").style.display =
+      "none";
+
+    $("drawBtn").disabled =
+      true;
+  }
+
+  /* PASS BUTTON */
+
+  if ($("passBtn")) {
+
+    $("passBtn").textContent =
+      "Lewat";
+  }
+
+  loadNames();
+
+  loadLeague();
+
+  updateNameInputs();
+
+  switchTab("local");
+
+  openGamePage();
+
+  if (firebaseReady()) {
+
+    initFirebase();
+
+  } else {
+
+    if ($("firebaseStatus")) {
+
+      $("firebaseStatus").textContent =
+        "Firebase belum dikonfigurasi.";
     }
-  );
+  }
 
 })();
