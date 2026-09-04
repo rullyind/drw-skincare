@@ -1,17 +1,12 @@
 /* =========================================================
-   MBICUKIA DOMINO — AUTOMATIC MATCHING PATH V3
-   VISUAL ONLY
-   - Batu tidak saling menempel.
-   - Urutan visual mengikuti angka domino yang tersambung.
-   - Setiap batu diputar agar angka yang sama berada di sisi sambungan.
-   - Path otomatis berbelok kanan -> atas -> kiri -> bawah -> kanan.
-   - Tidak mengubah Firebase, giliran, hand, atau aturan game.
+   MBICUKIA DOMINO — AUTOMATIC MATCHING PATH V4
+   VISUAL BOARD ONLY
    ========================================================= */
 (function () {
   "use strict";
 
   const MAX_TILES = 28;
-  const STYLE_ID = "d2t-domino-path-v3-style";
+  const STYLE_ID = "d2t-domino-path-v4-style";
 
   function installVisualStyle() {
     if (document.getElementById(STYLE_ID)) return;
@@ -19,32 +14,38 @@
     const style = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
+      /* =====================================================
+         JARAK BATU — SENGAJA DIBUAT LEBIH LONGGAR
+         Ukuran cell jauh lebih besar daripada ukuran batu,
+         sehingga batu tidak mungkin saling menempel.
+         ===================================================== */
       .table-wrap .board {
-        --cell: 96px !important;
+        --cell: 110px !important;
+        display: grid !important;
         grid-template-columns: repeat(12, var(--cell)) !important;
         grid-template-rows: repeat(5, var(--cell)) !important;
         width: calc(12 * var(--cell)) !important;
         min-width: calc(12 * var(--cell)) !important;
         height: calc(5 * var(--cell)) !important;
         min-height: calc(5 * var(--cell)) !important;
-        column-gap: 0 !important;
-        row-gap: 0 !important;
+        gap: 0 !important;
+        padding: 0 !important;
         overflow: visible !important;
       }
 
       .table-wrap .board > .board-tile {
-        width: 50px !important;
-        height: 86px !important;
+        width: 46px !important;
+        height: 80px !important;
+        min-width: 46px !important;
+        min-height: 80px !important;
+        max-width: 46px !important;
+        max-height: 80px !important;
         margin: 0 !important;
         padding: 4px !important;
         flex: none !important;
-        transform-origin: center center !important;
-        transition: transform .22s ease, grid-column .22s ease, grid-row .22s ease !important;
         box-sizing: border-box !important;
-      }
-
-      .table-wrap .board > .board-tile .domino-half {
-        min-height: 0 !important;
+        transform-origin: center center !important;
+        transition: transform .2s ease !important;
       }
 
       .table-wrap .board > .board-tile .domino-half .pip {
@@ -52,30 +53,40 @@
         height: 8px !important;
       }
 
+      /* Ruang visual tambahan di antara batu */
       .table-wrap .board > .board-tile.auto-path-tile {
+        outline: 0 solid transparent !important;
         box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.96),
-          inset 0 -2px 4px rgba(70,55,35,.15),
-          0 5px 12px rgba(0,0,0,.34) !important;
+          inset 0 1px 0 rgba(255,255,255,.98),
+          inset 0 -2px 4px rgba(70,55,35,.16),
+          0 5px 14px rgba(0,0,0,.36) !important;
       }
 
       @media (max-width: 900px) {
         .table-wrap .board {
-          --cell: 88px !important;
+          --cell: 96px !important;
         }
         .table-wrap .board > .board-tile {
-          width: 46px !important;
-          height: 80px !important;
+          width: 43px !important;
+          height: 76px !important;
+          min-width: 43px !important;
+          max-width: 43px !important;
+          min-height: 76px !important;
+          max-height: 76px !important;
         }
       }
 
       @media (max-width: 700px) {
         .table-wrap .board {
-          --cell: 80px !important;
+          --cell: 86px !important;
         }
         .table-wrap .board > .board-tile {
-          width: 43px !important;
-          height: 74px !important;
+          width: 40px !important;
+          height: 70px !important;
+          min-width: 40px !important;
+          max-width: 40px !important;
+          min-height: 70px !important;
+          max-height: 70px !important;
         }
         .table-wrap .board > .board-tile .domino-half .pip {
           width: 7px !important;
@@ -85,11 +96,15 @@
 
       @media (max-width: 480px) {
         .table-wrap .board {
-          --cell: 74px !important;
+          --cell: 78px !important;
         }
         .table-wrap .board > .board-tile {
-          width: 40px !important;
-          height: 68px !important;
+          width: 36px !important;
+          height: 64px !important;
+          min-width: 36px !important;
+          max-width: 36px !important;
+          min-height: 64px !important;
+          max-height: 64px !important;
         }
         .table-wrap .board > .board-tile .domino-half .pip {
           width: 6px !important;
@@ -97,111 +112,113 @@
         }
       }
     `;
-
     document.head.appendChild(style);
   }
 
-  /* Jalur 28 posisi. Setiap posisi adalah titik tengah satu batu. */
+  /* =========================================================
+     PATH 28 BATU
+     kanan -> atas -> kiri -> bawah -> kanan
+     ========================================================= */
   function buildDominoPath(count) {
     const path = [];
 
-    const addHorizontal = (row, from, to) => {
+    function horizontal(row, from, to) {
       const step = from <= to ? 1 : -1;
       for (let col = from; ; col += step) {
         path.push({ col, row, direction: "horizontal" });
         if (col === to) break;
       }
-    };
+    }
 
-    const addVertical = (col, from, to) => {
+    function vertical(col, from, to) {
       const step = from <= to ? 1 : -1;
       for (let row = from; ; row += step) {
         path.push({ col, row, direction: "vertical" });
         if (row === to) break;
       }
-    };
+    }
 
-    addHorizontal(4, 3, 9); // 1-7  -> kanan
-    addVertical(10, 3, 2);  // 8-9  -> naik
-    addHorizontal(2, 9, 2); // 10-17 -> kiri
-    addVertical(2, 3, 5);   // 18-20 -> turun
-    addHorizontal(5, 3, 10);// 21-28 -> kanan
+    horizontal(4, 3, 9); // 1-7 kanan
+    vertical(10, 3, 2);  // 8-9 atas
+    horizontal(2, 9, 2); // 10-17 kiri
+    vertical(2, 3, 5);   // 18-20 bawah
+    horizontal(5, 3, 10);// 21-28 kanan
 
     return path.slice(0, Math.min(Number(count) || 0, MAX_TILES));
   }
 
-  function getBoardElement() {
+  function getBoard() {
     return document.getElementById("board") || document.querySelector(".board");
   }
 
-  function getBoardTiles(board) {
+  function getTiles(board) {
     return Array.from(board.querySelectorAll(":scope > .board-tile"));
   }
 
-  function tileValues(tile) {
+  function values(tile) {
     return {
       a: Number(tile.dataset.a),
       b: Number(tile.dataset.b)
     };
   }
 
-  /*
-     Cari rantai visual dari batu yang sedang ada di meja.
-     Ini hanya mengubah urutan DOM, bukan array/data permainan.
-  */
+  /* =========================================================
+     CARI RANTAI BERDASARKAN ANGKA
+     Contoh hasil:
+       6|4 -> 4|2 -> 2|5 -> 5|5
+     ========================================================= */
   function buildVisualChain(tiles) {
     if (tiles.length <= 1) {
-      return tiles.map(element => ({ element, reversed: false }));
+      return tiles.map(tile => {
+        const v = values(tile);
+        return { element: tile, left: v.a, right: v.b, unmatched: false };
+      });
     }
 
     const unused = tiles.slice();
     const chain = [];
 
-    // Batu pertama tetap menjadi titik awal.
     const first = unused.shift();
-    let firstValues = tileValues(first);
+    const fv = values(first);
     chain.push({
       element: first,
-      reversed: false,
-      left: firstValues.a,
-      right: firstValues.b
+      left: fv.a,
+      right: fv.b,
+      unmatched: false
     });
 
-    let openNumber = firstValues.b;
+    let open = fv.b;
 
     while (unused.length) {
-      let foundIndex = -1;
-      let reversed = false;
+      let index = -1;
+      let reverse = false;
 
-      // Prioritas: a sama dengan angka ujung rantai.
+      // Cari angka yang sama pada sisi pertama.
       for (let i = 0; i < unused.length; i++) {
-        const v = tileValues(unused[i]);
-        if (v.a === openNumber) {
-          foundIndex = i;
-          reversed = false;
+        if (values(unused[i]).a === open) {
+          index = i;
+          reverse = false;
           break;
         }
       }
 
-      // Jika b yang sama, batu dibalik secara visual.
-      if (foundIndex < 0) {
+      // Kalau ada pada sisi kedua, balik batu.
+      if (index < 0) {
         for (let i = 0; i < unused.length; i++) {
-          const v = tileValues(unused[i]);
-          if (v.b === openNumber) {
-            foundIndex = i;
-            reversed = true;
+          if (values(unused[i]).b === open) {
+            index = i;
+            reverse = true;
             break;
           }
         }
       }
 
-      // Bila tidak ada pasangan, jangan hilangkan batu.
-      if (foundIndex < 0) {
-        unused.forEach(element => {
-          const v = tileValues(element);
+      // Sisa batu yang tidak bisa disambungkan tetap ditampilkan.
+      if (index < 0) {
+        unused.forEach(tile => {
+          const v = values(tile);
           chain.push({
-            element,
-            reversed: false,
+            element: tile,
             left: v.a,
             right: v.b,
             unmatched: true
@@ -210,110 +227,99 @@
         break;
       }
 
-      const picked = unused.splice(foundIndex, 1)[0];
-      const v = tileValues(picked);
-      const left = reversed ? v.b : v.a;
-      const right = reversed ? v.a : v.b;
+      const tile = unused.splice(index, 1)[0];
+      const v = values(tile);
+      const left = reverse ? v.b : v.a;
+      const right = reverse ? v.a : v.b;
 
       chain.push({
-        element: picked,
-        reversed,
+        element: tile,
         left,
-        right
+        right,
+        unmatched: false
       });
 
-      openNumber = right;
+      open = right;
     }
 
     return chain;
   }
 
-  /*
-     Rotasi mengikuti arah jalur dan orientasi angka.
-
-     Batu dasar:
+  /* =========================================================
+     ROTASI
+     Batu asli:
        a = atas
        b = bawah
 
-     -90° : a kiri,  b kanan
-      90° : b kiri,  a kanan
-       0° : a atas,  b bawah
-     180° : b atas,  a bawah
-  */
-  function rotationFor(chainItem, point, previousNumber) {
-    const v = tileValues(chainItem.element);
-    const start = chainItem.left;
-    const end = chainItem.right;
+     -90 = a kiri / b kanan
+      90 = b kiri / a kanan
+       0 = a atas / b bawah
+     180 = b atas / a bawah
+     ========================================================= */
+  function getRotation(item, point, index, path) {
+    const v = values(item.element);
+    const sameOrder = item.left === v.a && item.right === v.b;
+
+    const previous = path[index - 1] || null;
+    const next = path[index + 1] || null;
 
     if (point.direction === "horizontal") {
-      // Jalur horizontal bergerak mengikuti koordinat path.
-      // Pada baris 4 dan 5 bergerak ke kanan; baris 2 bergerak ke kiri.
-      const previousPoint = point.__previous;
-      const nextPoint = point.__next;
-      const movingRight = nextPoint ? nextPoint.col > point.col : previousPoint ? point.col > previousPoint.col : true;
+      const movingRight = next
+        ? next.col > point.col
+        : previous
+          ? point.col > previous.col
+          : true;
 
-      if (movingRight) {
-        // start di kiri, end di kanan.
-        return start === v.a && end === v.b ? -90 : 90;
-      }
-
-      // moving left: start berada di kanan, end di kiri.
-      return start === v.a && end === v.b ? 90 : -90;
+      if (movingRight) return sameOrder ? -90 : 90;
+      return sameOrder ? 90 : -90;
     }
 
-    // Jalur vertikal:
-    // row mengecil = bergerak ke atas, row membesar = turun.
-    const previousPoint = point.__previous;
-    const nextPoint = point.__next;
-    const movingDown = nextPoint ? nextPoint.row > point.row : previousPoint ? point.row > previousPoint.row : true;
+    const movingDown = next
+      ? next.row > point.row
+      : previous
+        ? point.row > previous.row
+        : true;
 
-    if (movingDown) {
-      return start === v.a && end === v.b ? 0 : 180;
-    }
-
-    return start === v.a && end === v.b ? 180 : 0;
+    if (movingDown) return sameOrder ? 0 : 180;
+    return sameOrder ? 180 : 0;
   }
 
-  function applyDominoPath() {
-    const board = getBoardElement();
+  function apply() {
+    const board = getBoard();
     if (!board) return;
 
     installVisualStyle();
 
-    const originalTiles = getBoardTiles(board);
-    if (!originalTiles.length) return;
+    const tiles = getTiles(board);
+    if (!tiles.length) return;
 
-    const visualChain = buildVisualChain(originalTiles);
-    const path = buildDominoPath(visualChain.length);
+    const chain = buildVisualChain(tiles);
+    const path = buildDominoPath(chain.length);
 
-    path.forEach((point, index) => {
-      point.__previous = path[index - 1] || null;
-      point.__next = path[index + 1] || null;
-    });
+    // Hanya urutan DOM visual yang diubah.
+    const wanted = chain.map(item => item.element);
+    const current = getTiles(board);
+    const different = current.length !== wanted.length || current.some((tile, i) => tile !== wanted[i]);
 
-    // Susun ulang DOM hanya jika memang berbeda.
-    const desiredOrder = visualChain.map(item => item.element);
-    const currentOrder = getBoardTiles(board);
-    const changed = currentOrder.some((tile, index) => tile !== desiredOrder[index]);
-
-    if (changed) {
-      desiredOrder.forEach(tile => board.appendChild(tile));
+    if (different) {
+      wanted.forEach(tile => board.appendChild(tile));
     }
 
-    visualChain.forEach((item, index) => {
+    chain.forEach((item, index) => {
       const tile = item.element;
       const point = path[index];
       if (!point) return;
 
-      const rotation = rotationFor(item, point, index > 0 ? visualChain[index - 1].right : null);
+      const rotation = getRotation(item, point, index, path);
 
       tile.classList.add("auto-path-tile");
       tile.style.gridColumn = String(point.col);
       tile.style.gridRow = String(point.row);
       tile.style.transform = `rotate(${rotation}deg)`;
       tile.style.transformOrigin = "center center";
-      tile.style.zIndex = String(10 + index);
       tile.style.margin = "0";
+      tile.style.zIndex = String(100 + index);
+
       tile.dataset.pathIndex = String(index + 1);
       tile.dataset.pathDirection = point.direction;
       tile.dataset.pathRotation = String(rotation);
@@ -323,43 +329,39 @@
     });
   }
 
-  function installObserver() {
-    const board = getBoardElement();
-    if (!board) return false;
-
-    applyDominoPath();
-
-    if (!board.__d2tDominoPathObserver) {
-      const observer = new MutationObserver(() => {
-        if (board.__d2tDominoPathScheduled) return;
-        board.__d2tDominoPathScheduled = true;
-
-        requestAnimationFrame(() => {
-          board.__d2tDominoPathScheduled = false;
-          applyDominoPath();
-        });
-      });
-
-      observer.observe(board, {
-        childList: true,
-        subtree: false
-      });
-
-      board.__d2tDominoPathObserver = observer;
-    }
-
-    return true;
-  }
-
   function boot() {
     installVisualStyle();
 
-    if (installObserver()) return;
+    const start = () => {
+      apply();
 
-    let attempts = 0;
+      const board = getBoard();
+      if (!board || board.__d2tPathObserver) return;
+
+      const observer = new MutationObserver(() => {
+        if (board.__d2tPathTimer) return;
+        board.__d2tPathTimer = requestAnimationFrame(() => {
+          board.__d2tPathTimer = 0;
+          apply();
+        });
+      });
+
+      observer.observe(board, { childList: true });
+      board.__d2tPathObserver = observer;
+    };
+
+    if (getBoard()) {
+      start();
+      return;
+    }
+
+    let tries = 0;
     const timer = setInterval(() => {
-      attempts += 1;
-      if (installObserver() || attempts >= 50) {
+      tries++;
+      if (getBoard()) {
+        clearInterval(timer);
+        start();
+      } else if (tries >= 60) {
         clearInterval(timer);
       }
     }, 100);
@@ -373,7 +375,7 @@
 
   window.D2T_DOMINO_PATH = {
     build: buildDominoPath,
-    apply: applyDominoPath,
+    apply,
     buildVisualChain
   };
 })();
