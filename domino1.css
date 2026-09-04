@@ -114,3 +114,179 @@ body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#293741,
     height: 6px;
   }
 }
+
+/* =========================================================
+   MBICUKIA DOMINO — PREMIUM TABLE PATH V2
+   Visual only: game rules / Firebase / turn logic untouched.
+   Board order is shown as a clean serpentine path instead of
+   one long straight row. The path turns upward at the right,
+   travels back across the top, then turns down on the left.
+   ========================================================= */
+.table-wrap{
+  position:relative;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(51,145,106,.18), transparent 48%),
+    linear-gradient(145deg,#17684c 0%,#0b4a36 52%,#063728 100%);
+  border:10px solid #4a351e;
+  box-shadow:
+    inset 0 0 0 2px rgba(231,189,101,.18),
+    inset 0 0 55px rgba(0,0,0,.52),
+    0 18px 40px rgba(0,0,0,.35);
+}
+
+.board{
+  --cell:72px;
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(12,var(--cell));
+  grid-template-rows:repeat(5,var(--cell));
+  align-items:center;
+  justify-items:center;
+  width:calc(12 * var(--cell));
+  min-width:calc(12 * var(--cell));
+  height:calc(5 * var(--cell));
+  min-height:calc(5 * var(--cell));
+  padding:0;
+  margin:0 auto;
+  gap:0;
+  isolation:isolate;
+}
+
+.board::before{
+  content:"";
+  position:absolute;
+  left:calc(var(--cell) * 1.45);
+  right:calc(var(--cell) * 1.45);
+  top:calc(var(--cell) * 1.35);
+  height:calc(var(--cell) * 2.35);
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:28px;
+  box-shadow:inset 0 0 28px rgba(0,0,0,.12);
+  pointer-events:none;
+  z-index:-1;
+}
+
+.board .empty{
+  grid-column:1 / -1;
+  grid-row:1 / -1;
+  align-self:center;
+  justify-self:center;
+  padding:18px 24px;
+  border:1px dashed rgba(215,241,229,.22);
+  border-radius:14px;
+  background:rgba(0,0,0,.10);
+  letter-spacing:.4px;
+}
+
+.board-tile{
+  width:44px;
+  height:82px;
+  margin:0;
+  z-index:2;
+  border-radius:10px;
+  border:1px solid rgba(79,62,36,.58);
+  background:
+    radial-gradient(circle at 22% 15%,rgba(255,255,255,.98),rgba(255,255,255,0) 30%),
+    linear-gradient(145deg,#fffef8 0%,#f3eddf 45%,#d7ccb8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -3px 5px rgba(64,47,28,.16),
+    0 6px 12px rgba(0,0,0,.34);
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+}
+
+.board-tile:hover{
+  z-index:5;
+  filter:brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    0 9px 18px rgba(0,0,0,.4),
+    0 0 0 1px rgba(231,189,101,.35);
+}
+
+.board-tile .domino-half{
+  padding:7px;
+}
+
+.board-tile .domino-half .pip{
+  width:8px;
+  height:8px;
+  background:
+    radial-gradient(circle at 32% 28%,#707070 0 10%,#202020 40%,#050505 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.3),
+    0 1px 2px rgba(0,0,0,.55);
+}
+
+/* Main run: tiles 1–7 go toward the right. */
+.board-tile:nth-child(1){grid-column:3;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(2){grid-column:4;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(3){grid-column:5;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(4){grid-column:6;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(5){grid-column:7;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(6){grid-column:8;grid-row:4;transform:rotate(90deg)}
+.board-tile:nth-child(7){grid-column:9;grid-row:4;transform:rotate(90deg)}
+
+/* Right corner: tiles 8–9 turn upward. */
+.board-tile:nth-child(8){grid-column:10;grid-row:3}
+.board-tile:nth-child(9){grid-column:10;grid-row:2}
+
+/* Upper run: tiles 10–17 travel back to the left. */
+.board-tile:nth-child(10){grid-column:9;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(11){grid-column:8;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(12){grid-column:7;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(13){grid-column:6;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(14){grid-column:5;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(15){grid-column:4;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(16){grid-column:3;grid-row:2;transform:rotate(90deg)}
+.board-tile:nth-child(17){grid-column:2;grid-row:2;transform:rotate(90deg)}
+
+/* Left corner: tiles 18–20 turn downward. */
+.board-tile:nth-child(18){grid-column:2;grid-row:3}
+.board-tile:nth-child(19){grid-column:2;grid-row:4}
+.board-tile:nth-child(20){grid-column:2;grid-row:5}
+
+/* Lower return run: tiles 21–28 travel right again. */
+.board-tile:nth-child(21){grid-column:3;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(22){grid-column:4;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(23){grid-column:5;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(24){grid-column:6;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(25){grid-column:7;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(26){grid-column:8;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(27){grid-column:9;grid-row:5;transform:rotate(90deg)}
+.board-tile:nth-child(28){grid-column:10;grid-row:5;transform:rotate(90deg)}
+
+/* Subtle connector glow so the path reads as one chain. */
+.board-tile::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:7px;
+  pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+}
+
+@media(max-width:900px){
+  .board{--cell:64px}
+  .board-tile{width:40px;height:76px}
+  .board-tile .domino-half{padding:6px}
+  .board-tile .domino-half .pip{width:7px;height:7px}
+  .table-wrap{min-height:360px}
+}
+
+@media(max-width:600px){
+  .board{--cell:57px}
+  .board-tile{width:37px;height:70px;border-radius:8px}
+  .board-tile .domino-half{padding:5px}
+  .board-tile .domino-half .pip{width:6px;height:6px}
+  .table-wrap{border-width:7px;border-radius:15px;min-height:320px}
+}
+
+@media(max-width:420px){
+  .board{--cell:50px}
+  .board-tile{width:34px;height:64px}
+  .board-tile .domino-half .pip{width:5px;height:5px}
+}
