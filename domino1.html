@@ -149,6 +149,17 @@ window.D2T_FIREBASE_CONFIG = {
 <!-- Path otomatis harus dimuat sebelum game agar observer siap saat board dirender. -->
 <script src="domino-path.js"></script>
 
+<!-- NONAKTIFKAN ANIMASI PUTAR BATU.
+     Posisi dan arah batu tetap mengikuti path normal,
+     tetapi saat batu baru masuk meja tidak dianimasikan berputar. -->
+<style>
+  #board > .board-tile,
+  .table-wrap .board > .board-tile {
+    transition: none !important;
+    animation: none !important;
+  }
+</style>
+
 <!-- Hanya SATU script game. Isinya dibungkus IIFE agar tidak bentrok
      walaupun Live Server/HTML sempat memuat script dua kali. -->
 <script src="domino1.js"></script>
