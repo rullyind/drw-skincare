@@ -429,38 +429,245 @@
     }
   }
 
-  function renderLeague() {
-    const table = $("standings");
-
-    if (!table) return;
-
-    const sorted = [...league].sort(
-      (a, b) =>
-        Number(b.points) -
-          Number(a.points) ||
-        Number(b.wins) -
-          Number(a.wins) ||
-        a.name.localeCompare(b.name)
+function renderLeague(){
+  const arr=[...league]
+    .sort((a,b)=>
+      b.points-a.points ||
+      b.wins-a.wins ||
+      a.name.localeCompare(b.name)
     );
 
-    table.innerHTML = sorted
-      .map(
-        (player, index) => `
-          <tr>
-            <td>${index + 1}</td>
-            <td>
-              <b>${esc(player.name)}</b>
-            </td>
-            <td>${player.rounds}</td>
-            <td>${player.wins}</td>
-            <td>
-              <b>${player.points}</b>
-            </td>
-          </tr>
-        `
-      )
-      .join("");
+  $("standings").innerHTML=arr.map((p,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><b>${esc(p.name)}</b></td>
+      <td>${p.rounds}</td>
+      <td>${p.wins}</td>
+      <td><b>${p.points}</b></td>
+    </tr>
+  `).join("");
+$("leagueBtn").onclick=async()=>{
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  $("leaguePage").classList.add("active");
+
+  if(mode==="online" && roomId){
+    await renderOnlineLeague();
+  }else{
+    renderLeague();
   }
+
+  // Tombol kembali ke room
+  let btn=$("backToRoomFromLeague");
+
+  if(!btn){
+    btn=document.createElement("button");
+    btn.id="backToRoomFromLeague";
+    btn.type="button";
+    btn.textContent="← Kembali ke Room";
+
+    btn.style.cssText=`
+      display:block;
+      width:100%;
+      max-width:420px;
+      margin:18px auto;
+      padding:13px 18px;
+      border:0;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:700;
+      background:linear-gradient(135deg,#ff4fa3,#ff7ac3);
+      color:#fff;
+      box-shadow:0 8px 24px rgba(255,79,163,.25);
+    `;
+
+    btn.onclick=()=>{
+      document.querySelectorAll(".page")
+        .forEach(x=>x.classList.remove("active"));
+
+      $("gamePage").classList.add("active");
+
+      if(mode==="online" && roomData){
+        renderOnlineRoom();
+        setStatus("Kembali ke room.");
+      }
+    };
+
+    $("leaguePage").appendChild(btn);
+  }
+};
+
+  }
+
+// =====================================================
+// KELUAR DARI ROOM
+// =====================================================
+
+async function leaveOnlineRoom(){
+  if(!roomId || !currentUid){
+    location.reload();
+    return;
+  }
+
+  if(!confirm("Keluar dari room ini?"))return;
+
+  try{
+    const ref=roomRef();
+    const snap=await ref.get();
+
+    if(!snap.exists){
+      location.reload();
+      return;
+    }
+
+    const r=snap.data();
+    let ps=playerList(r);
+
+    // Hapus pemain yang keluar
+    ps=ps.filter(p=>p.uid!==currentUid);
+
+    // =================================================
+    // TIDAK ADA PEMAIN LAGI
+    // Reset Liga Online menjadi 0
+    // =================================================
+
+    if(ps.length===0){
+
+      await ref.update({
+        players:[],
+        onlineLeague:[],
+        onlineLeagueUpdatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+
+        status:"lobby",
+        round:0,
+        board:[],
+        left:null,
+        right:null,
+        turn:0,
+        boneyard:[],
+        finished:false,
+        results:[],
+        consecutivePasses:0,
+        finishReason:null,
+        blocked:false
+      });
+
+      // Hapus listener
+      if(roomUnsub){
+        roomUnsub();
+        roomUnsub=null;
+      }
+
+      if(actionUnsub){
+        actionUnsub();
+        actionUnsub=null;
+      }
+
+      alert("Semua pemain sudah keluar. Liga Room kembali 0.");
+
+      location.reload();
+      return;
+    }
+
+    // =================================================
+    // Masih ada pemain
+    // =================================================
+
+    let newHostUid=r.hostUid;
+
+    // Jika yang keluar adalah Host,
+    // pemain pertama menjadi Host baru.
+    if(currentUid===r.hostUid){
+      newHostUid=ps[0].uid;
+    }
+
+    // Susun ulang kursi
+    ps=ps.map((p,i)=>({
+      ...p,
+      seat:i
+    }));
+
+    // Ambil Liga lama
+    let onlineLeague=Array.isArray(r.onlineLeague)
+      ? r.onlineLeague
+      : [];
+
+    // Pemain yang sudah keluar tidak lagi
+    // dihitung di Liga room.
+    const activeUids=new Set(ps.map(p=>p.uid));
+
+    onlineLeague=onlineLeague
+      .filter(p=>activeUids.has(p.uid));
+
+    await ref.update({
+      players:ps,
+      hostUid:newHostUid,
+      onlineLeague,
+
+      // Jika game sedang berjalan, kembali ke lobby
+      // agar ronde baru tidak berjalan dengan pemain yang hilang.
+      status:"lobby",
+      finished:false,
+      results:[],
+      board:[],
+      left:null,
+      right:null,
+      turn:0,
+      consecutivePasses:0,
+      blocked:false,
+      finishReason:null,
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    if(roomUnsub){
+      roomUnsub();
+      roomUnsub=null;
+    }
+
+    if(actionUnsub){
+      actionUnsub();
+      actionUnsub=null;
+    }
+
+    alert("Kamu sudah keluar dari room.");
+
+    location.reload();
+
+  }catch(e){
+    console.error("leaveOnlineRoom:",e);
+    alert("Gagal keluar dari room: "+(e.message||e.code||e));
+  }
+}
+
+function createLeaveRoomButton(){
+
+  if($("leaveRoomBtn"))return;
+
+  const btn=document.createElement("button");
+
+  btn.id="leaveRoomBtn";
+  btn.type="button";
+  btn.textContent="🚪 Keluar Room";
+
+  btn.style.cssText=`
+    display:none;
+    width:100%;
+    max-width:220px;
+    margin:12px auto;
+    padding:11px 16px;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:12px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:700;
+    background:rgba(255,80,130,.10);
+    color:inherit;
+  `;
+
+  btn.onclick=leaveOnlineRoom;
+
+  $("gamePage").appendChild(btn);
+}
 
   /* =========================================================
      TAB
@@ -1861,52 +2068,20 @@ $("waitingCard").classList.toggle(
       hand.length === 0
     ) {
 
-      const results =
-        await calculateOnlineResults(
-          updatedPlayers,
-          player.uid
-        );
+updates.results=await calculateOnlineResults(ps,p.uid);
 
-      await roomRef().update({
+// Simpan hasil ronde ke Liga Online
+await roomRef().update(updates);
 
-        board:
-          encodeTiles(board),
+// Tambahkan poin ke Liga Online
+await updateOnlineLeague(updates.results);
 
-        left,
+await markActionProcessed(
+  actionId,
+  "Selesai: pemain habis batu. Poin Liga Online diperbarui."
+);
 
-        right,
-
-        boneyard: [],
-
-        players:
-          updatedPlayers,
-
-        consecutivePasses: 0,
-
-        turn,
-
-        status: "finished",
-
-        finished: true,
-
-        blocked: false,
-
-        finishReason: "empty",
-
-        results,
-
-        updatedAt:
-          firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-      });
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
+return;    }
 
     /* =====================================================
        SEMUA PEMAIN SUDAH PASS
@@ -1918,52 +2093,20 @@ $("waitingCard").classList.toggle(
         players.length
     ) {
 
-      const results =
-        await calculateOnlineResults(
-          updatedPlayers,
-          null
-        );
+updates.results=await calculateOnlineResults(ps,null);
 
-      await roomRef().update({
+// Simpan hasil ronde
+await roomRef().update(updates);
 
-        board:
-          encodeTiles(board),
+// Masukkan poin ke Liga Online
+await updateOnlineLeague(updates.results);
 
-        left,
+await markActionProcessed(
+  actionId,
+  "Selesai: semua pemain PASS. Poin Liga Online diperbarui."
+);
 
-        right,
-
-        boneyard: [],
-
-        players:
-          updatedPlayers,
-
-        consecutivePasses,
-
-        turn,
-
-        status: "finished",
-
-        finished: true,
-
-        blocked: true,
-
-        finishReason: "blocked",
-
-        results,
-
-        updatedAt:
-          firebase.firestore
-            .FieldValue
-            .serverTimestamp()
-      });
-
-      await markActionProcessed(
-        actionId
-      );
-
-      return;
-    }
+return;    }
 
     /* =====================================================
        TENTUKAN GILIRAN BERIKUTNYA
@@ -2026,99 +2169,87 @@ $("waitingCard").classList.toggle(
      ONLINE RESULTS
      ========================================================= */
 
-  async function calculateOnlineResults(
-    players,
-    emptyUid = null
-  ) {
+// =====================================================
+// LIGA ONLINE ROOM
+// Poin setiap ronde disimpan di Firestore.
+// 2 / 3 / 4 pemain tetap dihitung.
+// =====================================================
 
-    const rows = [];
+async function updateOnlineLeague(results){
+  if(!roomId || !results?.length)return;
 
-    for (
-      const player of players
-    ) {
+  try{
+    const snap=await roomRef().get();
+    if(!snap.exists)return;
 
-      const snapshot =
-        await roomRef()
-          .collection("hands")
-          .doc(player.uid)
-          .get();
+    const r=snap.data();
+    const oldLeague=Array.isArray(r.onlineLeague)
+      ? r.onlineLeague
+      : [];
 
-      const hand =
-        decodeTiles(
-          snapshot.data()?.tiles || []
-        );
+    const leagueMap={};
 
-      rows.push({
-
-        uid: player.uid,
-
-        name: player.name,
-
-        seat:
-          Number(player.seat || 0),
-
-        pips:
-          sumPips(hand),
-
-        handCount:
-          hand.length,
-
-        empty:
-          emptyUid !== null &&
-          player.uid === emptyUid
-      });
-    }
-
-    rows.sort(
-      (a, b) => {
-
-        /* Jika ada pemain habis batu,
-           dia selalu peringkat 1. */
-
-        if (
-          a.empty &&
-          !b.empty
-        ) {
-          return -1;
-        }
-
-        if (
-          !a.empty &&
-          b.empty
-        ) {
-          return 1;
-        }
-
-        /* Permainan buntu:
-           angka terkecil menang. */
-
-        return (
-          Number(a.pips) -
-            Number(b.pips) ||
-
-          Number(a.handCount) -
-            Number(b.handCount) ||
-
-          Number(a.seat) -
-            Number(b.seat)
-        );
+    // Ambil poin lama
+    oldLeague.forEach(p=>{
+      if(p?.uid){
+        leagueMap[p.uid]={
+          uid:p.uid,
+          name:p.name||"Pemain",
+          rounds:Number(p.rounds||0),
+          wins:Number(p.wins||0),
+          points:Number(p.points||0)
+        };
       }
-    );
+    });
 
-    return rows.map(
-      (row, index) => ({
+    // Tambahkan hasil ronde sekarang
+    results.forEach((result,index)=>{
+      if(!result.uid)return;
 
-        ...row,
+      if(!leagueMap[result.uid]){
+        leagueMap[result.uid]={
+          uid:result.uid,
+          name:result.name||"Pemain",
+          rounds:0,
+          wins:0,
+          points:0
+        };
+      }
 
-        place:
-          index + 1,
+      const p=leagueMap[result.uid];
 
-        points:
-          POINTS[index] ?? 0
-      })
-    );
+      p.name=result.name||p.name;
+      p.rounds+=1;
+      p.points+=Number(result.points??0);
+
+      if(index===0){
+        p.wins+=1;
+      }
+    });
+
+    // Hanya pemain yang ikut room saat ini
+    const currentPlayers=playerList(r);
+    const activeUids=new Set(currentPlayers.map(p=>p.uid));
+
+    const finalLeague=Object.values(leagueMap)
+      .filter(p=>activeUids.has(p.uid))
+      .sort((a,b)=>
+        b.points-a.points ||
+        b.wins-a.wins ||
+        a.name.localeCompare(b.name)
+      );
+
+    await roomRef().update({
+      onlineLeague:finalLeague,
+      onlineLeagueUpdatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    console.log("Liga Online diperbarui:",finalLeague);
+
+  }catch(e){
+    console.error("updateOnlineLeague:",e);
   }
-
+}
   /* =========================================================
      RENDER ONLINE GAME
      ========================================================= */
@@ -4069,6 +4200,7 @@ $("leagueBtn").onclick=()=>{
     $("passBtn").textContent =
       "Lewat";
   }
+createLeaveRoomButton();
 
   loadNames();
 
