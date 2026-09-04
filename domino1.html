@@ -146,6 +146,9 @@ window.D2T_FIREBASE_CONFIG = {
 };
 </script>
 
+<!-- Path otomatis harus dimuat sebelum game agar observer siap saat board dirender. -->
+<script src="domino-path.js"></script>
+
 <!-- Hanya SATU script game. Isinya dibungkus IIFE agar tidak bentrok
      walaupun Live Server/HTML sempat memuat script dua kali. -->
 <script src="domino1.js"></script>
