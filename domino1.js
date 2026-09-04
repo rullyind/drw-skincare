@@ -994,14 +994,16 @@
           .join("");
     }
 
-    if ($("waitingText")) {
-
-      $("waitingText").textContent =
-        roomData.status === "lobby"
-          ? `Kode ${roomData.code} • ${players.length}/4 pemain.`
-          : `Ronde ${roomData.round} sedang berjalan.`;
-    }
-
+if(roomData.status==="lobby"){
+  $("waitingText").textContent=
+    `Kode ${roomData.code} • ${ps.length}/4 pemain.`;
+}else if(roomData.status==="finished"){
+  $("waitingText").textContent=
+    `Kode ${roomData.code} • Ronde ${roomData.round} selesai.`;
+}else{
+  $("waitingText").textContent=
+    `Ronde ${roomData.round} sedang berjalan.`;
+}
     if ($("startOnlineBtn")) {
 
       $("startOnlineBtn")
@@ -1016,16 +1018,10 @@
         );
     }
 
-    if ($("waitingCard")) {
-
-      $("waitingCard")
-        .classList
-        .toggle(
-          "hidden",
-          roomData.status !== "lobby"
-        );
-    }
-
+$("waitingCard").classList.toggle(
+  "hidden",
+  roomData.status==="playing"
+);
     if (
       roomData.status === "playing" ||
       roomData.status === "finished"
@@ -2410,109 +2406,136 @@
   /* =========================================================
      RESULTS
      ========================================================= */
+function showResults(res,type){
+  if(!res.length)return;
 
-  function showResults(
-    results,
-    type
-  ) {
+  $("modalTitle").textContent=
+    type==="online" ? "Ronde Online Selesai" : "Ronde Selesai";
 
-    if (!results?.length) {
-      return;
-    }
+  const blocked=
+    type==="local"
+      ? !!localGame?.blocked
+      : roomData?.finishReason==="blocked" || roomData?.blocked===true;
 
-    if ($("modalTitle")) {
+  $("modalSub").textContent=
+    blocked
+      ? "⛔ Meja tertutup: total angka batu paling kecil menjadi pemenang."
+      : "🏆 Ada pemain yang menghabiskan semua batu.";
 
-      $("modalTitle").textContent =
-        type === "online"
-          ? "Ronde Online Selesai"
-          : "Ronde Selesai";
-    }
+  $("results").innerHTML=res.map(r=>`
+    <div class="result-row ${r.place===1?"winner":""}">
+      <b>${r.place}</b>
+      <span>
+        ${esc(r.name)}
+        <small>
+          ${r.pips} angka
+          ${r.empty?" • HABIS BATU":""}
+        </small>
+      </span>
+      <b>+${r.points}</b>
+    </div>
+  `).join("");
 
-    let blocked = false;
+  // Tombol ronde berikutnya
+  $("nextBtn").classList.toggle(
+    "hidden",
+    type==="online" && roomData?.hostUid!==currentUid
+  );
 
-    if (type === "online") {
+  // =====================================================
+  // TOMBOL KEMBALI KE ROOM
+  // =====================================================
 
-      blocked =
-        roomData?.finishReason ===
-        "blocked";
+  let backBtn=$("backToRoomBtn");
 
-    } else {
+  if(!backBtn){
+    backBtn=document.createElement("button");
+    backBtn.id="backToRoomBtn";
+    backBtn.type="button";
+    backBtn.textContent="← Kembali ke Room";
 
-      blocked =
-        localGame?.finishReason ===
-        "blocked";
-    }
+    backBtn.style.cssText=`
+      display:block;
+      width:100%;
+      margin-top:12px;
+      padding:13px 18px;
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:14px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:700;
+      background:rgba(255,255,255,.10);
+      color:inherit;
+      transition:.2s ease;
+    `;
 
-    if ($("modalSub")) {
+    backBtn.onmouseenter=()=>{
+      backBtn.style.transform="translateY(-1px)";
+      backBtn.style.background="rgba(255,79,163,.18)";
+    };
 
-      $("modalSub").textContent =
-        blocked
+    backBtn.onmouseleave=()=>{
+      backBtn.style.transform="translateY(0)";
+      backBtn.style.background="rgba(255,255,255,.10)";
+    };
 
-          ? "⛔ PERMAINAN BUNTU — ANGKA TERKECIL MENANG"
-
-          : "🏆 Pemain yang menghabiskan semua batu menjadi pemenang.";
-    }
-
-    if ($("results")) {
-
-      $("results").innerHTML =
-        results
-          .map(
-            result => `
-              <div class="result-row ${
-                Number(result.place) === 1
-                  ? "winner"
-                  : ""
-              }">
-
-                <b>
-                  ${result.place}
-                </b>
-
-                <span>
-                  ${esc(result.name)}
-
-                  <small>
-                    ${result.pips} angka
-                    • ${result.handCount} batu
-
-                    ${
-                      result.empty
-                        ? " • HABIS BATU"
-                        : ""
-                    }
-                  </small>
-                </span>
-
-                <b>
-                  +${result.points}
-                </b>
-
-              </div>
-            `
-          )
-          .join("");
-    }
-
-    if ($("nextBtn")) {
-
-      $("nextBtn")
-        .classList
-        .toggle(
-          "hidden",
-          type === "online" &&
-          roomData?.hostUid !==
-            currentUid
-        );
-    }
-
-    if ($("modal")) {
-
-      $("modal")
-        .classList
-        .remove("hidden");
-    }
+    $("nextBtn").insertAdjacentElement("afterend",backBtn);
   }
+
+  // Untuk online tampilkan tombol kembali ke room
+  backBtn.style.display=type==="online" ? "block" : "none";
+
+  backBtn.onclick=async()=>{
+    $("modal").classList.add("hidden");
+
+    if(type==="online"){
+      // Tetap di halaman game/room
+      document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+      $("gamePage").classList.add("active");
+
+      // Tampilkan kembali kartu room
+      $("waitingCard").classList.remove("hidden");
+
+      // Pastikan informasi room diperbarui
+      if(roomData){
+        const ps=playerList(roomData);
+
+        $("roomPlayers").innerHTML=ps.map(p=>`
+          <div class="slot">
+            <b>
+              ${esc(p.name)}
+              ${p.uid===currentUid?"👤":""}
+            </b>
+            <small>
+              Kursi ${p.seat+1}
+              ${p.uid===roomData.hostUid?" • Host":""}
+            </small>
+          </div>
+        `).join("");
+
+        $("waitingText").textContent=
+          `Room ${roomData.code} • ${ps.length}/4 pemain. Ronde selesai.`;
+
+        // Host bisa langsung mulai ronde berikutnya
+        $("startOnlineBtn").classList.toggle(
+          "hidden",
+          !(roomData.hostUid===currentUid && ps.length>=2)
+        );
+
+        $("startOnlineBtn").textContent="▶ Mulai Ronde Berikutnya";
+
+        setStatus("Kembali ke room. Tunggu host memulai ronde berikutnya.");
+      }
+    }else{
+      // Untuk game lokal kembali ke halaman game
+      document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+      $("gamePage").classList.add("active");
+      setStatus("Ronde selesai.");
+    }
+  };
+
+  $("modal").classList.remove("hidden");
+}
 
   /* =========================================================
      NEXT ROUND
@@ -3846,32 +3869,52 @@
   /* =========================================================
      LEAGUE BUTTON
      ========================================================= */
+$("leagueBtn").onclick=()=>{
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  $("leaguePage").classList.add("active");
+  renderLeague();
 
-  if ($("leagueBtn")) {
+  // Buat tombol KEMBALI KE ROOM jika belum ada
+  let btn=$("backToRoomFromLeague");
 
-    $("leagueBtn").onclick =
-      function () {
+  if(!btn){
+    btn=document.createElement("button");
+    btn.id="backToRoomFromLeague";
+    btn.type="button";
+    btn.textContent="← Kembali ke Room";
+    btn.style.cssText=`
+      display:block;
+      width:100%;
+      max-width:420px;
+      margin:18px auto;
+      padding:13px 18px;
+      border:0;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:700;
+      background:linear-gradient(135deg,#ff4fa3,#ff7ac3);
+      color:#fff;
+      box-shadow:0 8px 24px rgba(255,79,163,.25);
+    `;
 
-        document
-          .querySelectorAll(".page")
-          .forEach(
-            page =>
-              page.classList.remove(
-                "active"
-              )
-          );
+    btn.onclick=()=>{
+      document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+      $("gamePage").classList.add("active");
 
-        if ($("leaguePage")) {
+      // Jika sedang online dan sudah punya room
+      if(mode==="online" && roomData){
+        renderOnlineRoom();
+        setStatus("Kembali ke room.");
+      }else{
+        setStatus("Kembali ke permainan.");
+      }
+    };
 
-          $("leaguePage")
-            .classList
-            .add("active");
-        }
-
-        renderLeague();
-      };
+    $("leaguePage").appendChild(btn);
   }
-
+};
+  
   /* =========================================================
      COPY ROOM
      ========================================================= */
