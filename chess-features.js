@@ -1,18 +1,186 @@
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-import { firebaseConfig } from "./firebase-config.js";
-const app=getApps().length?getApp():initializeApp(firebaseConfig);
-const $=id=>document.getElementById(id);
-let audioCtx=null,musicTimer=null,musicOn=false,musicGain=null;
-function audioStart(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx}
-function tone(freq,duration,type="sine",volume=.055,delay=0){const c=audioStart(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.001,c.currentTime+delay);g.gain.linearRampToValueAtTime(volume,c.currentTime+delay+.015);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+delay+duration);o.connect(g);g.connect(c.destination);o.start(c.currentTime+delay);o.stop(c.currentTime+delay+duration+.04)}
-function moveSound(){tone(520,.09,"triangle",.065);tone(760,.12,"sine",.035,.035)}
-function captureSound(){tone(180,.11,"square",.045);tone(110,.16,"triangle",.035,.05)}
-function checkSound(){tone(880,.12,"sine",.05);tone(660,.15,"sine",.04,.12)}
-function win(){tone(523,.18,"sine",.06);tone(659,.18,"sine",.06,.18);tone(784,.3,"sine",.07,.36)}
-function musicStep(){if(!musicOn)return;const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];const i=Date.now()/1000|0;tone(notes[i%notes.length],1.7,"sine",.012)}
-function toggleMusic(){const c=audioStart();musicOn=!musicOn;if(musicOn){musicGain=c.createGain();musicGain.gain.value=.35;$("musicBtn")?.classList.add("active");$("musicBtn")&&( $("musicBtn").textContent="🔊 Musik Relaksasi: ON");musicTimer=setInterval(musicStep,1600);musicStep()}else{clearInterval(musicTimer);musicTimer=null;$("musicBtn")?.classList.remove("active");$("musicBtn")&&( $("musicBtn").textContent="🎵 Musik Relaksasi")}}
-function observeBoard(){const b=$("board");if(!b)return;let last="";new MutationObserver(()=>{const state=b.innerText||b.textContent||"";if(!last){last=state;return}if(state!==last){moveSound();last=state}}).observe(b,{childList:true,subtree:true})}
-function resultModal(){const msg=$("gameMsg");if(!msg)return;new MutationObserver(()=>{const t=msg.textContent||"";if(/menang|skakmat|remis|stalemate|waktu habis|menyerah/i.test(t)&&/🏆|🤝|⏰|🏳|Skakmat/i.test(t)){$("winPanel")?.classList.remove("hidden");if(/menang|Skakmat/i.test(t))win()}}).observe(msg,{childList:true,characterData:true,subtree:true})}
-function bind(){ $("musicBtn")?.addEventListener("click",toggleMusic);$("winClose")?.addEventListener("click",()=>$("winPanel")?.classList.add("hidden"));observeBoard();resultModal() }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();
-window.chessAudio={move:moveSound,capture:captureSound,check:checkSound,win};
+/* =========================================================
+   MBICUKI CATUR — CHESS FEATURES
+   Stable browser-safe version
+   - No unnecessary Firebase initialization
+   - Safe Web Audio handling
+   - No duplicate event bindings
+   - No duplicate win modal observers
+   ========================================================= */
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+let audioCtx = null;
+let musicTimer = null;
+let musicOn = false;
+let bound = false;
+let boardObserver = null;
+let resultObserver = null;
+let lastBoardState = "";
+let lastResultText = "";
+
+function getAudioContext() {
+  if (audioCtx) return audioCtx;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    audioCtx = new Ctx();
+    return audioCtx;
+  } catch (e) {
+    console.warn("Web Audio tidak tersedia:", e);
+    return null;
+  }
+}
+
+async function audioStart() {
+  const ctx = getAudioContext();
+  if (!ctx) return null;
+  try {
+    if (ctx.state === "suspended") await ctx.resume();
+  } catch (e) {
+    console.warn("Audio resume gagal:", e);
+  }
+  return ctx;
+}
+
+function tone(freq, duration, type = "sine", volume = 0.055, delay = 0) {
+  const ctx = getAudioContext();
+  if (!ctx || !Number.isFinite(freq) || !Number.isFinite(duration)) return;
+  try {
+    const now = ctx.currentTime;
+    const start = now + Math.max(0, Number(delay) || 0);
+    const end = start + Math.max(0.02, Number(duration) || 0.02);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(Math.max(20, Number(freq) || 440), start);
+    gain.gain.setValueAtTime(0.001, start);
+    gain.gain.linearRampToValueAtTime(Math.max(0.001, Number(volume) || 0.02), start + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, end);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(start);
+    osc.stop(end + 0.04);
+  } catch (e) {
+    console.warn("Audio tone gagal:", e);
+  }
+}
+
+function moveSound() {
+  tone(520, 0.09, "triangle", 0.065);
+  tone(760, 0.12, "sine", 0.035, 0.035);
+}
+
+function captureSound() {
+  tone(180, 0.11, "square", 0.045);
+  tone(110, 0.16, "triangle", 0.035, 0.05);
+}
+
+function checkSound() {
+  tone(880, 0.12, "sine", 0.05);
+  tone(660, 0.15, "sine", 0.04, 0.12);
+}
+
+function winSound() {
+  tone(523, 0.18, "sine", 0.06);
+  tone(659, 0.18, "sine", 0.06, 0.18);
+  tone(784, 0.30, "sine", 0.07, 0.36);
+}
+
+function musicStep() {
+  if (!musicOn) return;
+  const notes = [261.63, 329.63, 392, 329.63, 293.66, 349.23, 440, 349.23];
+  const index = Math.floor(Date.now() / 1000) % notes.length;
+  tone(notes[index], 1.45, "sine", 0.012);
+}
+
+async function toggleMusic() {
+  const ctx = await audioStart();
+  if (!ctx) {
+    const btn = $("musicBtn");
+    if (btn) btn.textContent = "🎵 Audio tidak tersedia";
+    return;
+  }
+
+  musicOn = !musicOn;
+  const btn = $("musicBtn");
+
+  if (musicOn) {
+    btn?.classList.add("active");
+    if (btn) btn.textContent = "🔊 Musik Relaksasi: ON";
+    clearInterval(musicTimer);
+    musicTimer = setInterval(musicStep, 1500);
+    musicStep();
+  } else {
+    clearInterval(musicTimer);
+    musicTimer = null;
+    btn?.classList.remove("active");
+    if (btn) btn.textContent = "🎵 Musik Relaksasi";
+  }
+}
+
+function observeBoard() {
+  const board = $("board");
+  if (!board || !window.MutationObserver) return;
+  if (boardObserver) boardObserver.disconnect();
+
+  lastBoardState = board.textContent || "";
+  boardObserver = new MutationObserver(() => {
+    const state = board.textContent || "";
+    if (!lastBoardState) {
+      lastBoardState = state;
+      return;
+    }
+    if (state !== lastBoardState) {
+      lastBoardState = state;
+      moveSound();
+    }
+  });
+
+  boardObserver.observe(board, { childList: true, subtree: true });
+}
+
+function observeResult() {
+  const msg = $("gameMsg");
+  if (!msg || !window.MutationObserver) return;
+  if (resultObserver) resultObserver.disconnect();
+
+  lastResultText = msg.textContent || "";
+  resultObserver = new MutationObserver(() => {
+    const text = String(msg.textContent || "").trim();
+    if (!text || text === lastResultText) return;
+    lastResultText = text;
+
+    const terminal = /menang|skakmat|remis|stalemate|waktu habis|menyerah|keluar game/i.test(text);
+    if (!terminal) return;
+
+    $("winPanel")?.classList.remove("hidden");
+    if (/menang|skakmat/i.test(text)) winSound();
+  });
+
+  resultObserver.observe(msg, { childList: true, characterData: true, subtree: true });
+}
+
+function bind() {
+  if (bound) return;
+  bound = true;
+
+  $("musicBtn")?.addEventListener("click", toggleMusic);
+  $("winClose")?.addEventListener("click", () => $("winPanel")?.classList.add("hidden"));
+
+  observeBoard();
+  observeResult();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bind, { once: true });
+} else {
+  bind();
+}
+
+window.chessAudio = {
+  move: moveSound,
+  capture: captureSound,
+  check: checkSound,
+  win: winSound
+};
