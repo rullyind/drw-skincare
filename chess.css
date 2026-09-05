@@ -1,768 +1,1276 @@
-/* =========================================================
-   RARA CHESS — RESPONSIVE MOBILE + DESKTOP
-   ========================================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-* {
-    box-sizing: border-box;
-}
+import {
+    getDatabase,
+    ref,
+    set,
+    update,
+    onValue,
+    push,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-html {
-    width: 100%;
-    overflow-x: hidden;
-}
+import { firebaseConfig } from "./firebase-config.js";
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
-
-    font-family: Inter, Arial, sans-serif;
-    color: #321d2d;
-
-    background:
-        radial-gradient(
-            circle at 20% 0%,
-            #48316f 0,
-            #ffe7f2 38%,
-            #f7d6e7 100%
-        );
-}
-
-button,
-input {
-    font: inherit;
-}
-
-button {
-    border: 0;
-    border-radius: 12px;
-    padding: 11px 16px;
-    cursor: pointer;
-    background: #fff;
-
-    box-shadow: 0 5px 18px #00000012;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        opacity .2s ease;
-}
-
-button:hover {
-    transform: translateY(-1px);
-}
-
-button:active {
-    transform: scale(.98);
-}
-
-input {
-    width: 100%;
-    border: 1px solid #ead5e0;
-    background: #fff;
-    padding: 12px 14px;
-    border-radius: 12px;
-    outline: none;
-
-    min-height: 44px;
-}
-
-input:focus {
-    border-color: #ff5eaa;
-    box-shadow: 0 0 0 3px #ff5eaa18;
-}
+import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/+esm";
 
 
-/* =========================================================
-   PAGE
-   ========================================================= */
+// =====================================================
+// FIREBASE
+// =====================================================
 
-.page {
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 24px;
-}
+const app = initializeApp(firebaseConfig);
 
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 22px;
-}
-
-.brand {
-    font-weight: 900;
-    letter-spacing: 3px;
-    font-size: 28px;
-}
-
-.brand span {
-    color: #ff3f9c;
-}
-
-.sub,
-.muted {
-    color: #76586b;
-}
-
-.status {
-    font-size: 13px;
-}
-
-.status.online {
-    color: #16834a;
-}
-
-.status.offline {
-    color: #a53d65;
-}
+const db = getDatabase(
+    app,
+    "https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app"
+);
 
 
-/* =========================================================
-   PANELS
-   ========================================================= */
+// =====================================================
+// ELEMENT
+// =====================================================
 
-.panel,
-.card,
-.board-panel {
-    background: #ffffffc9;
+const $ = id => document.getElementById(id);
 
-    border: 1px solid #ffffffdd;
+const boardEl = $("board");
+const lobby = $("lobby");
+const game = $("game");
 
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-
-    border-radius: 26px;
-
-    box-shadow:
-        0 18px 55px #7e31551c;
-}
+const nameInput = $("playerName");
+const roomInput = $("roomInput");
 
 
-/* =========================================================
-   LOBBY
-   ========================================================= */
+// =====================================================
+// GAME VARIABLES
+// =====================================================
 
-.lobby {
-    max-width: 720px;
-    margin: 8vh auto;
-    padding: 35px;
-}
+let roomId = null;
+let myColor = null;
+let myName = "";
 
-.lobby h1 {
-    font-size: 34px;
-    margin: 0 0 8px;
-}
+let selected = null;
+let gameData = null;
 
-.lobby label {
-    display: block;
-    margin: 25px 0 12px;
-    font-weight: 700;
-}
+let localChess = new Chess();
 
-.lobby input {
-    margin-top: 8px;
-}
+let roomUnsubscribe = null;
+let chatUnsubscribe = null;
+let clockTimer = null;
 
-.lobby-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
 
-.join {
-    display: flex;
-    gap: 8px;
-    flex: 1;
-}
+// =====================================================
+// CHESS PIECES
+// =====================================================
 
-.join input {
-    margin: 0;
-    text-transform: uppercase;
-}
+const PIECES = {
+    p: "♟",
+    n: "♞",
+    b: "♝",
+    r: "♜",
+    q: "♛",
+    k: "♚",
 
-.primary {
-    background: linear-gradient(
-        135deg,
-        #ff3f9c,
-        #d4af37
+    P: "♙",
+    N: "♘",
+    B: "♗",
+    R: "♖",
+    Q: "♕",
+    K: "♔"
+};
+
+const files = ["a","b","c","d","e","f","g","h"];
+
+
+// =====================================================
+// FIREBASE CONFIG CHECK
+// =====================================================
+
+function validConfig() {
+
+    return (
+        firebaseConfig &&
+        firebaseConfig.apiKey &&
+        !String(firebaseConfig.apiKey).startsWith("TEMPEL")
     );
 
-    color: white;
-}
-
-.notice {
-    margin-top: 22px;
-    padding: 12px;
-    border-radius: 14px;
-
-    background: #fff3f8;
-    color: #7a5367;
-
-    font-size: 12px;
-}
-
-.msg {
-    margin-top: 12px;
-    color: #b12b68;
 }
 
 
-/* =========================================================
-   GAME LAYOUT — DESKTOP
-   ========================================================= */
+// =====================================================
+// CONNECTION STATUS
+// =====================================================
 
-.game {
-    display: grid;
+const connectedRef = ref(db, ".info/connected");
 
-    grid-template-columns:
-        minmax(420px, 760px)
-        330px;
+onValue(connectedRef, snapshot => {
 
-    gap: 20px;
+    const el = $("connection");
 
-    align-items: start;
-}
+    if (snapshot.val() === true) {
 
-.hidden {
-    display: none !important;
-}
+        el.textContent = "● Online";
+
+        el.className = "status online";
+
+    } else {
+
+        el.textContent = "● Menghubungkan...";
+
+        el.className = "status offline";
+
+    }
+
+});
 
 
-/* =========================================================
-   BOARD PANEL
-   ========================================================= */
+// =====================================================
+// ROOM
+// =====================================================
 
-.board-panel {
-    padding: 18px;
-    width: 100%;
-}
+function roomRef() {
 
-.gamebar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    return ref(db, `rooms/${roomId}`);
 
-    gap: 12px;
-
-    margin-bottom: 12px;
-}
-
-.gamebar span {
-    display: block;
-
-    color: #8a6476;
-    font-size: 12px;
-
-    margin-top: 3px;
-}
-
-.board-panel h2 {
-    margin: 0 0 12px;
-    font-size: 20px;
 }
 
 
-/* =========================================================
-   PLAYER INFO
-   ========================================================= */
+function makeRoomCode() {
 
-.board-panel .player {
-    display: flex;
-    align-items: center;
+    return Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
 
-    gap: 12px;
-
-    margin-bottom: 12px;
-
-    min-width: 0;
-}
-
-.board-panel .player .status {
-    font-size: 11px;
-    margin-top: 0;
-}
-
-.board-panel .player .name {
-    font-weight: 700;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.board-panel .player .score {
-    margin-left: auto;
-
-    font-weight: 700;
-    color: #8a6476;
-}
-
-.board-panel .player.white .name {
-    color: #d4af37;
-}
-
-.board-panel .player.black .name {
-    color: #ff3f9c;
-}
-
-.board-panel button {
-    width: 100%;
-    margin-top: 12px;
 }
 
 
-/* =========================================================
-   CHESS BOARD
-   ========================================================= */
+// =====================================================
+// ENTER GAME
+// =====================================================
 
-.board {
-    width: min(100%, 700px);
+function enterGame() {
 
-    aspect-ratio: 1 / 1;
+    lobby.classList.add("hidden");
 
-    margin: auto;
+    game.classList.remove("hidden");
 
-    display: grid;
+    selected = null;
 
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    $("lobbyMsg").textContent = "";
 
-    border: 8px solid #4b2639;
-    border-radius: 14px;
+    listenRoom();
 
-    overflow: hidden;
+    listenChat();
 
-    box-shadow:
-        0 12px 35px #2d102030;
-
-    /* IMPORTANT FOR MOBILE */
-    max-width: 100%;
-    touch-action: manipulation;
 }
 
 
-/* =========================================================
-   CHESS SQUARE
-   ========================================================= */
+// =====================================================
+// LISTEN ROOM
+// =====================================================
 
-.sq {
-    position: relative;
+function listenRoom() {
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    if (!roomId) return;
 
-    width: 100%;
-    height: 100%;
+    if (roomUnsubscribe) {
+        roomUnsubscribe();
+    }
 
-    font-size: clamp(
-        28px,
-        6vw,
-        58px
+    roomUnsubscribe = onValue(
+        roomRef(),
+        snapshot => {
+
+            if (!snapshot.exists()) {
+
+                $("gameMsg").textContent =
+                    "Room sudah tidak tersedia.";
+
+                return;
+            }
+
+            gameData = snapshot.val();
+
+            renderGame();
+
+        }
     );
 
-    line-height: 1;
-
-    user-select: none;
-    -webkit-user-select: none;
-
-    cursor: pointer;
-
-    touch-action: manipulation;
-
-    transition:
-        filter .15s ease,
-        transform .1s ease;
-}
-
-.sq.light {
-    background: #f7dfd0;
-}
-
-.sq.dark {
-    background: #a95c75;
-}
-
-.sq:hover {
-    filter: brightness(1.05);
 }
 
 
-/* =========================================================
-   SELECTED SQUARE
-   FIXED: removed invalid outline:"fim_middle"
-   ========================================================= */
+// =====================================================
+// CREATE ROOM
+// =====================================================
 
-.sq.selected {
-    outline: 4px solid #ff3f9c;
-    outline-offset: -4px;
-}
+async function createRoom() {
+
+    try {
+
+        myName =
+            (
+                nameInput.value.trim() ||
+                "Pemain " + Math.floor(Math.random() * 9999)
+            ).slice(0, 20);
+
+        roomId = makeRoomCode();
+
+        myColor = "w";
+
+        const chess = new Chess();
+
+        const data = {
+
+            createdAt: serverTimestamp(),
+
+            status: "waiting",
+
+            fen: chess.fen(),
+
+            turn: "w",
+
+            whiteName: myName,
+
+            blackName: "",
+
+            whiteTime: 600,
+
+            blackTime: 600,
+
+            lastTick: Date.now(),
+
+            createdBy: myName,
+
+            winner: "",
+
+            lastMove: ""
+
+        };
 
 
-/* =========================================================
-   LAST MOVE / CHECK
-   ========================================================= */
-
-.sq.last-move {
-    background: #ff3f9c2e;
-}
-
-.sq.check {
-    background: #ff3f9c5e;
-}
+        await set(roomRef(), data);
 
 
-/* =========================================================
-   PIECES
-   ========================================================= */
+        roomInput.value = roomId;
 
-.sq .piece {
-    pointer-events: none;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    height: 100%;
-
-    line-height: 1;
-
-    transform: translateZ(0);
-}
+        enterGame();
 
 
-/* =========================================================
-   TABLET
-   ========================================================= */
+        $("gameMsg").textContent =
+            `Room ${roomId} berhasil dibuat. Kirim kode ini kepada teman.`;
 
-@media (max-width: 1000px) {
+        console.log("ROOM DIBUAT:", roomId);
 
-    .game {
-        grid-template-columns: 1fr;
     }
 
-    .board-panel {
-        width: 100%;
-    }
+    catch (error) {
 
-    .board {
-        width: min(100%, 720px);
+        console.error(error);
+
+        $("lobbyMsg").textContent =
+            "Gagal membuat room: " + error.message;
+
     }
 
 }
 
 
-/* =========================================================
-   MOBILE — 768px
-   ========================================================= */
+// =====================================================
+// JOIN ROOM
+// =====================================================
 
-@media (max-width: 768px) {
+async function joinRoom() {
 
-    body {
-        min-width: 0;
-    }
+    try {
 
-    .page {
-        padding: 12px;
-    }
+        const code =
+            roomInput.value.trim().toUpperCase();
 
-    /* HEADER */
-    .top {
-        flex-direction: column;
-        align-items: stretch;
+        if (!code) {
 
-        gap: 8px;
+            $("lobbyMsg").textContent =
+                "Masukkan kode room.";
 
-        margin-bottom: 14px;
-    }
+            return;
 
-    .brand {
-        font-size: 23px;
-        letter-spacing: 2px;
-    }
-
-    .status {
-        font-size: 12px;
-    }
+        }
 
 
-    /* LOBBY */
-    .lobby {
-        width: 100%;
-
-        margin: 3vh auto;
-
-        padding: 22px;
-
-        border-radius: 20px;
-    }
-
-    .lobby h1 {
-        font-size: 27px;
-    }
-
-    .lobby label {
-        margin-top: 20px;
-    }
-
-    .lobby-actions {
-        flex-direction: column;
-    }
-
-    .lobby-actions button {
-        width: 100%;
-        min-height: 46px;
-    }
-
-    .join {
-        width: 100%;
-    }
-
-    .join input {
-        min-width: 0;
-    }
-
-    .join button {
-        white-space: nowrap;
-    }
+        myName =
+            (
+                nameInput.value.trim() ||
+                "Pemain " + Math.floor(Math.random() * 9999)
+            ).slice(0, 20);
 
 
-    /* GAME */
-    .game {
-        display: flex;
-        flex-direction: column;
-
-        width: 100%;
-
-        gap: 12px;
-    }
+        roomId = code;
 
 
-    /* BOARD */
-    .board-panel {
-        width: 100%;
+        const snapshot =
+            await new Promise(resolve => {
 
-        padding: 10px;
+                onValue(
+                    roomRef(),
+                    resolve,
+                    { onlyOnce: true }
+                );
 
-        border-radius: 20px;
-    }
-
-    .board {
-        width: 100%;
-        max-width: 100%;
-
-        border-width: 5px;
-        border-radius: 10px;
-    }
+            });
 
 
-    /* GAME BAR */
-    .gamebar {
-        margin-bottom: 8px;
-    }
+        if (!snapshot.exists()) {
 
-    .gamebar h2 {
-        font-size: 17px;
-    }
+            $("lobbyMsg").textContent =
+                "Room tidak ditemukan.";
 
-    .gamebar span {
-        font-size: 11px;
-    }
+            return;
+
+        }
 
 
-    /* PLAYER */
-    .board-panel .player {
-        gap: 8px;
-
-        padding: 8px 10px;
-
-        margin-bottom: 8px;
-
-        border-radius: 12px;
-
-        background: #ffffff80;
-    }
-
-    .board-panel .player .name {
-        max-width: 160px;
-    }
-
-    .board-panel .player .score {
-        font-size: 13px;
-    }
+        const data = snapshot.val();
 
 
-    /* BUTTON */
-    .board-panel button {
-        min-height: 46px;
+        if (data.blackName) {
 
-        margin-top: 8px;
-    }
+            $("lobbyMsg").textContent =
+                "Room sudah penuh.";
+
+            return;
+
+        }
 
 
-    /* CHESS PIECES */
-    .sq {
-        font-size: clamp(
-            30px,
-            10vw,
-            52px
+        myColor = "b";
+
+
+        await update(
+            roomRef(),
+            {
+
+                blackName: myName,
+
+                status: "playing",
+
+                lastTick: Date.now()
+
+            }
         );
-    }
-
-}
 
 
-/* =========================================================
-   SMALL PHONE — 480px
-   ========================================================= */
+        enterGame();
 
-@media (max-width: 480px) {
 
-    .page {
-        padding: 7px;
-    }
-
-    .brand {
-        font-size: 20px;
-    }
-
-    .board-panel {
-        padding: 7px;
-        border-radius: 17px;
-    }
-
-    .board {
-        border-width: 4px;
-        border-radius: 8px;
-    }
-
-    .sq {
-        font-size: clamp(
-            26px,
-            10.8vw,
-            45px
+        console.log(
+            "BERGABUNG ROOM:",
+            roomId
         );
+
     }
 
-    .gamebar h2 {
-        font-size: 15px;
-    }
+    catch (error) {
 
-    .gamebar span {
-        font-size: 10px;
-    }
+        console.error(error);
 
-    .board-panel .player {
-        padding: 7px 8px;
-    }
+        $("lobbyMsg").textContent =
+            "Gagal bergabung: " + error.message;
 
-    .board-panel .player .name {
-        max-width: 125px;
-        font-size: 13px;
-    }
-
-    .board-panel .player .status {
-        font-size: 10px;
-    }
-
-    .board-panel .player .score {
-        font-size: 12px;
     }
 
 }
 
 
-/* =========================================================
-   VERY SMALL PHONE — 360px
-   ========================================================= */
+// =====================================================
+// RENDER GAME
+// =====================================================
 
-@media (max-width: 360px) {
+function renderGame() {
 
-    .page {
-        padding: 5px;
+    if (!gameData) return;
+
+
+    $("roomTitle").textContent =
+        `ROOM ${roomId}`;
+
+
+    $("roleText").textContent =
+        `Anda: ${myColor === "w" ? "Putih" : "Hitam"}`;
+
+
+    $("whiteName").textContent =
+        gameData.whiteName || "Menunggu...";
+
+
+    $("blackName").textContent =
+        gameData.blackName || "Menunggu...";
+
+
+    let whiteTime =
+        Number(gameData.whiteTime ?? 600);
+
+    let blackTime =
+        Number(gameData.blackTime ?? 600);
+
+
+    if (gameData.status === "playing") {
+
+        const elapsed =
+            Math.max(
+                0,
+                (Date.now() - Number(gameData.lastTick || Date.now())) / 1000
+            );
+
+
+        if (gameData.turn === "w") {
+
+            whiteTime =
+                Math.max(0, whiteTime - elapsed);
+
+        } else {
+
+            blackTime =
+                Math.max(0, blackTime - elapsed);
+
+        }
+
     }
 
-    .board-panel {
-        padding: 5px;
+
+    $("whiteClock").textContent =
+        formatTime(whiteTime);
+
+
+    $("blackClock").textContent =
+        formatTime(blackTime);
+
+
+    const messages = {
+
+        waiting:
+            "Menunggu pemain kedua...",
+
+        playing:
+            gameData.turn === myColor
+                ? "🎯 Giliran Anda"
+                : "⏳ Giliran lawan",
+
+        checkmate:
+            `♚ Skakmat! ${gameData.winner === "w" ? "Putih" : "Hitam"} menang.`,
+
+        stalemate:
+            "Remis — Stalemate.",
+
+        draw:
+            "Remis.",
+
+        resigned:
+            `🏆 ${gameData.winner === "w" ? "Putih" : "Hitam"} menang.`,
+
+        timeout:
+            `⏰ Waktu habis. ${gameData.winner === "w" ? "Putih" : "Hitam"} menang.`
+
+    };
+
+
+    $("gameMsg").textContent =
+        messages[gameData.status] || "";
+
+
+    renderBoard();
+
+    startClock();
+
+}
+
+
+// =====================================================
+// FORMAT CLOCK
+// =====================================================
+
+function formatTime(seconds) {
+
+    seconds = Math.max(
+        0,
+        Math.ceil(seconds)
+    );
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secs =
+        String(seconds % 60).padStart(2, "0");
+
+    return `${minutes}:${secs}`;
+
+}
+
+
+// =====================================================
+// CLOCK
+// =====================================================
+
+function startClock() {
+
+    clearInterval(clockTimer);
+
+
+    clockTimer =
+        setInterval(async () => {
+
+            if (
+                !gameData ||
+                gameData.status !== "playing"
+            ) {
+
+                return;
+
+            }
+
+
+            let whiteTime =
+                Number(gameData.whiteTime ?? 600);
+
+            let blackTime =
+                Number(gameData.blackTime ?? 600);
+
+
+            const elapsed =
+                Math.max(
+                    0,
+                    (Date.now() - Number(gameData.lastTick || Date.now())) / 1000
+                );
+
+
+            if (gameData.turn === "w") {
+
+                whiteTime =
+                    Math.max(0, whiteTime - elapsed);
+
+            } else {
+
+                blackTime =
+                    Math.max(0, blackTime - elapsed);
+
+            }
+
+
+            $("whiteClock").textContent =
+                formatTime(whiteTime);
+
+
+            $("blackClock").textContent =
+                formatTime(blackTime);
+
+
+            if (
+                whiteTime <= 0 ||
+                blackTime <= 0
+            ) {
+
+                const winner =
+                    gameData.turn === "w"
+                        ? "b"
+                        : "w";
+
+
+                await update(
+                    roomRef(),
+                    {
+
+                        status: "timeout",
+
+                        winner,
+
+                        whiteTime,
+
+                        blackTime,
+
+                        lastTick: Date.now()
+
+                    }
+                );
+
+            }
+
+        }, 500);
+
+}
+
+
+// =====================================================
+// BOARD
+// =====================================================
+
+function renderBoard() {
+
+    if (!gameData) return;
+
+
+    try {
+
+        localChess =
+            new Chess(gameData.fen);
+
     }
 
-    .board {
-        border-width: 3px;
+    catch {
+
+        localChess =
+            new Chess();
+
     }
 
-    .sq {
-        font-size: clamp(
-            23px,
-            10vw,
-            39px
+
+    boardEl.innerHTML = "";
+
+
+    const board =
+        localChess.board();
+
+
+    const orientation =
+        myColor === "b"
+            ? "b"
+            : "w";
+
+
+    const ranks =
+        orientation === "w"
+            ? [8,7,6,5,4,3,2,1]
+            : [1,2,3,4,5,6,7,8];
+
+
+    const fs =
+        orientation === "w"
+            ? files
+            : [...files].reverse();
+
+
+    for (const r of ranks) {
+
+        for (const f of fs) {
+
+            const sq =
+                `${f}${r}`;
+
+
+            const piece =
+                board[8 - r][files.indexOf(f)];
+
+
+            const div =
+                document.createElement("div");
+
+
+            div.className =
+                "sq " +
+                (
+                    ((files.indexOf(f) + r) % 2 === 0)
+                        ? "light"
+                        : "dark"
+                );
+
+
+            div.dataset.square = sq;
+
+
+            if (selected === sq) {
+
+                div.classList.add("selected");
+
+            }
+
+
+            if (selected) {
+
+                try {
+
+                    const moves =
+                        localChess.moves({
+                            square: selected,
+                            verbose: true
+                        });
+
+
+                    const legal =
+                        moves.find(
+                            m => m.to === sq
+                        );
+
+
+                    if (legal) {
+
+                        div.classList.add("legal");
+
+                        if (piece) {
+
+                            div.classList.add("capture");
+
+                        }
+
+                    }
+
+                }
+
+                catch {}
+
+            }
+
+
+            if (piece) {
+
+                const span =
+                    document.createElement("span");
+
+
+                span.className =
+                    "piece";
+
+
+                span.textContent =
+                    PIECES[
+                        piece.color === "w"
+                            ? piece.type.toUpperCase()
+                            : piece.type
+                    ];
+
+
+                div.appendChild(span);
+
+            }
+
+
+            div.onclick =
+                () => clickSquare(sq);
+
+
+            boardEl.appendChild(div);
+
+        }
+
+    }
+
+}
+
+
+// =====================================================
+// CLICK SQUARE
+// =====================================================
+
+async function clickSquare(sq) {
+
+    if (
+        !gameData ||
+        gameData.status !== "playing" ||
+        gameData.turn !== myColor
+    ) {
+
+        return;
+
+    }
+
+
+    const piece =
+        localChess.get(sq);
+
+
+    if (!selected) {
+
+        if (
+            piece &&
+            piece.color === myColor
+        ) {
+
+            selected = sq;
+
+            renderBoard();
+
+        }
+
+        return;
+
+    }
+
+
+    if (sq === selected) {
+
+        selected = null;
+
+        renderBoard();
+
+        return;
+
+    }
+
+
+    let move;
+
+
+    try {
+
+        move =
+            localChess.move({
+                from: selected,
+                to: sq,
+                promotion: "q"
+            });
+
+    }
+
+    catch {
+
+        if (
+            piece &&
+            piece.color === myColor
+        ) {
+
+            selected = sq;
+
+        } else {
+
+            selected = null;
+
+        }
+
+        renderBoard();
+
+        return;
+
+    }
+
+
+    selected = null;
+
+
+    const nextTurn =
+        localChess.turn();
+
+
+    const fen =
+        localChess.fen();
+
+
+    const now =
+        Date.now();
+
+
+    let status = "playing";
+
+    let winner = "";
+
+
+    if (localChess.isCheckmate()) {
+
+        status = "checkmate";
+
+        winner = myColor;
+
+    }
+
+    else if (localChess.isStalemate()) {
+
+        status = "stalemate";
+
+    }
+
+    else if (localChess.isDraw()) {
+
+        status = "draw";
+
+    }
+
+
+    const moves =
+        gameData.moves || {};
+
+
+    const moveRef =
+        push(
+            ref(db, `rooms/${roomId}/moves`)
         );
+
+
+    moves[moveRef.key] = {
+
+        from: move.from,
+
+        to: move.to,
+
+        fen,
+
+        by: myColor,
+
+        at: now,
+
+        san: move.san
+
+    };
+
+
+    const updateData = {
+
+        fen,
+
+        turn: nextTurn,
+
+        status,
+
+        moves,
+
+        lastMove: move.san,
+
+        lastMoveAt: now,
+
+        lastTick: now
+
+    };
+
+
+    if (winner) {
+
+        updateData.winner =
+            winner;
+
     }
 
-    .board-panel .player .name {
-        max-width: 105px;
-    }
+
+    await update(
+        roomRef(),
+        updateData
+    );
 
 }
 
 
-/* =========================================================
-   LANDSCAPE PHONE
-   ========================================================= */
+// =====================================================
+// CHAT
+// =====================================================
 
-@media (max-height: 500px) and (orientation: landscape) {
+function listenChat() {
 
-    .page {
-        padding: 8px;
+    if (!roomId) return;
+
+
+    if (chatUnsubscribe) {
+
+        chatUnsubscribe();
+
     }
 
-    .game {
-        grid-template-columns: minmax(300px, 1fr) 260px;
-        display: grid;
-    }
 
-    .board {
-        max-height: calc(100vh - 30px);
-        width: auto;
-        height: calc(100vh - 30px);
-    }
+    chatUnsubscribe =
+        onValue(
+            ref(db, `rooms/${roomId}/chat`),
+            snapshot => {
+
+                const list =
+                    $("chatList");
+
+
+                list.innerHTML = "";
+
+
+                snapshot.forEach(child => {
+
+                    const data =
+                        child.val();
+
+
+                    const div =
+                        document.createElement("div");
+
+
+                    div.className =
+                        "bubble";
+
+
+                    div.innerHTML =
+                        `<b>${escapeHtml(data.name || "Pemain")}</b>
+                         ${escapeHtml(data.text || "")}`;
+
+
+                    list.appendChild(div);
+
+                });
+
+
+                list.scrollTop =
+                    list.scrollHeight;
+
+            }
+        );
 
 }
 
 
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
+function escapeHtml(text) {
 
-button:focus-visible,
-input:focus-visible,
-.sq:focus-visible {
-    outline: 3px solid #ff3f9c;
-    outline-offset: 2px;
+    return String(text)
+        .replace(
+            /[&<>"']/g,
+            char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[char]
+        );
+
 }
 
 
-/* =========================================================
-   REDUCE MOTION
-   ========================================================= */
+// =====================================================
+// SEND CHAT
+// =====================================================
 
-@media (prefers-reduced-motion: reduce) {
+$("chatForm").addEventListener(
+    "submit",
+    async e => {
 
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-        animation: none !important;
+        e.preventDefault();
+
+
+        const text =
+            $("chatInput").value.trim();
+
+
+        if (!text || !roomId) return;
+
+
+        const message =
+            push(
+                ref(db, `rooms/${roomId}/chat`)
+            );
+
+
+        await set(
+            message,
+            {
+                name: myName,
+                text,
+                at: serverTimestamp()
+            }
+        );
+
+
+        $("chatInput").value = "";
+
     }
+);
+
+
+// =====================================================
+// BUTTON CREATE
+// =====================================================
+
+$("createBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (!validConfig()) {
+
+            $("lobbyMsg").textContent =
+                "Firebase belum dikonfigurasi.";
+
+            return;
+
+        }
+
+
+        await createRoom();
+
+    }
+);
+
+
+// =====================================================
+// BUTTON JOIN
+// =====================================================
+
+$("joinBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (!validConfig()) {
+
+            $("lobbyMsg").textContent =
+                "Firebase belum dikonfigurasi.";
+
+            return;
+
+        }
+
+
+        await joinRoom();
+
+    }
+);
+
+
+// =====================================================
+// COPY INVITATION
+// =====================================================
+
+$("copyBtn").addEventListener(
+    "click",
+    async () => {
+
+        const url =
+            location.href.split("#")[0] +
+            `#room=${roomId}`;
+
+
+        try {
+
+            await navigator.clipboard.writeText(url);
+
+            $("copyBtn").textContent =
+                "✓ Link Tersalin";
+
+
+            setTimeout(
+                () => {
+                    $("copyBtn").textContent =
+                        "🔗 Salin Undangan";
+                },
+                1500
+            );
+
+        }
+
+        catch {
+
+            alert(
+                "Kode room: " + roomId
+            );
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// RESIGN
+// =====================================================
+
+$("resignBtn").addEventListener(
+    "click",
+    async () => {
+
+        if (
+            !gameData ||
+            gameData.status !== "playing"
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            !confirm("Yakin menyerah?")
+        ) {
+
+            return;
+
+        }
+
+
+        const winner =
+            myColor === "w"
+                ? "b"
+                : "w";
+
+
+        await update(
+            roomRef(),
+            {
+                status: "resigned",
+                winner,
+                lastTick: Date.now()
+            }
+        );
+
+    }
+);
+
+
+// =====================================================
+// DRAW
+// =====================================================
+
+$("drawBtn").addEventListener(
+    "click",
+    () => {
+
+        alert(
+            "Fitur tawaran remis akan kita aktifkan setelah sistem dasar multiplayer berjalan."
+        );
+
+    }
+);
+
+
+// =====================================================
+// BACK TO LOBBY
+// =====================================================
+
+$("newBtn").addEventListener(
+    "click",
+    () => {
+
+        if (roomUnsubscribe) {
+            roomUnsubscribe();
+        }
+
+        if (chatUnsubscribe) {
+            chatUnsubscribe();
+        }
+
+        clearInterval(clockTimer);
+
+        location.href =
+            location.pathname;
+
+    }
+);
+
+
+// =====================================================
+// INITIAL STATUS
+// =====================================================
+
+if (validConfig()) {
+
+    $("connection").textContent =
+        "● Online";
+
+    $("connection").className =
+        "status online";
+
+}
+
+
+// =====================================================
+// ROOM FROM URL
+// =====================================================
+
+const hash =
+    location.hash.match(
+        /^#room=([A-Z0-9]+)$/i
+    );
+
+
+if (hash) {
+
+    roomInput.value =
+        hash[1].toUpperCase();
+
+
+    $("lobbyMsg").textContent =
+        "Masukkan nama lalu tekan Gabung.";
 
 }
