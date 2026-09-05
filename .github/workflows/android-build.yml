@@ -125,7 +125,7 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/mbicuki-upload-key.jks
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '\r\n \t' | base64 --decode > android/app/mbicuki-upload-key.jks
           test -s android/app/mbicuki-upload-key.jks
 
           python3 - <<'PY'
