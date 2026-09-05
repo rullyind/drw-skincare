@@ -1,0 +1,88 @@
+name: Build Mbicuki Catur Android
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  JAVA_VERSION: '21'
+  NODE_VERSION: '22'
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prepare web bundle
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          cp chess.html dist/index.html
+          cp chess.css dist/chess.css
+          cp chess.js dist/chess.js
+          cp chess-account.js dist/chess-account.js
+          cp chess-features.js dist/chess-features.js
+          cp chess-matchmaking.js dist/chess-matchmaking.js
+          cp firebase-config.js dist/firebase-config.js
+          if [ -d assets ]; then cp -R assets dist/; fi
+
+      - name: Add Capacitor Android
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Configure Android app
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/app/src/main/AndroidManifest.xml')
+          s = p.read_text()
+          if 'android.permission.INTERNET' not in s:
+              s = s.replace('<manifest ', '<manifest ', 1)
+              s = s.replace('>', '>\n    <uses-permission android:name="android.permission.INTERNET" />', 1)
+          p.write_text(s)
+          PY
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mbicuki-catur-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Build release bundle
+        working-directory: android
+        run: ./gradlew bundleRelease
+        continue-on-error: true
+
+      - name: Upload release bundle when available
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mbicuki-catur-release-bundle
+          path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: ignore
