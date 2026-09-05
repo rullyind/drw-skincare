@@ -1,31 +1,173 @@
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-import { getDatabase,ref,onValue,runTransaction,get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getDatabase, ref, onValue, runTransaction, get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 
-const app=getApps().length?getApp():initializeApp(firebaseConfig);const auth=getAuth(app);const db=getDatabase(app,"https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
-const $=id=>document.getElementById(id);const safe=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));const uk=s=>String(s||"").replace(/[^a-zA-Z0-9_-]/g,"_");const k=s=>encodeURIComponent(String(s||"").trim().toLowerCase()).replace(/%/g,"_").slice(0,100);
-let user=null,gameId=null,gameMode=null,scored=false,watchingRoom=null,lastStatus="";
-const SCORE={win:50,draw:25,loss:-13,resign:-70,exit:-100};const text={win:"Menang",draw:"Remis",loss:"Kalah",resign:"Menyerah",exit:"Keluar Game"};
-function playerRef(){return ref(db,`chessPlayers/${uk(user.uid)}`)}
-function openAccount(){const m=$("accountModal");if(m)m.classList.remove("hidden");const n=$("accountName");if(n&&!n.value&&user)n.value=user.displayName||""}
-function closeAccount(){ $("accountModal")?.classList.add("hidden") }
-function msg(e){const c=e?.code||"";if(c.includes("email-already-in-use"))return"Email sudah terdaftar. Silakan Login.";if(c.includes("invalid-credential")||c.includes("wrong-password")||c.includes("user-not-found"))return"Email atau password salah.";if(c.includes("invalid-email"))return"Format email tidak valid.";if(c.includes("weak-password"))return"Password terlalu lemah. Gunakan minimal 6 karakter.";if(c.includes("operation-not-allowed"))return"Login Email/Password belum diaktifkan di Firebase Authentication.";if(c.includes("network-request-failed"))return"Koneksi internet bermasalah. Coba lagi.";if(c.includes("too-many-requests"))return"Terlalu banyak percobaan. Tunggu beberapa saat lalu coba lagi.";return e?.message||"Terjadi kesalahan."}
-function setMsg(s){const e=$("accountMsg");if(e)e.textContent=s}
-async function ensure(){if(!user)return;await runTransaction(playerRef(),v=>v||{uid:user.uid,name:user.displayName||"Pemain",email:user.email||"",points:0,computerPoints:0,onlinePoints:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0,computerGames:0,onlineGames:0,createdAt:Date.now()})}
-async function register(){const n=$("accountName")?.value.trim()||"",e=$("accountEmail")?.value.trim().toLowerCase()||"",p=$("accountPassword")?.value||"";if(n.length<2)return setMsg("Nama minimal 2 karakter.");if(!/^([^\s@]+)@([^\s@]+)\.([^\s@]+)$/.test(e))return setMsg("Masukkan email yang benar.");if(p.length<6)return setMsg("Password minimal 6 karakter.");setMsg("Membuat akun...");try{const c=await createUserWithEmailAndPassword(auth,e,p);await updateProfile(c.user,{displayName:n});user=c.user;await ensure();localStorage.setItem("chessPlayerName",n);setMsg("Akun berhasil dibuat. Selamat bermain!");await renderAccount();setTimeout(closeAccount,500)}catch(x){setMsg(msg(x))}}
-async function login(){const e=$("accountEmail")?.value.trim().toLowerCase()||"",p=$("accountPassword")?.value||"";if(!e||!p)return setMsg("Masukkan email dan password.");setMsg("Memeriksa akun...");try{const c=await signInWithEmailAndPassword(auth,e,p);user=c.user;await ensure();setMsg("Login berhasil.");await renderAccount();setTimeout(closeAccount,350)}catch(x){setMsg(msg(x))}}
-async function renderAccount(){const b=$("accountLoginBtn"),o=$("accountLogoutBtn"),n=$("accountUserName");if(!b)return;if(user){const name=user.displayName||"Pemain";if(n)n.textContent=name;const st=$("accountStatus");if(st)st.textContent=`👤 ${name}`;b.classList.add("hidden");o?.classList.remove("hidden");const pn=$("playerName");if(pn)pn.value=name;await refresh()}else{if(n)n.textContent="Belum login";const st=$("accountStatus");if(st)st.textContent="👤 Belum Login";b.classList.remove("hidden");o?.classList.add("hidden");const pts=$("myPoints"),wins=$("myWins");if(pts)pts.textContent="0 P";if(wins)wins.textContent="0"}}
-async function refresh(){if(!user)return;try{const s=await get(playerRef()),v=s.val()||{};const pts=$("myPoints"),wins=$("myWins");if(pts)pts.textContent=`${Number(v.points||0)} P`;if(wins)wins.textContent=v.wins||0}catch(e){console.warn("Gagal membaca profil pemain",e)}}
-function detectMode(){return($("roomTitle")?.textContent||"").includes("VS COMPUTER")?"computer":"online"}
-function beginGame(){gameMode=detectMode();gameId=gameMode==="online"?($("roomInfo")?.textContent||""):`solo_${Date.now()}_${user?.uid||"guest"}`;scored=false}
-async function award(type,mode=gameMode,id=gameId){if(!user||!id||scored||SCORE[type]===undefined)return;const points=SCORE[type];const claim=ref(db,`chessAccountClaims/${uk(user.uid)}/${k(mode+"_"+id)}`);try{const tx=await runTransaction(claim,v=>v||{type,mode,points,at:Date.now()});if(!tx.committed||tx.snapshot.val()?.type!==type)return;scored=true;await runTransaction(playerRef(),v=>{v=v||{uid:user.uid,name:user.displayName||"Pemain",email:user.email||"",points:0,computerPoints:0,onlinePoints:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0,computerGames:0,onlineGames:0};v.name=user.displayName||v.name||"Pemain";v.email=user.email||v.email||"";v.points=Number(v.points||0)+points;v[mode+"Points"]=Number(v[mode+"Points"]||0)+points;v.games=Number(v.games||0)+1;v[mode+"Games"]=Number(v[mode+"Games"]||0)+1;if(type==="win")v.wins=Number(v.wins||0)+1;if(type==="draw")v.draws=Number(v.draws||0)+1;if(type==="loss")v.losses=Number(v.losses||0)+1;if(type==="resign")v.resigns=Number(v.resigns||0)+1;if(type==="exit")v.exits=Number(v.exits||0)+1;v.updatedAt=Date.now();return v});await refresh();showScore(type,points)}catch(e){console.error("Gagal menyimpan point",e);setMsg("Game selesai, tetapi Point gagal disimpan. Pastikan akses Firebase Realtime Database sudah benar.")}}
-function showScore(type,p){const t=$("winTitle"),x=$("winText"),panel=$("winPanel");if(!panel)return;t.textContent=type==="win"?"🏆 Selamat Anda Menang!":type==="draw"?"🤝 Permainan Remis":type==="resign"?"🏳 Anda Menyerah":type==="exit"?"🚪 Anda Keluar Game":"Permainan Selesai";x.textContent=`${text[type]} • ${p>0?"+":""}${p} Point Top Global`;panel.classList.remove("hidden");if(type==="win")window.chessAudio?.win()}
-function classifyMessage(m){if(/remis|stalemate/i.test(m))return"draw";if(/Anda menang/i.test(m))return"win";if(/Computer menang/i.test(m))return"loss";if(/Anda menyerah/i.test(m))return"resign";if(/waktu.*habis/i.test(m)){const winner=m.match(/(Putih|Hitam) menang/i)?.[1],role=$("roleText")?.textContent||"";return winner&&role.includes(winner)?"win":"loss"}if(/(Putih|Hitam) menang/i.test(m)){const winner=m.match(/(Putih|Hitam) menang/i)?.[1],role=$("roleText")?.textContent||"";return role.includes(winner)?"win":"loss"}return null}
-function watchResult(){const el=$("gameMsg");if(!el)return;new MutationObserver(()=>{if(!user)return;const type=classifyMessage(el.textContent||"");if(type&&gameId)award(type,gameMode,gameId)}).observe(el,{childList:true,characterData:true,subtree:true})}
-function watchNewGame(){$("newBtn")?.addEventListener("click",async()=>{if(user&&!scored&&gameId){const status=$("roomStatus")?.textContent||"";const message=$("gameMsg")?.textContent||"";const active=gameMode==="online"?status.toLowerCase()==="playing":!/menang|remis|skakmat|stalemate|waktu.*habis|selesai/i.test(message);if(active)await award("exit",gameMode,gameId)};setTimeout(()=>{gameId=null;gameMode=null;scored=false},100)})}
-function watchRoom(){onValue(ref(db,"rooms"),snap=>{if(!user)return;snap.forEach(c=>{const d=c.val();if(!d||!d.status||!["checkmate","timeout","resigned","draw","stalemate"].includes(d.status))return;if(d.whiteUid!==user.uid&&d.blackUid!==user.uid&&d.whiteName!==user.displayName&&d.blackName!==user.displayName)return;const id=c.key;if(watchingRoom===id&&d.status===lastStatus)return;watchingRoom=id;lastStatus=d.status;gameId=id;gameMode="online";scored=false;let type="draw";if(["checkmate","timeout","resigned"].includes(d.status)){const winner=d.winner,myColor=d.whiteUid===user.uid||d.whiteName===user.displayName?"w":"b";if(d.status==="resigned"&&winner!==myColor)type="resign";else type=winner===myColor?"win":"loss"}award(type,"online",id)})})}
-function rankings(){for(const mode of ["computer","online"]){const el=$(mode+"Ranking");if(!el)continue;onValue(ref(db,"chessPlayers"),s=>{const rows=[];s.forEach(c=>{const v=c.val();if(v)rows.push(v)});rows.sort((a,b)=>Number(b[mode+"Points"]||0)-Number(a[mode+"Points"]||0)||Number(b.wins||0)-Number(a.wins||0));el.innerHTML=rows.slice(0,20).map((v,i)=>`<div class="rank-row ${user&&v.uid===user.uid?"me":""}"><span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${v[mode+"Games"]||0} pertandingan • W ${v.wins||0} • L ${v.losses||0} • R ${v.draws||0}</small></span><strong class="rank-points">${Number(v[mode+"Points"]||0)} P</strong></div>`).join("")||`<div class="rank-empty">Belum ada pemain.</div>`);});}}
-function bind(){
-$("accountLoginBtn")?.addEventListener("click",openAccount);$("accountCloseBtn")?.addEventListener("click",closeAccount);$("registerBtn")?.addEventListener("click",register);$("loginBtn")?.addEventListener("click",login);$("accountLogoutBtn")?.addEventListener("click",()=>signOut(auth));$("winClose")?.addEventListener("click",()=>$("winPanel")?.classList.add("hidden"));$("playerName")?.addEventListener("input",e=>localStorage.setItem("chessPlayerName",e.target.value));watchResult();watchNewGame();watchRoom();rankings();onAuthStateChanged(auth,async u=>{user=u;if(user){await ensure();localStorage.setItem("chessPlayerName",user.displayName||"")}await renderAccount()});new MutationObserver(()=>{const title=$("roomTitle")?.textContent||"";if((title.includes("VS COMPUTER")||title.includes("ROOM"))&&!gameId&&user)beginGame()}).observe($("game")||document.body,{childList:true,subtree:true,characterData:true})}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();window.chessAccount={award,setGame:(id,mode)=>{gameId=id;gameMode=mode;scored=false},getUser:()=>user};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app, "https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
+const $ = id => document.getElementById(id);
+const safe = s => String(s ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const key = s => encodeURIComponent(String(s || "").trim().toLowerCase()).replace(/%/g, "_").slice(0, 120);
+const uidKey = s => String(s || "").replace(/[^a-zA-Z0-9_-]/g, "_");
+const SCORE = { win:50, draw:25, loss:-13, resign:-70, exit:-100 };
+const LABEL = { win:"Menang", draw:"Remis", loss:"Kalah", resign:"Menyerah", exit:"Keluar Game" };
+let user = null;
+let gameId = null;
+let gameMode = null;
+let scored = false;
+let rankingUnsubs = [];
+let bound = false;
+
+function playerRef() { return ref(db, `chessPlayers/${uidKey(user.uid)}`); }
+function accountMessage(e) {
+  const c = e?.code || "";
+  if (c.includes("email-already-in-use")) return "Email sudah terdaftar. Silakan Login.";
+  if (c.includes("invalid-credential") || c.includes("wrong-password") || c.includes("user-not-found")) return "Email atau password salah.";
+  if (c.includes("invalid-email")) return "Format email tidak valid.";
+  if (c.includes("weak-password")) return "Password terlalu lemah. Gunakan minimal 6 karakter.";
+  if (c.includes("operation-not-allowed")) return "Login Email/Password belum diaktifkan di Firebase Authentication.";
+  if (c.includes("network-request-failed")) return "Koneksi internet bermasalah. Coba lagi.";
+  if (c.includes("too-many-requests")) return "Terlalu banyak percobaan. Tunggu beberapa saat lalu coba lagi.";
+  return e?.message || "Terjadi kesalahan.";
+}
+function setMsg(text) { const e = $("accountMsg"); if (e) e.textContent = text || ""; }
+function openAccount() { $("accountModal")?.classList.remove("hidden"); if (user && $("accountName")) $("accountName").value = user.displayName || ""; }
+function closeAccount() { $("accountModal")?.classList.add("hidden"); }
+
+async function ensurePlayer() {
+  if (!user) return;
+  await runTransaction(playerRef(), value => {
+    const v = value || {};
+    return {
+      uid:user.uid, name:user.displayName || v.name || "Pemain", email:user.email || v.email || "",
+      points:Number(v.points || 0), computerPoints:Number(v.computerPoints || 0), onlinePoints:Number(v.onlinePoints || 0),
+      wins:Number(v.wins || 0), draws:Number(v.draws || 0), losses:Number(v.losses || 0), resigns:Number(v.resigns || 0), exits:Number(v.exits || 0),
+      games:Number(v.games || 0), computerGames:Number(v.computerGames || 0), onlineGames:Number(v.onlineGames || 0),
+      createdAt:v.createdAt || Date.now(), updatedAt:Date.now()
+    };
+  });
+}
+
+async function register() {
+  const name = String($("accountName")?.value || "").trim().replace(/[<>]/g, "").slice(0,20);
+  const email = String($("accountEmail")?.value || "").trim().toLowerCase();
+  const password = String($("accountPassword")?.value || "");
+  if (name.length < 2) return setMsg("Nama minimal 2 karakter.");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setMsg("Masukkan email yang benar.");
+  if (password.length < 6) return setMsg("Password minimal 6 karakter.");
+  setMsg("Membuat akun...");
+  try {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(credential.user, { displayName:name });
+    user = credential.user;
+    await ensurePlayer();
+    localStorage.setItem("chessPlayerName", name);
+    await renderAccount();
+    setMsg("Akun berhasil dibuat. Selamat bermain!");
+    setTimeout(closeAccount, 500);
+  } catch (e) { console.error(e); setMsg(accountMessage(e)); }
+}
+
+async function login() {
+  const email = String($("accountEmail")?.value || "").trim().toLowerCase();
+  const password = String($("accountPassword")?.value || "");
+  if (!email || !password) return setMsg("Masukkan email dan password.");
+  setMsg("Memeriksa akun...");
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    user = credential.user;
+    await ensurePlayer();
+    localStorage.setItem("chessPlayerName", user.displayName || "");
+    await renderAccount();
+    setMsg("Login berhasil.");
+    setTimeout(closeAccount, 350);
+  } catch (e) { console.error(e); setMsg(accountMessage(e)); }
+}
+
+async function refresh() {
+  if (!user) return;
+  try {
+    const snap = await get(playerRef());
+    const v = snap.val() || {};
+    if ($("myPoints")) $("myPoints").textContent = `${Number(v.points || 0)} P`;
+    if ($("myWins")) $("myWins").textContent = Number(v.wins || 0);
+  } catch (e) { console.warn("Gagal membaca profil:", e); }
+}
+async function renderAccount() {
+  const loginBtn=$("accountLoginBtn"), logoutBtn=$("accountLogoutBtn");
+  if (!loginBtn) return;
+  if (user) {
+    const name = user.displayName || "Pemain";
+    if ($("accountUserName")) $("accountUserName").textContent=name;
+    if ($("accountStatus")) $("accountStatus").textContent=`👤 ${name}`;
+    loginBtn.classList.add("hidden"); logoutBtn?.classList.remove("hidden");
+    if ($("playerName")) $("playerName").value=name;
+    await refresh();
+  } else {
+    if ($("accountUserName")) $("accountUserName").textContent="Belum login";
+    if ($("accountStatus")) $("accountStatus").textContent="👤 Belum Login";
+    loginBtn.classList.remove("hidden"); logoutBtn?.classList.add("hidden");
+    if ($("myPoints")) $("myPoints").textContent="0 P";
+    if ($("myWins")) $("myWins").textContent="0";
+  }
+}
+
+function setGame(id, mode) { gameId=id || null; gameMode=mode || null; scored=false; }
+async function award(type, mode=gameMode, id=gameId) {
+  if (!user || !id || !mode || scored || SCORE[type] === undefined) return false;
+  const claim = ref(db, `chessAccountClaims/${uidKey(user.uid)}/${key(`${mode}_${id}`)}`);
+  try {
+    const tx = await runTransaction(claim, v => v || {type, mode, points:SCORE[type], at:Date.now()});
+    if (!tx.committed || tx.snapshot.val()?.type !== type) return false;
+    await runTransaction(playerRef(), v => {
+      v=v||{};
+      v.uid=user.uid; v.name=user.displayName||v.name||"Pemain"; v.email=user.email||v.email||"";
+      v.points=Number(v.points||0)+SCORE[type];
+      v[`${mode}Points`]=Number(v[`${mode}Points`]||0)+SCORE[type];
+      v.games=Number(v.games||0)+1; v[`${mode}Games`]=Number(v[`${mode}Games`]||0)+1;
+      if(type==="win")v.wins=Number(v.wins||0)+1;
+      if(type==="draw")v.draws=Number(v.draws||0)+1;
+      if(type==="loss")v.losses=Number(v.losses||0)+1;
+      if(type==="resign")v.resigns=Number(v.resigns||0)+1;
+      if(type==="exit")v.exits=Number(v.exits||0)+1;
+      v.updatedAt=Date.now(); return v;
+    });
+    scored=true; await refresh(); showScore(type,SCORE[type]); return true;
+  } catch(e) { console.error("Gagal menyimpan Point:",e); return false; }
+}
+function result(type) { return award(type); }
+function showScore(type, points) {
+  const panel=$("winPanel"); if(!panel)return;
+  if($("winTitle")) $("winTitle").textContent = type==="win"?"🏆 Selamat Anda Menang!":type==="draw"?"🤝 Permainan Remis":type==="resign"?"🏳 Anda Menyerah":type==="exit"?"🚪 Anda Keluar Game":"Permainan Selesai";
+  if($("winText")) $("winText").textContent=`${LABEL[type]} • ${points>0?"+":""}${points} Point Top Global`;
+  panel.classList.remove("hidden"); if(type==="win")window.chessAudio?.win?.();
+}
+
+function rankings() {
+  rankingUnsubs.forEach(fn=>fn?.()); rankingUnsubs=[];
+  for (const mode of ["computer","online"]) {
+    const target=$(mode+"Ranking"); if(!target)continue;
+    const unsub=onValue(ref(db,"chessPlayers"),snap=>{
+      const rows=[]; snap.forEach(c=>{const v=c.val();if(v)rows.push(v);});
+      rows.sort((a,b)=>Number(b[`${mode}Points`]||0)-Number(a[`${mode}Points`]||0)||Number(b.wins||0)-Number(a.wins||0)||String(a.name||"").localeCompare(String(b.name||"")));
+      target.innerHTML=rows.slice(0,20).map((v,i)=>`<div class="rank-row ${user&&v.uid===user.uid?"me":""}"><span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${Number(v[`${mode}Games`]||0)} pertandingan • W ${Number(v.wins||0)} • L ${Number(v.losses||0)} • R ${Number(v.draws||0)}</small></span><strong class="rank-points">${Number(v[`${mode}Points`]||0)} P</strong></div>`).join("") || `<div class="rank-empty">Belum ada pemain.</div>`;
+    });
+    rankingUnsubs.push(unsub);
+  }
+}
+
+function bind() {
+  if(bound)return; bound=true;
+  $("accountLoginBtn")?.addEventListener("click",openAccount);
+  $("accountCloseBtn")?.addEventListener("click",closeAccount);
+  $("registerBtn")?.addEventListener("click",register);
+  $("loginBtn")?.addEventListener("click",login);
+  $("accountLogoutBtn")?.addEventListener("click",async()=>{try{await signOut(auth);}catch(e){console.error(e);}});
+  $("winClose")?.addEventListener("click",()=>$("winPanel")?.classList.add("hidden"));
+  $("playerName")?.addEventListener("input",e=>localStorage.setItem("chessPlayerName",e.target.value));
+  onAuthStateChanged(auth,async u=>{user=u||null;if(user){try{await ensurePlayer();}catch(e){console.error(e);}localStorage.setItem("chessPlayerName",user.displayName||"");}await renderAccount();rankings();});
+  rankings();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind,{once:true});else bind();
+window.chessAccount={setGame,getUser:()=>user,award,result};
