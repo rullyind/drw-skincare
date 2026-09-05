@@ -99,8 +99,25 @@ jobs:
             cp "$BASE/$DIR/ic_launcher.png" "$BASE/$DIR/ic_launcher_round.png"
           done
 
+      - name: Check signing secrets
+        id: signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ] && [ -n "$ANDROID_KEY_ALIAS" ] && [ -n "$ANDROID_KEY_PASSWORD" ]; then
+            echo 'configured=true' >> "$GITHUB_OUTPUT"
+            echo 'All Android signing secrets are configured.'
+          else
+            echo 'configured=false' >> "$GITHUB_OUTPUT"
+            echo 'Android signing secrets are not configured.'
+          fi
+
       - name: Configure release signing
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        if: steps.signing.outputs.configured == 'true'
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -113,26 +130,35 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
-          import re
 
           p = Path('android/app/build.gradle')
           text = p.read_text()
 
-          signing_block = '''\n    signingConfigs {\n        release {\n            storeFile file("mbicuki-upload-key.jks")\n            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")\n            keyAlias System.getenv("ANDROID_KEY_ALIAS")\n            keyPassword System.getenv("ANDROID_KEY_PASSWORD")\n        }\n    }\n'''
-
           if 'signingConfigs {' not in text:
-              text = text.replace('\n    buildTypes {', signing_block + '\n    buildTypes {', 1)
+              signing_block = '''\n    signingConfigs {\n        release {\n            storeFile file("mbicuki-upload-key.jks")\n            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")\n            keyAlias System.getenv("ANDROID_KEY_ALIAS")\n            keyPassword System.getenv("ANDROID_KEY_PASSWORD")\n        }\n    }\n'''
+              marker = '\n    buildTypes {'
+              if marker not in text:
+                  raise SystemExit('Could not locate buildTypes block in android/app/build.gradle')
+              text = text.replace(marker, signing_block + marker, 1)
 
           if 'signingConfig signingConfigs.release' not in text:
-              text = re.sub(r'(buildTypes\s*\{\s*release\s*\{)', r'\1\n            signingConfig signingConfigs.release', text, count=1)
+              build_types = text.find('\n    buildTypes {')
+              if build_types < 0:
+                  raise SystemExit('Could not locate buildTypes block')
+              release = text.find('\n        release {', build_types)
+              if release < 0:
+                  raise SystemExit('Could not locate buildTypes.release block')
+              insert_at = release + len('\n        release {')
+              text = text[:insert_at] + '\n            signingConfig signingConfigs.release' + text[insert_at:]
 
           p.write_text(text)
           PY
 
       - name: Verify release signing configuration
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        if: steps.signing.outputs.configured == 'true'
         run: |
           test -s android/app/mbicuki-upload-key.jks
+          grep -q 'signingConfig signingConfigs.release' android/app/build.gradle
           echo 'Release signing configuration is ready.'
 
       - name: Build debug APK
@@ -147,7 +173,7 @@ jobs:
           if-no-files-found: error
 
       - name: Build signed release bundle
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        if: steps.signing.outputs.configured == 'true'
         working-directory: android
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -155,8 +181,8 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: ./gradlew bundleRelease
 
-      - name: Stop if signing secrets are missing
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 == '' || secrets.ANDROID_KEYSTORE_PASSWORD == '' || secrets.ANDROID_KEY_ALIAS == '' || secrets.ANDROID_KEY_PASSWORD == '' }}
+      - name: Fail when signing is not configured
+        if: steps.signing.outputs.configured != 'true'
         run: |
           echo 'ERROR: Android release signing secrets are not configured.'
           echo 'Required secrets: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD'
@@ -164,8 +190,10 @@ jobs:
 
       - name: Verify signed release bundle exists
         run: |
-          test -s android/app/build/outputs/bundle/release/*.aab
-          echo 'Signed AAB created successfully.'
+          AAB=$(find android/app/build/outputs/bundle/release -maxdepth 1 -type f -name '*.aab' | head -n 1)
+          test -n "$AAB"
+          test -s "$AAB"
+          echo "Signed AAB created: $AAB"
 
       - name: Upload signed release bundle
         uses: actions/upload-artifact@v6
