@@ -99,12 +99,48 @@ jobs:
             cp "$BASE/$DIR/ic_launcher.png" "$BASE/$DIR/ic_launcher_round.png"
           done
 
+      - name: Configure release signing
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/mbicuki-upload-key.jks
+          test -s android/app/mbicuki-upload-key.jks
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('android/app/build.gradle')
+          text = p.read_text()
+
+          signing_block = '''\n    signingConfigs {\n        release {\n            storeFile file("mbicuki-upload-key.jks")\n            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")\n            keyAlias System.getenv("ANDROID_KEY_ALIAS")\n            keyPassword System.getenv("ANDROID_KEY_PASSWORD")\n        }\n    }\n'''
+
+          if 'signingConfigs {' not in text:
+              text = text.replace('\n    buildTypes {', signing_block + '\n    buildTypes {', 1)
+
+          if 'signingConfig signingConfigs.release' not in text:
+              text = re.sub(r'(release\s*\{)', r'\1\n            signingConfig signingConfigs.release', text, count=1)
+
+          p.write_text(text)
+          PY
+
+      - name: Verify release signing configuration
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        run: |
+          test -f android/app/mbicuki-upload-key.jks
+          echo 'Release signing configuration is ready.'
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: mbicuki-catur-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
@@ -113,9 +149,22 @@ jobs:
         working-directory: android
         run: ./gradlew bundleRelease
 
+      - name: Check release bundle signing
+        run: |
+          if [ -f android/app/mbicuki-upload-key.jks ]; then
+            echo 'Signed release build enabled.'
+          else
+            echo 'No Android signing secrets configured; release AAB is unsigned.'
+            echo 'Add ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD to enable Play-ready signing.'
+          fi
+
       - name: Upload release bundle
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: mbicuki-catur-release-bundle
           path: android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: error
+
+      - name: Cleanup signing material
+        if: always()
+        run: rm -f android/app/mbicuki-upload-key.jks
