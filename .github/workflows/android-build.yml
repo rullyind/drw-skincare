@@ -28,7 +28,6 @@ jobs:
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
-          cache: gradle
 
       - name: Install dependencies
         run: npm install
@@ -52,6 +51,13 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      - name: Setup Gradle cache
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: gradle
+
       - name: Configure Android app
         run: |
           python3 - <<'PY'
@@ -64,8 +70,6 @@ jobs:
               s = s.replace('>', '>\n    <uses-permission android:name="android.permission.INTERNET" />', 1)
           manifest.write_text(s)
 
-          # Capacitor 8 generates the Android project with shared SDK values.
-          # Force compile/target SDK 36 for current Google Play requirements.
           for name in ['android/variables.gradle', 'android/app/variables.gradle']:
               p = Path(name)
               if not p.exists():
