@@ -180,31 +180,43 @@ async function joinRoom() {
 
     setLobbyMsg("🔄 Menghubungkan Anda sebagai pemain Hitam...");
 
-    const txResult = await runTransaction(roomRef(code), current => {
-      if (!current) return;
-      if (current.status !== "waiting") return;
-      if (current.blackUid || current.blackName) return;
-      return {
-        ...current,
-        blackUid: myUid,
-        blackName: myName,
-        status: "playing",
-        lastTick: Date.now()
-      };
+    // Claim hanya kursi Hitam. Ini lebih aman terhadap race condition
+    // daripada mentransaksikan seluruh object room sekaligus.
+    const claimResult = await runTransaction(ref(db, `rooms/${code}/blackUid`), current => {
+      if (current) return;
+      return myUid;
     });
 
-    if (!txResult || !txResult.committed || !txResult.snapshot?.exists()) {
+    if (!claimResult?.committed || String(claimResult.snapshot?.val() || "") !== String(myUid)) {
+      const freshSnap = await get(roomRef(code));
+      const fresh = freshSnap.exists() ? (freshSnap.val() || {}) : null;
       roomId = null;
-      setLobbyMsg(`❌ ROOM ${code} tidak tersedia atau sudah diambil pemain lain.`);
+      if (!fresh) setLobbyMsg(`❌ ROOM ${code} sudah tidak tersedia.`);
+      else if (String(fresh.blackUid || "") === String(myUid)) {
+        // Edge case: claim berhasil tetapi hasil transaksi belum terbaca seperti biasa.
+        roomId = code;
+        myColor = "b";
+        await update(roomRef(code), { blackName: myName, status: "playing", lastTick: Date.now() });
+        enterGame();
+        $("roomTitle").textContent = `ROOM ${roomId}`;
+        $("roleText").textContent = "Anda: Hitam";
+        $("roomInfo").textContent = roomId;
+        $("roomStatus").textContent = "playing";
+        setLobbyMsg("");
+        announceGame("online", roomId);
+        listenRoom();
+        listenChat();
+        return;
+      } else if (fresh.blackUid || fresh.blackName || fresh.status !== "waiting") setLobbyMsg(`❌ ROOM ${code} baru saja diambil pemain lain.`);
+      else setLobbyMsg(`❌ Gagal mengambil kursi Hitam di ROOM ${code}. Coba sekali lagi.`);
       return;
     }
 
-    const joinedData = txResult.snapshot.val() || {};
-    if (String(joinedData.blackUid || "") !== String(myUid)) {
-      roomId = null;
-      setLobbyMsg("❌ ROOM baru saja diambil pemain lain. Gunakan room lain.");
-      return;
-    }
+    await update(roomRef(code), {
+      blackName: myName,
+      status: "playing",
+      lastTick: Date.now()
+    });
 
     myColor = "b";
     enterGame();
