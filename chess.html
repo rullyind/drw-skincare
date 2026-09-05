@@ -1,73 +1,402 @@
 <!doctype html>
+
 <html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mbicuki Catur Online</title>
-    <link rel="stylesheet" href="./chess.css">
-    <style>
-        .game-mode-box{margin-top:20px;padding:18px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
-        .mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.mode-option{cursor:pointer}.mode-option input{display:none}
-        .mode-option span{display:block;padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(0,0,0,.08);transition:.2s}.mode-option input:checked+span{border-color:#ff4fa3;box-shadow:0 0 20px rgba(255,79,163,.18)}
-        .mode-option b,.mode-option small{display:block}.mode-option small{margin-top:5px;opacity:.65}.computer-settings{margin-top:14px;padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12)}
-        .computer-settings label{display:block;margin-bottom:12px}.computer-settings select{width:100%;margin-top:6px;padding:11px;border-radius:10px;background:rgba(0,0,0,.2);color:inherit;border:1px solid rgba(255,255,255,.15)}.computer-settings button{width:100%;margin-top:5px}
-        .ai-badge{display:inline-block;margin-left:8px;padding:4px 9px;border-radius:99px;background:rgba(255,79,163,.12);font-size:12px}.hidden{display:none!important}@media(max-width:650px){.mode-options{grid-template-columns:1fr}}
-    </style>
+
+```
+<title>Mbicuki Catur Online</title>
+
+<link rel="stylesheet" href="./chess.css">
+```
+
 </head>
+
 <body>
+
 <main class="page">
+
+```
+<!-- =========================
+     HEADER
+========================== -->
+
 <header class="top">
-    <div><div class="brand">Mbicuki <span>Catur</span></div><div class="sub">Online 2 Pemain Ko Mah • Waktu Asli</div></div>
-    <div id="connection" class="status offline">● Menghubungkan...</div>
+
+    <div>
+
+        <div class="brand">
+            Mbicuki <span>Catur</span>
+        </div>
+
+        <div class="sub">
+            Online 2 Pemain Ko Mah • Waktu Asli
+        </div>
+
+    </div>
+
+    <div id="connection" class="status offline">
+        ● Menghubungkan...
+    </div>
+
 </header>
 
+
+<!-- =========================
+     LOBBY
+========================== -->
+
 <section id="lobby" class="panel lobby">
+
     <h1>Main Catur Online</h1>
-    <p class="muted">Buat room lalu kirim kode room kepada teman.</p>
-    <label for="playerName">Nama pemain<input id="playerName" type="text" maxlength="20" autocomplete="nickname" placeholder="Nama Anda"></label>
 
-    <div class="game-mode-box">
-        <strong>🎮 Mode Permainan</strong>
-        <div class="mode-options">
-            <label class="mode-option"><input type="radio" name="gameMode" value="online" checked><span>♟ <b>Online 2 Pemain</b><small>Lawan pemain lain melalui Firebase.</small></span></label>
-            <label class="mode-option"><input type="radio" name="gameMode" value="computer"><span>🤖 <b>VS Computer</b><small>Lawan komputer dengan 4 level.</small></span></label>
+    <p class="muted">
+        Buat room lalu kirim kode room kepada teman.
+    </p>
+
+
+    <!-- NAMA PEMAIN -->
+
+    <label for="playerName">
+        Nama pemain
+
+        <input
+            id="playerName"
+            type="text"
+            maxlength="20"
+            autocomplete="nickname"
+            placeholder="Nama Anda"
+        >
+    </label>
+
+
+    <!-- AKSI LOBBY -->
+
+    <div class="lobby-actions">
+
+        <button
+            id="createBtn"
+            class="primary"
+            type="button"
+        >
+            ♟ Buat Room
+        </button>
+
+
+        <div class="join">
+
+            <input
+                id="roomInput"
+                type="text"
+                maxlength="8"
+                autocomplete="off"
+                placeholder="KODE ROOM"
+            >
+
+            <button
+                id="joinBtn"
+                type="button"
+            >
+                Gabung
+            </button>
+
         </div>
+
     </div>
 
-    <div id="computerSettings" class="computer-settings hidden">
-        <label for="computerSide">Warna Anda<select id="computerSide"><option value="w">♙ Putih</option><option value="b">♟ Hitam</option></select></label>
-        <label for="computerLevel">Level Computer<select id="computerLevel"><option value="easy">🟢 Easy</option><option value="normal" selected>🔵 Normal</option><option value="professional">🔴 Professional</option><option value="world">👑 World Class</option></select></label>
-        <button id="computerBtn" class="primary" type="button">🤖 Mulai VS Computer</button>
+
+    <!-- PESAN LOBBY -->
+
+    <div
+        id="lobbyMsg"
+        class="msg"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- INFORMASI -->
+
+    <div class="notice">
+
+        <strong>♟ Cara bermain</strong>
+
+        <p>
+            1. Masukkan nama Anda.
+            <br>
+            2. Klik <b>Buat Room</b>.
+            <br>
+            3. Salin kode room.
+            <br>
+            4. Kirim kode kepada teman.
+            <br>
+            5. Teman memasukkan kode tersebut lalu klik <b>Gabung</b>.
+        </p>
+
     </div>
 
-    <div id="onlineSettings">
-        <div class="lobby-actions">
-            <button id="createBtn" class="primary" type="button">♟ Buat Room</button>
-            <div class="join"><input id="roomInput" type="text" maxlength="8" autocomplete="off" placeholder="KODE ROOM"><button id="joinBtn" type="button">Gabung</button></div>
-        </div>
-    </div>
-
-    <div id="lobbyMsg" class="msg" aria-live="polite"></div>
-    <div class="notice"><strong>♟ Cara bermain</strong><p>1. Masukkan nama Anda.<br>2. Pilih Online atau VS Computer.<br>3. Untuk online, buat room dan kirim kodenya kepada teman.</p></div>
 </section>
 
-<section id="game" class="game hidden">
+
+<!-- =========================
+     GAME
+========================== -->
+
+<section
+    id="game"
+    class="game hidden"
+>
+
+    <!-- =========================
+         BOARD PANEL
+    ========================== -->
+
     <div class="board-panel">
-        <div class="gamebar"><div><strong id="roomTitle">ROOM</strong><span id="roleText"></span><span id="aiBadge" class="ai-badge hidden">🤖 Computer</span></div><button id="copyBtn" type="button">🔗 Salin Undangan</button></div>
-        <div class="player-row"><div class="player black"><span class="dot"></span><b id="blackName">Menunggu...</b></div><div id="blackClock" class="clock">10:00</div></div>
-        <div id="board" class="board" aria-label="Papan catur"></div>
-        <div class="player-row"><div class="player white"><span class="dot"></span><b id="whiteName">Menunggu...</b></div><div id="whiteClock" class="clock">10:00</div></div>
-        <div class="controls"><button id="resignBtn" type="button">🏳 Menyerah</button><button id="drawBtn" type="button">🤝 Tawarkan Remis</button><button id="newBtn" type="button">↻ Kembali ke Lobby</button></div>
-        <div id="gameMsg" class="game-msg" aria-live="polite">Menunggu pemain kedua...</div>
+
+
+        <!-- GAME BAR -->
+
+        <div class="gamebar">
+
+            <div>
+
+                <strong id="roomTitle">
+                    ROOM
+                </strong>
+
+                <span id="roleText"></span>
+
+            </div>
+
+
+            <button
+                id="copyBtn"
+                type="button"
+            >
+                🔗 Salin Undangan
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             BLACK PLAYER
+        ========================== -->
+
+        <div class="player-row">
+
+            <div class="player black">
+
+                <span class="dot"></span>
+
+                <b id="blackName">
+                    Menunggu...
+                </b>
+
+            </div>
+
+
+            <div
+                id="blackClock"
+                class="clock"
+                aria-label="Waktu pemain hitam"
+            >
+                10:00
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CHESS BOARD
+        ========================== -->
+
+        <div
+            id="board"
+            class="board"
+            aria-label="Papan catur"
+        ></div>
+
+
+        <!-- =========================
+             WHITE PLAYER
+        ========================== -->
+
+        <div class="player-row">
+
+            <div class="player white">
+
+                <span class="dot"></span>
+
+                <b id="whiteName">
+                    Menunggu...
+                </b>
+
+            </div>
+
+
+            <div
+                id="whiteClock"
+                class="clock"
+                aria-label="Waktu pemain putih"
+            >
+                10:00
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CONTROLS
+        ========================== -->
+
+        <div class="controls">
+
+            <button
+                id="resignBtn"
+                type="button"
+            >
+                🏳 Menyerah
+            </button>
+
+
+            <button
+                id="drawBtn"
+                type="button"
+            >
+                🤝 Tawarkan Remis
+            </button>
+
+
+            <button
+                id="newBtn"
+                type="button"
+            >
+                ↻ Kembali ke Lobby
+            </button>
+
+        </div>
+
+
+        <!-- STATUS GAME -->
+
+        <div
+            id="gameMsg"
+            class="game-msg"
+            aria-live="polite"
+        >
+            Menunggu pemain kedua...
+        </div>
+
     </div>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
 
     <aside class="side">
-        <div class="card" id="chatCard"><h3>💬 Chat</h3><div id="chatList" class="chat-list" aria-live="polite"></div><form id="chatForm"><input id="chatInput" type="text" maxlength="160" autocomplete="off" placeholder="Tulis pesan..."><button type="submit" aria-label="Kirim pesan">➤</button></form></div>
-        <div class="card"><h3>ℹ️ Cara bermain</h3><p>Klik bidak yang ingin dimainkan, lalu klik kotak tujuan.</p><p><strong>Putih</strong> bermain terlebih dahulu.</p><p id="aiInfo" class="muted"></p></div>
-        <div class="card"><h3>🏠 Room</h3><p><strong>Kode:</strong> <span id="roomInfo">-</span></p><p><strong>Status:</strong> <span id="roomStatus">Menunggu pemain...</span></p></div>
+
+
+        <!-- CHAT -->
+
+        <div class="card">
+
+            <h3>
+                💬 Chat
+            </h3>
+
+
+            <div
+                id="chatList"
+                class="chat-list"
+                aria-live="polite"
+            ></div>
+
+
+            <form id="chatForm">
+
+                <input
+                    id="chatInput"
+                    type="text"
+                    maxlength="160"
+                    autocomplete="off"
+                    placeholder="Tulis pesan..."
+                >
+
+                <button
+                    type="submit"
+                    aria-label="Kirim pesan"
+                >
+                    ➤
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- CARA BERMAIN -->
+
+        <div class="card">
+
+            <h3>
+                ℹ️ Cara bermain
+            </h3>
+
+            <p>
+                Klik bidak yang ingin dimainkan,
+                lalu klik kotak tujuan.
+            </p>
+
+            <p>
+                <strong>Putih</strong> bermain terlebih dahulu.
+            </p>
+
+            <p>
+                Jangan tutup halaman selama pertandingan
+                berlangsung.
+            </p>
+
+        </div>
+
+
+        <!-- INFORMASI ROOM -->
+
+        <div class="card">
+
+            <h3>
+                🏠 Room
+            </h3>
+
+            <p>
+                <strong>Kode:</strong>
+                <span id="roomInfo">-</span>
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span id="roomStatus">
+                    Menunggu pemain...
+                </span>
+            </p>
+
+        </div>
+
     </aside>
+
 </section>
+
+
 </main>
+
+<!-- =========================================
+     FIREBASE + GAME JAVASCRIPT
+========================================= -->
+
+<script type="module" src="./firebase-config.js"></script>
+
 <script type="module" src="./chess.js"></script>
+
 </body>
 </html>
