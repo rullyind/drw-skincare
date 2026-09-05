@@ -1,0 +1,12 @@
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'site.mbicuki.catur',
+  appName: 'Mbicuki Catur',
+  webDir: '.',
+  server: {
+    androidScheme: 'https'
+  }
+};
+
+export default config;
