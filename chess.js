@@ -180,9 +180,7 @@ async function joinRoom() {
 
     setLobbyMsg("🔄 Menghubungkan Anda sebagai pemain Hitam...");
 
-    // Firebase modular SDK mengembalikan DataSnapshot langsung dari runTransaction().
-    // Bukan object { committed, snapshot } seperti API lama. Gunakan exists()/val().
-    const txSnap = await runTransaction(roomRef(code), current => {
+    const txResult = await runTransaction(roomRef(code), current => {
       if (!current) return;
       if (current.status !== "waiting") return;
       if (current.blackUid || current.blackName) return;
@@ -195,13 +193,13 @@ async function joinRoom() {
       };
     });
 
-    if (!txSnap.exists()) {
+    if (!txResult || !txResult.committed || !txResult.snapshot?.exists()) {
       roomId = null;
       setLobbyMsg(`❌ ROOM ${code} tidak tersedia atau sudah diambil pemain lain.`);
       return;
     }
 
-    const joinedData = txSnap.val() || {};
+    const joinedData = txResult.snapshot.val() || {};
     if (String(joinedData.blackUid || "") !== String(myUid)) {
       roomId = null;
       setLobbyMsg("❌ ROOM baru saja diambil pemain lain. Gunakan room lain.");
@@ -357,7 +355,7 @@ async function clickSquare(sq) {
   const from = selected;
   selected = null;
   try {
-    const txSnap = await runTransaction(roomRef(), d => {
+    const txResult = await runTransaction(roomRef(), d => {
       if (!d || d.status !== "playing" || d.turn !== myColor) return;
       const t = remaining(d);
       if (t.w <= 0 || t.b <= 0) return { ...d, status: "timeout", winner: t.w <= 0 ? "b" : "w", whiteTime: t.w, blackTime: t.b, lastTick: Date.now() };
@@ -373,7 +371,7 @@ async function clickSquare(sq) {
       moves[`m_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`] = { from: move.from, to: move.to, fen: c.fen(), by: myColor, at: Date.now(), san: move.san };
       return { ...d, fen: c.fen(), turn: c.turn(), status, moves, lastMove: move.san, lastMoveAt: Date.now(), lastTick: Date.now(), drawOffer: "", whiteTime: t.w, blackTime: t.b, winner };
     });
-    if (!txSnap.exists()) renderOnline();
+    if (!txResult || !txResult.committed || !txResult.snapshot?.exists()) renderOnline();
   } catch (e) { console.error("move:", e); renderOnline(); }
 }
 
