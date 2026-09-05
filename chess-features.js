@@ -3,8 +3,10 @@
    Stable browser-safe version
    - No unnecessary Firebase initialization
    - Safe Web Audio handling
-   - No duplicate event bindings
-   - No duplicate win modal observers
+   - Move sound on every chess move
+   - Special knight sound when a knight moves
+   - Capture/check/win sounds
+   - Relaxation music
    ========================================================= */
 "use strict";
 
@@ -71,6 +73,13 @@ function moveSound() {
   tone(760, 0.12, "sine", 0.035, 0.035);
 }
 
+function knightSound() {
+  // Suara khas kuda: dua nada pendek dengan aksen naik.
+  tone(300, 0.075, "square", 0.045);
+  tone(610, 0.10, "triangle", 0.06, 0.055);
+  tone(860, 0.12, "sine", 0.04, 0.13);
+}
+
 function captureSound() {
   tone(180, 0.11, "square", 0.045);
   tone(110, 0.16, "triangle", 0.035, 0.05);
@@ -119,22 +128,66 @@ async function toggleMusic() {
   }
 }
 
+function boardSnapshot(board) {
+  const map = {};
+  board?.querySelectorAll?.(".sq").forEach(cell => {
+    const sq = cell.dataset.square;
+    if (sq) map[sq] = cell.textContent || "";
+  });
+  return map;
+}
+
+function detectBoardMove(before, after) {
+  const sources = [];
+  const destinations = [];
+
+  for (const sq of Object.keys(after)) {
+    const oldPiece = String(before[sq] || "").trim();
+    const newPiece = String(after[sq] || "").trim();
+    if (oldPiece && !newPiece) sources.push({ sq, piece: oldPiece });
+    if (!oldPiece && newPiece) destinations.push({ sq, piece: newPiece });
+    if (oldPiece && newPiece && oldPiece !== newPiece) destinations.push({ sq, piece: newPiece, replaced: oldPiece });
+  }
+
+  // Ambil bidak asal. Untuk rokade ada dua sumber; cukup pilih yang bukan raja.
+  const source = sources.find(x => !/[♔♚]/.test(x.piece)) || sources[0];
+  const destination = destinations[0];
+  if (!source && !destination) return null;
+
+  const piece = source?.piece || destination?.piece || "";
+  const isKnight = /[♘♞]/.test(piece);
+  const isCapture = destinations.some(x => x.replaced);
+  return { piece, isKnight, isCapture };
+}
+
+function playDetectedMove(before, after) {
+  const move = detectBoardMove(before, after);
+  if (!move) {
+    moveSound();
+    return;
+  }
+  if (move.isKnight) knightSound();
+  else if (move.isCapture) captureSound();
+  else moveSound();
+}
+
 function observeBoard() {
   const board = $("board");
   if (!board || !window.MutationObserver) return;
   if (boardObserver) boardObserver.disconnect();
 
-  lastBoardState = board.textContent || "";
+  const initial = boardSnapshot(board);
+  lastBoardState = JSON.stringify(initial);
+
   boardObserver = new MutationObserver(() => {
-    const state = board.textContent || "";
-    if (!lastBoardState) {
-      lastBoardState = state;
-      return;
-    }
-    if (state !== lastBoardState) {
-      lastBoardState = state;
-      moveSound();
-    }
+    const before = (() => {
+      try { return JSON.parse(lastBoardState || "{}"); } catch { return {}; }
+    })();
+    const after = boardSnapshot(board);
+    const nextState = JSON.stringify(after);
+    if (nextState === lastBoardState) return;
+    lastBoardState = nextState;
+    playDetectedMove(before, after);
   });
 
   boardObserver.observe(board, { childList: true, subtree: true });
@@ -180,6 +233,7 @@ if (document.readyState === "loading") {
 
 window.chessAudio = {
   move: moveSound,
+  knight: knightSound,
   capture: captureSound,
   check: checkSound,
   win: winSound
