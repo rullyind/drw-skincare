@@ -1,86 +1,39 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-import { getDatabase, ref, onValue, runTransaction, onDisconnect, set, get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getDatabase,ref,onValue,runTransaction,get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getDatabase(app,"https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
-const $=id=>document.getElementById(id);
-const safe=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const uidKey=uid=>String(uid).replace(/[^a-zA-Z0-9_-]/g,"_");
-
-let currentUser=null;
-let currentGame=null;
-let scoreRecorded=false;
-
-function pointsLabel(n){return `${Number(n||0)} P`}
-function rankPath(uid){return ref(db,`chessPlayers/${uidKey(uid)}`)}
-
-async function ensurePlayer(user,name){
-  if(!user)return;
-  await runTransaction(rankPath(user.uid),v=>v||{uid:user.uid,name:name||user.displayName||"Pemain",email:user.email||"",points:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0,createdAt:Date.now(),updatedAt:Date.now()});
-}
-
+const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getDatabase(app,"https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
+const $=id=>document.getElementById(id); const safe=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const k=s=>encodeURIComponent(String(s||"").trim().toLowerCase()).replace(/%/g,"_").slice(0,100); const uk=s=>String(s||"").replace(/[^a-zA-Z0-9_-]/g,"_");
+let user=null,gameId=null,gameMode=null,scored=false,watchingRoom=null;
+const SCORE={win:50,draw:25,loss:-13,resign:-70,exit:-100};
+const text={win:"Menang",draw:"Remis",loss:"Kalah",resign:"Menyerah",exit:"Keluar Game"};
+function playerRef(){return ref(db,`chessPlayers/${uk(user.uid)}`)}
 function openAccount(){ $("accountModal")?.classList.remove("hidden"); }
 function closeAccount(){ $("accountModal")?.classList.add("hidden"); }
-
-async function register(){
-  const name=$("accountName").value.trim(),email=$("accountEmail").value.trim(),pass=$("accountPassword").value;
-  if(name.length<2)return $("accountMsg").textContent="Nama minimal 2 karakter.";
-  if(pass.length<6)return $("accountMsg").textContent="Password minimal 6 karakter.";
-  try{const c=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(c.user,{displayName:name});await ensurePlayer(c.user,name);$("accountMsg").textContent="Akun berhasil dibuat. Selamat bermain!";}catch(e){$("accountMsg").textContent=authMessage(e)}
-}
-async function login(){
-  const email=$("accountEmail").value.trim(),pass=$("accountPassword").value;
-  try{await signInWithEmailAndPassword(auth,email,pass);$("accountMsg").textContent="Login berhasil.";}catch(e){$("accountMsg").textContent=authMessage(e)}
-}
-async function logout(){await signOut(auth)}
-function authMessage(e){const c=e?.code||"";return c.includes("invalid-credential")||c.includes("wrong-password")?"Email atau password salah.":c.includes("email-already")?"Email sudah terdaftar.":c.includes("invalid-email")?"Format email tidak valid.":e?.message||"Terjadi kesalahan."}
-
-function renderAccount(){
-  const box=$("accountStatus"),userName=$("accountUserName"),btn=$("accountLoginBtn"),out=$("accountLogoutBtn");
-  if(!box)return;
-  if(currentUser){box.textContent=`👤 ${currentUser.displayName||"Pemain"}`;userName.textContent=currentUser.displayName||"Pemain";btn.classList.add("hidden");out.classList.remove("hidden");$("accountModal")?.classList.add("hidden");$("playerName").value=currentUser.displayName||$("playerName").value;}
-  else{box.textContent="👤 Belum Login";userName.textContent="Belum login";btn.classList.remove("hidden");out.classList.add("hidden");}
-}
-
-function awardType(type){return {win:50,draw:25,loss:-13,resign:-70,exit:-100}[type]??0}
-async function award(type,mode="online",extra={}){
-  if(!currentUser||scoreRecorded)return;
-  const gameId=extra.gameId||currentGame?.id;
-  if(!gameId)return;
-  scoreRecorded=true;
-  const p=awardType(type);
-  const claim=ref(db,`chessScoreClaims/${uidKey(currentUser.uid)}/${uidKey(gameId)}`);
-  const guard=await runTransaction(claim,v=>v||{type,points:p,mode,at:Date.now()});
-  if(!guard.committed)return;
-  await runTransaction(rankPath(currentUser.uid),v=>{v=v||{uid:currentUser.uid,name:currentUser.displayName||"Pemain",points:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0};v.name=currentUser.displayName||v.name||"Pemain";v.points=Number(v.points||0)+p;v.games=Number(v.games||0)+1;if(type==="win")v.wins=Number(v.wins||0)+1;if(type==="draw")v.draws=Number(v.draws||0)+1;if(type==="loss")v.losses=Number(v.losses||0)+1;if(type==="resign")v.resigns=Number(v.resigns||0)+1;if(type==="exit")v.exits=Number(v.exits||0)+1;v.updatedAt=Date.now();return v});
-  refreshMyScore();
-}
-
-async function refreshMyScore(){if(!currentUser)return;const s=await get(rankPath(currentUser.uid));const v=s.val()||{};$("myPoints")&&( $("myPoints").textContent=pointsLabel(v.points));$("myWins")&&($("myWins").textContent=v.wins||0)}
-
-function renderRanking(mode,el){
-  onValue(ref(db,"chessPlayers"),snap=>{
-    const rows=[];snap.forEach(c=>{const v=c.val();if(!mode||v)rows.push(v)});
-    rows.sort((a,b)=>Number(b.points||0)-Number(a.points||0)||Number(b.wins||0)-Number(a.wins||0));
-    el.innerHTML=rows.slice(0,50).map((v,i)=>`<div class="rank-row ${currentUser&&v.uid===currentUser.uid?"me":""}"><span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${v.wins||0} Menang • ${v.losses||0} Kalah • ${v.draws||0} Remis</small></span><strong class="rank-points">${pointsLabel(v.points)}</strong></div>`).join("")||`<div class="rank-empty">Belum ada pemain.</div>`;
-  });
-}
-
-function setupRanking(){const a=$("globalRanking"),b=$("computerRanking");if(a)renderRanking("all",a);if(b)renderRanking("all",b)}
-
+function msg(e){const c=e?.code||"";return c.includes("email-already")?"Email sudah terdaftar.":c.includes("invalid-credential")||c.includes("wrong-password")?"Email atau password salah.":c.includes("invalid-email")?"Email tidak valid.":e?.message||"Terjadi kesalahan."}
+async function ensure(){if(!user)return;await runTransaction(playerRef(),v=>v||{uid:user.uid,name:user.displayName||"Pemain",email:user.email||"",points:0,computerPoints:0,onlinePoints:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0,computerGames:0,onlineGames:0,createdAt:Date.now()});}
+async function register(){const n=$("accountName").value.trim(),e=$("accountEmail").value.trim(),p=$("accountPassword").value;if(n.length<2)return $("accountMsg").textContent="Nama minimal 2 karakter.";if(p.length<6)return $("accountMsg").textContent="Password minimal 6 karakter.";try{const c=await createUserWithEmailAndPassword(auth,e,p);await updateProfile(c.user,{displayName:n});user=c.user;await ensure();$("accountMsg").textContent="Akun berhasil dibuat. Poin akan tersimpan otomatis.";}catch(x){$("accountMsg").textContent=msg(x)}}
+async function login(){const e=$("accountEmail").value.trim(),p=$("accountPassword").value;try{await signInWithEmailAndPassword(auth,e,p);$("accountMsg").textContent="Login berhasil.";}catch(x){$("accountMsg").textContent=msg(x)}}
+function renderAccount(){const b=$("accountLoginBtn"),o=$("accountLogoutBtn"),n=$("accountUserName");if(!b)return;if(user){n.textContent=user.displayName||"Pemain";$("accountStatus").textContent=`👤 ${user.displayName||"Pemain"}`;b.classList.add("hidden");o.classList.remove("hidden");$("playerName").value=user.displayName||$("playerName").value;closeAccount();refresh()}else{n.textContent="Belum login";$("accountStatus").textContent="👤 Belum Login";b.classList.remove("hidden");o.classList.add("hidden");$("myPoints").textContent="0 P";$("myWins").textContent="0"}}
+async function refresh(){if(!user)return;const s=await get(playerRef()),v=s.val()||{};$("myPoints").textContent=`${Number(v.points||0)} P`;$("myWins").textContent=v.wins||0}
+function detectMode(){return ($("roomTitle")?.textContent||"").includes("VS COMPUTER")?"computer":"online"}
+function beginGame(){gameMode=detectMode();gameId=gameMode==="online"?($("roomInfo")?.textContent||""): `solo_${Date.now()}_${user?.uid||"guest"}`;scored=false}
+async function award(type,mode=gameMode,id=gameId){if(!user||!id||scored)return;const points=SCORE[type];if(points===undefined)return;const claim=ref(db,`chessAccountClaims/${uk(user.uid)}/${k(mode+"_"+id)}`);const tx=await runTransaction(claim,v=>v||{type,mode,points,at:Date.now()});if(!tx.committed||tx.snapshot.val()?.at!==undefined&&tx.snapshot.val()?.at!==tx.snapshot.val()?.at)return;scored=true;await runTransaction(playerRef(),v=>{v=v||{uid:user.uid,name:user.displayName||"Pemain",points:0,computerPoints:0,onlinePoints:0,wins:0,draws:0,losses:0,resigns:0,exits:0,games:0,computerGames:0,onlineGames:0};v.name=user.displayName||v.name||"Pemain";v.points=Number(v.points||0)+points;v[mode+"Points"]=Number(v[mode+"Points"]||0)+points;v.games=Number(v.games||0)+1;v[mode+"Games"]=Number(v[mode+"Games"]||0)+1;if(type==="win")v.wins=Number(v.wins||0)+1;if(type==="draw")v.draws=Number(v.draws||0)+1;if(type==="loss")v.losses=Number(v.losses||0)+1;if(type==="resign")v.resigns=Number(v.resigns||0)+1;if(type==="exit")v.exits=Number(v.exits||0)+1;v.updatedAt=Date.now();return v});await refresh();showScore(type,points)}
+function showScore(type,p){const t=$("winTitle"),x=$("winText"),panel=$("winPanel");if(!panel)return;t.textContent=type==="win"?"🏆 Selamat Anda Menang!":type==="draw"?"🤝 Permainan Remis":type==="resign"?"🏳 Anda Menyerah":"Permainan Selesai";x.textContent=`${text[type]} • ${p>0?"+":""}${p} Point Top Global`;panel.classList.remove("hidden");if(type==="win")window.chessAudio?.win()}
+function classifyMessage(m){if(/remis|stalemate/i.test(m))return"draw";if(/Anda menang/i.test(m))return"win";if(/Computer menang/i.test(m))return"loss";if(/Anda menyerah|Anda menyerah/i.test(m))return"resign";if(/waktu.*habis/i.test(m)){const role=$("roleText")?.textContent||"";const winner=m.match(/(Putih|Hitam) menang/i)?.[1];return winner&&role.includes(winner)?"win":"loss"}if(/(Putih|Hitam) menang/i.test(m)){const winner=m.match(/(Putih|Hitam) menang/i)?.[1];const role=$("roleText")?.textContent||"";return role.includes(winner)?"win":"loss"}return null}
+function watchResult(){const el=$("gameMsg");if(!el)return;new MutationObserver(()=>{if(!user)return;const m=el.textContent||"";const type=classifyMessage(m);if(type&&gameId)award(type,gameMode,gameId)}).observe(el,{childList:true,characterData:true,subtree:true})}
+function watchNewGame(){ $("newBtn")?.addEventListener("click",async()=>{if(user&&!scored&&gameId&&$("roomStatus")?.textContent==="playing")await award("exit",gameMode,gameId);setTimeout(()=>{gameId=null;gameMode=null;scored=false},50)}) }
+function watchRoom(){onValue(ref(db,"rooms"),snap=>{if(!user)return;snap.forEach(c=>{const d=c.val();if(!d||!d.status||!["checkmate","timeout","resigned","draw","stalemate"].includes(d.status))return;const names=[d.whiteName,d.blackName];if(!names.includes(user.displayName))return;const id=c.key;if(watchingRoom===id&&d.status===lastStatus)return;watchingRoom=id;lastStatus=d.status;gameId=id;gameMode="online";scored=false;let type="draw";if(d.status==="checkmate"||d.status==="timeout"||d.status==="resigned"){const winner=d.winner;const myColor=d.whiteName===user.displayName?"w":"b";if(winner===myColor)type="win";else type="loss";if(d.status==="resigned"&&winner!==myColor)type="resign";}award(type,"online",id)});});}
+let lastStatus="";
+function rankings(){for(const mode of ["computer","online"]){const el=$(mode+"Ranking");if(!el)continue;onValue(ref(db,"chessPlayers"),s=>{const rows=[];s.forEach(c=>{const v=c.val();if(v)rows.push(v)});rows.sort((a,b)=>Number(b[mode+"Points"]||0)-Number(a[mode+"Points"]||0)||Number(b.wins||0)-Number(a.wins||0));el.innerHTML=rows.slice(0,20).map((v,i)=>`<div class="rank-row ${user&&v.uid===user.uid?"me":""}"><span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${v[mode+"Games"]||0} pertandingan • W ${v.wins||0} • L ${v.losses||0} • R ${v.draws||0}</small></span><strong class="rank-points">${Number(v[mode+"Points"]||0)} P</strong></div>`).join("")||`<div class="rank-empty">Belum ada pemain.</div>`)});}}
 function bind(){
-  $("accountLoginBtn")?.addEventListener("click",openAccount);
-  $("accountCloseBtn")?.addEventListener("click",closeAccount);
-  $("registerBtn")?.addEventListener("click",register);
-  $("loginBtn")?.addEventListener("click",login);
-  $("accountLogoutBtn")?.addEventListener("click",logout);
-  $("accountWinBtn")?.addEventListener("click",()=>award("win"));
-  setupRanking();
-  onAuthStateChanged(auth,async user=>{currentUser=user;if(user){await ensurePlayer(user,user.displayName||"Pemain");refreshMyScore()}renderAccount()});
-  window.chessAccount={setGame:(id,mode="online")=>{currentGame={id,mode};scoreRecorded=false},award,awardType,logout,getUser:()=>currentUser,openAccount};
-  window.addEventListener("beforeunload",()=>{if(currentUser&&currentGame&&!scoreRecorded) navigator.sendBeacon?.("","")});
+  $("accountLoginBtn")?.addEventListener("click",openAccount);$("accountCloseBtn")?.addEventListener("click",closeAccount);$("registerBtn")?.addEventListener("click",register);$("loginBtn")?.addEventListener("click",login);$("accountLogoutBtn")?.addEventListener("click",()=>signOut(auth));$("winClose")?.addEventListener("click",()=>$("winPanel")?.classList.add("hidden"));
+  $("playerName")?.addEventListener("input",e=>{localStorage.setItem("chessPlayerName",e.target.value)});
+  watchResult();watchNewGame();watchRoom();rankings();
+  onAuthStateChanged(auth,async u=>{user=u;if(user)await ensure();renderAccount()});
+  new MutationObserver(()=>{const title=$("roomTitle")?.textContent||"";if((title.includes("VS COMPUTER")||title.includes("ROOM"))&&!gameId&&user)beginGame()}).observe($("game")||document.body,{childList:true,subtree:true,characterData:true});
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();
+window.chessAccount={award,setGame:(id,mode)=>{gameId=id;gameMode=mode;scored=false},getUser:()=>user};
