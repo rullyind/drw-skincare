@@ -140,17 +140,12 @@ jobs:
           raw = ''.join(raw.split())
           raw = raw.replace('-', '+').replace('_', '/')
           raw += '=' * (-len(raw) % 4)
-
           try:
               data = base64.b64decode(raw, validate=True)
           except Exception as exc:
-              raise SystemExit(
-                  'ANDROID_KEYSTORE_BASE64 is not valid Base64. Recreate it directly from the .jks file and paste only the Base64 text into the GitHub secret.'
-              ) from exc
-
+              raise SystemExit('ANDROID_KEYSTORE_BASE64 is not valid Base64. Recreate it directly from the .jks file and paste only the Base64 text into the GitHub secret.') from exc
           if not data:
               raise SystemExit('ANDROID_KEYSTORE_BASE64 decoded to an empty file.')
-
           Path('android/app/mbicuki-upload-key.jks').write_bytes(data)
           print(f'Keystore decoded successfully ({len(data)} bytes).')
           PY
@@ -158,17 +153,14 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
-
           p = Path('android/app/build.gradle')
           text = p.read_text()
-
           if 'signingConfigs {' not in text:
               signing_block = '''\n    signingConfigs {\n        release {\n            storeFile file("mbicuki-upload-key.jks")\n            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")\n            keyAlias System.getenv("ANDROID_KEY_ALIAS")\n            keyPassword System.getenv("ANDROID_KEY_PASSWORD")\n        }\n    }\n'''
               marker = '\n    buildTypes {'
               if marker not in text:
                   raise SystemExit('Could not locate buildTypes block in android/app/build.gradle')
               text = text.replace(marker, signing_block + marker, 1)
-
           if 'signingConfig signingConfigs.release' not in text:
               build_types = text.find('\n    buildTypes {')
               if build_types < 0:
@@ -178,9 +170,24 @@ jobs:
                   raise SystemExit('Could not locate buildTypes.release block')
               insert_at = release + len('\n        release {')
               text = text[:insert_at] + '\n            signingConfig signingConfigs.release' + text[insert_at:]
-
           p.write_text(text)
           PY
+
+      - name: Verify keystore credentials
+        if: steps.signing.outputs.configured == 'true'
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if ! keytool -list -v -keystore android/app/mbicuki-upload-key.jks -storepass "$ANDROID_KEYSTORE_PASSWORD" -alias "$ANDROID_KEY_ALIAS" -keypass "$ANDROID_KEY_PASSWORD" >/dev/null 2>&1; then
+            echo 'ERROR: Keystore was decoded, but the password/alias/key password do not match the keystore.'
+            echo 'Check ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, and ANDROID_KEY_PASSWORD.'
+            echo 'For the keystore created with alias mbicuki, ANDROID_KEY_ALIAS must be exactly: mbicuki'
+            exit 1
+          fi
+          echo 'Keystore credentials verified successfully.'
 
       - name: Verify release signing configuration
         if: steps.signing.outputs.configured == 'true'
