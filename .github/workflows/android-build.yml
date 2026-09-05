@@ -45,6 +45,9 @@ jobs:
           cp firebase-config.js dist/firebase-config.js
           if [ -d assets ]; then cp -R assets dist/; fi
 
+      - name: Prepare Android platform
+        run: rm -rf android
+
       - name: Add Capacitor Android
         run: npx cap add android
 
