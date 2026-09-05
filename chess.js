@@ -61,6 +61,7 @@ function stopEverything() {
   selected = null;
   aiBusy = false;
   soloInputLock = false;
+  timeoutClaiming = false;
 }
 function announceGame(mode, id) { window.chessAccount?.setGame?.(id, mode); }
 
@@ -94,6 +95,7 @@ async function createRoom() {
     }
     stopEverything();
     solo = false;
+    pageLeaving = false;
     myUid = account.uid;
     myName = cleanName($("playerName")?.value || account.displayName || "Pemain") || "Pemain";
 
@@ -138,26 +140,67 @@ async function joinRoom() {
       $("accountModal")?.classList.remove("hidden");
       return;
     }
-    const code = String($("roomInput")?.value || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
-    if (code.length < 4) { setLobbyMsg("Masukkan kode room yang benar."); return; }
+
+    const code = String($("roomInput")?.value || "")
+      .trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+    if (code.length < 4) {
+      setLobbyMsg("Masukkan kode room yang benar.");
+      return;
+    }
+
     stopEverything();
     solo = false;
-    roomId = code;
+    pageLeaving = false;
     myUid = account.uid;
     myName = cleanName($("playerName")?.value || account.displayName || "Pemain") || "Pemain";
+    roomId = code;
+    myColor = null;
+    setLobbyMsg("🔄 Mencari room...");
 
-    const result = await runTransaction(roomRef(), d => {
+    const firstSnap = await get(roomRef(code));
+    if (!firstSnap.exists()) {
+      roomId = null;
+      setLobbyMsg(`❌ Room ${code} tidak ditemukan. Periksa kode room.`);
+      return;
+    }
+
+    const firstData = firstSnap.val() || {};
+    if (firstData.status !== "waiting") {
+      roomId = null;
+      setLobbyMsg("❌ Room sudah penuh atau permainan sudah dimulai.");
+      return;
+    }
+    if (firstData.blackUid || firstData.blackName) {
+      roomId = null;
+      setLobbyMsg("❌ Room sudah memiliki pemain kedua.");
+      return;
+    }
+
+    setLobbyMsg("🔄 Menggabungkan Anda ke room...");
+
+    const result = await runTransaction(roomRef(code), d => {
       if (!d) return;
-      if (d.status !== "waiting" || d.blackUid || d.blackName) return;
-      return { ...d, blackUid: myUid, blackName: myName, status: "playing", lastTick: Date.now() };
+      if (d.status !== "waiting") return;
+      if (d.blackUid || d.blackName) return;
+      return {
+        ...d,
+        blackUid: myUid,
+        blackName: myName,
+        status: "playing",
+        lastTick: Date.now()
+      };
     });
 
     if (!result.committed) {
-      const snap = await get(roomRef());
-      if (!snap.exists()) setLobbyMsg("Room tidak ditemukan.");
-      else if (snap.val()?.blackUid || snap.val()?.blackName || snap.val()?.status !== "waiting") setLobbyMsg("Room sudah penuh atau permainan sudah dimulai.");
-      else setLobbyMsg("Gagal bergabung. Silakan coba lagi.");
+      const latest = result.snapshot?.val?.() || {};
       roomId = null;
+      if (!result.snapshot?.exists?.()) {
+        setLobbyMsg("❌ Room tidak ditemukan.");
+      } else if (latest.blackUid || latest.blackName || latest.status !== "waiting") {
+        setLobbyMsg("❌ Room baru saja diisi pemain lain. Gunakan room lain.");
+      } else {
+        setLobbyMsg("❌ Gagal bergabung ke room. Coba klik Gabung sekali lagi.");
+      }
       return;
     }
 
@@ -166,12 +209,22 @@ async function joinRoom() {
     $("roomTitle").textContent = `ROOM ${roomId}`;
     $("roleText").textContent = "Anda: Hitam";
     $("roomInfo").textContent = roomId;
+    $("roomStatus").textContent = "playing";
+    setLobbyMsg("");
     announceGame("online", roomId);
     listenRoom();
     listenChat();
   } catch (e) {
-    console.error(e);
-    setLobbyMsg(`Gagal bergabung: ${e?.message || "kesalahan tidak diketahui"}`);
+    console.error("joinRoom:", e);
+    const message = String(e?.message || "");
+    roomId = null;
+    if (/permission|denied/i.test(message)) {
+      setLobbyMsg("❌ Firebase menolak akses ke room. Periksa Firebase Realtime Database Rules.");
+    } else if (/network|offline|disconnected/i.test(message)) {
+      setLobbyMsg("❌ Koneksi Firebase terputus. Pastikan status di atas sudah ● Online, lalu coba lagi.");
+    } else {
+      setLobbyMsg(`❌ Gagal bergabung: ${message || "kesalahan tidak diketahui"}`);
+    }
   }
 }
 
@@ -318,7 +371,7 @@ async function clickSquare(sq) {
 
 function startSolo() {
   stopEverything();
-  solo = true; soloEnded = false;
+  solo = true; soloEnded = false; pageLeaving = false;
   humanColor = $("computerSide")?.value === "b" ? "b" : "w";
   computerColor = humanColor === "w" ? "b" : "w";
   computerLevel = $("computerLevel")?.value || "normal";
