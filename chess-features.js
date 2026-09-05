@@ -7,8 +7,17 @@
    - Special knight sound when a knight moves
    - Capture/check/win sounds
    - Relaxation music
+   - 3 consecutive draws = -50 total Point
    ========================================================= */
 "use strict";
+
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getDatabase(app, "https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
+const uidKey = s => String(s || "").replace(/[^a-zA-Z0-9_-]/g, "_");
 
 const $ = id => document.getElementById(id);
 
@@ -20,6 +29,10 @@ let boardObserver = null;
 let resultObserver = null;
 let lastBoardState = "";
 let lastResultText = "";
+let watchedUid = null;
+let playerUnsub = null;
+let firstPlayerSnapshot = true;
+let drawPenaltyProcessing = false;
 
 function getAudioContext() {
   if (audioCtx) return audioCtx;
@@ -74,7 +87,7 @@ function moveSound() {
 }
 
 function knightSound() {
-  // Suara khas kuda: dua nada pendek dengan aksen naik.
+  // Suara khas kuda: tiga nada pendek dengan aksen naik.
   tone(300, 0.075, "square", 0.045);
   tone(610, 0.10, "triangle", 0.06, 0.055);
   tone(860, 0.12, "sine", 0.04, 0.13);
@@ -149,7 +162,6 @@ function detectBoardMove(before, after) {
     if (oldPiece && newPiece && oldPiece !== newPiece) destinations.push({ sq, piece: newPiece, replaced: oldPiece });
   }
 
-  // Ambil bidak asal. Untuk rokade ada dua sumber; cukup pilih yang bukan raja.
   const source = sources.find(x => !/[♔♚]/.test(x.piece)) || sources[0];
   const destination = destinations[0];
   if (!source && !destination) return null;
@@ -214,6 +226,96 @@ function observeResult() {
   resultObserver.observe(msg, { childList: true, characterData: true, subtree: true });
 }
 
+/* =========================================================
+   3 REMIS BERTURUT-TURUT = -50 POINT TOTAL
+   ========================================================= */
+function showDrawPenalty() {
+  const msg = $("gameMsg");
+  if (msg) msg.textContent = "⚠️ 3 kali Remis berturut-turut — Point dikurangi 50!";
+  const text = $("winText");
+  if (text) text.textContent = "Remis +25 Point • Penalti streak −50 Point";
+  $("winPanel")?.classList.remove("hidden");
+}
+
+async function processDrawStreak(uid) {
+  if (!uid || drawPenaltyProcessing) return;
+  drawPenaltyProcessing = true;
+  try {
+    const playerRef = ref(db, `chessPlayers/${uidKey(uid)}`);
+    const tx = await runTransaction(playerRef, value => {
+      const v = value || {};
+      const draws = Math.max(0, Number(v.draws || 0));
+      const processed = Math.max(0, Number(v.drawsProcessed || 0));
+      let streak = Math.max(0, Number(v.drawStreak || 0));
+
+      if (processed >= draws) return v;
+
+      const newDraws = draws - processed;
+      streak += newDraws;
+      const penalties = Math.floor(streak / 3);
+
+      v.drawsProcessed = draws;
+      v.drawStreak = streak % 3;
+      if (penalties > 0) {
+        v.points = Number(v.points || 0) - penalties * 50;
+        v.drawPenaltyCount = Number(v.drawPenaltyCount || 0) + penalties;
+        v.lastDrawPenalty = penalties * 50;
+        v.lastDrawPenaltyAt = Date.now();
+      }
+      v.updatedAt = Date.now();
+      return v;
+    });
+
+    if (tx.committed) {
+      const v = tx.snapshot?.val() || {};
+      const penaltyAt = Number(v.lastDrawPenaltyAt || 0);
+      if (penaltyAt && penaltyAt >= Date.now() - 5000) showDrawPenalty();
+    }
+  } catch (e) {
+    console.warn("Gagal menerapkan penalti 3 remis:", e);
+  } finally {
+    drawPenaltyProcessing = false;
+  }
+}
+
+function watchDrawStreak(uid) {
+  if (!uid || uid === watchedUid) return;
+  if (playerUnsub) playerUnsub();
+  watchedUid = uid;
+  firstPlayerSnapshot = true;
+
+  playerUnsub = onValue(ref(db, `chessPlayers/${uidKey(uid)}`), snap => {
+    if (!snap.exists()) return;
+    const v = snap.val() || {};
+
+    if (firstPlayerSnapshot) {
+      firstPlayerSnapshot = false;
+      // Jangan menghukum draw lama saat fitur pertama kali dipasang.
+      if (Number(v.drawsProcessed || 0) < Number(v.draws || 0)) {
+        runTransaction(ref(db, `chessPlayers/${uidKey(uid)}`), current => {
+          const x = current || {};
+          if (Number(x.drawsProcessed || 0) >= Number(x.draws || 0)) return x;
+          x.drawsProcessed = Number(x.draws || 0);
+          return x;
+        }).catch(() => {});
+      }
+      return;
+    }
+
+    if (Number(v.draws || 0) > Number(v.drawsProcessed || 0)) processDrawStreak(uid);
+  }, error => console.warn("Draw streak listener:", error));
+}
+
+function pollDrawAccount() {
+  const user = window.chessAccount?.getUser?.();
+  if (user?.uid) watchDrawStreak(user.uid);
+  else if (playerUnsub) {
+    playerUnsub();
+    playerUnsub = null;
+    watchedUid = null;
+  }
+}
+
 function bind() {
   if (bound) return;
   bound = true;
@@ -223,6 +325,8 @@ function bind() {
 
   observeBoard();
   observeResult();
+  pollDrawAccount();
+  setInterval(pollDrawAccount, 500);
 }
 
 if (document.readyState === "loading") {
