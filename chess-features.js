@@ -1,8 +1,6 @@
 /* =========================================================
    MBICUKI CATUR — CHESS FEATURES
    Stable browser-safe version
-   - No unnecessary Firebase initialization
-   - Safe Web Audio handling
    - Move sound on every chess move
    - Special knight sound when a knight moves
    - Capture/check/win sounds
@@ -18,7 +16,6 @@ import { firebaseConfig } from "./firebase-config.js";
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getDatabase(app, "https://d2t-catur-online-default-rtdb.asia-southeast1.firebasedatabase.app");
 const uidKey = s => String(s || "").replace(/[^a-zA-Z0-9_-]/g, "_");
-
 const $ = id => document.getElementById(id);
 
 let audioCtx = null;
@@ -87,7 +84,7 @@ function moveSound() {
 }
 
 function knightSound() {
-  // Suara khas kuda: tiga nada pendek dengan aksen naik.
+  // Suara khusus untuk langkah kuda.
   tone(300, 0.075, "square", 0.045);
   tone(610, 0.10, "triangle", 0.06, 0.055);
   tone(860, 0.12, "sine", 0.04, 0.13);
@@ -167,9 +164,11 @@ function detectBoardMove(before, after) {
   if (!source && !destination) return null;
 
   const piece = source?.piece || destination?.piece || "";
-  const isKnight = /[♘♞]/.test(piece);
-  const isCapture = destinations.some(x => x.replaced);
-  return { piece, isKnight, isCapture };
+  return {
+    piece,
+    isKnight: /[♘♞]/.test(piece),
+    isCapture: destinations.some(x => x.replaced)
+  };
 }
 
 function playDetectedMove(before, after) {
@@ -188,9 +187,7 @@ function observeBoard() {
   if (!board || !window.MutationObserver) return;
   if (boardObserver) boardObserver.disconnect();
 
-  const initial = boardSnapshot(board);
-  lastBoardState = JSON.stringify(initial);
-
+  lastBoardState = JSON.stringify(boardSnapshot(board));
   boardObserver = new MutationObserver(() => {
     const before = (() => {
       try { return JSON.parse(lastBoardState || "{}"); } catch { return {}; }
@@ -205,30 +202,21 @@ function observeBoard() {
   boardObserver.observe(board, { childList: true, subtree: true });
 }
 
-function observeResult() {
-  const msg = $("gameMsg");
-  if (!msg || !window.MutationObserver) return;
-  if (resultObserver) resultObserver.disconnect();
-
-  lastResultText = msg.textContent || "";
-  resultObserver = new MutationObserver(() => {
-    const text = String(msg.textContent || "").trim();
-    if (!text || text === lastResultText) return;
-    lastResultText = text;
-
-    const terminal = /menang|skakmat|remis|stalemate|waktu habis|menyerah|keluar game/i.test(text);
-    if (!terminal) return;
-
-    $("winPanel")?.classList.remove("hidden");
-    if (/menang|skakmat/i.test(text)) winSound();
-  });
-
-  resultObserver.observe(msg, { childList: true, characterData: true, subtree: true });
+async function resetDrawStreak(uid) {
+  if (!uid) return;
+  try {
+    await runTransaction(ref(db, `chessPlayers/${uidKey(uid)}`), value => {
+      if (!value) return value;
+      value.drawStreak = 0;
+      value.drawsProcessed = Number(value.draws || 0);
+      value.updatedAt = Date.now();
+      return value;
+    });
+  } catch (e) {
+    console.warn("Gagal reset draw streak:", e);
+  }
 }
 
-/* =========================================================
-   3 REMIS BERTURUT-TURUT = -50 POINT TOTAL
-   ========================================================= */
 function showDrawPenalty() {
   const msg = $("gameMsg");
   if (msg) msg.textContent = "⚠️ 3 kali Remis berturut-turut — Point dikurangi 50!";
@@ -290,12 +278,13 @@ function watchDrawStreak(uid) {
 
     if (firstPlayerSnapshot) {
       firstPlayerSnapshot = false;
-      // Jangan menghukum draw lama saat fitur pertama kali dipasang.
+      // Draw lama sebelum fitur ini dipasang tidak dihitung sebagai streak baru.
       if (Number(v.drawsProcessed || 0) < Number(v.draws || 0)) {
         runTransaction(ref(db, `chessPlayers/${uidKey(uid)}`), current => {
           const x = current || {};
           if (Number(x.drawsProcessed || 0) >= Number(x.draws || 0)) return x;
           x.drawsProcessed = Number(x.draws || 0);
+          x.drawStreak = Math.max(0, Number(x.drawStreak || 0));
           return x;
         }).catch(() => {});
       }
@@ -316,6 +305,49 @@ function pollDrawAccount() {
   }
 }
 
+function updateRuleDisplay() {
+  const notice = document.querySelector(".notice p");
+  if (notice && !notice.textContent.includes("3 Remis")) {
+    notice.textContent += " • 3 Remis berturut-turut −50";
+  }
+
+  const grid = document.querySelector(".score-grid");
+  if (grid && !grid.querySelector("[data-draw-penalty]")) {
+    const item = document.createElement("div");
+    item.className = "score-item";
+    item.dataset.drawPenalty = "1";
+    item.innerHTML = '<b class="score-minus">−50</b>3 Remis Berturut-turut';
+    grid.appendChild(item);
+  }
+}
+
+function observeResult() {
+  const msg = $("gameMsg");
+  if (!msg || !window.MutationObserver) return;
+  if (resultObserver) resultObserver.disconnect();
+
+  lastResultText = msg.textContent || "";
+  resultObserver = new MutationObserver(() => {
+    const text = String(msg.textContent || "").trim();
+    if (!text || text === lastResultText) return;
+    lastResultText = text;
+
+    const terminal = /menang|skakmat|remis|stalemate|waktu habis|menyerah|keluar game/i.test(text);
+    if (!terminal) return;
+
+    $("winPanel")?.classList.remove("hidden");
+    if (/menang|skakmat/i.test(text)) winSound();
+
+    // Kemenangan/kekalahan/menyerah/timeout memutus streak remis.
+    if (!/remis|stalemate/i.test(text)) {
+      const uid = window.chessAccount?.getUser?.()?.uid;
+      if (uid) setTimeout(() => resetDrawStreak(uid), 350);
+    }
+  });
+
+  resultObserver.observe(msg, { childList: true, characterData: true, subtree: true });
+}
+
 function bind() {
   if (bound) return;
   bound = true;
@@ -323,8 +355,13 @@ function bind() {
   $("musicBtn")?.addEventListener("click", toggleMusic);
   $("winClose")?.addEventListener("click", () => $("winPanel")?.classList.add("hidden"));
 
+  // Unlock Web Audio pada interaksi pertama agar suara langkah berikutnya
+  // tidak diblokir kebijakan autoplay browser.
+  document.addEventListener("pointerdown", () => { audioStart(); }, { once: true, passive: true });
+
   observeBoard();
   observeResult();
+  updateRuleDisplay();
   pollDrawAccount();
   setInterval(pollDrawAccount, 500);
 }
