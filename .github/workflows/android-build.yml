@@ -90,11 +90,12 @@ jobs:
           ICON='Logo Mbicuki Catur Online.png'
           test -f "$ICON"
           BASE='android/app/src/main/res'
+          command -v convert
           for spec in 'mipmap-mdpi:48' 'mipmap-hdpi:72' 'mipmap-xhdpi:96' 'mipmap-xxhdpi:144' 'mipmap-xxxhdpi:192'; do
             DIR="${spec%%:*}"
             SIZE="${spec##*:}"
             mkdir -p "$BASE/$DIR"
-            magick "$ICON" -auto-orient -resize "${SIZE}x${SIZE}" -background none -gravity center -extent "${SIZE}x${SIZE}" "$BASE/$DIR/ic_launcher.png"
+            convert "$ICON" -auto-orient -resize "${SIZE}x${SIZE}" -background none -gravity center -extent "${SIZE}x${SIZE}" "$BASE/$DIR/ic_launcher.png"
             cp "$BASE/$DIR/ic_launcher.png" "$BASE/$DIR/ic_launcher_round.png"
           done
 
