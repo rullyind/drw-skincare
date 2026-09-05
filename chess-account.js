@@ -17,6 +17,7 @@ let gameId = null;
 let gameMode = null;
 let scored = false;
 let rankingUnsubs = [];
+let gameRoomUnsub = null;
 let bound = false;
 
 function playerRef() { return ref(db, `chessPlayers/${uidKey(user.uid)}`); }
@@ -111,6 +112,7 @@ async function renderAccount() {
     loginBtn.classList.remove("hidden"); logoutBtn?.classList.add("hidden");
     if ($("myPoints")) $("myPoints").textContent="0 P";
     if ($("myWins")) $("myWins").textContent="0";
+    if ($("myWins")) $("myWins").textContent="0";
   }
 }
 
@@ -118,10 +120,33 @@ function setGame(id, mode) {
   const nextId = id || null;
   const nextMode = mode || null;
   if (gameId !== nextId || gameMode !== nextMode) {
+    if (gameRoomUnsub) gameRoomUnsub();
+    gameRoomUnsub = null;
     gameId = nextId;
     gameMode = nextMode;
     scored = false;
   }
+  if (user && gameMode === "online" && gameId && !gameRoomUnsub) watchOnlineResult(gameId);
+}
+
+function watchOnlineResult(id) {
+  if (gameRoomUnsub) gameRoomUnsub();
+  gameRoomUnsub = onValue(ref(db, `rooms/${id}`), snap => {
+    if (!snap.exists() || !user || gameId !== id || gameMode !== "online") return;
+    const d = snap.val() || {};
+    let type = null;
+
+    // ONLINE: chess.js menyimpan winner sebagai warna ("w" / "b"),
+    // bukan UID. Konversikan warna pemenang ke UID room sebelum menentukan hasil akun.
+    if (d.status === "draw" || d.status === "stalemate") {
+      type = "draw";
+    } else if (["checkmate", "timeout", "resigned"].includes(d.status) && d.winner) {
+      const winnerUid = d.winner === "w" ? String(d.whiteUid || "") : d.winner === "b" ? String(d.blackUid || "") : String(d.winner || "");
+      if (winnerUid) type = String(user.uid) === winnerUid ? "win" : "loss";
+    }
+
+    if (type) award(type, "online", id);
+  }, error => console.warn("Pemantau hasil online:", error));
 }
 
 async function award(type, mode=gameMode, id=gameId) {
@@ -253,6 +278,10 @@ function bind() {
     if(user){
       try{await ensurePlayer();}catch(e){console.error(e);}
       localStorage.setItem("chessPlayerName",user.displayName||"");
+      if(gameMode === "online" && gameId && !gameRoomUnsub) watchOnlineResult(gameId);
+    } else {
+      if(gameRoomUnsub) gameRoomUnsub();
+      gameRoomUnsub=null;
     }
     await renderAccount();
   });
