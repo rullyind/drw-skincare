@@ -125,7 +125,35 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '\r\n \t' | base64 --decode > android/app/mbicuki-upload-key.jks
+          python3 - <<'PY'
+          import base64
+          import os
+          from pathlib import Path
+
+          raw = os.environ['ANDROID_KEYSTORE_BASE64'].strip()
+          if raw.startswith('"') and raw.endswith('"'):
+              raw = raw[1:-1]
+          if raw.startswith("'") and raw.endswith("'"):
+              raw = raw[1:-1]
+          if raw.startswith('data:') and ',' in raw:
+              raw = raw.split(',', 1)[1]
+          raw = ''.join(raw.split())
+          raw = raw.replace('-', '+').replace('_', '/')
+          raw += '=' * (-len(raw) % 4)
+
+          try:
+              data = base64.b64decode(raw, validate=True)
+          except Exception as exc:
+              raise SystemExit(
+                  'ANDROID_KEYSTORE_BASE64 is not valid Base64. Recreate it directly from the .jks file and paste only the Base64 text into the GitHub secret.'
+              ) from exc
+
+          if not data:
+              raise SystemExit('ANDROID_KEYSTORE_BASE64 decoded to an empty file.')
+
+          Path('android/app/mbicuki-upload-key.jks').write_bytes(data)
+          print(f'Keystore decoded successfully ({len(data)} bytes).')
+          PY
           test -s android/app/mbicuki-upload-key.jks
 
           python3 - <<'PY'
