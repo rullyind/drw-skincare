@@ -94,6 +94,7 @@ async function refresh() {
     if ($("myWins")) $("myWins").textContent = Number(v.wins || 0);
   } catch (e) { console.warn("Gagal membaca profil:", e); }
 }
+
 async function renderAccount() {
   const loginBtn=$("accountLoginBtn"), logoutBtn=$("accountLogoutBtn");
   if (!loginBtn) return;
@@ -113,52 +114,133 @@ async function renderAccount() {
   }
 }
 
-function setGame(id, mode) { gameId=id || null; gameMode=mode || null; scored=false; }
+function setGame(id, mode) {
+  const nextId = id || null;
+  const nextMode = mode || null;
+  if (gameId !== nextId || gameMode !== nextMode) {
+    gameId = nextId;
+    gameMode = nextMode;
+    scored = false;
+  }
+}
+
 async function award(type, mode=gameMode, id=gameId) {
   if (!user || !id || !mode || scored || SCORE[type] === undefined) return false;
+  if (mode !== "online" && mode !== "computer") return false;
+
   const claim = ref(db, `chessAccountClaims/${uidKey(user.uid)}/${key(`${mode}_${id}`)}`);
   try {
-    const tx = await runTransaction(claim, v => v || {type, mode, points:SCORE[type], at:Date.now()});
-    if (!tx.committed || tx.snapshot.val()?.type !== type) return false;
+    let createdClaim = false;
+    const tx = await runTransaction(claim, v => {
+      if (v) return v;
+      createdClaim = true;
+      return {type, mode, points:SCORE[type], at:Date.now()};
+    });
+    if (!tx.committed || !createdClaim) return false;
+
     await runTransaction(playerRef(), v => {
       v=v||{};
       v.uid=user.uid; v.name=user.displayName||v.name||"Pemain"; v.email=user.email||v.email||"";
       v.points=Number(v.points||0)+SCORE[type];
       v[`${mode}Points`]=Number(v[`${mode}Points`]||0)+SCORE[type];
-      v.games=Number(v.games||0)+1; v[`${mode}Games`]=Number(v[`${mode}Games`]||0)+1;
+      v.games=Number(v.games||0)+1;
+      v[`${mode}Games`]=Number(v[`${mode}Games`]||0)+1;
       if(type==="win")v.wins=Number(v.wins||0)+1;
       if(type==="draw")v.draws=Number(v.draws||0)+1;
       if(type==="loss")v.losses=Number(v.losses||0)+1;
       if(type==="resign")v.resigns=Number(v.resigns||0)+1;
       if(type==="exit")v.exits=Number(v.exits||0)+1;
-      v.updatedAt=Date.now(); return v;
+      v.updatedAt=Date.now();
+      return v;
     });
-    scored=true; await refresh(); showScore(type,SCORE[type]); return true;
-  } catch(e) { console.error("Gagal menyimpan Point:",e); return false; }
-}
-function result(type) { return award(type); }
-function showScore(type, points) {
-  const panel=$("winPanel"); if(!panel)return;
-  if($("winTitle")) $("winTitle").textContent = type==="win"?"🏆 Selamat Anda Menang!":type==="draw"?"🤝 Permainan Remis":type==="resign"?"🏳 Anda Menyerah":type==="exit"?"🚪 Anda Keluar Game":"Permainan Selesai";
-  if($("winText")) $("winText").textContent=`${LABEL[type]} • ${points>0?"+":""}${points} Point Top Global`;
-  panel.classList.remove("hidden"); if(type==="win")window.chessAudio?.win?.();
-}
 
-function rankings() {
-  rankingUnsubs.forEach(fn=>fn?.()); rankingUnsubs=[];
-  for (const mode of ["computer","online"]) {
-    const target=$(mode+"Ranking"); if(!target)continue;
-    const unsub=onValue(ref(db,"chessPlayers"),snap=>{
-      const rows=[]; snap.forEach(c=>{const v=c.val();if(v)rows.push(v);});
-      rows.sort((a,b)=>Number(b[`${mode}Points`]||0)-Number(a[`${mode}Points`]||0)||Number(b.wins||0)-Number(a.wins||0)||String(a.name||"").localeCompare(String(b.name||"")));
-      target.innerHTML=rows.slice(0,20).map((v,i)=>`<div class="rank-row ${user&&v.uid===user.uid?"me":""}"><span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${Number(v[`${mode}Games`]||0)} pertandingan • W ${Number(v.wins||0)} • L ${Number(v.losses||0)} • R ${Number(v.draws||0)}</small></span><strong class="rank-points">${Number(v[`${mode}Points`]||0)} P</strong></div>`).join("") || `<div class="rank-empty">Belum ada pemain.</div>`;
-    });
-    rankingUnsubs.push(unsub);
+    scored=true;
+    await refresh();
+    showScore(type,SCORE[type]);
+    return true;
+  } catch(e) {
+    console.error("Gagal menyimpan Point:",e);
+    return false;
   }
 }
 
+function result(type) { return award(type); }
+
+function showScore(type, points) {
+  const panel=$("winPanel"); if(!panel)return;
+  if($("winTitle")) $("winTitle").textContent = type==="win"?"🏆 Selamat Anda Menang!":type==="draw"?"🤝 Permainan Remis":type==="resign"?"🏳 Anda Menyerah":type==="exit"?"🚪 Anda Keluar Game":"Permainan Selesai";
+  if($("winText")) $("winText").textContent=`${LABEL[type]} • ${points>0?"+":""}${points} Point`;
+  panel.classList.remove("hidden");
+  if(type==="win")window.chessAudio?.win?.();
+}
+
+function rankingSort(rows, mode) {
+  return [...rows].sort((a,b)=>
+    Number(b[`${mode}Points`]||0)-Number(a[`${mode}Points`]||0) ||
+    Number(b.wins||0)-Number(a.wins||0) ||
+    Number(b[`${mode}Games`]||0)-Number(a[`${mode}Games`]||0) ||
+    String(a.name||"").localeCompare(String(b.name||""))
+  );
+}
+
+function renderModeRanking(target, rows, mode) {
+  if (!target) return;
+  const label = mode === "online" ? "Room Online" : "VS Computer";
+  const list = rankingSort(rows, mode);
+  target.innerHTML = list.slice(0,20).map((v,i)=>
+    `<div class="rank-row ${user&&v.uid===user.uid?"me":""}">
+      <span class="rank-no">${i<3?["🥇","🥈","🥉"][i]:i+1}</span>
+      <span class="rank-player"><b>${safe(v.name||"Pemain")}</b><small>${label} • ${Number(v[`${mode}Games`]||0)} pertandingan • W ${Number(v.wins||0)} • L ${Number(v.losses||0)} • R ${Number(v.draws||0)}</small></span>
+      <strong class="rank-points">${Number(v[`${mode}Points`]||0)} P</strong>
+    </div>`
+  ).join("") || `<div class="rank-empty">Belum ada pemain.</div>`;
+}
+
+function renderAllPlayerStandings(rows) {
+  const target = $("allPlayerStandings");
+  if (!target) return;
+  const list = [...rows].sort((a,b)=>
+    Number(b.points||0)-Number(a.points||0) ||
+    Number(b.wins||0)-Number(a.wins||0) ||
+    Number(b.games||0)-Number(a.games||0) ||
+    String(a.name||"").localeCompare(String(b.name||""))
+  );
+  if (!list.length) {
+    target.innerHTML = `<div class="standings-empty">Belum ada pemain.</div>`;
+    return;
+  }
+  target.innerHTML = `<table class="standings-table"><thead><tr><th>Rank</th><th>Player</th><th>Total Point</th><th>Pertandingan</th><th>Menang</th><th>Remis</th><th>Kalah</th></tr></thead><tbody>${list.map((v,i)=>
+    `<tr class="${user&&v.uid===user.uid?"me":""}"><td class="standings-rank">${i<3?["🥇","🥈","🥉"][i]:i+1}</td><td class="standings-name">${safe(v.name||"Pemain")}</td><td class="standings-points">${Number(v.points||0)} P</td><td>${Number(v.games||0)}</td><td>${Number(v.wins||0)}</td><td>${Number(v.draws||0)}</td><td>${Number(v.losses||0)}</td></tr>`
+  ).join("")}</tbody></table>`;
+}
+
+function rankings() {
+  rankingUnsubs.forEach(fn=>fn?.());
+  rankingUnsubs=[];
+  const unsub=onValue(ref(db,"chessPlayers"),snap=>{
+    const rows=[];
+    snap.forEach(c=>{const v=c.val();if(v)rows.push(v);});
+
+    renderModeRanking($("onlineRanking"), rows, "online");
+    renderModeRanking($("computerRanking"), rows, "computer");
+    renderAllPlayerStandings(rows);
+
+    const onlineTitle=$("onlineRanking")?.closest(".ranking-card")?.querySelector("h2");
+    const onlineNote=$("onlineRanking")?.closest(".ranking-card")?.querySelector(".rank-note");
+    if(onlineTitle) onlineTitle.textContent="🌎 Klasemen Top Global — Room Online";
+    if(onlineNote) onlineNote.textContent="20 pemain teratas berdasarkan Point Room Online";
+
+    const computerTitle=$("computerRanking")?.closest(".ranking-card")?.querySelector("h2");
+    const computerNote=$("computerRanking")?.closest(".ranking-card")?.querySelector(".rank-note");
+    if(computerTitle) computerTitle.textContent="🤖 Klasemen Poin — VS Computer";
+    if(computerNote) computerNote.textContent="20 pemain teratas berdasarkan Point VS Computer";
+  });
+  rankingUnsubs.push(unsub);
+}
+
 function bind() {
-  if(bound)return; bound=true;
+  if(bound)return;
+  bound=true;
   $("accountLoginBtn")?.addEventListener("click",openAccount);
   $("accountCloseBtn")?.addEventListener("click",closeAccount);
   $("registerBtn")?.addEventListener("click",register);
@@ -166,8 +248,16 @@ function bind() {
   $("accountLogoutBtn")?.addEventListener("click",async()=>{try{await signOut(auth);}catch(e){console.error(e);}});
   $("winClose")?.addEventListener("click",()=>$("winPanel")?.classList.add("hidden"));
   $("playerName")?.addEventListener("input",e=>localStorage.setItem("chessPlayerName",e.target.value));
-  onAuthStateChanged(auth,async u=>{user=u||null;if(user){try{await ensurePlayer();}catch(e){console.error(e);}localStorage.setItem("chessPlayerName",user.displayName||"");}await renderAccount();rankings();});
+  onAuthStateChanged(auth,async u=>{
+    user=u||null;
+    if(user){
+      try{await ensurePlayer();}catch(e){console.error(e);}
+      localStorage.setItem("chessPlayerName",user.displayName||"");
+    }
+    await renderAccount();
+  });
   rankings();
 }
+
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind,{once:true});else bind();
-window.chessAccount={setGame,getUser:()=>user,award,result};
+window.chessAccount={setGame,getUser:()=>user,getGame:()=>({id:gameId,mode:gameMode}),award,result};
