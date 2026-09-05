@@ -10,7 +10,10 @@
 .mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.mode-option{cursor:pointer}.mode-option input{display:none}
 .mode-option span{display:block;padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(0,0,0,.08);transition:.2s}.mode-option input:checked+span{border-color:#ff4fa3;box-shadow:0 0 20px rgba(255,79,163,.18)}
 .mode-option b,.mode-option small{display:block}.mode-option small{margin-top:5px;opacity:.65}.computer-settings{margin-top:14px;padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12)}
-.computer-settings label{display:block;margin-bottom:12px}.computer-settings select{width:100%;margin-top:6px;padding:11px;border-radius:10px;background:rgba(0,0,0,.2);color:inherit;border:1px solid rgba(255,255,255,.15)}.computer-settings button{width:100%;margin-top:5px}.ai-badge{display:inline-block;margin-left:8px;padding:4px 9px;border-radius:99px;background:rgba(255,79,163,.12);font-size:12px}.hidden{display:none!important}@media(max-width:650px){.mode-options{grid-template-columns:1fr}}
+.computer-settings label{display:block;margin-bottom:12px}.computer-settings select{width:100%;margin-top:6px;padding:11px;border-radius:10px;background:rgba(0,0,0,.2);color:inherit;border:1px solid rgba(255,255,255,.15)}.computer-settings button{width:100%;margin-top:5px}.ai-badge{display:inline-block;margin-left:8px;padding:4px 9px;border-radius:99px;background:rgba(255,79,163,.12);font-size:12px}.hidden{display:none!important}
+.rankings{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px}.ranking-card{padding:18px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 40px rgba(0,0,0,.15)}.ranking-card h2{margin:0 0 6px}.ranking-card .rank-note{font-size:12px;opacity:.65;margin-bottom:12px}.rank-list{display:grid;gap:7px}.rank-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:8px;padding:10px 11px;border-radius:12px;background:rgba(0,0,0,.16)}.rank-no{font-weight:800}.rank-points{font-weight:800}.rank-row small{grid-column:2/4;opacity:.55}.rank-empty{opacity:.55;padding:12px}.music-control{display:flex;gap:8px;margin-top:12px}.music-control button{flex:1}
+.win-panel{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,12,.78);backdrop-filter:blur(12px)}.win-card{width:min(440px,100%);padding:34px;text-align:center;border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.055));border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 90px rgba(0,0,0,.5)}.win-card .trophy{font-size:64px}.win-card h2{font-size:30px;margin:10px 0}.win-card p{opacity:.75}.win-card button{margin-top:15px;width:100%;padding:13px;border:0;border-radius:14px;font-weight:800;cursor:pointer}
+@media(max-width:650px){.mode-options,.rankings{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -24,30 +27,23 @@
 <h1>Main Catur</h1>
 <p class="muted">Pilih bermain online melawan teman atau latihan melawan Computer.</p>
 <label for="playerName">Nama pemain<input id="playerName" type="text" maxlength="20" autocomplete="nickname" placeholder="Nama Anda"></label>
-
-<div class="game-mode-box">
-<strong>🎮 Mode Permainan</strong>
-<div class="mode-options">
+<div class="game-mode-box"><strong>🎮 Mode Permainan</strong><div class="mode-options">
 <label class="mode-option"><input type="radio" name="gameMode" value="online" checked><span>♟ <b>Online 2 Pemain</b><small>Lawan pemain lain melalui Firebase.</small></span></label>
-<label class="mode-option"><input type="radio" name="gameMode" value="computer"><span>🤖 Player vs Computer</b><small>Lawan Computer dengan 4 tingkat kemampuan.</small></span></label>
-</div>
-</div>
-
+<label class="mode-option"><input type="radio" name="gameMode" value="computer"><span>🤖 <b>Player vs Computer</b><small>Lawan Computer dengan 4 tingkat kemampuan.</small></span></label>
+</div></div>
 <div id="computerSettings" class="computer-settings hidden">
 <label for="computerSide">Warna Anda<select id="computerSide"><option value="w">♙ Putih — Anda bermain dahulu</option><option value="b">♟ Hitam — Computer bermain dahulu</option></select></label>
 <label for="computerLevel">Kemampuan Computer<select id="computerLevel"><option value="easy">🟢 Easy — Pemula</option><option value="normal" selected>🔵 Normal — Menengah</option><option value="professional">🔴 Professional — Sulit</option><option value="world">👑 World Class — Terkuat</option></select></label>
-<button id="computerBtn" class="primary" type="button">🤖 Mulai Player vs Computer</button>
-</div>
-
-<div id="onlineSettings">
-<div class="lobby-actions">
-<button id="createBtn" class="primary" type="button">♟ Buat Room</button>
-<div class="join"><input id="roomInput" type="text" maxlength="8" autocomplete="off" placeholder="KODE ROOM"><button id="joinBtn" type="button">Gabung</button></div>
-</div>
-</div>
-
+<button id="computerBtn" class="primary" type="button">🤖 Mulai Player vs Computer</button></div>
+<div id="onlineSettings"><div class="lobby-actions"><button id="createBtn" class="primary" type="button">♟ Buat Room</button><div class="join"><input id="roomInput" type="text" maxlength="8" autocomplete="off" placeholder="KODE ROOM"><button id="joinBtn" type="button">Gabung</button></div></div></div>
 <div id="lobbyMsg" class="msg" aria-live="polite"></div>
 <div class="notice"><strong>♟ Cara bermain</strong><p>Online: buat room lalu kirim kode kepada teman.<br>VS Computer: pilih warna dan tingkat kemampuan Computer lalu mulai permainan.</p></div>
+
+<div class="rankings">
+<div class="ranking-card"><h2>🌎 Top Global — VS Computer</h2><div class="rank-note">Menang +50 • Kalah −13 • Remis 0</div><div id="computerRanking" class="rank-list"></div></div>
+<div class="ranking-card"><h2>🌎 Top Global — Online</h2><div class="rank-note">Menang +50 • Kalah −13 • Remis 0</div><div id="onlineRanking" class="rank-list"></div></div>
+</div>
+<div class="music-control"><button id="musicBtn" type="button">🎵 Musik Relaksasi</button></div>
 </section>
 
 <section id="game" class="game hidden">
@@ -59,7 +55,6 @@
 <div class="controls"><button id="resignBtn" type="button">🏳 Menyerah</button><button id="drawBtn" type="button">🤝 Tawarkan Remis</button><button id="newBtn" type="button">↻ Kembali ke Lobby</button></div>
 <div id="gameMsg" class="game-msg" aria-live="polite">Menunggu pemain kedua...</div>
 </div>
-
 <aside class="side">
 <div class="card" id="chatCard"><h3>💬 Chat</h3><div id="chatList" class="chat-list" aria-live="polite"></div><form id="chatForm"><input id="chatInput" type="text" maxlength="160" autocomplete="off" placeholder="Tulis pesan..."><button type="submit" aria-label="Kirim pesan">➤</button></form></div>
 <div class="card"><h3>ℹ️ Cara bermain</h3><p>Klik bidak yang ingin dimainkan, lalu klik kotak tujuan.</p><p><strong>Putih</strong> bermain terlebih dahulu.</p><p id="aiInfo" class="muted"></p></div>
@@ -67,6 +62,8 @@
 </aside>
 </section>
 </main>
+<div id="winPanel" class="win-panel hidden"><div class="win-card"><div class="trophy">🏆</div><h2 id="winTitle">Selamat Anda Menang!</h2><p id="winText">Permainan selesai.</p><button id="winClose" type="button">Lanjut</button></div></div>
 <script type="module" src="./chess.js"></script>
+<script type="module" src="./chess-features.js"></script>
 </body>
 </html>
