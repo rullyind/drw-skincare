@@ -1,5 +1,40 @@
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+async function forgotPassword() {
+  let email = String($("accountEmail")?.value || "")
+    .trim()
+    .toLowerCase();
+
+  if (!email) {
+    openAccount();
+    $("accountEmail")?.focus();
+    setMsg("Masukkan email akun Anda terlebih dahulu.");
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setMsg("Masukkan email yang benar.");
+    return;
+  }
+
+  setMsg("Mengirim link reset password...");
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+
+    setMsg(
+      "Link reset password sudah dikirim ke email Anda. Cek Inbox atau Spam."
+    );
+  } catch (e) {
+    console.error("Reset password:", e);
+
+    if (e?.code?.includes("user-not-found")) {
+      setMsg("Email tersebut belum terdaftar.");
+    } else {
+      setMsg(accountMessage(e));
+    }
+  }
+}
 import { getDatabase, ref, onValue, runTransaction, get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 
