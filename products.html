@@ -92,7 +92,6 @@ body {
     visibility: visible;
     transform: translateX(-65px);
 }
-.breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#9d7890;margin-bottom:28px; margin-left: 850px;}.breadcrumb a{color:#d83d8b}.breadcrumb i{font-size:9px}
 
 /* =========================================================
    TOMBOL BULAT WHATSAPP
@@ -3067,6 +3066,16 @@ document.addEventListener(
 
 @media (max-width: 600px) {
 
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #9d7890;
+    margin-bottom: 28px;
+    margin-left: 100px;}
+
 .products-eyebrow {
     display:contents;
     font-size: 14px;    
@@ -3105,55 +3114,6 @@ letter-spacing: normal;
     }
 }
 </style>
-
-
-<>
-/* =====================================================
-   TULISAN MUNCUL SETIAP 25 DETIK
-====================================================== */
-
-(function () {
-
-    const button =
-        document.querySelector(
-            '.floating-product-wrapper'
-        );
-
-    if (!button) return;
-
-
-    function showProductLabel() {
-
-        /* tampilkan tulisan */
-        button.classList.add('show-label');
-
-
-        /* sembunyikan setelah 5 detik */
-        setTimeout(function () {
-
-            button.classList.remove(
-                'show-label'
-            );
-
-        }, 5000);
-
-    }
-
-
-    /* Muncul pertama kali setelah 25 detik */
-    setTimeout(function () {
-
-        showProductLabel();
-
-        /* kemudian setiap 25 detik */
-        setInterval(
-            showProductLabel,
-            25000
-        );
-
-    }, 25000);
-
-})();
 
 </script>
    <script src="assets/js/products-data.js"></script>
