@@ -95,7 +95,7 @@
             image: IMAGE_FOLDER + "Brightening Peel Off Mask with Charcoal 60 ml.png",
             price: 110000,
             rating: 4.9,
-            reviews: 351
+            reviews: 351,
         },
 
         {
@@ -193,7 +193,8 @@
             category: "Make up & Riasan",
             image: IMAGE_FOLDER + "Flawless BB Cushion.png",
             price: 65000,
-            badge: "Best Seller"
+            rating: 4.9,
+            reviews: 814,
         },
 
 
@@ -203,6 +204,8 @@
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Peeling Gel Apel.jpg",
             price: 100000,
+            rating: 4.7,
+            reviews: 67,
             },
 
 
@@ -212,7 +215,9 @@
             category: "Perawatan Wajah",
             image: IMAGE_FOLDER + "Peeling Gel Strawberry.jpg",
             price: 100000,
-            },
+            rating: 4.7,
+            reviews: 54,
+        },
 
 
         {
@@ -221,7 +226,9 @@
             category: "Paket Perawatan",
             image: IMAGE_FOLDER + "Paket Basic RAR.jpg",
             price: 270000,
-           },
+            rating: 4.9,
+            reviews: 1647,
+        },
 
 
         {
@@ -230,7 +237,9 @@
             category: "Paket Perawatan",
             image: IMAGE_FOLDER + "Paket RBU Kulit Kering 2.png",
             price: 270000,
-           },
+            rating: 4.9,
+            reviews: 2194,
+        },
 
 
         {
@@ -239,6 +248,8 @@
             category: "Paket Perawatan",
             image: IMAGE_FOLDER + "Paket Radiant Glow Booster Kulit Normal.png",
             price: 280000,
+            rating: 4.9,
+            reviews: 2957,
            },
 
 
