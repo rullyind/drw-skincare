@@ -568,3 +568,15 @@ if (validConfig()) {
 } else { console.error("Firebase config belum benar."); setLobbyMsg("Firebase belum dikonfigurasi dengan benar."); }
 
 window.chessGame = { getState: () => ({ roomId, myColor, myUid, solo, gameData }), leave: () => { stopEverything(); location.href = location.pathname; } };
+
+<audio id="skakRajoSound" preload="auto">
+    <source src="assets/audio/skak-rajo.mp3" type="audio/mpeg">
+</audio>
+function playSkakRajo() {
+    const audio = document.getElementById("skakRajoSound");
+
+    if (!audio) return;
+
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+}
