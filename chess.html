@@ -21,4 +21,21 @@
 <script type="module" src="./chess.js"></script><script type="module" src="./chess-features.js"></script><script type="module" src="./chess-account.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('leagueBtn'),s=document.getElementById('leagueStandings');if(b&&s)b.addEventListener('click',()=>{s.classList.toggle('hidden');b.textContent=s.classList.contains('hidden')?'🏆 KLASemen LIGA POINT':'🔽 TUTUP KLASemen LIGA';if(!s.classList.contains('hidden'))s.scrollIntoView({behavior:'smooth',block:'start'});});});
-</script></body></html>
+</script>
+<script>
+function playSkakRajo() {
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const suara = new SpeechSynthesisUtterance("Skak Rajo!!");
+    suara.lang = "id-ID";
+    suara.rate = 0.85;
+    suara.pitch = 0.9;
+    suara.volume = 1;
+
+    window.speechSynthesis.speak(suara);
+}
+</script>
+
+</body></html>
