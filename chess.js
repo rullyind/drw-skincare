@@ -376,15 +376,34 @@ async function clickSquare(sq) {
       let move;
       try { move = c.move({ from, to: sq, promotion: "q" }); } catch { return; }
       let status = "playing", winner = "";
-      if (c.isCheckmate()) { status = "checkmate"; winner = myColor; }
-      else if (c.isStalemate()) status = "stalemate";
-      else if (c.isDraw()) status = "draw";
+     if (c.isCheckmate()) {
+    status = "checkmate";
+    winner = myColor;
+} else if (c.isStalemate()) {
+    status = "stalemate";
+} else if (c.isDraw()) {
+    status = "draw";
+}
+      
       const moves = { ...(d.moves || {}) };
       moves[`m_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`] = { from: move.from, to: move.to, fen: c.fen(), by: myColor, at: Date.now(), san: move.san };
       return { ...d, fen: c.fen(), turn: c.turn(), status, moves, lastMove: move.san, lastMoveAt: Date.now(), lastTick: Date.now(), drawOffer: "", whiteTime: t.w, blackTime: t.b, winner };
     });
-    if (!txResult || !txResult.committed || !txResult.snapshot?.exists()) renderOnline();
-  } catch (e) { console.error("move:", e); renderOnline(); }
+if (!txResult || !txResult.committed || !txResult.snapshot?.exists()) {
+    renderOnline();
+} else {
+    const newData = txResult.snapshot.val();
+
+    if (newData?.status === "playing") {
+        try {
+            const checkChess = new Chess(newData.fen || START_FEN);
+            announceCheck(checkChess, `online_${newData.lastMoveAt || Date.now()}`);
+        } catch (e) {
+            console.warn("Deteksi skak online:", e);
+        }
+    }
+
+    renderOnline();
 }
 
 function startSolo() {
@@ -436,6 +455,19 @@ function renderSolo() {
   $("gameMsg").textContent = gameData.status === "playing" ? (gameData.turn === humanColor ? "🎯 Giliran Anda — pilih bidak dan kotak tujuan" : "⏳ Computer berpikir...") : statusText(gameData);
   renderBoard(gameData.fen, humanColor);
 }
+if (gameData.status === "playing") {
+    try {
+        const checkChess = new Chess(gameData.fen || START_FEN);
+
+        announceCheck(
+            checkChess,
+            `online_${gameData.lastMoveAt || ""}`
+        );
+    } catch (e) {
+        console.warn("Deteksi skak:", e);
+    }
+}
+    
 function clickSolo(sq) {
   if (soloEnded || soloInputLock || !gameData || gameData.status !== "playing" || gameData.turn !== humanColor) return;
   const p = localChess.get(sq);
