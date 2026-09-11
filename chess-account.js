@@ -1,40 +1,5 @@
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-async function forgotPassword() {
-  let email = String($("accountEmail")?.value || "")
-    .trim()
-    .toLowerCase();
-
-  if (!email) {
-    openAccount();
-    $("accountEmail")?.focus();
-    setMsg("Masukkan email akun Anda terlebih dahulu.");
-    return;
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    setMsg("Masukkan email yang benar.");
-    return;
-  }
-
-  setMsg("Mengirim link reset password...");
-
-  try {
-    await sendPasswordResetEmail(auth, email);
-
-    setMsg(
-      "Link reset password sudah dikirim ke email Anda. Cek Inbox atau Spam."
-    );
-  } catch (e) {
-    console.error("Reset password:", e);
-
-    if (e?.code?.includes("user-not-found")) {
-      setMsg("Email tersebut belum terdaftar.");
-    } else {
-      setMsg(accountMessage(e));
-    }
-  }
-}
 import { getDatabase, ref, onValue, runTransaction, get } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -45,7 +10,7 @@ const $ = id => document.getElementById(id);
 const safe = s => String(s ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const key = s => encodeURIComponent(String(s || "").trim().toLowerCase()).replace(/%/g, "_").slice(0, 120);
 const uidKey = s => String(s || "").replace(/[^a-zA-Z0-9_-]/g, "_");
-const SCORE = { win:50, draw:25, loss:-13, resign:-70, exit:-100 };
+const SCORE = { win:50, draw:5, loss:-13, resign:-20, exit:-50 };
 const LABEL = { win:"Menang", draw:"Remis", loss:"Kalah", resign:"Menyerah", exit:"Keluar Game" };
 let user = null;
 let gameId = null;
