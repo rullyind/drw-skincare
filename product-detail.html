@@ -1,2127 +1,409 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Detail produk RARA DRW SKINCARE"
-    >
-
-    <title>Detail Produk | RARA DRW SKINCARE</title>
-
-    <link
-        rel="icon"
-        href="assets/images/favicon.png"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-    <style>
-
-        /* =====================================================
-           RESET
-        ===================================================== */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "DM Sans", sans-serif;
-            background:
-                radial-gradient(
-                    circle at 10% 10%,
-                    rgba(255, 105, 180, .12),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 90% 30%,
-                    rgba(255, 215, 150, .14),
-                    transparent 30%
-                ),
-                linear-gradient(
-                    135deg,
-                    #fff8fc,
-                    #ffffff,
-                    #fff7fb
-                );
-            color: #3b2432;
-            min-height: 100vh;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            font-family: inherit;
-        }
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
-        .top-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            background:
-                rgba(255,255,255,.88);
-
-            backdrop-filter:
-                blur(20px);
-
-            -webkit-backdrop-filter:
-                blur(20px);
-
-            border-bottom:
-                1px solid rgba(236, 79, 155, .12);
-
-            box-shadow:
-                0 10px 35px rgba(190, 66, 126, .08);
-        }
-
-        .header-inner {
-            width: min(1200px, 92%);
-            margin: auto;
-
-            min-height: 82px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 25px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand-icon {
-            width: 46px;
-            height: 46px;
-
-            border-radius: 50%;
-
-            display: grid;
-            place-items: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ff4fa3,
-                    #ff86c5
-                );
-
-            color: white;
-
-            box-shadow:
-                0 8px 25px rgba(235, 55, 139, .28);
-        }
-
-        .brand-text strong {
-            display: block;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size: 21px;
-
-            color: #d52d81;
-
-            letter-spacing: .5px;
-        }
-
-        .brand-text span {
-            display: block;
-
-            font-size: 10px;
-
-            color: #a97691;
-
-            letter-spacing: 2px;
-        }
-
-        .header-cart {
-            position: relative;
-
-            width: 48px;
-            height: 48px;
-
-            border: 0;
-            border-radius: 50%;
-
-            background: white;
-
-            color: #dc3b8c;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 8px 25px rgba(190, 66, 126, .12);
-
-            transition: .3s;
-        }
-
-        .header-cart:hover {
-            background: #ed4396;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .cart-count {
-            position: absolute;
-
-            top: -3px;
-            right: -2px;
-
-            min-width: 20px;
-            height: 20px;
-
-            padding: 0 5px;
-
-            border-radius: 50px;
-
-            background: #ed3f95;
-            color: white;
-
-            font-size: 11px;
-            font-weight: 700;
-
-            display: grid;
-            place-items: center;
-        }
-
-        /* =====================================================
-           MAIN
-        ===================================================== */
-
-        .page {
-            width: min(1200px, 92%);
-            margin: auto;
-
-            padding:
-                35px 0 80px;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            flex-wrap: wrap;
-
-            font-size: 13px;
-
-            color: #9d7890;
-
-            margin-bottom: 28px;
-        }
-
-        .breadcrumb a {
-            color: #d83d8b;
-        }
-
-        .breadcrumb i {
-            font-size: 9px;
-        }
-
-        /* =====================================================
-           DETAIL CARD
-        ===================================================== */
-
-        .detail-card {
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1fr)
-                minmax(0, 1fr);
-
-            gap: 55px;
-
-            background:
-                rgba(255,255,255,.86);
-
-            border:
-                1px solid rgba(238, 80, 155, .12);
-
-            border-radius: 32px;
-
-            padding: 35px;
-
-            box-shadow:
-                0 25px 80px rgba(190, 70, 130, .10);
-
-            backdrop-filter:
-                blur(15px);
-        }
-
-        /* =====================================================
-           IMAGE
-        ===================================================== */
-
-        .image-area {
-            position: relative;
-
-            min-height: 550px;
-
-            border-radius: 28px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    #fff,
-                    #fff5fa
-                );
-
-            overflow: hidden;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border:
-                1px solid rgba(237, 67, 148, .10);
-        }
-
-        .image-area::before {
-            content: "";
-
-            position: absolute;
-
-            width: 350px;
-            height: 350px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255, 105, 180, .09);
-
-            filter: blur(25px);
-        }
-
-        #detailProductImage {
-            position: relative;
-
-            z-index: 2;
-
-            width: 100%;
-            height: 100%;
-
-            max-height: 520px;
-
-            object-fit: contain;
-
-            padding: 30px;
-
-            transition: .4s;
-        }
-
-        #detailProductImage:hover {
-            transform:
-                scale(1.035);
-        }
-
-        #productPlaceholder {
-            display: none;
-
-            position: absolute;
-
-            z-index: 3;
-
-            text-align: center;
-
-            color: #df3c8d;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size: 35px;
-        }
-
-        #productPlaceholder small {
-            display: block;
-
-            margin-top: 8px;
-
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            font-size: 11px;
-
-            letter-spacing: 2px;
-        }
-
-        /* =====================================================
-           INFO
-        ===================================================== */
-
-        .detail-info {
-            display: flex;
-            flex-direction: column;
-
-            justify-content: center;
-        }
-
-        .detail-badge {
-            width: fit-content;
-
-            padding:
-                8px 14px;
-
-            border-radius: 50px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #fff0f8,
-                    #ffe4f2
-                );
-
-            color: #d73587;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            letter-spacing: 1.5px;
-
-            margin-bottom: 15px;
-        }
-
-        .detail-category {
-            color: #b1819d;
-
-            font-size: 13px;
-
-            margin-bottom: 8px;
-        }
-
-        .detail-title {
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                clamp(32px, 4vw, 52px);
-
-            line-height: 1.12;
-
-            color: #422433;
-
-            margin-bottom: 18px;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            color: #e6a12e;
-
-            font-size: 14px;
-
-            margin-bottom: 22px;
-        }
-
-        .rating span {
-            color: #927284;
-        }
-
-        .detail-price {
-            font-size:
-                clamp(28px, 4vw, 42px);
-
-            font-weight: 800;
-
-            color: #e3338c;
-
-            margin-bottom: 5px;
-        }
-
-        .detail-price-level {
-            color: #9d7890;
-
-            font-size: 12px;
-
-            margin-bottom: 25px;
-        }
-
-        .detail-description {
-            color: #75596a;
-
-            line-height: 1.8;
-
-            font-size: 15px;
-
-            margin-bottom: 30px;
-        }
-
-        /* =====================================================
-           PRODUCT META
-        ===================================================== */
-
-        .meta-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 12px;
-
-            margin-bottom: 28px;
-        }
-
-        .meta-box {
-            padding: 15px;
-
-            border-radius: 16px;
-
-            background:
-                #fff7fb;
-
-            border:
-                1px solid rgba(232, 67, 145, .10);
-        }
-
-        .meta-box span {
-            display: block;
-
-            color: #a17b91;
-
-            font-size: 11px;
-
-            margin-bottom: 5px;
-        }
-
-        .meta-box strong {
-            color: #4a2c3c;
-
-            font-size: 13px;
-        }
-
-        /* =====================================================
-           QUANTITY
-        ===================================================== */
-
-        .quantity-title {
-            display: block;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            margin-bottom: 10px;
-
-            color: #573346;
-        }
-
-        .quantity-control {
-            display: flex;
-
-            align-items: center;
-
-            width: fit-content;
-
-            height: 48px;
-
-            border:
-                1px solid #f0cade;
-
-            border-radius: 14px;
-
-            overflow: hidden;
-
-            background: white;
-
-            margin-bottom: 20px;
-        }
-
-        .quantity-control button {
-            width: 48px;
-            height: 100%;
-
-            border: 0;
-
-            background: transparent;
-
-            color: #dc398b;
-
-            font-size: 18px;
-
-            cursor: pointer;
-
-            transition: .25s;
-        }
-
-        .quantity-control button:hover {
-            background: #ed4396;
-            color: white;
-        }
-
-        .quantity-control input {
-            width: 55px;
-            height: 100%;
-
-            border: 0;
-
-            outline: 0;
-
-            text-align: center;
-
-            font-weight: 700;
-
-            color: #49303d;
-
-            font-size: 15px;
-        }
-
-        /* =====================================================
-           BUTTON
-        ===================================================== */
-
-        .action-buttons {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 12px;
-        }
-
-        .btn {
-            min-height: 55px;
-
-            border-radius: 16px;
-
-            border: 0;
-
-            cursor: pointer;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            transition: .3s;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 9px;
-        }
-
-        .btn-cart {
-            background: white;
-
-            color: #df3b8d;
-
-            border:
-                1px solid #edb5d1;
-
-            box-shadow:
-                0 10px 25px rgba(219, 55, 132, .08);
-        }
-
-        .btn-cart:hover {
-            background: #ed4396;
-            color: white;
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 14px 35px rgba(219, 55, 132, .22);
-        }
-
-        .btn-buy {
-            background:
-                linear-gradient(
-                    135deg,
-                    #e8338d,
-                    #ff70b3
-                );
-
-            color: white;
-
-            box-shadow:
-                0 14px 30px rgba(226, 48, 135, .25);
-        }
-
-        .btn-buy:hover {
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 18px 40px rgba(226, 48, 135, .35);
-        }
-
-        /* =====================================================
-           STATUS
-        ===================================================== */
-
-        .product-status {
-            margin-top: 18px;
-
-            padding: 12px 15px;
-
-            border-radius: 12px;
-
-            background:
-                #fff6fa;
-
-            color: #a06d89;
-
-            font-size: 12px;
-
-            text-align: center;
-        }
-
-        /* =====================================================
-           NOT FOUND
-        ===================================================== */
-
-        .not-found {
-            display: none;
-
-            text-align: center;
-
-            padding: 90px 25px;
-
-            background: white;
-
-            border-radius: 30px;
-
-            box-shadow:
-                0 20px 60px rgba(190, 70, 130, .08);
-        }
-
-        .not-found i {
-            font-size: 55px;
-
-            color: #e63d91;
-
-            margin-bottom: 20px;
-        }
-
-        .not-found h2 {
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size: 32px;
-
-            margin-bottom: 10px;
-        }
-
-        .not-found p {
-            color: #8d6d7e;
-
-            margin-bottom: 25px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            padding:
-                13px 22px;
-
-            border-radius: 50px;
-
-            background: #e83c91;
-
-            color: white;
-
-            font-weight: 700;
-        }
-
-        /* =====================================================
-           TOAST
-        ===================================================== */
-
-        #toast {
-            position: fixed;
-
-            right: 25px;
-            bottom: 25px;
-
-            z-index: 9999;
-
-            padding:
-                15px 20px;
-
-            border-radius: 15px;
-
-            background:
-                rgba(52, 30, 43, .94);
-
-            color: white;
-
-            box-shadow:
-                0 15px 40px rgba(0,0,0,.18);
-
-            transform:
-                translateY(130px);
-
-            opacity: 0;
-
-            transition: .35s;
-
-            font-size: 13px;
-        }
-
-        #toast.show {
-            transform:
-                translateY(0);
-
-            opacity: 1;
-        }
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media (max-width: 850px) {
-
-            .detail-card {
-                grid-template-columns: 1fr;
-
-                gap: 30px;
-
-                padding: 20px;
-            }
-
-            .image-area {
-                min-height: 400px;
-            }
-
-            .detail-title {
-                font-size: 34px;
-            }
-
-        }
-
-        @media (max-width: 550px) {
-
-            .header-inner {
-                min-height: 70px;
-            }
-
-            .brand-text strong {
-                font-size: 17px;
-            }
-
-            .brand-text span {
-                font-size: 8px;
-            }
-
-            .page {
-                width: 94%;
-                padding-top: 20px;
-            }
-
-            .image-area {
-                min-height: 330px;
-            }
-
-            #detailProductImage {
-                padding: 15px;
-            }
-
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-
-            .meta-grid {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Detail produk DRW SKINCARE">
+<title>Detail Produk|DRW SKINCARE</title>
+<link rel="icon" href="assets/images/logo/favicondrw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",sans-serif;color:#3b2432;min-height:100vh;background:
+radial-gradient(circle at 10% 10%,rgba(255,105,180,.12),transparent 30%),
+radial-gradient(circle at 90% 30%,rgba(255,215,150,.14),transparent 30%),
+linear-gradient(135deg,#fff8fc,#fff,#fff7fb)}
+a{color:inherit;text-decoration:none}button{font-family:inherit}
+.top-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(236,79,155,.12);box-shadow:0 10px 35px rgba(190,66,126,.08)}
+.header-inner{width:min(1200px,92%);margin:auto;min-height:82px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+/* ===== LOGO HEADER ===== */
+.header-inner .brand .brand-icon {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    position: relative !important;
+    overflow: hidden !important;
+
+    border-radius: 50% !important;
+    flex: 0 0 46px !important;
+
+    background: #ffffff !important;
+}
+
+.header-inner .brand .brand-icon img {
+    position: absolute !important;
+
+    left: 50% !important;
+    top: 50% !important;
+
+    width: 40px !important;
+    height: 40px !important;
+
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    object-fit: contain !important;
+    display: block !important;
+}.brand-text strong{display:block;font-family:"Playfair Display",serif;font-size:21px;color:#d52d81}.brand-text span{display:block;font-size:10px;color:#a97691;letter-spacing:2px}
+.header-cart{position:relative;width:48px;height:48px;border:0;border-radius:50%;background:#fff;color:#dc3b8c;cursor:pointer;box-shadow:0 8px 25px rgba(190,66,126,.12)}
+.cart-count{position:absolute;top:-3px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:50px;background:#ed3f95;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.page{width:min(1200px,92%);margin:auto;padding:35px 0 80px}
+.breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#9d7890;margin-bottom:28px}.breadcrumb a{color:#d83d8b}.breadcrumb i{font-size:9px}
+.detail-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:55px;background:rgba(255,255,255,.88);border:1px solid rgba(238,80,155,.12);border-radius:32px;padding:35px;box-shadow:0 25px 80px rgba(190,70,130,.10);backdrop-filter:blur(15px)}
+.image-area{position:relative;min-height:550px;border-radius:28px;background:radial-gradient(circle,#fff,#fff5fa);overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(237,67,148,.1)}
+.image-area:before{content:"";position:absolute;width:350px;height:350px;border-radius:50%;background:rgba(255,105,180,.09);filter:blur(25px)}
+#detailProductImage{position:relative;z-index:2;width:100%;height:100%;max-height:520px;object-fit:contain;padding:30px;transition:.4s}
+#detailProductImage:hover{transform:scale(1.035)}
+.detail-info{display:flex;flex-direction:column;justify-content:center}
+.detail-badge{width:max-content;padding:8px 14px;border-radius:50px;background:linear-gradient(135deg,#fff0f8,#ffe4f2);color:#d73587;font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:15px}
+.detail-category{color:#b1819d;font-size:13px;margin-bottom:8px}
+.detail-title{font-family:"Playfair Display",serif;font-size:clamp(32px,4vw,52px);line-height:1.12;color:#422433;margin-bottom:18px}
+.rating{display:flex;align-items:center;gap:8px;color:#e6a12e;font-size:14px;margin-bottom:22px}.rating span{color:#927284}
+.detail-price{font-size:clamp(28px,4vw,42px);font-weight:800;color:#e3338c}.detail-price-level{color:#9d7890;font-size:12px;margin:5px 0 25px}
+.detail-description{color:#75596a;line-height:1.8;font-size:15px;margin-bottom:30px}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}.meta-box{padding:15px;border-radius:16px;background:#fff7fb;border:1px solid rgba(232,67,145,.1)}.meta-box span{display:block;color:#a17b91;font-size:11px;margin-bottom:5px}.meta-box strong{color:#4a2c3c;font-size:13px}
+.quantity-title{display:block;font-size:13px;font-weight:700;margin-bottom:10px;color:#573346}.quantity-control{display:flex;align-items:center;width:max-content;height:48px;border:1px solid #f0cade;border-radius:14px;overflow:hidden;background:#fff;margin-bottom:20px}.quantity-control button{width:48px;height:100%;border:0;background:transparent;color:#dc398b;font-size:18px;cursor:pointer}.quantity-control input{width:55px;height:100%;border:0;outline:0;text-align:center;font-weight:700;color:#49303d;font-size:15px}
+.action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{min-height:55px;border-radius:16px;cursor:pointer;font-size:14px;font-weight:700;transition:.3s;display:flex;align-items:center;justify-content:center;gap:9px}.btn-cart{background:#fff;color:#df3b8d;border:1px solid #edb5d1}.btn-buy{border:0;background:linear-gradient(135deg,#e8338d,#ff70b3);color:#fff;box-shadow:0 14px 30px rgba(226,48,135,.25)}
+.product-status{margin-top:18px;padding:12px 15px;border-radius:12px;background:#fff6fa;color:#a06d89;font-size:12px;text-align:center}
+
+.product-extra{margin-top:35px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.extra-card{position:relative;overflow:hidden;background:rgba(255,255,255,.92);border:1px solid rgba(238,80,155,.13);border-radius:25px;padding:30px;box-shadow:0 18px 55px rgba(190,70,130,.08)}
+.extra-card:before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;top:-80px;right:-70px;background:rgba(255,105,180,.1);filter:blur(8px)}
+.extra-heading{display:flex;align-items:center;gap:12px;margin-bottom:22px;position:relative}.extra-icon{width:45px;height:45px;flex:0 0 45px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#e8338d,#ff8bc5);box-shadow:0 10px 25px rgba(226,48,135,.2)}
+.extra-heading h2{font-family:"Playfair Display",serif;font-size:24px;color:#482738}.extra-content{position:relative;color:#75596a;line-height:1.8;font-size:14px}.extra-content p{margin-bottom:10px}.extra-content ol,.extra-content ul{padding-left:22px}.extra-content li{margin-bottom:10px;padding-left:3px}.extra-content li::marker{color:#e43b91;font-weight:700}.empty-extra{color:#a17b91;font-style:italic}
+.not-found{display:none;text-align:center;padding:90px 25px;background:#fff;border-radius:30px;box-shadow:0 20px 60px rgba(190,70,130,.08)}.not-found i{font-size:55px;color:#e63d91;margin-bottom:20px}.not-found h2{font-family:"Playfair Display",serif;font-size:32px;margin-bottom:10px}.not-found p{color:#8d6d7e;margin-bottom:25px}.back-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:50px;background:#e83c91;color:#fff;font-weight:700}
+#toast{position:fixed;right:25px;bottom:25px;z-index:9999;padding:15px 20px;border-radius:15px;background:rgba(52,30,43,.94);color:#fff;box-shadow:0 15px 40px rgba(0,0,0,.18);transform:translateY(130px);opacity:0;transition:.35s;font-size:13px}#toast.show{transform:translateY(0);opacity:1}
+@media(max-width:850px){.detail-card{grid-template-columns:1fr;gap:30px;padding:20px}.image-area{min-height:400px}.detail-title{font-size:34px}.product-extra{grid-template-columns:1fr}}
+@media(max-width:550px){.header-inner{min-height:70px}.brand-text strong{font-size:17px}.brand-text span{font-size:8px}.page{width:94%;padding-top:20px}.image-area{min-height:330px}#detailProductImage{padding:15px}.action-buttons,.meta-grid{grid-template-columns:1fr}.extra-card{padding:23px}.extra-heading h2{font-size:21px}}
+</style>
 </head>
 
 <body>
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
 <header class="top-header">
-
-    <div class="header-inner">
-
-        <a
-            href="index.html"
-            class="brand"
-        >
-
-            <div class="brand-icon">
-                <i class="fa-solid fa-spa"></i>
-            </div>
-
-            <div class="brand-text">
-
-                <strong>
-                    RARA DRW SKINCARE
-                </strong>
-
-                <span>
-                    PREMIUM BEAUTY STORE
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <button
-            type="button"
-            class="header-cart"
-            id="headerCartButton"
-            title="Keranjang"
-        >
-
-            <i class="fa-solid fa-bag-shopping"></i>
-
-            <span
-                class="cart-count"
-                id="cartCount"
-            >
-                0
-            </span>
-
-        </button>
-
-    </div>
-
+<div class="header-inner">
+<a href="index.html" class="brand">
+    
+<div class="brand-icon"> 
+<img src="assets/images/logo/favicondrw.png" alt="Drw Skincare">
+</div>
+<div class="brand-text"><strong>DRW SKINCARE</strong><span>PREMIUM BEAUTY STORE</span></div>
+</a>
+<button type="button" class="header-cart" id="headerCartButton" title="Keranjang">
+<i class="fa-solid fa-bag-shopping"></i><span class="cart-count" id="cartCount">0</span>
+</button>
+</div>
 </header>
 
+<main class="page">
+<div class="breadcrumb">
+<a href="index.html">Home</a><i class="fa-solid fa-chevron-right"></i>
+<a href="products.html">Produk</a><i class="fa-solid fa-chevron-right"></i>
+<span id="breadcrumbProduct">Detail Produk</span>
+</div>
+
+<section class="detail-card" id="detailCard">
+<div class="image-area">
+<img id="detailProductImage" src="assets/images/products/placeholder.png" alt="Produk DRW Skincare">
+</div>
+
+<div class="detail-info">
+<div class="detail-badge" id="detailBadge">DRW SKINCARE</div>
+<div class="detail-category" id="detailCategory">Perawatan Wajah</div>
+<h1 class="detail-title" id="detailProductName">Memuat produk...</h1>
+<div class="rating">
+<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+<span>4.9 Â· 128 Reviews</span>
+</div>
+<div class="detail-price" id="detailPrice">Memuat harga...</div>
+<div class="detail-price-level" id="detailPriceLevel">Harga Umum</div>
+<p class="detail-description" id="detailDescription">Memuat deskripsi produk...</p>
+
+<div class="meta-grid">
+<div class="meta-box"><span>Kategori</span><strong id="infoCategory">-</strong></div>
+<div class="meta-box"><span>Produk</span><strong id="infoProductName">-</strong></div>
+</div>
+
+<label class="quantity-title" for="quantity">Jumlah Produk</label>
+<div class="quantity-control">
+<button type="button" id="quantityMinus"><i class="fa-solid fa-minus"></i></button>
+<input type="number" id="quantity" value="1" min="1" max="999">
+<button type="button" id="quantityPlus"><i class="fa-solid fa-plus"></i></button>
+</div>
+
+<div class="action-buttons">
+<button type="button" class="btn btn-cart" id="addToCart"><i class="fa-solid fa-cart-plus"></i>Tambah ke Keranjang</button>
+<button type="button" class="btn btn-buy" id="buyNow"><i class="fa-solid fa-bag-shopping"></i>Beli Sekarang</button>
+</div>
+
+<div class="product-status"><i class="fa-solid fa-shield-heart"></i> Produk resmi DRW SKINCARE</div>
+</div>
+</section>
 
 <!-- =========================================================
-     MAIN
+     BAGIAN BARU:
+     Cara Pakai dan Manfaat Produk
+
+     Tambahkan data pada products-data.js:
+
+     caraPakai: [
+       "Bersihkan wajah terlebih dahulu.",
+       "Gunakan produk secukupnya.",
+       "Pijat/usapkan secara merata.",
+       "Gunakan sesuai kebutuhan."
+     ],
+
+     manfaat: [
+       "Membantu merawat kulit.",
+       "Membantu menjaga kelembapan kulit.",
+       "Membantu membuat kulit tampak lebih cerah."
+     ]
 ========================================================= -->
-
-<main class="page">
-
-
-    <!-- BREADCRUMB -->
-
-    <div class="breadcrumb">
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <i class="fa-solid fa-chevron-right"></i>
-
-        <a href="product.html">
-            Produk
-        </a>
-
-        <i class="fa-solid fa-chevron-right"></i>
-
-        <span id="breadcrumbProduct">
-            Detail Produk
-        </span>
-
-    </div>
-
-
-    <!-- =====================================================
-         DETAIL
-    ===================================================== -->
-
-    <section
-        class="detail-card"
-        id="detailCard"
-    >
-
-
-        <!-- =================================================
-             IMAGE
-        ================================================= -->
-
-        <div class="image-area">
-
-            <img
-                id="detailProductImage"
-                src="assets/images/products/placeholder.png"
-                alt="Produk DRW Skincare"
-            >
-
-            <div id="productPlaceholder">
-
-                DRW
-
-                <small>
-                    RARA SKINCARE
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             INFORMATION
-        ================================================= -->
-
-        <div class="detail-info">
-
-
-            <div
-                class="detail-badge"
-                id="detailBadge"
-            >
-                DRW SKINCARE
-            </div>
-
-
-            <div
-                class="detail-category"
-                id="detailCategory"
-            >
-                Perawatan Wajah
-            </div>
-
-
-            <h1
-                class="detail-title"
-                id="detailProductName"
-            >
-                Memuat produk...
-            </h1>
-
-
-            <div class="rating">
-
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-
-                <span>
-                    4.9 · 128 Reviews
-                </span>
-
-            </div>
-
-
-            <div
-                class="detail-price"
-                id="detailPrice"
-            >
-                Memuat harga...
-            </div>
-
-
-            <div
-                class="detail-price-level"
-                id="detailPriceLevel"
-            >
-                Harga Umum
-            </div>
-
-
-            <p
-                class="detail-description"
-                id="detailDescription"
-            >
-                Memuat deskripsi produk...
-            </p>
-
-
-            <!-- META -->
-
-            <div class="meta-grid">
-
-                <div class="meta-box">
-
-                    <span>
-                        Kategori
-                    </span>
-
-                    <strong id="infoCategory">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="meta-box">
-
-                    <span>
-                        Produk
-                    </span>
-
-                    <strong id="infoProductName">
-                        -
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <!-- QUANTITY -->
-
-            <label
-                class="quantity-title"
-                for="quantity"
-            >
-                Jumlah Produk
-            </label>
-
-
-            <div class="quantity-control">
-
-                <button
-                    type="button"
-                    id="quantityMinus"
-                >
-                    <i class="fa-solid fa-minus"></i>
-                </button>
-
-
-                <input
-                    type="number"
-                    id="quantity"
-                    value="1"
-                    min="1"
-                    max="999"
-                >
-
-
-                <button
-                    type="button"
-                    id="quantityPlus"
-                >
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-
-            </div>
-
-
-            <!-- BUTTON -->
-
-            <div class="action-buttons">
-
-                <button
-                    type="button"
-                    class="btn btn-cart"
-                    id="addToCart"
-                >
-
-                    <i class="fa-solid fa-cart-plus"></i>
-
-                    Tambah ke Keranjang
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="btn btn-buy"
-                    id="buyNow"
-                >
-
-                    <i class="fa-solid fa-bag-shopping"></i>
-
-                    Beli Sekarang
-
-                </button>
-
-            </div>
-
-
-            <div
-                class="product-status"
-                id="productStatus"
-            >
-
-                <i class="fa-solid fa-shield-heart"></i>
-
-                Produk resmi RARA DRW SKINCARE
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         NOT FOUND
-    ===================================================== -->
-
-    <section
-        class="not-found"
-        id="notFound"
-    >
-
-        <i class="fa-solid fa-box-open"></i>
-
-        <h2>
-            Produk Tidak Ditemukan
-        </h2>
-
-        <p>
-            Produk yang kamu pilih tidak tersedia
-            di database produk.
-        </p>
-
-        <a
-            href="product.html"
-            class="back-btn"
-        >
-
-            <i class="fa-solid fa-arrow-left"></i>
-
-            Kembali ke Produk
-
-        </a>
-
-    </section>
-
-
+<section class="product-extra" id="productExtra">
+
+<article class="extra-card">
+<div class="extra-heading">
+<div class="extra-icon"><i class="fa-solid fa-list-check"></i></div>
+<h2>Cara Pakai</h2>
+</div>
+<div class="extra-content" id="caraPakaiContent">
+<p class="empty-extra">Cara pakai produk belum diisi.</p>
+</div>
+</article>
+
+<article class="extra-card">
+<div class="extra-heading">
+<div class="extra-icon"><i class="fa-solid fa-sparkles"></i></div>
+<h2>Manfaat Produk</h2>
+</div>
+<div class="extra-content" id="manfaatContent">
+<p class="empty-extra">Manfaat produk belum diisi.</p>
+</div>
+</article>
+
+</section>
+
+<section class="not-found" id="notFound">
+<i class="fa-solid fa-box-open"></i>
+<h2>Produk Tidak Ditemukan</h2>
+<p>Produk yang kamu pilih tidak tersedia di database produk.</p>
+<a href="product.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i>Kembali ke Produk</a>
+</section>
 </main>
-
-
-<!-- TOAST -->
 
 <div id="toast"></div>
 
-
-<!-- =========================================================
-     PRODUCT DATABASE
-     
-     PENTING:
-     File ini menggunakan:
-     const DRW_PRODUCTS = [...]
-     
-     BUKAN price-level.js.
-========================================================= -->
-
 <script src="assets/js/products-data.js"></script>
 
-
-<!-- =========================================================
-     PRODUCT DETAIL ENGINE
-========================================================= -->
-
 <script>
-
-(function () {
-
-    "use strict";
-
-
-    /* =====================================================
-       DATABASE
-    ===================================================== */
-
-    let products = [];
-
-
-    if (
-        typeof DRW_PRODUCTS !== "undefined" &&
-        Array.isArray(DRW_PRODUCTS)
-    ) {
-
-        products =
-            DRW_PRODUCTS;
-
-    }
-
-
-    /*
-     * Pastikan script lain juga bisa membaca database.
-     */
-
-    window.DRW_PRODUCTS =
-        products;
-
-    window.PRODUCT_DATA =
-        products;
-
-    window.DRW_PRODUCT_DATA =
-        products;
-
-    window.produk =
-        products;
-
-
-    console.log(
-        "✅ DATABASE PRODUK:",
-        products.length
-    );
-
-
-    /* =====================================================
-       URL
-       
-       product-detail.html?id=acne-cream-3
-    ===================================================== */
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const productId =
-        params.get("id");
-
-
-    console.log(
-        "🔎 PRODUCT ID:",
-        productId
-    );
-
-
-    /* =====================================================
-       HELPER
-    ===================================================== */
-
-    function $(id) {
-
-        return document.getElementById(id);
-
-    }
-
-
-    function normalize(value) {
-
-        return String(value || "")
-            .trim()
-            .toLowerCase();
-
-    }
-
-
-    function rupiah(value) {
-
-        const number =
-            Number(value);
-
-
-        if (
-            !Number.isFinite(number) ||
-            number <= 0
-        ) {
-
-            return "Harga belum tersedia";
-
-        }
-
-
-        return new Intl.NumberFormat(
-            "id-ID",
-            {
-                style: "currency",
-                currency: "IDR",
-                maximumFractionDigits: 0
-            }
-        ).format(number);
-
-    }
-
-
-    /* =====================================================
-       CARI PRODUK
-    ===================================================== */
-
-    let product = null;
-
-
-    if (productId) {
-
-        product =
-            products.find(
-                function (item) {
-
-                    return (
-
-                        normalize(item.id) ===
-                        normalize(productId)
-
-                    );
-
-                }
-            );
-
-    }
-
-
-    /* =====================================================
-       FALLBACK:
-       CARI DARI localStorage
-    ===================================================== */
-
-    if (!product) {
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    "drwProduct"
-                );
-
-
-            if (saved) {
-
-                const savedProduct =
-                    JSON.parse(saved);
-
-
-                if (
-                    savedProduct &&
-                    savedProduct.id
-                ) {
-
-                    product =
-                        products.find(
-                            function (item) {
-
-                                return (
-
-                                    normalize(
-                                        item.id
-                                    ) ===
-                                    normalize(
-                                        savedProduct.id
-                                    )
-
-                                );
-
-                            }
-                        );
-
-                }
-
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "localStorage drwProduct tidak dapat dibaca."
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       PRODUK TIDAK ADA
-    ===================================================== */
-
-    if (!product) {
-
-        console.error(
-            "❌ PRODUK TIDAK DITEMUKAN"
-        );
-
-        console.error(
-            "ID:",
-            productId
-        );
-
-        console.error(
-            "Jumlah produk:",
-            products.length
-        );
-
-
-        $("detailCard").style.display =
-            "none";
-
-
-        $("notFound").style.display =
-            "block";
-
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       PRODUK DITEMUKAN
-    ===================================================== */
-
-    console.log(
-        "✅ PRODUK DITEMUKAN:",
-        product
-    );
-
-
-    /* =====================================================
-       TITLE
-    ===================================================== */
-
-    document.title =
-        product.name +
-        " | RARA DRW SKINCARE";
-
-
-    /* =====================================================
-       NAMA
-    ===================================================== */
-
-    $("detailProductName")
-        .textContent =
-        product.name;
-
-
-    $("breadcrumbProduct")
-        .textContent =
-        product.name;
-
-
-    $("infoProductName")
-        .textContent =
-        product.name;
-
-
-    /* =====================================================
-       KATEGORI
-    ===================================================== */
-
-    $("detailCategory")
-        .textContent =
-        product.category ||
-        "Perawatan Wajah";
-
-
-    $("infoCategory")
-        .textContent =
-        product.category ||
-        "Perawatan Wajah";
-
-
-    /* =====================================================
-       HARGA
-       
-       LANGSUNG DARI:
-       product.price
-    ===================================================== */
-
-    const price =
-        Number(product.price || 0);
-
-
-    $("detailPrice")
-        .textContent =
-        rupiah(price);
-
-
-    $("detailPriceLevel")
-        .textContent =
-        "Harga Umum";
-
-
-    /* =====================================================
-       DESKRIPSI
-    ===================================================== */
-
-    $("detailDescription")
-        .textContent =
-
-        product.description ||
-
-        "Produk DRW Skincare untuk melengkapi rutinitas perawatan kecantikan sehari-hari.";
-
-
-    /* =====================================================
-       BADGE
-    ===================================================== */
-
-    $("detailBadge")
-        .textContent =
-
-        product.badge ||
-
-        "DRW SKINCARE";
-
-
-    /* =====================================================
-       FOTO
-    ===================================================== */
-
-    const image =
-        $("detailProductImage");
-
-
-    const placeholder =
-        $("productPlaceholder");
-
-
-    let imagePath =
-        product.image;
-
-
-    if (
-        !imagePath ||
-        imagePath ===
-            "assets/images/products/placeholder.png"
-    ) {
-
-        imagePath =
-            "assets/images/products/placeholder.png";
-
-    }
-
-
-    console.log(
-        "🖼️ FOTO:",
-        imagePath
-    );
-
-
-    image.onload =
-        function () {
-
-            image.style.display =
-                "block";
-
-            placeholder.style.display =
-                "none";
-
-        };
-
-
-    image.onerror =
-        function () {
-
-            console.error(
-                "❌ FOTO TIDAK DAPAT DIBUKA:",
-                imagePath
-            );
-
-
-            image.onerror =
-                null;
-
-
-            image.src =
-                "assets/images/products/placeholder.png";
-
-        };
-
-
-    image.src =
-        imagePath;
-
-
-    image.alt =
-        product.name;
-
-
-    /* =====================================================
-       LOCAL STORAGE
-       
-       Simpan produk supaya cart / script lama
-       juga bisa membaca produk.
-    ===================================================== */
-
-    localStorage.setItem(
-        "drwProduct",
-        JSON.stringify(product)
-    );
-
-
-    /* =====================================================
-       QUANTITY
-    ===================================================== */
-
-    const quantity =
-        $("quantity");
-
-
-    $("quantityPlus")
-        .addEventListener(
-            "click",
-            function () {
-
-                let value =
-                    Number(
-                        quantity.value
-                    ) || 1;
-
-
-                quantity.value =
-                    Math.min(
-                        999,
-                        value + 1
-                    );
-
-            }
-        );
-
-
-    $("quantityMinus")
-        .addEventListener(
-            "click",
-            function () {
-
-                let value =
-                    Number(
-                        quantity.value
-                    ) || 1;
-
-
-                quantity.value =
-                    Math.max(
-                        1,
-                        value - 1
-                    );
-
-            }
-        );
-
-
-    /* =====================================================
-       TOAST
-    ===================================================== */
-
-    function toast(message) {
-
-        const element =
-            $("toast");
-
-
-        element.textContent =
-            message;
-
-
-        element.classList.add(
-            "show"
-        );
-
-
-        setTimeout(
-            function () {
-
-                element.classList.remove(
-                    "show"
-                );
-
-            },
-            1800
-        );
-
-    }
-
-
-    /* =====================================================
-       ADD CART
-    ===================================================== */
-
-    $("addToCart")
-        .addEventListener(
-            "click",
-            function () {
-
-                const qty =
-                    Math.max(
-                        1,
-                        Number(
-                            quantity.value
-                        ) || 1
-                    );
-
-
-                let cart = [];
-
-
-                try {
-
-                    cart =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "drwCart"
-                            ) || "[]"
-                        );
-
-
-                    if (
-                        !Array.isArray(cart)
-                    ) {
-
-                        cart = [];
-
-                    }
-
-                } catch (error) {
-
-                    cart = [];
-
-                }
-
-
-                const existing =
-                    cart.find(
-                        function (item) {
-
-                            return String(
-                                item.id
-                            ) === String(
-                                product.id
-                            );
-
-                        }
-                    );
-
-
-                if (existing) {
-
-                    existing.qty =
-                        (
-                            Number(
-                                existing.qty
-                            ) || 0
-                        ) + qty;
-
-
-                    existing.quantity =
-                        existing.qty;
-
-                } else {
-
-                    cart.push({
-
-                        id:
-                            product.id,
-
-                        name:
-                            product.name,
-
-                        price:
-                            Number(
-                                product.price
-                            ) || 0,
-
-                        image:
-                            product.image || "",
-
-                        category:
-                            product.category || "",
-
-                        qty:
-                            qty,
-
-                        quantity:
-                            qty
-
-                    });
-
-                }
-
-
-                localStorage.setItem(
-                    "drwCart",
-                    JSON.stringify(cart)
-                );
-
-
-                updateCartCount();
-
-
-                toast(
-                    "✓ Produk berhasil masuk keranjang"
-                );
-
-
-                console.log(
-                    "🛒 CART:",
-                    cart
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       BUY NOW
-    ===================================================== */
-
-    $("buyNow")
-        .addEventListener(
-            "click",
-            function () {
-
-                const qty =
-                    Math.max(
-                        1,
-                        Number(
-                            quantity.value
-                        ) || 1
-                    );
-
-
-                let cart = [];
-
-
-                try {
-
-                    cart =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "drwCart"
-                            ) || "[]"
-                        );
-
-
-                    if (
-                        !Array.isArray(cart)
-                    ) {
-
-                        cart = [];
-
-                    }
-
-                } catch (error) {
-
-                    cart = [];
-
-                }
-
-
-                const existing =
-                    cart.find(
-                        function (item) {
-
-                            return String(
-                                item.id
-                            ) === String(
-                                product.id
-                            );
-
-                        }
-                    );
-
-
-                if (existing) {
-
-                    existing.qty =
-                        (
-                            Number(
-                                existing.qty
-                            ) || 0
-                        ) + qty;
-
-
-                    existing.quantity =
-                        existing.qty;
-
-                } else {
-
-                    cart.push({
-
-                        id:
-                            product.id,
-
-                        name:
-                            product.name,
-
-                        price:
-                            Number(
-                                product.price
-                            ) || 0,
-
-                        image:
-                            product.image || "",
-
-                        category:
-                            product.category || "",
-
-                        qty:
-                            qty,
-
-                        quantity:
-                            qty
-
-                    });
-
-                }
-
-
-                localStorage.setItem(
-                    "drwCart",
-                    JSON.stringify(cart)
-                );
-
-
-                window.location.href =
-                    "cart.html";
-
-            }
-        );
-
-
-    /* =====================================================
-       CART COUNT
-    ===================================================== */
-
-    function updateCartCount() {
-
-        let cart = [];
-
-
-        try {
-
-            cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "drwCart"
-                    ) || "[]"
-                );
-
-        } catch (error) {
-
-            cart = [];
-
-        }
-
-
-        if (!Array.isArray(cart)) {
-
-            cart = [];
-
-        }
-
-
-        const count =
-            cart.reduce(
-                function (total, item) {
-
-                    return total +
-                        (
-                            Number(
-                                item.qty ??
-                                item.quantity ??
-                                1
-                            ) || 1
-                        );
-
-                },
-                0
-            );
-
-
-        $("cartCount")
-            .textContent =
-            count;
-
-    }
-
-
-    updateCartCount();
-
-
-    /* =====================================================
-       HEADER CART
-    ===================================================== */
-
-    $("headerCartButton")
-        .addEventListener(
-            "click",
-            function () {
-
-                window.location.href =
-                    "cart.html";
-
-            }
-        );
-
-
-    console.log(
-        "======================================"
-    );
-
-    console.log(
-        "✅ RARA DRW PRODUCT DETAIL AKTIF"
-    );
-
-    console.log(
-        "ID     :",
-        product.id
-    );
-
-    console.log(
-        "PRODUK :",
-        product.name
-    );
-
-    console.log(
-        "HARGA  :",
-        product.price
-    );
-
-    console.log(
-        "FOTO   :",
-        product.image
-    );
-
-    console.log(
-        "======================================"
-    );
-
-
+(function(){
+"use strict";
+
+let products = [];
+if(typeof DRW_PRODUCTS !== "undefined" && Array.isArray(DRW_PRODUCTS)) products=DRW_PRODUCTS;
+
+window.DRW_PRODUCTS=products;
+window.PRODUCT_DATA=products;
+window.DRW_PRODUCT_DATA=products;
+window.produk=products;
+
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(window.location.search);
+const productId=params.get("id");
+
+function normalize(v){return String(v||"").trim().toLowerCase()}
+
+function rupiah(v){
+const n=Number(v);
+if(!Number.isFinite(n)||n<=0)return "Harga belum tersedia";
+return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+}
+
+/* Menampilkan data sebagai daftar.
+   Bisa berupa Array atau teks dengan baris baru. */
+function renderExtra(id,data,type){
+const el=$(id);
+if(!el)return;
+el.innerHTML="";
+
+if(Array.isArray(data)&&data.length){
+const list=document.createElement(type==="cara"?"ol":"ul");
+data.forEach(item=>{
+const text=String(item||"").trim();
+if(!text)return;
+const li=document.createElement("li");
+li.textContent=text;
+list.appendChild(li);
+});
+if(list.children.length){el.appendChild(list);return;}
+}
+
+if(typeof data==="string"&&data.trim()){
+const lines=data.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+if(lines.length>1){
+const list=document.createElement(type==="cara"?"ol":"ul");
+lines.forEach(line=>{
+const li=document.createElement("li");
+li.textContent=line.replace(/^[\d.)-]+\s*/,"").replace(/^[-â€¢]\s*/,"");
+list.appendChild(li);
+});
+el.appendChild(list);
+return;
+}
+const p=document.createElement("p");
+p.textContent=data.trim();
+el.appendChild(p);
+return;
+}
+
+const empty=document.createElement("p");
+empty.className="empty-extra";
+empty.textContent=type==="cara"?"Cara pakai produk belum diisi.":"Manfaat produk belum diisi.";
+el.appendChild(empty);
+}
+
+let product=null;
+
+if(productId){
+product=products.find(item=>normalize(item.id)===normalize(productId));
+}
+
+if(!product){
+try{
+const saved=localStorage.getItem("drwProduct");
+if(saved){
+const savedProduct=JSON.parse(saved);
+if(savedProduct&&savedProduct.id){
+product=products.find(item=>normalize(item.id)===normalize(savedProduct.id));
+}
+}
+}catch(e){}
+}
+
+if(!product){
+$("detailCard").style.display="none";
+$("productExtra").style.display="none";
+$("notFound").style.display="block";
+return;
+}
+
+document.title=(product.name||"Detail Produk")+" |DRW SKINCARE";
+
+$("detailProductName").textContent=product.name||"Produk DRW SKINCARE";
+$("breadcrumbProduct").textContent=product.name||"Detail Produk";
+$("infoProductName").textContent=product.name||"-";
+
+$("detailCategory").textContent=product.category||"Perawatan Wajah";
+$("infoCategory").textContent=product.category||"Perawatan Wajah";
+
+$("detailPrice").textContent=rupiah(product.price);
+$("detailPriceLevel").textContent=product.priceLevel||"Harga Umum";
+
+$("detailDescription").textContent=product.description||"Produk DRW Skincare untuk melengkapi rutinitas perawatan kecantikan sehari-hari.";
+$("detailBadge").textContent=product.badge||"DRW SKINCARE";
+
+/* Nama field yang diterima:
+   caraPakai / cara_pakai / howToUse
+   manfaat / manfaatProduk / benefits / benefit */
+const caraPakai=product.caraPakai??product.cara_pakai??product.howToUse??"";
+const manfaat=product.manfaat??product.manfaatProduk??product.benefits??product.benefit??"";
+
+renderExtra("caraPakaiContent",caraPakai,"cara");
+renderExtra("manfaatContent",manfaat,"manfaat");
+
+const image=$("detailProductImage");
+image.src=product.image||"assets/images/products/placeholder.png";
+image.alt=product.name||"Produk DRW Skincare";
+image.onerror=function(){this.onerror=null;this.src="assets/images/products/placeholder.png"};
+
+localStorage.setItem("drwProduct",JSON.stringify(product));
+
+const quantity=$("quantity");
+$("quantityPlus").onclick=()=>quantity.value=Math.min(999,(Number(quantity.value)||1)+1);
+$("quantityMinus").onclick=()=>quantity.value=Math.max(1,(Number(quantity.value)||1)-1);
+
+function getCart(){
+try{
+const c=JSON.parse(localStorage.getItem("drwCart")||"[]");
+return Array.isArray(c)?c:[];
+}catch(e){return[]}
+}
+
+function saveCart(cart){localStorage.setItem("drwCart",JSON.stringify(cart))}
+
+function updateCartCount(){
+const count=getCart().reduce((total,item)=>total+(Number(item.qty??item.quantity??1)||1),0);
+$("cartCount").textContent=count;
+}
+
+function addProductToCart(){
+const qty=Math.max(1,Number(quantity.value)||1);
+const cart=getCart();
+const existing=cart.find(item=>String(item.id)===String(product.id));
+
+if(existing){
+existing.qty=(Number(existing.qty)||0)+qty;
+existing.quantity=existing.qty;
+}else{
+cart.push({
+id:product.id,
+name:product.name,
+price:Number(product.price)||0,
+image:product.image||"",
+category:product.category||"",
+qty:qty,
+quantity:qty
+});
+}
+saveCart(cart);
+updateCartCount();
+}
+
+function toast(message){
+const el=$("toast");
+el.textContent=message;
+el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),1800);
+}
+
+$("addToCart").onclick=()=>{
+addProductToCart();
+toast("âœ“ Produk berhasil masuk keranjang");
+};
+
+$("buyNow").onclick=()=>{
+addProductToCart();
+window.location.href="cart.html";
+};
+
+$("headerCartButton").onclick=()=>{
+window.location.href="cart.html";
+};
+
+updateCartCount();
+
+console.log("âœ… PRODUCT DETAIL AKTIF:",product);
 })();
-
 </script>
-
-
 </body>
 </html>
