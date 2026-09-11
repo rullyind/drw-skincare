@@ -568,15 +568,167 @@ if (validConfig()) {
 } else { console.error("Firebase config belum benar."); setLobbyMsg("Firebase belum dikonfigurasi dengan benar."); }
 
 window.chessGame = { getState: () => ({ roomId, myColor, myUid, solo, gameData }), leave: () => { stopEverything(); location.href = location.pathname; } };
+/* =========================================================
+   SKAK RAJO — NOTIFIKASI + SUARA
+   ========================================================= */
 
-<audio id="skakRajoSound" preload="auto">
-    <source src="assets/audio/skak-rajo.mp3" type="audio/mpeg">
-</audio>
+let lastAnnouncedCheckKey = "";
+let skakAudio = null;
+
+function initSkakRajoAudio() {
+    if (skakAudio) return skakAudio;
+
+    skakAudio = new Audio("assets/audio/skak-rajo.mp3");
+    skakAudio.preload = "auto";
+    skakAudio.volume = 1;
+
+    return skakAudio;
+}
+
+function showSkakNotification() {
+    let box = document.getElementById("skakNotification");
+
+    if (!box) {
+        box = document.createElement("div");
+        box.id = "skakNotification";
+
+        box.innerHTML = `
+            <div class="skak-icon">♚</div>
+            <div class="skak-title">SKAK!</div>
+            <div class="skak-subtitle">Skak Rajo!!</div>
+        `;
+
+        document.body.appendChild(box);
+
+        const style = document.createElement("style");
+        style.textContent = `
+            #skakNotification {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) scale(.7);
+                z-index: 999999;
+                min-width: 280px;
+                padding: 25px 40px;
+                text-align: center;
+                border-radius: 28px;
+                background:
+                    linear-gradient(
+                        135deg,
+                        rgba(255,255,255,.97),
+                        rgba(255,225,238,.97)
+                    );
+                border: 3px solid rgba(255, 80, 150, .75);
+                box-shadow:
+                    0 0 20px rgba(255, 70, 150, .65),
+                    0 0 60px rgba(255, 70, 150, .35),
+                    0 20px 70px rgba(0,0,0,.35);
+                opacity: 0;
+                pointer-events: none;
+                transition:
+                    opacity .18s ease,
+                    transform .22s cubic-bezier(.2,.9,.3,1.3);
+                font-family: Arial, sans-serif;
+            }
+
+            #skakNotification.show {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            #skakNotification .skak-icon {
+                font-size: 48px;
+                line-height: 1;
+                margin-bottom: 7px;
+            }
+
+            #skakNotification .skak-title {
+                font-size: 42px;
+                font-weight: 900;
+                letter-spacing: 4px;
+                color: #e50068;
+                text-shadow: 0 2px 12px rgba(229,0,104,.25);
+            }
+
+            #skakNotification .skak-subtitle {
+                margin-top: 5px;
+                font-size: 18px;
+                font-weight: 700;
+                color: #6d1742;
+            }
+
+            @media (max-width: 600px) {
+                #skakNotification {
+                    min-width: 220px;
+                    padding: 20px 25px;
+                    border-radius: 22px;
+                }
+
+                #skakNotification .skak-title {
+                    font-size: 32px;
+                }
+
+                #skakNotification .skak-icon {
+                    font-size: 40px;
+                }
+
+                #skakNotification .skak-subtitle {
+                    font-size: 15px;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
+    }
+
+    box.classList.remove("show");
+
+    // Force reflow supaya animasi selalu berjalan.
+    void box.offsetWidth;
+
+    box.classList.add("show");
+
+    clearTimeout(box._hideTimer);
+
+    box._hideTimer = setTimeout(() => {
+        box.classList.remove("show");
+    }, 1800);
+}
+
 function playSkakRajo() {
-    const audio = document.getElementById("skakRajoSound");
+    try {
+        const audio = initSkakRajoAudio();
 
-    if (!audio) return;
+        audio.currentTime = 0;
 
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
+        const promise = audio.play();
+
+        if (promise && typeof promise.catch === "function") {
+            promise.catch(error => {
+                console.warn("Suara Skak Rajo belum dapat diputar:", error);
+            });
+        }
+    } catch (e) {
+        console.warn("Audio Skak Rajo:", e);
+    }
+}
+
+function announceCheck(chess, sourceKey = "") {
+    if (!chess || chess.isCheckmate()) return;
+
+    if (!chess.isCheck()) {
+        lastAnnouncedCheckKey = "";
+        return;
+    }
+
+    const fen = chess.fen();
+    const key = `${sourceKey}|${fen}`;
+
+    // Jangan ulangi suara untuk posisi yang sama.
+    if (lastAnnouncedCheckKey === key) return;
+
+    lastAnnouncedCheckKey = key;
+
+    showSkakNotification();
+    playSkakRajo();
 }
