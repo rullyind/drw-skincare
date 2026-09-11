@@ -543,31 +543,6 @@ async function copyInvite() {
   catch { try { const ta=document.createElement("textarea"); ta.value=url; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); setGameMsg(`🔗 Undangan disalin: ${roomId}`); } catch { setGameMsg(`Kode room: ${roomId}`); } }
 }
 
-function bind() {
-  $("createBtn")?.addEventListener("click", createRoom);
-  $("joinBtn")?.addEventListener("click", joinRoom);
-  $("computerBtn")?.addEventListener("click", startSolo);
-  $("copyBtn")?.addEventListener("click", copyInvite);
-  $("resignBtn")?.addEventListener("click", resign);
-  $("drawBtn")?.addEventListener("click", draw);
-  $("newBtn")?.addEventListener("click", async () => {
-    if (pageLeaving) return;
-    const account = getAccount();
-    const active = solo ? !soloEnded : !!(gameData && gameData.status === "playing");
-    if (account && active) { try { await window.chessAccount?.award?.("exit"); } catch (e) { console.warn("exit score:", e); } }
-    stopEverything(); pageLeaving = true; location.href = location.pathname;
-  });
-  $("chatForm")?.addEventListener("submit", e => { e.preventDefault(); sendChat(); });
-  $("roomInput")?.addEventListener("input", e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8); });
-  const saved = localStorage.getItem("chessPlayerName"); if (saved && !$("playerName")?.value) $("playerName").value = saved;
-  const invitedRoom = new URLSearchParams(location.search).get("room"); if (invitedRoom && $("roomInput")) $("roomInput").value = invitedRoom.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
-}
-
-if (validConfig()) {
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind, { once: true }); else bind();
-} else { console.error("Firebase config belum benar."); setLobbyMsg("Firebase belum dikonfigurasi dengan benar."); }
-
-window.chessGame = { getState: () => ({ roomId, myColor, myUid, solo, gameData }), leave: () => { stopEverything(); location.href = location.pathname; } };
 /* =========================================================
    SKAK RAJO — NOTIFIKASI + SUARA
    ========================================================= */
@@ -732,3 +707,32 @@ function announceCheck(chess, sourceKey = "") {
     showSkakNotification();
     playSkakRajo();
 }
+
+
+
+
+function bind() {
+  $("createBtn")?.addEventListener("click", createRoom);
+  $("joinBtn")?.addEventListener("click", joinRoom);
+  $("computerBtn")?.addEventListener("click", startSolo);
+  $("copyBtn")?.addEventListener("click", copyInvite);
+  $("resignBtn")?.addEventListener("click", resign);
+  $("drawBtn")?.addEventListener("click", draw);
+  $("newBtn")?.addEventListener("click", async () => {
+    if (pageLeaving) return;
+    const account = getAccount();
+    const active = solo ? !soloEnded : !!(gameData && gameData.status === "playing");
+    if (account && active) { try { await window.chessAccount?.award?.("exit"); } catch (e) { console.warn("exit score:", e); } }
+    stopEverything(); pageLeaving = true; location.href = location.pathname;
+  });
+  $("chatForm")?.addEventListener("submit", e => { e.preventDefault(); sendChat(); });
+  $("roomInput")?.addEventListener("input", e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8); });
+  const saved = localStorage.getItem("chessPlayerName"); if (saved && !$("playerName")?.value) $("playerName").value = saved;
+  const invitedRoom = new URLSearchParams(location.search).get("room"); if (invitedRoom && $("roomInput")) $("roomInput").value = invitedRoom.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+}
+
+if (validConfig()) {
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind, { once: true }); else bind();
+} else { console.error("Firebase config belum benar."); setLobbyMsg("Firebase belum dikonfigurasi dengan benar."); }
+
+window.chessGame = { getState: () => ({ roomId, myColor, myUid, solo, gameData }), leave: () => { stopEverything(); location.href = location.pathname; } };
