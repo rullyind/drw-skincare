@@ -455,7 +455,7 @@ function renderSolo() {
   $("gameMsg").textContent = gameData.status === "playing" ? (gameData.turn === humanColor ? "🎯 Giliran Anda — pilih bidak dan kotak tujuan" : "⏳ Computer berpikir...") : statusText(gameData);
   renderBoard(gameData.fen, humanColor);
 }
-if (gameData.status === "playing") {
+if (gameData && gameData.status === "playing") {
     try {
         const checkChess = new Chess(gameData.fen || START_FEN);
 
