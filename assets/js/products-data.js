@@ -349,7 +349,7 @@
             id: "facial-wash-tea-tree-oil-110-ml",
             name: "Facial Wash Tea Tree Oil 110 ml",
             category: "Facial Wash",
-            image: IMAGE_FOLDER + "facial wash tea tree oil 100 ml  new.webp",
+            image: IMAGE_FOLDER + "facial wash tea tree oil 100 ml new.webp",
             price: 100000,
             
         },
