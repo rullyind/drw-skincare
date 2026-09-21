@@ -1,15 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://raradrwskincare.site/</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/urutan-skincare-pagi-malam.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/skincare-sesuai-jenis-kulit.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/merawat-kulit-berminyak.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/merawat-kulit-kering.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/kulit-kusam.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/serum-toner-moisturizer.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/pentingnya-sunscreen.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/skincare-untuk-pemula.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/kesalahan-skincare.html</loc></url>
-  <url><loc>https://raradrwskincare.site/beauty-tips/rutinitas-skincare-konsisten.html</loc></url>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- HOME -->
+    <url>
+        <loc>https://raradrwskincare.site/</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- PRODUK -->
+    <url>
+        <loc>https://raradrwskincare.site/products.html</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- KATEGORI PRODUK -->
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Perawatan%20Wajah</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Cream%20Malam</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Body%20Care</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Make%20Up%20%26%20Riasan</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Facial%20Wash</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Serum</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Hair%20Care</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://raradrwskincare.site/products.html?category=Toner</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+ 
+    <!-- KERANJANG -->
+    <url>
+        <loc>https://raradrwskincare.site/cart.html</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- CHECKOUT -->
+    <url>
+        <loc>https://raradrwskincare.site/checkout.html</loc>
+        <lastmod>2026-09-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
 </urlset>
