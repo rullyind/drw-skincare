@@ -55,6 +55,16 @@
             reviews: 92
         },
 
+
+           {
+            id: "radiant-glow-platinum",
+            name: "Radiant Glow Platinum",
+            category: "Cream Malam",
+            image: IMAGE_FOLDER + "Radiant Glow Platinum.png",
+            price: 115000,
+            rating: 4.9,
+            reviews: 51,
+        },
         
         {
             id: "bamboo-charcoal-soap-premium",
