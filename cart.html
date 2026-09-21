@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta
         name="description"
@@ -22,7 +20,11 @@
 
     <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
@@ -33,8 +35,7 @@
 
         /* =====================================================
            RARA DRW SKINCARE
-           SHOPPING CART — FINAL PREMIUM
-           CSS EMBEDDED
+           SHOPPING CART
         ===================================================== */
 
         :root {
@@ -61,12 +62,7 @@
 
         body {
             min-height: 100vh;
-
-            font-family:
-                "DM Sans",
-                Arial,
-                sans-serif;
-
+            font-family: "DM Sans", Arial, sans-serif;
             color: var(--ink);
 
             background:
@@ -101,7 +97,6 @@
         .shipping-bar {
             width: 100%;
             min-height: 42px;
-
             padding: 0 5%;
 
             display: flex;
@@ -121,7 +116,6 @@
 
             font-size: 11px;
             font-weight: 700;
-
             letter-spacing: .12em;
         }
 
@@ -132,24 +126,19 @@
 
         .site-header {
             width: 100%;
-
             min-height: 82px;
-
             padding: 0 5%;
 
             display: flex;
             align-items: center;
-
             gap: 30px;
 
             background: rgba(255,255,255,.97);
 
-            border-bottom:
-                1px solid #f6dce8;
+            border-bottom: 1px solid #f6dce8;
 
             position: sticky;
             top: 0;
-
             z-index: 100;
 
             backdrop-filter: blur(18px);
@@ -159,7 +148,9 @@
         }
 
 
-        /* BRAND */
+        /* =====================================================
+           BRAND / LOGO
+        ===================================================== */
 
         .brand {
             min-width: 235px;
@@ -167,35 +158,39 @@
             display: flex;
             align-items: center;
 
-            gap: 12px;
-        }
-
-        .brand-mark {
-            width: 46px;
-            height: 46px;
+            gap: 10px;
 
             flex-shrink: 0;
+        }
 
-            display: grid;
-            place-items: center;
+        /*
+           LOGO DI SINI
+           Ukuran sengaja dikunci agar tidak membesar
+        */
+
+        .brand-logo {
+            width: 38px !important;
+            height: 38px !important;
+
+            min-width: 38px !important;
+            max-width: 38px !important;
+
+            min-height: 38px !important;
+            max-height: 38px !important;
+
+            display: block !important;
+
+            object-fit: contain !important;
+
+            flex: 0 0 38px !important;
 
             border-radius: 50%;
+        }
 
-            color: white;
-
-            font-size: 12px;
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ff8bbb,
-                    #d91c6b
-                );
-
-            box-shadow:
-                0 8px 25px
-                rgba(226,51,125,.25);
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .brand strong {
@@ -215,10 +210,13 @@
             color: var(--muted);
 
             font-size: 11px;
+            line-height: 1.2;
         }
 
 
-        /* NAV */
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
 
         .main-nav {
             flex: 1;
@@ -227,11 +225,7 @@
             align-items: center;
             justify-content: center;
 
-            gap: clamp(
-                13px,
-                2vw,
-                28px
-            );
+            gap: clamp(13px, 2vw, 28px);
         }
 
         .main-nav a {
@@ -270,13 +264,16 @@
         }
 
 
-        /* HEADER ICON */
+        /* =====================================================
+           HEADER ACTIONS
+        ===================================================== */
 
         .header-actions {
             display: flex;
             align-items: center;
-
             gap: 8px;
+
+            flex-shrink: 0;
         }
 
         .header-actions > a {
@@ -297,7 +294,6 @@
 
         .header-actions > a:hover {
             color: #fff;
-
             background: var(--pink-fanta);
 
             transform: translateY(-2px);
@@ -337,14 +333,14 @@
 
         .cart-page {
             width: min(1380px, 92%);
-
             margin: auto;
-
             padding-bottom: 60px;
         }
 
 
-        /* BREADCRUMB */
+        /* =====================================================
+           BREADCRUMB
+        ===================================================== */
 
         .breadcrumb {
             display: flex;
@@ -370,7 +366,6 @@
 
         .cart-heading {
             padding: 22px 0 48px;
-
             text-align: center;
         }
 
@@ -395,12 +390,7 @@
 
             color: #30202a;
 
-            font-size:
-                clamp(
-                    42px,
-                    5vw,
-                    64px
-                );
+            font-size: clamp(42px, 5vw, 64px);
 
             line-height: 1;
         }
@@ -443,10 +433,7 @@
         .cart-items-header {
             min-height: 78px;
 
-            padding:
-                0
-                5px
-                17px;
+            padding: 0 5px 17px;
 
             display: flex;
             align-items: end;
@@ -455,13 +442,11 @@
 
         .cart-items-header h2 {
             margin-bottom: 5px;
-
             font-size: 21px;
         }
 
         .cart-items-header span {
             color: var(--muted);
-
             font-size: 12px;
         }
 
@@ -486,9 +471,7 @@
 
             overflow: hidden;
 
-            border:
-                1px solid var(--pink-line);
-
+            border: 1px solid var(--pink-line);
             border-radius: 20px;
 
             background: #fff;
@@ -520,8 +503,7 @@
 
             align-items: center !important;
 
-            border-bottom:
-                1px solid #f5e4ec;
+            border-bottom: 1px solid #f5e4ec;
 
             background: #fff;
 
@@ -572,44 +554,6 @@
         }
 
 
-        /* PLACEHOLDER */
-
-        .cart-product-placeholder {
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-            align-items: center;
-
-            border-radius: 18px;
-
-            color: var(--pink);
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #fff,
-                    #fff0f7
-                );
-        }
-
-        .cart-product-placeholder strong {
-            font-size: 22px;
-        }
-
-        .cart-product-placeholder small {
-            margin-top: 4px;
-
-            font-size: 8px;
-
-            letter-spacing: .18em;
-        }
-
-
         /* =====================================================
            PRODUCT INFO
         ===================================================== */
@@ -629,7 +573,6 @@
             font-weight: 800;
 
             text-transform: uppercase;
-
             letter-spacing: .08em;
         }
 
@@ -670,7 +613,6 @@
 
         .cart-remove:hover {
             color: #d91c67 !important;
-
             text-decoration: underline;
         }
 
@@ -681,7 +623,6 @@
 
         .cart-item-price {
             min-width: 0;
-
             text-align: right;
         }
 
@@ -715,8 +656,7 @@
                 1fr
                 30px;
 
-            border:
-                1px solid #f2c9da;
+            border: 1px solid #f2c9da;
 
             border-radius: 9px;
 
@@ -731,7 +671,6 @@
             border: 0;
 
             color: var(--pink);
-
             background: #fff;
 
             font-size: 17px;
@@ -741,7 +680,6 @@
 
         .cart-quantity button:hover {
             color: #fff;
-
             background: var(--pink-fanta);
         }
 
@@ -749,11 +687,8 @@
             display: grid;
             place-items: center;
 
-            border-left:
-                1px solid #f5dce7;
-
-            border-right:
-                1px solid #f5dce7;
+            border-left: 1px solid #f5dce7;
+            border-right: 1px solid #f5dce7;
 
             color: #49363f;
 
@@ -769,9 +704,7 @@
         .cart-summary {
             padding: 26px;
 
-            border:
-                1px solid var(--pink-line);
-
+            border: 1px solid var(--pink-line);
             border-radius: 20px;
 
             background: #fff;
@@ -784,7 +717,6 @@
 
         .cart-summary h2 {
             margin-bottom: 24px;
-
             font-size: 18px;
         }
 
@@ -895,8 +827,7 @@
         .continue-btn {
             margin-top: 11px;
 
-            border:
-                1px solid #efbdd2;
+            border: 1px solid #efbdd2;
 
             color: var(--pink);
 
@@ -918,11 +849,9 @@
 
         .trust-list {
             margin-top: 20px;
-
             padding-top: 10px;
 
-            border-top:
-                1px solid #f2dce6;
+            border-top: 1px solid #f2dce6;
         }
 
         .trust-item {
@@ -947,7 +876,6 @@
             border-radius: 50%;
 
             color: var(--pink);
-
             background: var(--pink-soft);
 
             font-size: 14px;
@@ -976,7 +904,6 @@
 
         .cart-empty-page {
             padding: 75px 25px;
-
             text-align: center;
         }
 
@@ -992,7 +919,6 @@
             border-radius: 50%;
 
             color: var(--pink);
-
             background: var(--pink-soft);
 
             font-size: 28px;
@@ -1000,13 +926,11 @@
 
         .cart-empty-page h3 {
             margin-bottom: 8px;
-
             font-size: 20px;
         }
 
         .cart-empty-page p {
             color: var(--muted);
-
             font-size: 13px;
         }
 
@@ -1038,9 +962,7 @@
 
             gap: 13px;
 
-            border:
-                1px solid var(--pink-line);
-
+            border: 1px solid var(--pink-line);
             border-radius: 18px;
 
             background:
@@ -1065,13 +987,11 @@
             border-radius: 50%;
 
             color: var(--pink);
-
             background: var(--pink-soft);
         }
 
         .safe-shopping strong {
             display: block;
-
             font-size: 14px;
         }
 
@@ -1094,7 +1014,6 @@
             padding: 25px;
 
             color: #fff;
-
             background: #291d23;
 
             text-align: center;
@@ -1139,7 +1058,6 @@
                 width: 95px !important;
                 height: 95px !important;
             }
-
         }
 
 
@@ -1152,8 +1070,7 @@
             .site-header {
                 flex-wrap: wrap;
 
-                padding:
-                    13px 5%;
+                padding: 13px 5%;
             }
 
             .brand {
@@ -1187,7 +1104,6 @@
             .cart-summary {
                 position: static;
             }
-
         }
 
 
@@ -1207,17 +1123,25 @@
                 letter-spacing: .06em;
             }
 
+            .brand-logo {
+                width: 34px !important;
+                height: 34px !important;
+
+                min-width: 34px !important;
+                max-width: 34px !important;
+
+                min-height: 34px !important;
+                max-height: 34px !important;
+
+                flex-basis: 34px !important;
+            }
+
             .brand strong {
                 font-size: 17px;
             }
 
             .brand span {
                 font-size: 9px;
-            }
-
-            .brand-mark {
-                width: 40px;
-                height: 40px;
             }
 
             .header-actions {
@@ -1233,9 +1157,7 @@
             }
 
             .cart-heading {
-                padding:
-                    18px 0
-                    30px;
+                padding: 18px 0 30px;
             }
 
             .cart-heading h1 {
@@ -1271,7 +1193,6 @@
 
             .cart-item-price {
                 grid-column: 2;
-
                 text-align: left;
             }
 
@@ -1281,7 +1202,6 @@
 
             .safe-shopping {
                 align-items: flex-start;
-
                 padding: 18px;
             }
 
@@ -1292,7 +1212,6 @@
             .safe-shopping span {
                 font-size: 10px;
             }
-
         }
 
 
@@ -1318,7 +1237,6 @@
             .cart-summary {
                 padding: 20px;
             }
-
         }
 
     </style>
@@ -1327,6 +1245,19 @@
 
 
 <body>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7748262975676486"
+     crossorigin="anonymous"></script>
+<!-- newiklan -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7748262975676486"
+     data-ad-slot="6673383776"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 
     <!-- =====================================================
@@ -1352,16 +1283,22 @@
 
     <header class="site-header">
 
+
+        <!-- BRAND -->
+
         <a
             class="brand"
             href="index.html"
+            aria-label="DRW Skincare"
         >
 
-            <div class="brand-mark">
-                DRW
-            </div>
+            <img
+                class="brand-logo"
+                src="assets/images/logo/favicondrw.png"
+                alt="DRW Skincare"
+            >
 
-            <div>
+            <div class="brand-text">
 
                 <strong>
                     DRW Skincare
@@ -1375,6 +1312,8 @@
 
         </a>
 
+
+        <!-- NAVIGATION -->
 
         <nav
             class="main-nav"
@@ -1411,6 +1350,8 @@
 
         </nav>
 
+
+        <!-- HEADER ACTIONS -->
 
         <div class="header-actions">
 
@@ -1500,9 +1441,7 @@
         <section class="cart-layout">
 
 
-            <!-- =================================================
-                 LEFT
-            ================================================== -->
+            <!-- LEFT -->
 
             <div class="cart-left">
 
@@ -1521,7 +1460,6 @@
 
                     </div>
 
-
                     <a href="products.html">
                         ← Continue Shopping
                     </a>
@@ -1529,23 +1467,20 @@
                 </div>
 
 
-                <!-- CART JS AKAN MENGISI BAGIAN INI -->
+                <!-- CART JS -->
 
                 <div class="cart-items">
 
-                    <!-- cart.js -->
+                    <!-- cart.js akan mengisi bagian ini -->
 
                 </div>
 
             </div>
 
 
-            <!-- =================================================
-                 SUMMARY
-            ================================================== -->
+            <!-- SUMMARY -->
 
             <aside class="cart-summary">
-
 
                 <h2>
                     Ringkasan Belanja
@@ -1598,11 +1533,9 @@
                     type="button"
                     class="cart-checkout-btn"
                 >
-
                     ♡
                     &nbsp;
                     Checkout
-
                 </button>
 
 
@@ -1752,12 +1685,14 @@
 
 
     <!-- =====================================================
-         CART JAVASCRIPT
+         JAVASCRIPT
     ===================================================== -->
 
-   <script src="assets/js/app.js"></script>
-<script src="assets/js/cart.js"></script>
-
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/products-data.js"></script>
+    <script src="assets/js/cart.js"></script>
 
 </body>
+
 </html>
+```
